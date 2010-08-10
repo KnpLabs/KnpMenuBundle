@@ -78,6 +78,21 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($newRoot, $menu->getParent());
     }
 
+    public function testIsFirst()
+    {
+        extract($this->getSampleTree());
+        $this->assertTrue($pt1->isFirst());
+        $this->assertFalse($pt2->isFirst());
+        $this->assertTrue($ch4->isFirst());
+    }
+
+    public function testIsLast()
+    {
+        extract($this->getSampleTree());
+        $this->assertFalse($pt1->isLast());
+        $this->assertTrue($pt2->isLast());
+        $this->assertTrue($ch4->isLast());
+    }
 
     /**
      * @return array the tree items
