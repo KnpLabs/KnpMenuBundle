@@ -61,50 +61,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Generates the url to this menu item based on the route
-     * 
-     * @param array $options Options to pass to the url_for method
      */
-    public function getUri(array $options = array())
+    public function getUri()
     {
-        if (!$this->getRoute())
-        {
-            return null;
-        }
-
-        // setup the options array and single out the absolute boolean
-        $options = array_merge($this->getUrlOptions(), $options);
-        if (isset($options['absolute']))
-        {
-            $absolute = $options['absolute'];
-            unset($options['absolute']);
-        }
-        else
-        {
-            $absolute = false;
-        }
-
-        try
-        {
-            // Handling of the url options varies depending on the url format
-            if ($this->isOldRouteMethod())
-            {
-                // old-school url_for('@route_name', $absolute);
-                return url_for($this->getRoute(), $absolute);
-            }
-            else
-            {
-                // new-school url_for('route_name', $options, $absolute)
-                return url_for($this->getRoute(), $options, $absolute);
-            }
-        }
-        catch (sfConfigurationException $e)
-        {
-            throw new sfConfigurationException(
-                sprintf('Problem with menu item "%s": %s', $this->getLabel(), $e->getMessage())
-            );
-
-            return $this->getRoute();
-        }
+        return $this->route;
     }
 
     /**
@@ -1122,32 +1082,28 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns whether or not this menu item is "current"
+     * Set whether or not this menu item is "current"
      *
-     * By passing an argument, you can set this menu item as current or not.
-     *
-     * @param boolean $bool Optionally specify that this menu item is current
+     * @param boolean $bool Specify that this menu item is current
      * @return boolean
      */
-    public function isCurrent($bool = null)
+    public function setIsCurrent($bool)
     {
-        if ($bool !== null)
-        {
-            $this->isCurrent = $bool;
-        }
+        $this->isCurrent = (bool) $bool;
 
+        return $this;
+    }
+
+    /**
+     * Get whether or not this menu item is "current" 
+     * 
+     * @return bool
+     */
+    public function getIsCurrent()
+    {
         if ($this->isCurrent === null)
         {
-            $url = $this->getCurrentUri();
-            $menuUrl = $this->getUri(array('absolute' => true));
-
-            // a very dirty hack so homepages will match with or without the trailing slash
-            if ($this->getRoute() == '@homepage' && substr($url, -1) != '/')
-            {
-                $menuUrl = substr($menuUrl, 0, strlen($menuUrl) - 1);
-            }
-
-            $this->isCurrent = ($menuUrl == $url);
+            $this->isCurrent = ($this->getUri() === $this->getCurrentUri());
         }
 
         return $this->isCurrent;
