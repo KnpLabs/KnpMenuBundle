@@ -294,8 +294,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $menu->setCurrentUri('http://php.net');
         $pt1->setRoute('http://php.net');
         $this->assertFalse($pt1->getIsCurrentAncestor());
-        $this->assertTrue($ch1->getIsCurrentAncestor());
-        $this->assertTrue($ch2->getIsCurrentAncestor());
+        $this->assertTrue($menu->getIsCurrentAncestor());
     }
 
     public function getSampleTreeWithExternalUrl($class = 'Bundle\MenuBundle\MenuItem')

@@ -871,11 +871,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         // explode the class string into an array of classes
         $class = ($this->getAttribute('class')) ? explode(' ', $this->getAttribute('class')) : array();
 
-        if ($this->isCurrent())
+        if ($this->getIsCurrent())
         {
             $class[] = 'current';
         }
-        elseif ($this->isCurrentAncestor($depth))
+        elseif ($this->getIsCurrent($depth))
         {
             $class[] = 'current_ancestor';
         }
@@ -1065,7 +1065,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getCurrent()
     {
-        if ($this->isCurrent())
+        if ($this->getIsCurrent())
         {
             return $this;
         }
@@ -1124,7 +1124,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         foreach ($this->getChildren() as $child)
         {
-            if ($child->isCurrent() || $child->isCurrentAncestor($depth - 1))
+            if ($child->getIsCurrent() || $child->getIsCurrentAncestor($depth - 1))
             {
                 return true;
             }
