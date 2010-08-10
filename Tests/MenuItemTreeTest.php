@@ -28,7 +28,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($ch1 instanceof $class);
     } 
 
-    public function testHierarchyLevel()
+    public function testHierarchyGetLevel()
     {
         extract($this->getSampleTree());
         $this->assertEquals(0, $menu->getLevel());
@@ -36,6 +36,22 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $pt2->getLevel());
         $this->assertEquals(2, $ch4->getLevel());
         $this->assertEquals(3, $gc1->getLevel());
+    }
+
+    public function testHierarchyGetRoot()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals($menu, $menu->getRoot());
+        $this->assertEquals($menu, $pt1->getRoot());
+        $this->assertEquals($menu, $gc1->getRoot());
+    }
+
+    public function testHierarchyIsRoot()
+    {
+        extract($this->getSampleTree());
+        $this->assertTrue($menu->isRoot());
+        $this->assertFalse($pt1->isRoot());
+        $this->assertFalse($ch3->isRoot());
     }
 
     /**
