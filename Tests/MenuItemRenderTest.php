@@ -9,9 +9,13 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     {
         MenuItem::setRenderCompressed(true);
     }
-    
-    public function render()
+
+    public function testRenderWholeMenu()
     {
+        extract($this->getSampleTree());
+        $rendered = '<ul class="root"><li class="first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li>Child 2</li><li class="last">Child 3</li></ul></li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $this->assertEquals($rendered, $menu->render());
+        $this->assertEquals($rendered, (string) $menu);
     }
 
     /**
