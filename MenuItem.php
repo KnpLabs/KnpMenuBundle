@@ -86,7 +86,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             return $this;
         }
 
-        if ($this->getParent() && $this->getParent()->getChild($name, false))
+        if ($this->getParent() && $this->getParent()->getChild($name))
         {
             throw new \InvalidArgumentException('Cannot rename item, name is already used by sibling.');
         }
@@ -298,20 +298,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Returns the child menu identified by the given name
      *
-     * If the child menu doesn't exist and $create is true, it will
-     * automatically be created
-     *
      * @param  string $name  Then name of the child menu to return
-     * @param  boolean $create Whether or not to create the child if it does not exist
      * @return MenuItem|null
      */
-    public function getChild($name, $create = true)
+    public function getChild($name)
     {
-        if (!isset($this->children[$name]) && $create)
-        {
-            $this->addChild($name);
-        }
-
         return isset($this->children[$name]) ? $this->children[$name] : null;
     }
 
@@ -443,7 +434,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
         else
         {
-            $child = ($offset instanceof MenuItem) ? $offset : $this->getChild($offset, false);
+            $child = ($offset instanceof MenuItem) ? $offset : $this->getChild($offset);
             $offset = ($child) ? $child->getNum() : 0;
             $from = ($child) ? $child->getName() : "";
         }
@@ -522,7 +513,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         {
             if (!($length instanceof MenuItem))
             {
-                $length = $this->getChild($length, false);
+                $length = $this->getChild($length);
             }
 
             $length = ($length != null) ? $length->getNum() + 1 : $count;
@@ -1515,7 +1506,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function offsetGet($name)
     {
-        return $this->getChild($name, false);
+        return $this->getChild($name);
     }
 
     /**

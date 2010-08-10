@@ -136,7 +136,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     protected function getSampleTree($class = 'Bundle\MenuBundle\MenuItem')
     {
         $menu = new $class('Root li', null, array('class' => 'root'));
-        $pt1 = $menu->getChild('Parent 1');
+        $pt1 = $menu->addChild('Parent 1');
         $ch1 = $pt1->addChild('Child 1');
         $ch2 = $pt1->addChild('Child 2');
 
@@ -144,7 +144,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $ch3 = new $class('Child 3');
         $pt1->addChild($ch3);
 
-        $pt2 = $menu->getChild('Parent 2');
+        $pt2 = $menu->addChild('Parent 2');
         $ch4 = $pt2->addChild('Child 4');
         $gc1 = $ch4->addChild('Grandchild 1');
 
