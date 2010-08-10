@@ -41,6 +41,15 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rendered, $menu->render());
     }
 
+    public function testRenderSubMenuPortionWithClassAndTitle()
+    {
+        extract($this->getSampleTree());
+        $pt2->setAttribute('class', 'parent2_class');
+        $pt2->setAttribute('title', 'parent2 title');
+        $rendered = '<ul class="parent2_class" title="parent2 title"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul>';
+        $this->assertEquals($rendered, $menu['Parent 2']->render());
+    }
+
     /**
      * @return array the tree items
      */
