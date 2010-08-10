@@ -101,6 +101,14 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $menu->setNum(3);
         $this->assertEquals(3, $menu->getNum());
     }
+
+    public function testRenderLabel()
+    {
+        $menu = $this->createMenu('MyLabel');
+        $this->assertEquals('My Label', $menu->renderLabel());
+        $menu->setLabel('Other Label');
+        $this->assertEquals('Other Label', $menu->renderLabel());
+    }
         
     /**
      * Create a new MenuItem 
