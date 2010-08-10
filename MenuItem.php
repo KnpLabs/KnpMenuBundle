@@ -13,7 +13,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Whether or not to render menus with pretty spacing, or fully compressed.
      */
-    public static $renderCompressed = false;
+    protected static $renderCompressed = false;
 
     /**
      * Properties on this menu item
@@ -1473,5 +1473,23 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function offsetUnset($name)
     {
         $this->removeChild($name);
+    }
+
+    /**
+     * Set whether to render compressed HTML or not
+     **/
+    public static function setRenderCompressed($bool)
+    {
+        self::$renderCompressed = (bool) $bool;
+    }
+
+    /**
+     * Get whether to render compressed HTML or not
+     * 
+     * @return bool
+     */
+    public static function getRenderCompressed()
+    {
+        return self::$renderCompressed;
     }
 }
