@@ -97,22 +97,30 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
     public function testArrayAccess()
     {
         extract($this->getSampleTree());
-        $this->assertEquals(2, count($menu));
 
         $menu->addChild('Child Menu');
-        $this->assertEquals(3, count($menu));
         $this->assertEquals('Child Menu', $menu['Child Menu']->getName());
         $this->assertEquals(null, $menu['Fake']);
         
         $menu['New Child'] = 'New Label';
-        $this->assertEquals(4, count($menu));
         $this->assertEquals('Bundle\MenuBundle\MenuItem', get_class($menu['New Child']));
         $this->assertEquals('New Child', $menu['New Child']->getName());
         $this->assertEquals('New Label', $menu['New Child']->getLabel());
 
         unset($menu['New Child']);
         $this->assertEquals(null, $menu['New Child']);
+    }
+
+    public function testCountable()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals(2, count($menu));
+
+        $menu->addChild('New Child');
         $this->assertEquals(3, count($menu));
+
+        unset($menu['New Child']);
+        $this->assertEquals(2, count($menu));
     }
 
     /**
