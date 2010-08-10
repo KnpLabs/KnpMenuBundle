@@ -131,6 +131,16 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testReorderingWithTooManyItemNames()
+    {
+        $menu = new MenuItem('root');
+        $menu->addChild('c1');
+        $menu->reorderChildren(array('c1', 'c3'));
+    }
+
+    /**
      * @return array the tree items
      */
     protected function getSampleTree($class = 'Bundle\MenuBundle\MenuItem')
