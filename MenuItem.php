@@ -81,21 +81,18 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function setName($name)
     {
-        if ($this->name == $name)
-        {
+        if ($this->name == $name) {
             return $this;
         }
 
-        if ($this->getParent() && $this->getParent()->getChild($name))
-        {
+        if ($this->getParent() && $this->getParent()->getChild($name)) {
             throw new \InvalidArgumentException('Cannot rename item, name is already used by sibling.');
         }
 
         $oldName = $this->name;
         $this->name = $name;
 
-        if ($this->getParent())
-        {
+        if ($this->getParent()) {
             $this->getParent()->updateChildId($this, $oldName);
         }
 
@@ -197,8 +194,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getAttribute($name, $default = null)
     {
-        if (isset($this->attributes[$name]))
-        {
+        if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         }
 
@@ -276,12 +272,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function addChild($child, $route = null, $attributes = array(), $class = null)
     {
-        if (!$child instanceof MenuItem)
-        {
+        if (!$child instanceof MenuItem) {
             $child = $this->createChild($child, $route, $attributes, $class);
         }
-        elseif ($child->getParent())
-        {
+        elseif ($child->getParent()) {
             throw new \InvalidArgumentException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
         }
 
@@ -360,18 +354,15 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function reorderChildren($order)
     {
-        if (count($order) != $this->count())
-        {
+        if (count($order) != $this->count()) {
             throw new \InvalidArgumentException('Cannot reorder children, order does not contain all children.');
         }
 
         $newChildren = array();
 
-        foreach($order as $name)
-        {
-            if (!isset($this->children[$name]))
-            {
-                throw new sfException('Cannot find children named '.$name);
+        foreach($order as $name) {
+            if (!isset($this->children[$name])) {
+                throw new \InvalidArgumentException('Cannot find children named '.$name);
             }
 
             $child = $this->children[$name];
@@ -386,15 +377,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Makes a deep copy of menu tree. Every item is copied as another object.
      *
      * @return MenuItem
-     *
      */
     public function copy()
     {
         $newMenu = clone $this;
         $newMenu->children = array();
         $newMenu->setParent(null);
-        foreach($this->getChildren() as $child)
-        {
+        foreach($this->getChildren() as $child) {
             $newMenu->addChild($child->copy());
         }
 
@@ -420,39 +409,32 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param mixed $offset Name of child, child object, or numeric offset.
      * @param mixed $length Name of child, child object, or numeric length.
      * @return MenuItem Slice of menu.
-     *
      */
     public function slice($offset, $length = 0)
     {
         $count = $this->count();
 
         $names = array_keys($this->getChildren());
-        if (is_numeric($offset))
-        {
+        if (is_numeric($offset)) {
             $offset = ($offset >= 0) ? $offset : $count + $offset;
             $from = (isset($names[$offset])) ? $names[$offset] : "";
         }
-        else
-        {
+        else {
             $child = ($offset instanceof MenuItem) ? $offset : $this->getChild($offset);
             $offset = ($child) ? $child->getNum() : 0;
             $from = ($child) ? $child->getName() : "";
         }
 
-        if (is_numeric($length))
-        {
-            if ($length == 0)
-            {
+        if (is_numeric($length)) {
+            if ($length == 0) {
                 $offset2 = $count - 1;
             }
-            else
-            {
+            else {
                 $offset2 = ($length > 0) ? $offset + $length - 1 : $count - 1 + $length;
             }
             $to = (isset($names[$offset2])) ? $names[$offset2] : "";
         }
-        else
-        {
+        else {
             $to = ($length instanceof MenuItem) ? $length->getName() : $length;
         }
 
@@ -467,7 +449,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string $offset Name of child.
      * @param string $length Name of child.
      * @return MenuItem
-     *
      */
     private function sliceFromTo($from, $to)
     {
@@ -475,20 +456,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $newChildren = array();
 
         $copy = false;
-        foreach($newMenu->getChildren() as $child)
-        {
-            if ($child->getName() == $from)
-            {
+        foreach($newMenu->getChildren() as $child) {
+            if ($child->getName() == $from) {
                 $copy = true;
             }
 
-            if ($copy == true)
-            {
+            if ($copy == true) {
                 $newChildren[$child->getName()] = $child;
             }
 
-            if ($child->getName() == $to)
-            {
+            if ($child->getName() == $to) {
                 break;
             }
         }
@@ -509,10 +486,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $count = $this->count();
 
-        if (!is_numeric ($length))
-        {
-            if (!($length instanceof MenuItem))
-            {
+        if (!is_numeric ($length)) {
+            if (!($length instanceof MenuItem)) {
                 $length = $this->getChild($length);
             }
 
@@ -540,7 +515,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         do {
             $count++;
-        } while ($obj = $obj->getParent());
+        }
+        while ($obj = $obj->getParent());
 
         return $count;
     }
@@ -555,7 +531,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $obj = $this;
         do {
             $found = $obj;
-        } while ($obj = $obj->getParent());
+        }
+        while ($obj = $obj->getParent());
 
         return $found;
     }
@@ -681,8 +658,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     protected function resetChildrenNum()
     {
         $i = 0;
-        foreach ($this->children as $child)
-        {
+        foreach ($this->children as $child) {
             $child->setNum($i++);
         }
     }
@@ -698,8 +674,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected function createChild($name, $route = null, $attributes = array(), $class = null)
     {
-        if ($class === null)
-        {
+        if ($class === null) {
             $class = get_class($this);
         }
 
@@ -715,8 +690,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $name = ($name instanceof MenuItem) ? $name->getName() : $name;
 
-        if (isset($this->children[$name]))
-        {
+        if (isset($this->children[$name])) {
             // unset the child and reset it so it looks independent
             $this->children[$name]->setParent(null);
             $this->children[$name]->setNum(null);
@@ -752,10 +726,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function hasChildren()
     {
-        foreach ($this->children as $child)
-        {
-            if ($child->shouldBeRendered())
-            {
+        foreach ($this->children as $child) {
+            if ($child->shouldBeRendered()) {
                 return true;
             }
         }
@@ -784,22 +756,18 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
          *   b) The depth is 0
          *   c) This menu item has been explicitly set to hide its children
          */
-        if (!$this->hasChildren() || $depth === 0 || !$this->getShowChildren())
-        {
-            return;
+        if (!$this->hasChildren() || $depth === 0 || !$this->getShowChildren()) {
+            return '';
         }
 
-        if ($renderAsChild)
-        {
+        if ($renderAsChild) {
             $attributes = array('class' => 'menu_level_'.$this->getLevel());
         }
         else
         {
             $attributes = $this->getAttributes();
-
             // give the top ul a class of "menu" of none specified
-            if (!isset($attributes['class']))
-            {
+            if (!isset($attributes['class'])) {
                 $attributes['class'] = 'menu';
             }
         }
@@ -807,7 +775,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         // render children with a depth - 1
         $childDepth = ($depth === null) ? null : ($depth - 1);
 
-        $html = $this->format('<ul'.$this->renderHTMLAttributes($attributes).'>', 'ul');
+        $html = $this->format('<ul'.$this->renderHtmlAttributes($attributes).'>', 'ul');
         $html .= $this->renderChildren($childDepth);
         $html .= $this->format('</ul>', 'ul');
 
@@ -819,7 +787,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function __toString()
     {
-        return (string) $this->render();
+        return $this->render();
     }
 
     /**
@@ -835,8 +803,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function renderChildren($depth = null)
     {  
         $html = '';
-        foreach ($this->children as $child)
-        {
+        foreach ($this->children as $child) {
             $html .= $child->renderChild($depth);
         }
         return $html;
@@ -854,41 +821,35 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function renderChild($depth = null)
     {
         // if we don't have access or this item is marked to not be shown
-        if (!$this->shouldBeRendered())
-        {
+        if (!$this->shouldBeRendered()) {
             return; 
         }
 
         // explode the class string into an array of classes
         $class = ($this->getAttribute('class')) ? explode(' ', $this->getAttribute('class')) : array();
 
-        if ($this->getIsCurrent())
-        {
+        if ($this->getIsCurrent()) {
             $class[] = 'current';
         }
-        elseif ($this->getIsCurrentAncestor($depth))
-        {
+        elseif ($this->getIsCurrentAncestor($depth)) {
             $class[] = 'current_ancestor';
         }
 
-        if ($this->actsLikeFirst())
-        {
+        if ($this->actsLikeFirst()) {
             $class[] = 'first';
         }
-        if ($this->actsLikeLast())
-        {
+        if ($this->actsLikeLast()) {
             $class[] = 'last';
         }
 
         // retrieve the attributes and put the final class string back on it
         $attributes = $this->getAttributes();
-        if (count($class) > 0)
-        {
+        if (!empty($class)) {
             $attributes['class'] = implode(' ', $class);
         }
 
         // opening li tag
-        $html = $this->format('<li'.$this->renderHTMLAttributes($attributes).'>', 'li');
+        $html = $this->format('<li'.$this->renderHtmlAttributes($attributes).'>', 'li');
 
         // render the text/link inside the li tag
         $html .= $this->format($this->route ? $this->renderLink() : $this->renderLabel(), 'link');
@@ -913,13 +874,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected function format($html, $type)
     {
-        if (self::$renderCompressed)
-        {
+        if (self::$renderCompressed) {
             return $html;
         }
 
-        switch ($type)
-        {
+        switch ($type) {
         case 'ul':
         case 'link':
             $spacing = $this->getLevel() * 4;
@@ -1001,14 +960,12 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function renderLink()
     {
-        if (!$route = $this->getRoute())
-        {
+        if (!$route = $this->getRoute()) {
             return $this->renderLabel();
         }
 
         // Handling of the url options and link options varies depending on the url format
-        if ($this->isOldRouteMethod())
-        {
+        if ($this->isOldRouteMethod()) {
             // old-school link_to('link text', '@route_name', $options);
             return link_to($this->renderLabel(), $this->getRoute(), array_merge($this->getUrlOptions(), $this->getLinkOptions()));
         }
@@ -1052,7 +1009,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         do {
             $children[] = $obj->renderLabel();
-        } while ($obj = $obj->getParent());
+        }
+        while ($obj = $obj->getParent());
 
         return implode($separator, array_reverse($children));
     }
@@ -1081,17 +1039,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $breadcrumbs = array();
         $obj = $this;
 
-        if ($subItem)
-        {
-            if (!is_array($subItem))
-            {
+        if ($subItem) {
+            if (!is_array($subItem)) {
                 $subItem = array((string) $subItem => null);
             }
             $subItem = array_reverse($subItem);
-            foreach ($subItem as $key => $value)
-            {
-                if (is_numeric($key))
-                {
+            foreach ($subItem as $key => $value) {
+                if (is_numeric($key)) {
                     $key = $value;
                     $value = null;
                 }
@@ -1102,7 +1056,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         do {
             $label = $obj->renderLabel();
             $breadcrumbs[$label] = $obj->getUri();
-        } while ($obj = $obj->getParent());
+        }
+        while ($obj = $obj->getParent());
 
         return array_reverse($breadcrumbs);
     }
@@ -1114,15 +1069,12 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getCurrent()
     {
-        if ($this->getIsCurrent())
-        {
+        if ($this->getIsCurrent()) {
             return $this;
         }
 
-        foreach ($this->children as $child)
-        {
-            if ($current = $child->getCurrent())
-            {
+        foreach ($this->children as $child) {
+            if ($current = $child->getCurrent()) {
                 return $current;
             }
         }
@@ -1150,8 +1102,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getIsCurrent()
     {
-        if (null === $this->isCurrent)
-        {
+        if (null === $this->isCurrent) {
             $currentUri = $this->getCurrentUri();
             $this->isCurrent = null !== $currentUri && ($this->getUri() === $currentUri);
         }
@@ -1167,15 +1118,12 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function getIsCurrentAncestor($depth = null)
     {
         // if children not shown, then we're definitely not a visible ancestor
-        if (!$this->getShowChildren() || $depth === 0)
-        {
+        if (!$this->getShowChildren() || $depth === 0) {
             return false;
         }
 
-        foreach ($this->getChildren() as $child)
-        {
-            if ($child->getIsCurrent() || $child->getIsCurrentAncestor($depth - 1))
-            {
+        foreach ($this->getChildren() as $child) {
+            if ($child->getIsCurrent() || $child->getIsCurrentAncestor($depth - 1)) {
                 return true;
             }
         }
@@ -1189,8 +1137,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function isLast()
     {
         // if this is root, then return false
-        if ($this->isRoot())
-        {
+        if ($this->isRoot()) {
             return false;
         }
 
@@ -1203,8 +1150,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function isFirst()
     {
         // if this is root, then return false
-        if ($this->isRoot())
-        {
+        if ($this->isRoot()) {
             return false;
         }
 
@@ -1223,23 +1169,19 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function actsLikeFirst()
     {
         // root items are never "marked" as first 
-        if ($this->isRoot())
-        {
+        if ($this->isRoot()) {
             return false;
         }
 
         // if we're first and visible, we're first, period.
-        if ($this->shouldBeRendered() && $this->isFirst())
-        {
+        if ($this->shouldBeRendered() && $this->isFirst()) {
             return true;
         }
 
         $children = $this->getParent()->getChildren();
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             // loop until we find a visible menu. If its this menu, we're first
-            if ($child->shouldBeRendered())
-            {
+            if ($child->shouldBeRendered()) {
                 return $child->getName() == $this->getName();
             }
         }
@@ -1259,23 +1201,19 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function actsLikeLast()
     {
         // root items are never "marked" as last
-        if ($this->isRoot())
-        {
+        if ($this->isRoot()) {
             return false;
         }
 
         // if we're last and visible, we're last, period.
-        if ($this->shouldBeRendered() && $this->isLast())
-        {
+        if ($this->shouldBeRendered() && $this->isLast()) {
             return true;
         }
 
         $children = array_reverse($this->getParent()->getChildren());
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             // loop until we find a visible menu. If its this menu, we're first
-            if ($child->shouldBeRendered())
-            {
+            if ($child->shouldBeRendered()) {
                 return $child->getName() == $this->getName();
             }
         }
@@ -1296,10 +1234,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getCurrentUri()
     {
-        if ($this->currentUri === null)
-        {
-            if ($this->getParent() && ($currentUri = $this->getParent()->getCurrentUri()))
-            {
+        if ($this->currentUri === null) {
+            if ($this->getParent() && ($currentUri = $this->getParent()->getCurrentUri())) {
                 /**
                  * This should look strange. But, if we ask our parent for the
                  * current uri, and it returns it successfully, then one of two
@@ -1314,8 +1250,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
                  *      In that case, this menu item and all of its children will
                  *      now have the currentUri just by asking the parent.
                  */
-                if ($this->currentUri === null)
-                {
+                if ($this->currentUri === null) {
                     $this->setCurrentUri($currentUri);
                 }
             }
@@ -1336,8 +1271,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $this->currentUri = $uri;
 
-        foreach ($this->getChildren() as $child)
-        {
+        foreach ($this->getChildren() as $child) {
             $child->setCurrentUri($uri);
         }
     }
@@ -1358,8 +1292,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         call_user_func_array(array($this, $args[0]), $arguments);
 
-        foreach ($this->children as $child)
-        {
+        foreach ($this->children as $child) {
             call_user_func_array(array($child, 'callRecursively'), $args);
         }
 
@@ -1383,8 +1316,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         $array = array();
 
-        foreach ($fields as $propName => $field)
-        {
+        foreach ($fields as $propName => $field) {
             $array[$field] = $this->$propName;
         }
 
@@ -1392,11 +1324,9 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $array['class'] = get_class($this);
 
         // export the children as well, unless explicitly disabled
-        if ($withChildren)
-        {
+        if ($withChildren) {
             $array['children'] = array();
-            foreach ($this->children as $key => $child)
-            {
+            foreach ($this->children as $key => $child) {
                 $array['children'][$key] = $child->toArray();
             }
         }
@@ -1412,30 +1342,24 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function fromArray($array)
     {
-        if (isset($array['name']))
-        {
+        if (isset($array['name'])) {
             $this->setName($array['name']);
         }
 
-        if (isset($array['label']))
-        {
+        if (isset($array['label'])) {
             $this->label = $array['label'];
         }
 
-        if (isset($array['route']))
-        {
+        if (isset($array['route'])) {
             $this->setRoute($array['route']);
         }
 
-        if (isset($array['attributes']))
-        {
+        if (isset($array['attributes'])) {
             $this->setAttributes($array['attributes']);
         }
 
-        if (isset($array['children']))
-        {
-            foreach ($array['children'] as $name => $child)
-            {
+        if (isset($array['children'])) {
+            foreach ($array['children'] as $name => $child) {
                 $class = isset($child['class']) ? $child['class'] : get_class($this);
                 // create the child with the correct class
                 $this->addChild($name, null, array(), $class)->fromArray($child);
