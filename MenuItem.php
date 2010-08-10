@@ -164,6 +164,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Get the route/url for a menu item
+     *
      * @return string
      */
     public function getRoute()
@@ -251,42 +253,49 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns and optionally sets whether or not this menu item should
-     * show its children. If the $bool argument is passed, the _showChildren
-     * property will be set
-     *
-     * @param boolean $bool Whether to show children or not
+     * @return bool Whether or not this menu item should show its children.
      */
-    public function showChildren($bool = null)
+    public function getShowChildren()
     {
-        if ($bool !== null)
-        {
-            $this->showChildren = (bool) $bool;
-        }
-
         return $this->showChildren;
     }
 
     /**
-     * Whether or not to show this menu item. Leave parameter blank to
-     * simply return the value.
-     *
-     * @param  boolean $bool If specified, set show to this value
-     * @return bool
+     * Set whether or not this menu item should show its children 
+     * 
+     * @param bool $bool 
+     * @return MenuItem
      */
-    public function show($bool = null)
+    public function setShowChildren($bool)
     {
-        if ($bool !== null)
-        {
-            $this->show = (bool) $bool;
-        }
+        $this->showChildren = (bool) $bool;
 
+        return $this;
+    }
+
+    /**
+     * @return bool Whether or not to show this menu item
+     */
+    public function getShow()
+    {
         return $this->show;
     }
 
     /**
-     * Whether or not this menu item should be rendered or not based on
-     * all the available factors
+     * Set whether or not this menu to show this menu item
+     * 
+     * @param bool $bool 
+     * @return MenuItem
+     */
+    public function setShow($bool)
+    {
+        $this->show = (bool) $bool;
+
+        return $this;
+    }
+
+    /**
+     * Whether or not this menu item should be rendered or not based on all the available factors
      *
      * @return boolean
      */
