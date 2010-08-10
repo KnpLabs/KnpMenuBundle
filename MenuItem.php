@@ -326,7 +326,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         $child->setParent($this);
-        $child->showChildren($this->showChildren());
+        $child->setShowChildren($this->getShowChildren());
         $child->setCurrentUri($this->getCurrentUri());
         $child->setNum($this->count());
 
@@ -1312,10 +1312,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
                 {
                     $this->setCurrentUri($currentUri);
                 }
-            }
-            else
-            {
-                $this->setCurrentUri(sfContext::getInstance()->getRequest()->getUri());
             }
         }
 
