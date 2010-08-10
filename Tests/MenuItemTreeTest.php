@@ -62,6 +62,23 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ch4, $gc1->getParent());
     }
 
+    public function testMoveSampleMenuToNewRoot()
+    {
+        extract($this->getSampleTree());
+        $newRoot = new TestMenuItem("newRoot");
+        $newRoot->addChild($menu);
+
+        $this->assertEquals(1, $menu->getLevel());
+        $this->assertEquals(2, $pt1->getLevel());
+
+        $this->assertEquals($newRoot, $menu->getRoot());
+        $this->assertEquals($newRoot, $pt1->getRoot());
+        $this->assertFalse($menu->isRoot());
+        $this->assertTrue($newRoot->isRoot());
+        $this->assertEquals($newRoot, $menu->getParent());
+    }
+
+
     /**
      * @return array the tree items
      */
