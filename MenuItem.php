@@ -251,68 +251,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Gets or sets whether or not this menu item requires the user to
-     * be authenticated in order to be shown.
-     *
-     * @param  boolean $bool  Optionally set whether or not this item should require auth
-     * @return boolean
-     */
-    public function requiresAuth($bool = null)
-    {
-        if ($bool !== null)
-        {
-            $this->requiresAuth = $bool;
-        }
-
-        return $this->requiresAuth;
-    }
-
-    /**
-     * Gets or sets whether or not this menu item requires the user to NOT
-     * be authenticated in order to be shown.
-     *
-     * @param  boolean $bool  Optionally set whether or not this item should require NO auth
-     * @return boolean
-     */
-    public function requiresNoAuth($bool = null)
-    {
-        if ($bool !== null)
-        {
-            $this->requiresNoAuth = $bool;
-        }
-
-        return $this->requiresNoAuth;
-    }
-
-    /**
-     * Set the credential(s) that a user must have to display this menu item.
-     *
-     * The and/or logic follows what would be rendered from a security.yml
-     * file. For example:
-     *
-     * $credentials = array('c1', 'c2');      // user must have both c1 and c2
-     * $credentials = array(array('c1', c2')) // user can have either c1 or c2
-     *
-     * @link http://www.symfony-project.org/jobeet/1_4/Doctrine/en/13#chapter_13_sub_authorization
-     * @param  mixed $credentials A string credential or array of credentials
-     * @return ioMenuItem
-     */
-    public function setCredentials(array $credentials)
-    {
-        $this->credentials = $credentials;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCredentials()
-    {
-        return $this->credentials;
-    }
-
-    /**
      * Returns and optionally sets whether or not this menu item should
      * show its children. If the $bool argument is passed, the _showChildren
      * property will be set
@@ -350,12 +288,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Whether or not this menu item should be rendered or not based on
      * all the available factors
      *
-     * @param sfBasicSecurityUser $user The optional user to check against
      * @return boolean
      */
-    public function shouldBeRendered(sfBasicSecurityUser $user = null)
+    public function shouldBeRendered()
     {
-        return $this->show() && $this->checkUserAccess($user);
+        return $this->show();
     }
 
     /**
@@ -627,61 +564,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $ret['secondary'] = $this->slice($length);
 
         return $ret;
-    }
-
-    /**
-     * Returns whether or not the given/current user has permission to
-     * view this current menu item.
-     *
-     * This saves the result as a property on this class for the current
-     * user so that this method isn't checked redundantly. If an argument
-     * is passed in, the property is ignored.
-     *
-     * @param sfUser $user
-     * @return bool
-     */
-    public function checkUserAccess(sfBasicSecurityUser $user = null)
-    {
-        // if we're not checking a special user and userAccess is already known, just return it
-        if ($user === null && $this->userAccess !== null)
-        {
-            return $this->userAccess;
-        }
-
-        // cache the end value unless a custom user object has been passed
-        $userPropertyCache = ($user === null);
-        if ($user === null)
-        {
-            // if we're not passed a user and we have no context, bail
-            if (!sfContext::hasInstance())
-            {
-                return true;
-            }
-
-            $user = sfContext::getInstance()->getUser();
-        }
-
-        // determine the user access
-        if ($user->isAuthenticated() && $this->requiresNoAuth())
-        {
-            $userAccess = false;
-        }
-        elseif (!$user->isAuthenticated() && $this->requiresAuth())
-        {
-            $userAccess = false;
-        }
-        else
-        {
-            $userAccess = $user->hasCredential($this->getCredentials());
-        }
-
-        // if we should cache this value on the property, do it now
-        if ($userPropertyCache)
-        {
-            $this->userAccess = $userAccess;
-        }
-
-        return $userAccess;
     }
 
     /**
@@ -1316,7 +1198,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Whereas isFirst() returns if this is the first child of the parent
-     * menu item, this function takes into consideration user credentials.
+     * menu item, this function takes into consideration whether children are rendered or not.
      *
      * This returns true if this is the first child that would be rendered
      * for the current user 
@@ -1352,7 +1234,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Whereas isLast() returns if this is the last child of the parent
-     * menu item, this function takes into consideration user credentials.
+     * menu item, this function takes into consideration whether children are rendered or not.
      *
      * This returns true if this is the last child that would be rendered
      * for the current user
@@ -1485,10 +1367,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             'name'           => 'name',
             'label'          => 'label',
             'route'          => 'route',
-            'attributes'     => 'attributes',
-            'requiresAuth'   => 'requiresauth',
-            'requiresNoAuth' => 'requires_no_auth',
-            'credentials'    => 'credentials',
+            'attributes'     => 'attributes'
         );
 
         $array = array();
@@ -1540,21 +1419,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         if (isset($array['attributes']))
         {
             $this->setAttributes($array['attributes']);
-        }
-
-        if (isset($array['requires_auth']))
-        {
-            $this->requiresAuth($array['requires_auth']);
-        }
-
-        if (isset($array['requires_no_auth']))
-        {
-            $this->requiresNoAuth($array['requires_no_auth']);
-        }
-
-        if (isset($array['credentials']))
-        {
-            $this->setCredentials($array['credentials']);
         }
 
         if (isset($array['children']))
