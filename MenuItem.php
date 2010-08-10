@@ -322,7 +322,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
         elseif ($child->getParent())
         {
-            throw new sfException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
+            throw new \LogicException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
         }
 
         $child->setParent($this);
