@@ -25,13 +25,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $attributes       = array(); // an array of attributes for the li
 
     /**
-     * Special i18n properties
-     */
-    protected
-        $i18nLabels       = array(), // an array of labels for different cultures
-        $culture          = null;    // the culture to use when rendering this menu
-
-    /**
      * Options related to rendering
      */
     protected
@@ -199,107 +192,20 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return string
      */
-    public function getLabel($culture = null)
+    public function getLabel()
     {
-        /*
-         * only try to retrieve via i18n if both:
-         *  a) we're using i18n on this menu and
-         *  b) we're either passed a culture or can retrieve it from the context
-         */
-        if ($this->useI18n() && ($culture !== null || $this->getCulture()))
-        {
-            $culture = ($culture === null) ? $this->getCulture() : $culture;
-
-            // try to return that exact culture
-            if (isset($this->i18nLabels[$culture]))
-            {
-                return $this->i18nLabels[$culture];
-            }
-
-            // try to return the default culture
-            $defaultCulture = sfConfig::get('sf_default_culture');
-            if (isset($this->i18nLabels[$defaultCulture]))
-            {
-                return $this->i18nLabels[$defaultCulture];
-            }
-        }
-
-        // if i18n isn't used or if no i18n label was found, use the default method
         return ($this->label !== null) ? $this->label : $this->name;
     }
 
     /**
      * @param  string $label    The text to use when rendering this menu item
-     * @param  string $culture  The i18n culture to set this label for 
      * @return ioMenuItem
      */
-    public function setLabel($label, $culture = null)
+    public function setLabel($label)
     {
-        if ($culture === null)
-        {
-            $this->label = $label;
-        }
-        else
-        {
-            $this->i18nLabels[$culture] = $label;
-        }
+        $this->label = $label;
 
         return $this;
-    }
-
-    /**
-     * Whether or not this menu item is using i18n
-     *
-     * @return bool
-     */
-    public function useI18n()
-    {
-        return (count($this->i18nLabels) > 0);
-    }
-
-    /**
-     * Returns the culture with which this menu item should render.
-     *
-     * If the culture has not been set, it asks its parent menu item for
-     * a culture. If this is the root, it will attempt to ask sfContext
-     * for a culture. If all else fails, the default culture is returned.
-     *
-     * @return string
-     */
-    public function getCulture()
-    {
-        // if the culture is set, simply return it
-        if ($this->culture !== null)
-        {
-            return $this->culture;
-        }
-
-        // if we have a parent, just as the parent
-        if ($this->getParent())
-        {
-            return $this->getParent()->getCulture();
-        }
-
-        // if we're the root, get from the context or return the default
-        if (sfContext::hasInstance())
-        {
-            return sfContext::getInstance()->getUser()->getCulture();
-        }
-        else
-        {
-            return sfConfig::get('sf_default_culture');
-        }
-    }
-
-    /**
-     * Set the culture that should be used when rendering the menu
-     *
-     * @param  string $culture The culture to use when rendering the menu
-     * @return void
-     */
-    public function setCulture($culture)
-    {
-        $this->culture = $culture;
     }
 
     /**
@@ -1222,19 +1128,12 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Renders the label of this menu, through an i18n function
+     * Renders the label of this menu
      *
      * @return string
      */
     public function renderLabel()
     {
-        if (sfConfig::get('sf_i18n'))
-        {
-            sfApplicationConfiguration::getActive()->loadHelpers('I18N');
-
-            return __($this->getLabel());
-        }
-
         return $this->getLabel();
     }
 
@@ -1592,12 +1491,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             'credentials'    => 'credentials',
         );
 
-        // output the i18n labels if any are set
-        if ($this->useI18n())
-        {
-            $fields['i18nLabels'] = 'i18n_labels';
-        }
-
         $array = array();
 
         foreach ($fields as $propName => $field)
@@ -1637,11 +1530,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         if (isset($array['label']))
         {
             $this->label = $array['label'];
-        }
-
-        if (isset($array['i18n_labels']))
-        {
-            $this->i18nLabels = $array['i18n_labels'];
         }
 
         if (isset($array['route']))
