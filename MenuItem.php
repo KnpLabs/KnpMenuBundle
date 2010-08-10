@@ -793,7 +793,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
          *   b) The depth is 0
          *   c) This menu item has been explicitly set to hide its children
          */
-        if (!$this->hasChildren() || $depth === 0 || !$this->showChildren())
+        if (!$this->hasChildren() || $depth === 0 || !$this->getShowChildren())
         {
             return;
         }
@@ -1114,10 +1114,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return boolean
      */
-    public function isCurrentAncestor($depth = null)
+    public function getIsCurrentAncestor($depth = null)
     {
         // if children not shown, then we're definitely not a visible ancestor
-        if (!$this->showChildren() || $depth === 0)
+        if (!$this->getShowChildren() || $depth === 0)
         {
             return false;
         }
@@ -1296,7 +1296,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Calls a method recursively on all of the children of this item
      *
      * @example
-     * $menu->callRecursively('showChildren', false);
+     * $menu->callRecursively('setShowChildren', false);
      *
      * @return MenuItem
      */
