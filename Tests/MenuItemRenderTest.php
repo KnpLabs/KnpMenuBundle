@@ -50,6 +50,22 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rendered, $menu['Parent 2']->render());
     }
 
+    public function testDoNotShowChildrenRendersNothing()
+    {
+        extract($this->getSampleTree());
+        $menu->setShowChildren(false);
+        $rendered = '';
+        $this->assertEquals($rendered, $menu->render());
+    }
+
+    public function testDoNotShowChildChildrenRendersPartialMenu()
+    {
+        extract($this->getSampleTree());
+        $menu['Parent 1']->setShowChildren(false);
+        $rendered = '<ul class="root"><li class="first">Parent 1</li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $this->assertEquals($rendered, $menu->render());
+    }
+
     /**
      * @return array the tree items
      */
