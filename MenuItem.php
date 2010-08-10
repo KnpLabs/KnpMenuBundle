@@ -184,7 +184,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function setAttributes($attributes)
     {
-        $this->attributes= $attributes;
+        $this->attributes = $attributes;
 
         return $this;
     }
@@ -282,7 +282,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
         elseif ($child->getParent())
         {
-            throw new \LogicException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
+            throw new \InvalidArgumentException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
         }
 
         $child->setParent($this);
@@ -362,7 +362,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         if (count($order) != $this->count())
         {
-            throw new sfException('Cannot reorder children, order does not contain all children.');
+            throw new \InvalidArgumentException('Cannot reorder children, order does not contain all children.');
         }
 
         $newChildren = array();
