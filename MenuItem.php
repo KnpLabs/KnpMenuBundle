@@ -261,7 +261,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function shouldBeRendered()
     {
-        return $this->show();
+        return $this->getShow();
     }
 
     /**
@@ -816,7 +816,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         // render children with a depth - 1
         $childDepth = ($depth === null) ? null : ($depth - 1);
 
-        $html = $this->format('<ul'._tag_options($attributes).'>', 'ul');
+        $html = $this->format('<ul'.$this->renderHTMLAttributes($attributes).'>', 'ul');
         $html .= $this->renderChildren($childDepth);
         $html .= $this->format('</ul>', 'ul');
 
@@ -897,7 +897,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         // opening li tag
-        $html = $this->format('<li'._tag_options($attributes).'>', 'li');
+        $html = $this->format('<li'.$this->renderHTMLAttributes($attributes).'>', 'li');
 
         // render the text/link inside the li tag
         $html .= $this->format($this->route ? $this->renderLink() : $this->renderLabel(), 'link');
@@ -940,6 +940,45 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         return str_repeat(' ', $spacing).$html."\n";
+    }
+
+    /**
+     * Render a HTML attribute
+     */
+    public function renderHtmlAttribute($name, $value)
+    {
+        if (true === $value) {
+            return sprintf('%s="%s"', $name, $this->escape($name));
+        } else {
+            return sprintf('%s="%s"', $name, $this->escape($value));
+        }
+    }
+
+    /**
+     * Render HTML atributes
+     */
+    public function renderHTMLAttributes(array $attributes)
+    {
+        return implode('', array_map(array($this, 'htmlAttributesCallback'), array_keys($attributes), array_values($attributes)));
+    }
+
+    /**
+     * Prepares an attribute key and value for HTML representation.
+     *
+     * It removes empty attributes.
+     *
+     * @param  string $name   The attribute name
+     * @param  string $value  The attribute value
+     *
+     * @return string The HTML representation of the HTML key attribute pair.
+     */
+    private function htmlAttributesCallback($name, $value)
+    {
+        if (false === $value || null === $value) {
+            return '';
+        } else {
+            return ' '.$this->renderHtmlAttribute($name, $value);
+        }
     }
 
     /**
