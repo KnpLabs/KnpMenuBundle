@@ -101,7 +101,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $menu->addChild('Child Menu');
         $this->assertEquals('Child Menu', $menu['Child Menu']->getName());
         $this->assertEquals(null, $menu['Fake']);
-        
+
         $menu['New Child'] = 'New Label';
         $this->assertEquals('Bundle\MenuBundle\MenuItem', get_class($menu['New Child']));
         $this->assertEquals('New Child', $menu['New Child']->getName());
@@ -121,6 +121,18 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
 
         unset($menu['New Child']);
         $this->assertEquals(2, count($menu));
+    }
+
+    public function testIterator()
+    {
+        extract($this->getSampleTree());
+        $count = 0;
+        foreach ($pt1 as $key => $value)
+        {
+            $count++;
+            $this->assertEquals('Child '.$count, $key);
+            $this->assertEquals('Child '.$count, $value->getLabel());
+        }
     }
 
     /**
