@@ -876,7 +876,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         {
             $class[] = 'current';
         }
-        elseif ($this->getIsCurrent($depth))
+        elseif ($this->getIsCurrentAncestor($depth))
         {
             $class[] = 'current_ancestor';
         }
@@ -1160,15 +1160,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getIsCurrent()
     {
-        $currentUri = $this->getCurrentUri();
-
-        if(null === $currentUri) {
-            return false;
-        }
-
-        if ($this->isCurrent === null)
+        if (null === $this->isCurrent)
         {
-            $this->isCurrent = ($this->getUri() === $currentUri);
+            $currentUri = $this->getCurrentUri();
+            $this->isCurrent = null !== $currentUri && ($this->getUri() === $currentUri);
         }
 
         return $this->isCurrent;
