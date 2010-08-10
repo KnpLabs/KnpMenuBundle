@@ -143,6 +143,24 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($gc1->getName(), $children['Grandchild 1']->getName());
     }
 
+    public function testGetFirstChild()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals($pt1, $menu->getFirstChild());
+        // test for bug in getFirstChild implementation (when internal array pointer is changed getFirstChild returns wrong child)
+        foreach ($menu->getChildren() as $c);
+        $this->assertEquals($pt1, $menu->getFirstChild());
+    }
+
+    public function testGetLastChild()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals($pt2, $menu->getLastChild());
+        // test for bug in getFirstChild implementation (when internal array pointer is changed getLastChild returns wrong child)
+        foreach ($menu->getChildren() as $c);
+        $this->assertEquals($pt2, $menu->getLastChild());
+    }
+
     /**
      * @return array the tree items
      */
