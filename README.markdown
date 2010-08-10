@@ -2,7 +2,7 @@ Object Oriented menus for your Symfony2 project.
 
 ## Documentation
 
-Coming soon. No, really.
+Have a look to Resources/doc.
 
 ## Credits
 
