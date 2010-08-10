@@ -28,6 +28,16 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($ch1 instanceof $class);
     } 
 
+    public function testHierarchyLevel()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals(0, $menu->getLevel());
+        $this->assertEquals(1, $pt1->getLevel());
+        $this->assertEquals(1, $pt2->getLevel());
+        $this->assertEquals(2, $ch4->getLevel());
+        $this->assertEquals(3, $gc1->getLevel());
+    }
+
     /**
      * @return array the tree items
      */
