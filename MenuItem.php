@@ -36,9 +36,9 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Metadata on this menu item
      */
     protected
-        $children         = array(), // an array of ioMenuItem children
+        $children         = array(), // an array of MenuItem children
         $num              = null,    // the order number this menu is in its parent
-        $parent           = null,    // parent ioMenuItem
+        $parent           = null,    // parent MenuItem
         $isCurrent        = null,    // whether or not this menu item is current
         $userAccess       = null,    // whether or not the current user can access this item
         $currentUri       = null;    // the current uri to use for selecting current menu
@@ -117,7 +117,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * @param  string $name
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function setName($name)
     {
@@ -147,11 +147,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * Used internally after renaming item which has parent.
      *
-     * @param ioMenuItem $child Item whose name has been changed.
+     * @param MenuItem $child Item whose name has been changed.
      * @param string $oldName Old (previous) name of item.
      *
      */
-    protected function updateChildId(ioMenuItem $child, $oldName)
+    protected function updateChildId(MenuItem $child, $oldName)
     {
         $names = array_keys($this->getChildren());
         $items = array_values($this->getChildren());
@@ -176,7 +176,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Sets the route/url for a menu item
      *
      * @param  string $route The route/url to set on this menu item
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function setRoute($route)
     {
@@ -199,7 +199,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * @param  string $label    The text to use when rendering this menu item
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function setLabel($label)
     {
@@ -218,7 +218,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * @param  array $attributes 
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function setAttributes($attributes)
     {
@@ -298,16 +298,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Add a child menu item to this menu
      *
-     * @param mixed   $child    An ioMenuItem object or the name of a new menu to create
+     * @param mixed   $child    An MenuItem object or the name of a new menu to create
      * @param string  $route    If creating a new menu, the route for that menu
      * @param string  $attributes  If creating a new menu, the attributes for that menu
      * @param string  $class    The class for menu item, if it needs to be created
      *
-     * @return ioMenuItem The child menu item
+     * @return MenuItem The child menu item
      */
     public function addChild($child, $route = null, $attributes = array(), $class = null)
     {
-        if (!$child instanceof ioMenuItem)
+        if (!$child instanceof MenuItem)
         {
             $child = $this->createChild($child, $route, $attributes, $class);
         }
@@ -334,7 +334,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param  string $name  Then name of the child menu to return
      * @param  boolean $create Whether or not to create the child if it does not exist
-     * @return ioMenuItem|null
+     * @return MenuItem|null
      */
     public function getChild($name, $create = true)
     {
@@ -360,10 +360,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Moves child to specified position. Rearange other children accordingly.
      *
-     * @param ioMenuItem $child Child to move.
+     * @param MenuItem $child Child to move.
      * @param numeric $position Position to move child to.
      */
-    public function moveChildToPosition(ioMenuItem $child, $position)
+    public function moveChildToPosition(MenuItem $child, $position)
     {
         $name = $child->getName();
         $order = array_keys($this->children);
@@ -425,7 +425,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Makes a deep copy of menu tree. Every item is copied as another object.
      *
-     * @return ioMenuItem
+     * @return MenuItem
      *
      */
     public function copy()
@@ -459,7 +459,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param mixed $offset Name of child, child object, or numeric offset.
      * @param mixed $length Name of child, child object, or numeric length.
-     * @return ioMenuItem Slice of menu.
+     * @return MenuItem Slice of menu.
      *
      */
     public function slice($offset, $length = 0)
@@ -474,7 +474,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
         else
         {
-            $child = ($offset instanceof ioMenuItem) ? $offset : $this->getChild($offset, false);
+            $child = ($offset instanceof MenuItem) ? $offset : $this->getChild($offset, false);
             $offset = ($child) ? $child->getNum() : 0;
             $from = ($child) ? $child->getName() : "";
         }
@@ -493,7 +493,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
         else
         {
-            $to = ($length instanceof ioMenuItem) ? $length->getName() : $length;
+            $to = ($length instanceof MenuItem) ? $length->getName() : $length;
         }
 
         return $this->sliceFromTo($from, $to);
@@ -506,7 +506,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param string $offset Name of child.
      * @param string $length Name of child.
-     * @return ioMenuItem
+     * @return MenuItem
      *
      */
     private function sliceFromTo($from, $to)
@@ -551,7 +551,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         if (!is_numeric ($length))
         {
-            if (!($length instanceof ioMenuItem))
+            if (!($length instanceof MenuItem))
             {
                 $length = $this->getChild($length, false);
             }
@@ -586,9 +586,9 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the root ioMenuItem of this menu tree
+     * Returns the root MenuItem of this menu tree
      *
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function getRoot()
     {
@@ -611,7 +611,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return ioMenuItem|null
+     * @return MenuItem|null
      */
     public function getParent()
     {
@@ -621,16 +621,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Used internally when adding and removing children
      *
-     * @param ioMenuItem $parent
-     * @return ioMenuItem
+     * @param MenuItem $parent
+     * @return MenuItem
      */
-    public function setParent(ioMenuItem $parent = null)
+    public function setParent(MenuItem $parent = null)
     {
         return $this->parent = $parent;
     }
 
     /**
-     * @return array of ioMenuItem objects
+     * @return array of MenuItem objects
      */
     public function getChildren()
     {
@@ -638,8 +638,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param  array $children An array of ioMenuItem objects
-     * @return ioMenuItem
+     * @param  array $children An array of MenuItem objects
+     * @return MenuItem
      */
     public function setChildren(array $children)
     {
@@ -728,13 +728,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Creates a new ioMenuItem to be the child of this menu
+     * Creates a new MenuItem to be the child of this menu
      * 
      * @param string  $name
      * @param string  $route
      * @param array   $attributes
      * 
-     * @return ioMenuItem
+     * @return MenuItem
      */
     protected function createChild($name, $route = null, $attributes = array(), $class = null)
     {
@@ -749,11 +749,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Removes a child from this menu item
      * 
-     * @param mixed $name The name of ioMenuItem instance to remove
+     * @param mixed $name The name of MenuItem instance to remove
      */
     public function removeChild($name)
     {
-        $name = ($name instanceof ioMenuItem) ? $name->getName() : $name;
+        $name = ($name instanceof MenuItem) ? $name->getName() : $name;
 
         if (isset($this->children[$name]))
         {
@@ -767,7 +767,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function getFirstChild()
     {
@@ -775,7 +775,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function getLastChild()
     {
@@ -1092,7 +1092,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Returns the current menu item if it is a child of this menu item
      *
-     * @return bool|ioMenuItem
+     * @return bool|MenuItem
      */
     public function getCurrent()
     {
@@ -1337,7 +1337,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @example
      * $menu->callRecursively('showChildren', false);
      *
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function callRecursively()
     {
@@ -1397,7 +1397,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Imports a menu item array into this menu item
      *
      * @param  array $array The menu item array
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public function fromArray($array)
     {
@@ -1440,11 +1440,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * The source is an array of data that should match the output from ->toArray().
      *
      * @param  array $data The array of data to use as a source for the menu tree 
-     * @return ioMenuItem
+     * @return MenuItem
      */
     public static function createFromArray(array $data)
     {
-        $class = isset($data['class']) ? $data['class'] : 'ioMenuItem';
+        $class = isset($data['class']) ? $data['class'] : 'MenuItem';
 
         $name = isset($data['name']) ? $data['name'] : null;
         $menu = new $class($name);
