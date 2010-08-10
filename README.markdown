@@ -1,6 +1,9 @@
-Object Oriented menus for your Symfony2 application.
+Object Oriented menus for your Symfony2 project.
 
+## Documentation
+
+Coming soon. No, really.
 
 ## Credits
 
-Largely inspired by http://github.com/weaverryan/ioMenuPlugin
+Ported from ioMenuPlugin : http://github.com/weaverryan/ioMenuPlugin
