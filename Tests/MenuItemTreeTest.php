@@ -192,6 +192,15 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetChild()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals($gc1, $ch4->getChild('Grandchild 1'));
+        $this->assertEquals('gc4', $ch4->getChild('gc4')->getName());
+        $this->assertEquals(2, count($ch4));
+        $this->assertEquals(null, $ch4->getChild('nonexistentchild', false));
+    }
+
     /**
      * @return array the tree items
      */
