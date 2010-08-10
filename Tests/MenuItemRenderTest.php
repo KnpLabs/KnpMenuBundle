@@ -33,6 +33,14 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rendered, $menu->render());
     }
 
+    public function testRenderWithCurrentItem()
+    {
+        extract($this->getSampleTree());
+        $ch2->setIsCurrent(true);
+        $rendered = '<ul class="root"><li class="current_ancestor first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li class="current">Child 2</li><li class="last">Child 3</li></ul></li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $this->assertEquals($rendered, $menu->render());
+    }
+
     /**
      * @return array the tree items
      */
