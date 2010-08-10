@@ -54,6 +54,14 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($ch3->isRoot());
     }
 
+    public function testHierarchyGetParent()
+    {
+        extract($this->getSampleTree());
+        $this->assertEquals(null, $menu->getParent());
+        $this->assertEquals($menu, $pt1->getParent());
+        $this->assertEquals($ch4, $gc1->getParent());
+    }
+
     /**
      * @return array the tree items
      */
