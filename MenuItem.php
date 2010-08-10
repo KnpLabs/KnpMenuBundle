@@ -1484,7 +1484,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getIterator()
     {
-        return new ArrayObject($this->children);
+        return new \ArrayObject($this->children);
     }
 
     /**
