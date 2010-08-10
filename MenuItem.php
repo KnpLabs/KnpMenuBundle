@@ -41,7 +41,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $num              = null,    // the order number this menu is in its parent
         $parent           = null,    // parent MenuItem
         $isCurrent        = null,    // whether or not this menu item is current
-        $userAccess       = null,    // whether or not the current user can access this item
         $currentUri       = null;    // the current uri to use for selecting current menu
 
     /**
@@ -89,7 +88,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         if ($this->getParent() && $this->getParent()->getChild($name, false))
         {
-            throw new sfException('Cannot rename item, name is already used by sibling.');
+            throw new \InvalidArgumentException('Cannot rename item, name is already used by sibling.');
         }
 
         $oldName = $this->name;

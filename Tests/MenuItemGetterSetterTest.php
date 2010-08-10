@@ -109,6 +109,17 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $menu->setLabel('Other Label');
         $this->assertEquals('Other Label', $menu->renderLabel());
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetExistingNameThrowsAnException()
+    {
+        $menu = $this->createMenu();
+        $menu->addChild('jack');
+        $menu->addChild('joe');
+        $menu->getChild('joe')->setName('jack');
+    }
         
     /**
      * Create a new MenuItem 
