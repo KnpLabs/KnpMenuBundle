@@ -285,6 +285,17 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         extract($this->getSampleTreeWithExternalUrl());
         $menu->setCurrentUri('http://www.symfony-reloaded.org');
         $this->assertTrue($menu['child']->getIsCurrent());
+        $this->assertFalse($pt1->getIsCurrent());
+    }
+
+    public function testGetIsCurrentAncestor()
+    {
+        extract($this->getSampleTreeWithExternalUrl());
+        $menu->setCurrentUri('http://php.net');
+        $pt1->setRoute('http://php.net');
+        $this->assertFalse($pt1->getIsCurrentAncestor());
+        $this->assertTrue($ch1->getIsCurrentAncestor());
+        $this->assertTrue($ch2->getIsCurrentAncestor());
     }
 
     public function getSampleTreeWithExternalUrl($class = 'Bundle\MenuBundle\MenuItem')
