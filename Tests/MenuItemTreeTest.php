@@ -3,11 +3,36 @@
 namespace Bundle\MenuBundle\Tests;
 use Bundle\MenuBundle\MenuItem;
 
+class TestMenuItem extends MenuItem {}
+
 class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSampleTree()
+
+    public function testSampleTreeIntegrity()
     {
-        $class = 'Bundle\MenuBundle\MenuItem';
+        extract($this->getSampleTree());
+
+        $this->assertEquals(2, count($menu));
+        $this->assertEquals(3, count($menu['Parent 1']));
+        $this->assertEquals(1, count($menu['Parent 2']));
+        $this->assertEquals(1, count($menu['Parent 2']['Child 4']));
+        $this->assertEquals('Grandchild 1', $menu['Parent 2']['Child 4']['Grandchild 1']->getName());
+    }
+
+    public function testChildrenHaveParentClass()
+    {
+        $class = 'Bundle\MenuBundle\Tests\TestMenuItem';
+        extract($this->getSampleTree($class));
+
+        $this->assertTrue($pt1 instanceof $class);
+        $this->assertTrue($ch1 instanceof $class);
+    } 
+
+    /**
+     * @return array the tree items
+     */
+    protected function getSampleTree($class = 'Bundle\MenuBundle\MenuItem')
+    {
         $menu = new $class('Root li', null, array('class' => 'root'));
         $pt1 = $menu->getChild('Parent 1');
         $ch1 = $pt1->addChild('Child 1');
@@ -33,20 +58,6 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         );
 
         return $items;
-    }
-
-    /**
-     * @depends testSampleTree
-     */
-    public function testSampleTreeIntegrity(array $items)
-    {
-        extract($items);
-
-        $this->assertEquals(2, count($menu));
-        $this->assertEquals(3, count($menu['Parent 1']));
-        $this->assertEquals(1, count($menu['Parent 2']));
-        $this->assertEquals(1, count($menu['Parent 2']['Child 4']));
-        $this->assertEquals('Grandchild 1', $menu['Parent 2']['Child 4']['Grandchild 1']->getName());
     }
 
     // prints a visual representation of our basic testing tree
