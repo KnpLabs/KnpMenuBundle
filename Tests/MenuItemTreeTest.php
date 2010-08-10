@@ -161,6 +161,37 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($pt2, $menu->getLastChild());
     }
 
+    public function testAddChild()
+    {
+        extract($this->getSampleTree('Bundle\MenuBundle\Tests\TestMenuItem'));
+
+        // a) Add a child (gc2) to ch4 via ->addChild().
+        $gc2 = $ch4->addChild('gc2');
+        $this->assertEquals(2, count($ch4->getChildren()));
+        $this->assertEquals('Bundle\MenuBundle\Tests\TestMenuItem', get_class($gc2));
+
+        // b) Add another child (temp) to ch4 via ->addChild(), but specify the class.
+        $temp = $ch4->addChild('temp', null, array(), 'Bundle\MenuBundle\Tests\TestMenuItem');
+        $this->assertEquals('Bundle\MenuBundle\Tests\TestMenuItem', get_class($temp));
+        $ch4->removeChild($temp);
+        
+        // c) Add a child (gc3) to ch4 by passing an object to addChild().
+        $gc3 = new TestMenuItem('gc3');
+        $ch4->addChild($gc3);
+        $this->assertEquals(3, count($ch4->getChildren()));
+        
+        // d) Try to add gc3 again, should throw an exception.
+        try
+        {
+            $pt1->addChild($gc3);
+            $this->assertTrue(false);
+        }
+        catch (\LogicException $e)
+        {
+            $this->assertTrue(true);
+        }
+    }
+
     /**
      * @return array the tree items
      */
