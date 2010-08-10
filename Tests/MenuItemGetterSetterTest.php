@@ -3,7 +3,7 @@
 namespace Bundle\MenuBundle\Tests;
 use Bundle\MenuBundle\MenuItem;
 
-class MenuItemTest extends \PHPUnit_Framework_TestCase
+class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateMenuItemWithEmptyParameter()
     {
@@ -92,6 +92,14 @@ class MenuItemTest extends \PHPUnit_Framework_TestCase
         $child = $this->createMenu('child_menu');
         $menu->setChildren(array($child));
         $this->assertEquals(array($child), $menu->getChildren());
+    }
+
+    public function testNum()
+    {
+        $menu = $this->createMenu();
+        $this->assertEquals(null, $menu->getNum());
+        $menu->setNum(3);
+        $this->assertEquals(3, $menu->getNum());
     }
         
     /**
