@@ -1160,9 +1160,15 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getIsCurrent()
     {
+        $currentUri = $this->getCurrentUri();
+
+        if(null === $currentUri) {
+            return false;
+        }
+
         if ($this->isCurrent === null)
         {
-            $this->isCurrent = ($this->getUri() === $this->getCurrentUri());
+            $this->isCurrent = ($this->getUri() === $currentUri);
         }
 
         return $this->isCurrent;
