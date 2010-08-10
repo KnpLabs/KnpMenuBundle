@@ -76,6 +76,17 @@ class MenuItemTest extends \PHPUnit_Framework_TestCase
         $menu->setShowChildren(false);
         $this->assertEquals(false, $menu->getShowChildren());
     }
+
+    public function testParent()
+    {
+        $menu = $this->createMenu();
+        $child = $this->createMenu('child_menu');
+        $this->assertNull($child->getParent());
+        $child->setParent($menu);
+        $this->assertEquals($menu, $child->getParent());
+    }
+        
+        
         
     /**
      * Create a new MenuItem 
