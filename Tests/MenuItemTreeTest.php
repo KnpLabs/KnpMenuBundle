@@ -308,6 +308,13 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($ch4->getIsCurrentAncestor());
     }
 
+    public function testGetUri()
+    {
+        extract($this->getSampleTreeWithExternalUrl());
+        $this->assertEquals(null, $pt1->getUri());
+        $this->assertEquals('http://www.symfony-reloaded.org', $menu['child']->getUri());
+    }
+
     public function getSampleTreeWithExternalUrl($class = 'Bundle\MenuBundle\MenuItem')
     {
         $items = $this->getSampleTree($class);
