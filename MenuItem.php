@@ -1279,7 +1279,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             return true;
         }
 
-        $children = arrayreverse($this->getParent()->getChildren());
+        $children = array_reverse($this->getParent()->getChildren());
         foreach ($children as $child)
         {
             // loop until we find a visible menu. If its this menu, we're first
