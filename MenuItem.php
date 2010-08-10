@@ -14,6 +14,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Whether or not to render menus with pretty spacing, or fully compressed.
      */
     protected static $renderCompressed = false;
+    protected static $charset = 'UTF-8';
 
     /**
      * Properties on this menu item
@@ -982,6 +983,25 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Escape an HTML value
+     */
+    public function escape($value)
+    {
+        return $this->fixDoubleEscape(htmlspecialchars((string) $value, ENT_QUOTES, self::$charset));
+    }
+
+    /**
+     * Fixes double escaped strings.
+     *
+     * @param  string $escaped  string to fix
+     * @return string A single escaped string
+     */
+    protected function fixDoubleEscape($escaped)
+    {
+        return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', $escaped);
+    }
+
+    /**
      * Renders the anchor tag for this menu item.
      *
      * If no route is specified, or if the route fails to generate, the
@@ -1515,14 +1535,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Set whether to render compressed HTML or not
-     **/
-    public static function setRenderCompressed($bool)
-    {
-        self::$renderCompressed = (bool) $bool;
-    }
-
-    /**
      * Get whether to render compressed HTML or not
      * 
      * @return bool
@@ -1530,5 +1542,31 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public static function getRenderCompressed()
     {
         return self::$renderCompressed;
+    }
+
+    /**
+     * Set whether to render compressed HTML or not
+     */
+    public static function setRenderCompressed($bool)
+    {
+        self::$renderCompressed = (bool) $bool;
+    }
+
+    /**
+     * Get the HTML charset
+     * 
+     * @return string
+     */
+    public static function getCharset()
+    {
+        return self::$charset;
+    }
+
+    /**
+     * Set the HTML charset
+     */
+    public static function setCharset($string)
+    {
+        self::$renderCompressed = (string) $bool;
     }
 }
