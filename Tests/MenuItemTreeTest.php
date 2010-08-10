@@ -274,10 +274,23 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://symfony-reloaded.org/', $menu['test_child']->getCurrentUri());
     }
 
+    public function testGetIsCurrentWhenCurrentUriIsNotSet()
+    {
+        extract($this->getSampleTreeWithExternalUrl());
+        $this->assertFalse($menu['child']->getIsCurrent());
+    }
+
+    public function testGetIsCurrentWhenCurrentUriIsSet()
+    {
+        extract($this->getSampleTreeWithExternalUrl());
+        $menu->setCurrentUri('http://www.symfony-reloaded.org');
+        $this->assertTrue($menu['child']->getIsCurrent());
+    }
+
     public function getSampleTreeWithExternalUrl($class = 'Bundle\MenuBundle\MenuItem')
     {
         $items = $this->getSampleTree($class);
-        $items['menu']->addChild('child', 'http://www.symfony-project.org');
+        $items['menu']->addChild('child', 'http://www.symfony-reloaded.org');
 
         return $items;
     }
