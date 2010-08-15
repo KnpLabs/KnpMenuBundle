@@ -9,6 +9,12 @@ use Symfony\Components\DependencyInjection\ContainerBuilder;
 class MenuExtension extends Extension
 {
 
+    public function templatingLoad($config, ContainerBuilder $container)
+    {
+        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+        $loader->load('templating.xml');
+    }
+
     /**
      * Returns the base path for the XSD files.
      *
