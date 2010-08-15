@@ -10,6 +10,30 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         MenuItem::setRenderCompressed(true);
     }
 
+    public function testRenderLink()
+    {
+        extract($this->getSampleTree());
+        $about = $menu->addChild('About', '/about');
+
+        $rendered = '<a href="/about">About</a>';
+        $this->assertEquals($rendered, $about->renderLink());
+
+        $rendered = '<li class="last"><a href="/about">About</a></li>';
+        $this->assertEquals($rendered, $about->renderChild());
+    }
+
+    public function testRenderWeirdLink()
+    {
+        extract($this->getSampleTree());
+        $about = $menu->addChild('About', 'http://en.wikipedia.org/wiki/%22Weird_Al%22_Yankovic?v1=1&v2=2');
+
+        $rendered = '<a href="http://en.wikipedia.org/wiki/%22Weird_Al%22_Yankovic?v1=1&v2=2">About</a>';
+        $this->assertEquals($rendered, $about->renderLink());
+
+        $rendered = '<li class="last"><a href="http://en.wikipedia.org/wiki/%22Weird_Al%22_Yankovic?v1=1&v2=2">About</a></li>';
+        $this->assertEquals($rendered, $about->renderChild());
+    }
+
     public function testRenderWholeMenu()
     {
         extract($this->getSampleTree());
