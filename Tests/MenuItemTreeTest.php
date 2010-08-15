@@ -199,61 +199,54 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $ch4->getChild('nonexistentchild'));
     }
 
-  //$t->info('  3.5 - Test ->removeChildren()');
-  //$t->info('    a) ch4 now has 4 children (gc1, gc2, gc3, gc4). Remove gc4.');
-    //$gc4 = $ch4['gc4']; // so we can try to re-add it later
-    //$ch4->removeChild('gc4');
-    //$t->is(count($ch4), 3, 'count(ch4) now returns only 3 children.');
-    //$t->is($ch4->getChild('Grandchild 1')->isFirst(), true, '->isFirst() on gc1 correctly returns true.');
-    //$t->is($ch4->getChild('gc3')->isLast(), true, '->isLast() on gc3 now returns true.');
-    //$t->info('Now that gc4 has been removed, we can add it to another menu without an exception.');
-    //$tmpMenu = new ioMenu();
-    //try
-    //{
-      //$tmpMenu->addChild($gc4);
-      //$t->pass('No exception thrown.');
-    //}
-    //catch (sfException $e)
-    //{
-      //$t->fail('Exception still thrown: ' . $e->getMessage());
-    //}
+    public function testRemoveChild()
+    {
+        extract($this->getSampleTree());
+        $gc2 = $ch4->addChild('gc2');
+        $gc3 = $ch4->addChild('gc3');
+        $gc4 = $ch4->addChild('gc4');
+        $this->assertEquals(4, count($ch4));
+        $ch4->removeChild('gc4');
+        $this->assertEquals(3, count($ch4));
+        $this->assertTrue($ch4->getChild('Grandchild 1')->isFirst());
+        $this->assertTrue($ch4->getChild('gc3')->isLast());
+    }
 
-  //$t->info('    b) ch4 now has 3 children (gc1, gc2, gc3). Remove gc2.');
-    //$ch4->removeChild('gc2');
-    //$t->is(count($ch4), 2, 'count(ch4) now returns only 2 children.');
-    //$t->is($ch4->getChild('Grandchild 1')->isFirst(), true, '->isFirst() on gc1 correctly returns true.');
-    //$t->is($ch4->getChild('gc3')->isLast(), true, '->isLast() on gc3 now returns true');
-    //$t->is($gc1->getNum(), 0, '->getNum() on gc1 returns 0');
-    //$t->is($ch4->getChild('gc3')->getNum(), 1, '->getNum() on gc3 returns 1');
+    public function testRemoveFakeChild()
+    {
+        extract($this->getSampleTree());
+        $menu->removeChild('fake');
+        $this->assertEquals(2, count($menu));
+    }
 
-  //$t->info('    c) ch4 now has 2 children (gc1, gc3). Remove gc3.');
-    //$ch4->removeChild('gc3');
-    //$t->is(count($ch4), 1, 'count(ch4) now returns only 1 child.');
-    //$t->is($gc1->isFirst(), true, '->isFirst() on gc1 returns true.');
-    //$t->is($gc1->isLast(), true, '->isLast() on gc1 returns true.');
+    public function testReAddRemovedChild()
+    {
+        extract($this->getSampleTree());
+        $gc2 = $ch4->addChild('gc2');
+        $ch4->removeChild('gc2');
+        $menu->addChild($gc2);
+        $this->assertEquals(3, count($menu));
+        $this->assertTrue($gc2->isLast());
+        $this->assertFalse($pt2->isLast());
+    }
 
-  //$t->info('    d) try to remove a non-existent child.');
-    //$ch4->removeChild('fake');
-    //$t->is(count($ch4), 1, '->removeChildren() with a non-existent child does nothing');
+    public function testUpdateChildAfterRename()
+    {
+        extract($this->getSampleTree());
+        $pt1->setName('Temp name');
+        $this->assertEquals($pt1, $menu->getChild('Temp name'));
+        $this->assertEquals(array('Temp name', 'Parent 2'), array_keys($menu->getChildren()));
+        $this->assertNull($menu->getChild('Parent 1'));
+    }
 
-  //$t->info('  3.5 - Test updating child id after rename');
-  //$pt1->setName("Temp name");
-  //$t->is($menu->getChild("Temp name", false), $pt1, "pt1 can be found under new name");
-  //$t->is(array_keys($menu->getChildren()), array('Temp name', 'Parent 2'), 'The children are still ordered correctly after a rename.');
-
-  //$pt1->setName("Parent 1");
-  //$t->is($menu->getChild("Parent 1", false), $pt1, "pt1 can be found again under old name");
-
-  //$t->info('    Trying renaming Parent 1 to Parent 2 (which already is used by sibling), should throw an exception.');
-    //try
-    //{
-      //$pt1->setName("Parent 2");
-      //$t->fail('Exception not thrown.');
-    //}
-    //catch (sfException $e)
-    //{
-      //$t->pass('Exception thrown');
-    //}
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testRenameToExistingSiblingNameThrowAnException()
+    {
+        extract($this->getSampleTree());
+        $pt1->setName('Parent 2');
+    }
 
     public function testGetSetCurrentUri()
     {
