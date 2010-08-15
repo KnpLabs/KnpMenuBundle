@@ -9,12 +9,6 @@ use Symfony\Components\DependencyInjection\ContainerBuilder;
 class MenuExtension extends Extension
 {
 
-    public function configLoad($config, ContainerBuilder $container)
-    {
-        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-        $loader->load('config.xml');
-    }
-
     /**
      * Returns the base path for the XSD files.
      *
