@@ -951,28 +951,14 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function renderLink()
     {
-        if (!$uri = $this->getUri()) {
-            return $this->renderLabel();
+        $label = $this->renderLabel();
+        $uri = $this->getUri();
+        if (!$uri) {
+            return $label;
         }
+        $tag = sprintf('<a href="%s">%s</a>', $uri, $label);
 
-        // Handling of the url options and link options varies depending on the url format
-        if ($this->isOldUriMethod()) {
-            // old-school link_to('link text', '@uri_name', $options);
-            return link_to($this->renderLabel(), $this->getUri(), array_merge($this->getUrlOptions(), $this->getLinkOptions()));
-        }
-        else
-        {
-            // new-school link_to('link text', 'uri_name', $params, $options)
-            $params = $this->getUrlOptions();
-            $options = $this->getLinkOptions();
-            if (isset($params['absolute']))
-            {
-                $options['absolute'] = $params['absolute'];
-                unset($params['absolute']);
-            }
-
-            return link_to($this->renderLabel(), $this->getUri(), $params, $options);
-        }
+        return $this->format($tag, 'link');
     }
 
     /**
