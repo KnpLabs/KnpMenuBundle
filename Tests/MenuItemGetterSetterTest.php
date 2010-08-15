@@ -11,11 +11,11 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($menu instanceof MenuItem);
     }
 
-    public function testCreateMenuWithNameAndRoute()
+    public function testCreateMenuWithNameAndUri()
     {
-        $menu = $this->createMenu('test1', 'other_route');
+        $menu = $this->createMenu('test1', 'other_uri');
         $this->assertEquals('test1', $menu->getName());
-        $this->assertEquals('other_route', $menu->getRoute());
+        $this->assertEquals('other_uri', $menu->getUri());
     }
 
     public function testCreateMenuWithTitle()
@@ -39,11 +39,11 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('menu label', $menu->getLabel());
     }
 
-    public function testRoute()
+    public function testUri()
     {
         $menu = $this->createMenu();
-        $menu->setRoute('menu_route');
-        $this->assertEquals('menu_route', $menu->getRoute());
+        $menu->setUri('menu_uri');
+        $this->assertEquals('menu_uri', $menu->getUri());
     }
 
     public function testAttributes()
@@ -125,12 +125,12 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
      * Create a new MenuItem 
      * 
      * @param string $name 
-     * @param string $route 
+     * @param string $uri 
      * @param array $attributes 
      * @return MenuItem
      */
-    protected function createMenu($name = 'test_menu', $route = 'homepage', array $attributes = array())
+    protected function createMenu($name = 'test_menu', $uri = 'homepage', array $attributes = array())
     {
-        return new MenuItem($name, $route, $attributes);
+        return new MenuItem($name, $uri, $attributes);
     }
 }

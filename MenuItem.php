@@ -22,7 +22,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     protected
         $name             = null,    // the name of this menu item (used for id by parent menu)
         $label            = null,    // the label to output, name is used by default
-        $route            = null,    // the route or url to use in the anchor tag
+        $uri              = null,    // the uri to use in the anchor tag
         $attributes       = array(); // an array of attributes for the li
 
     /**
@@ -30,8 +30,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected
         $show             = true,    // boolean to render this menu
-        $showChildren     = true,    // boolean to render the children of this menu
-        $routerOptions    = array(); // the options array passed to router->generate()
+        $showChildren     = true;    // boolean to render the children of this menu
 
     /**
      * Metadata on this menu item
@@ -48,23 +47,15 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * 
      * @param string $name    The name of this menu, which is how its parent will
      *                        reference it. Also used as label if label not specified
-     * @param string $route   The route/url for this menu to use. If not specified,
+     * @param string $uri   The uri/url for this menu to use. If not specified,
      *                        text will be shown without a link
      * @param array $attributes Attributes to place on the li tag of this menu item
      */
-    public function __construct($name, $route = null, $attributes = array())
+    public function __construct($name, $uri = null, $attributes = array())
     {
         $this->name = $name;
-        $this->route = $route;
+        $this->uri = $uri;
         $this->attributes = $attributes;
-    }
-
-    /**
-     * Generates the url to this menu item based on the route
-     */
-    public function getUri()
-    {
-        return $this->route;
     }
 
     /**
@@ -121,25 +112,25 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Get the route/url for a menu item
+     * Get the uri for a menu item
      *
      * @return string
      */
-    public function getRoute()
+    public function getUri()
     {
-        return $this->route;
+        return $this->uri;
     }
 
 
     /**
-     * Sets the route/url for a menu item
+     * Set the uri for a menu item
      *
-     * @param  string $route The route/url to set on this menu item
+     * @param  string $uri The uri to set on this menu item
      * @return MenuItem
      */
-    public function setRoute($route)
+    public function setUri($uri)
     {
-        $this->route = $route;
+        $this->uri = $uri;
 
         return $this;
     }
@@ -264,16 +255,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Add a child menu item to this menu
      *
      * @param mixed   $child    An MenuItem object or the name of a new menu to create
-     * @param string  $route    If creating a new menu, the route for that menu
+     * @param string  $uri    If creating a new menu, the uri for that menu
      * @param string  $attributes  If creating a new menu, the attributes for that menu
      * @param string  $class    The class for menu item, if it needs to be created
      *
      * @return MenuItem The child menu item
      */
-    public function addChild($child, $route = null, $attributes = array(), $class = null)
+    public function addChild($child, $uri = null, $attributes = array(), $class = null)
     {
         if (!$child instanceof MenuItem) {
-            $child = $this->createChild($child, $route, $attributes, $class);
+            $child = $this->createChild($child, $uri, $attributes, $class);
         }
         elseif ($child->getParent()) {
             throw new \InvalidArgumentException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
@@ -667,18 +658,18 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Creates a new MenuItem to be the child of this menu
      * 
      * @param string  $name
-     * @param string  $route
+     * @param string  $uri
      * @param array   $attributes
      * 
      * @return MenuItem
      */
-    protected function createChild($name, $route = null, $attributes = array(), $class = null)
+    protected function createChild($name, $uri = null, $attributes = array(), $class = null)
     {
         if ($class === null) {
             $class = get_class($this);
         }
 
-        return new $class($name, $route, $attributes);
+        return new $class($name, $uri, $attributes);
     }
 
     /**
@@ -852,7 +843,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $html = $this->format('<li'.$this->renderHtmlAttributes($attributes).'>', 'li');
 
         // render the text/link inside the li tag
-        $html .= $this->format($this->route ? $this->renderLink() : $this->renderLabel(), 'link');
+        $html .= $this->format($this->uri ? $this->renderLink() : $this->renderLabel(), 'link');
 
         // renders the embedded ul if there are visible children
         $html .= $this->render($depth, true);
@@ -953,25 +944,25 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Renders the anchor tag for this menu item.
      *
-     * If no route is specified, or if the route fails to generate, the
+     * If no uri is specified, or if the uri fails to generate, the
      * label will be output.
      *
      * @return string
      */
     public function renderLink()
     {
-        if (!$route = $this->getRoute()) {
+        if (!$uri = $this->getUri()) {
             return $this->renderLabel();
         }
 
         // Handling of the url options and link options varies depending on the url format
-        if ($this->isOldRouteMethod()) {
-            // old-school link_to('link text', '@route_name', $options);
-            return link_to($this->renderLabel(), $this->getRoute(), array_merge($this->getUrlOptions(), $this->getLinkOptions()));
+        if ($this->isOldUriMethod()) {
+            // old-school link_to('link text', '@uri_name', $options);
+            return link_to($this->renderLabel(), $this->getUri(), array_merge($this->getUrlOptions(), $this->getLinkOptions()));
         }
         else
         {
-            // new-school link_to('link text', 'route_name', $params, $options)
+            // new-school link_to('link text', 'uri_name', $params, $options)
             $params = $this->getUrlOptions();
             $options = $this->getLinkOptions();
             if (isset($params['absolute']))
@@ -980,7 +971,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
                 unset($params['absolute']);
             }
 
-            return link_to($this->renderLabel(), $this->getRoute(), $params, $options);
+            return link_to($this->renderLabel(), $this->getUri(), $params, $options);
         }
     }
 
@@ -1310,7 +1301,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $fields = array(
             'name'           => 'name',
             'label'          => 'label',
-            'route'          => 'route',
+            'uri'          => 'uri',
             'attributes'     => 'attributes'
         );
 
@@ -1350,8 +1341,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             $this->label = $array['label'];
         }
 
-        if (isset($array['route'])) {
-            $this->setRoute($array['route']);
+        if (isset($array['uri'])) {
+            $this->setUri($array['uri']);
         }
 
         if (isset($array['attributes'])) {
@@ -1389,16 +1380,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns whether or not the route method used is in the old format
+     * Returns whether or not the uri method used is in the old format
      * or the new format.
      *
      * This affects how we generate urls and links
      *
      * @return bool
      */
-    protected function isOldRouteMethod()
+    protected function isOldUriMethod()
     {
-        return ('@' == substr($this->getRoute(), 0, 1) || false !== strpos($this->getRoute(), '/'));
+        return ('@' == substr($this->getUri(), 0, 1) || false !== strpos($this->getUri(), '/'));
     }
 
     /**

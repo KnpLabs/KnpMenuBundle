@@ -290,7 +290,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
     {
         extract($this->getSampleTreeWithExternalUrl());
         $menu->setCurrentUri('http://php.net');
-        $pt1->setRoute('http://php.net');
+        $pt1->setUri('http://php.net');
         $this->assertFalse($pt1->getIsCurrentAncestor());
         $this->assertTrue($menu->getIsCurrentAncestor());
     }
@@ -299,7 +299,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
     {
         extract($this->getSampleTreeWithExternalUrl());
         $menu->setCurrentUri('http://php.net');
-        $gc1->setRoute('http://php.net');
+        $gc1->setUri('http://php.net');
         $this->assertFalse($pt1->getIsCurrentAncestor());
         $this->assertTrue($menu->getIsCurrentAncestor());
         $this->assertTrue($pt2->getIsCurrentAncestor());
