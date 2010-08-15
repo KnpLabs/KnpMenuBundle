@@ -45,10 +45,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Class constructor
      * 
-     * @param string $name    The name of this menu, which is how its parent will
-     *                        reference it. Also used as label if label not specified
-     * @param string $uri   The uri/url for this menu to use. If not specified,
-     *                        text will be shown without a link
+     * @param string $name      The name of this menu, which is how its parent will
+     *                          reference it. Also used as label if label not specified
+     * @param string $uri       The uri for this menu to use. If not specified,
+     *                          text will be shown without a link
      * @param array $attributes Attributes to place on the li tag of this menu item
      */
     public function __construct($name, $uri = null, $attributes = array())
