@@ -23,26 +23,30 @@ objects (`<li>` tags that are wrapped in a `<ul>` tag). For example:
     use Bundle\MenuBundle\MenuItem;
 
     $menu = new MenuItem('My menu');
-    $menu->addChild('overview', $router->generate('homepage'));
-    $menu->addChild('comments', $router->generate('comments'));
+    $menu->addChild('Home', $router->generate('homepage'));
+    $menu->addChild('Comments', $router->generate('comments'));
+    $menu->addChild('Symfony2', 'http://symfony-reloaded.org/');
     echo $menu->render();
 
 The above would render the following html code:
 
-    <ul class="menu">
+    <ul>
       <li class="first">
-        <a href="/">overview</a>
+        <a href="/">Home</a>
       </li>
-      <li class="current last">
-        <a href="/comments">comments</a>
+      <li class="current">
+        <a href="/comments">Comments</a>
+      </li>
+      <li class="last">
+        <a href="http://symfony-reloaded.org/">Symfony2</a>
       </li>
     </ul>
 
 >**NOTE**
 >The menu framework automatically adds `first` and `last` classes to each
 >`<li>` tag at each level for easy styling. Notice also that a `current`
->class is added to the "current" menu item by url. The above example assumes
->the menu is being rendered on the `/comments` page, making the comments
+>class is added to the "current" menu item by uri. The above example assumes
+>the menu is being rendered on the `/comments` page, making the Comments
 >menu item "current".
 
 >**NOTE**
@@ -54,17 +58,20 @@ Working with your menu tree
 ---------------------------
 
 Your menu tree works and acts like a multi-dimensional array. Specifically,
-it implements array access, countable and iterator: 
+it implements ArrayAccess, Countable and Iterator: 
 
-    $menu = new ioMenuItem('My menu');
-    $menu->addChild('overview', $router->generate('homepage'));
-    $menu->addChild('comments');
+    $menu = new MenuItem('My menu');
+    $menu->addChild('Home', $router->generate('homepage'));
+    $menu->addChild('Comments');
     
-    $menu['comments']->setRoute($router->generate('comments'));
-    $menu['comments']->addChild('My comments',$router->generate('my_comments'));
+    // ArrayAccess
+    $menu['Comments']->setUri($router->generate('comments'));
+    $menu['Comments']->addChild('My comments', $router->generate('my_comments'));
     
+    // Countable
     echo count($menu); // returns 2
 
+    // Iterator
     foreach ($menu as $child) {
       echo $menu->getLabel();
     }
@@ -84,22 +91,22 @@ There are many ways to customize the output of each menu item.
 By default, a menu item uses its name when rendering. You can easily
 change this without changing the name of your menu item by setting its label:
 
-    $menu->addChild('overview', $router->generate('homepage'));
-    $menu['overview']->setLabel('Home');
+    $menu->addChild('Home', $router->generate('homepage'));
+    $menu['Home']->setLabel('Back to homepage');
 
-### The route
+### The uri
 
 When creating a new menu item (via the constructor or via `addChild()`),
-the second argument is the url to your menu item. If a menu
+the second argument is the uri to your menu item. If a menu
 isn't given a route, then text will be output instead of a link:
 
-    $menu->addChild('overview');
-    $menu->addChild('overview', $router->generate('homepage'));
+    $menu->addChild('Not a link');
+    $menu->addChild('Home', $router->generate('homepage'));
     $menu->addChild('sympal', 'http://www.sympalphp.org');
 
-You can also specify the route after creation via the `setRoute()` method:
+You can also specify the uri after creation via the `setUri()` method:
 
-    $menu['overview']->setRoute($router->generate('homepage'));
+    $menu['Home']->setUri($router->generate('homepage'));
 
 ### Menu attributes
 
@@ -107,11 +114,10 @@ In fact, you can add any attribute to the `<li>` tag of a menu item. This
 can be done as the optional 3rd argument when creating a menu item or
 via the `setAttribute()` method:
 
-    $menu->addChild('overview', null, array('id' => 'back_to_homepage'));
-    $menu['overview']->setAttribute('id', 'back_to_homepage');
+    $menu->addChild('Home', null, array('id' => 'back_to_homepage'));
+    $menu['Home']->setAttribute('id', 'back_to_homepage');
 
-Rendering only part of a menu
------------------------------
+### Rendering only part of a menu
 
 If you need to render only part of your menu, the menu framework gives
 you unlimited control to do so:
@@ -119,37 +125,36 @@ you unlimited control to do so:
     // render only 2 levels deep (root, parents, children)
     $menu->render(2);
 
-    // rendering everything except for the children of the overview branch
-    $menu['overview']->setShowChildren(false);
+    // rendering everything except for the children of the Home branch
+    $menu['Home']->setShowChildren(false);
     $menu->render();
 
-    // render everything except for overview AND its children
-    $menu['overview']->setShow(false);
+    // render everything except for Home AND its children
+    $menu['Home']->setShow(false);
     $menu->render();
 
 Using the above controls, you can specify exactly which part of you menu
 you need to render at any given time.
 
-The "root" is special
----------------------
+### The "root" is special
 
 Each menu is a tree containing exactly one root menu item. Let's revisit
 the previous example:
 
     $menu = new MenuItem('My menu');
-    $menu->addChild('overview', $router->generate('homepage'));
-    $menu->addChild('comments', $router->generate('comments'));
+    $menu->addChild('Home', $router->generate('homepage'));
+    $menu->addChild('Comments', $router->generate('comments'));
 
 In the above example, the `$menu` variable, corresponding to a menu item
 named "My menu" is the root. The root node is special in that no `<li>`
 tag is rendered and the name is never output:
 
-    <ul class="menu">
+    <ul>
       <li class="first">
-        <a href="/">overview</a>
+        <a href="/">Home</a>
       </li>
       <li class="current last">
-        <a href="/comments">comments</a>
+        <a href="/comments">Comments</a>
       </li>
     </ul>
 
@@ -163,12 +168,12 @@ was created:
 
     use Bundle\MenuBundle\Menu;
 
-    $menu = new Menu(array('id' => 'root_menu');
-    $menu->addChild('overview', '@homepage');
-    $menu->addChild('comments', '@comments');
+    $menu = new Menu(array('class' => 'root_menu');
+    $menu->addChild('Home', $router->generate('homepage'));
+    $menu->addChild('Comments', $router->generate('comments'));
 
 This will create the same menu as the previous option, but allows you to
 skip the specification of a name or route (the first and only argument
-is the array of attributes for the `<ul`>) for the root node.
+is the array of attributes for the `<ul>`) for the root node.
 
 --->To continue reading, see Chapter 2: Customizing Menu Items
