@@ -5,7 +5,7 @@ namespace Bundle\MenuBundle;
 /**
  * This is your base menu item. It roughly represents a single <li> tag
  * and is what you should interact with most of the time by default.
- * 
+ * Decoupled from Symfony2, can be used in any PHP 5.3 project.
  * Originally taken from ioMenuPlugin (http://github.com/weaverryan/ioMenuPlugin)
  */
 class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
