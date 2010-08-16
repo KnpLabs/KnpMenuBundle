@@ -754,13 +754,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         if ($renderAsChild) {
             $attributes = array('class' => 'menu_level_'.$this->getLevel());
         }
-        else
-        {
+        else {
             $attributes = $this->getAttributes();
-            // give the top ul a class of "menu" of none specified
-            if (!isset($attributes['class'])) {
-                $attributes['class'] = 'menu';
-            }
         }
 
         // render children with a depth - 1

@@ -174,7 +174,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $arr = array_keys($menu->getChildren());
         $this->assertEquals(array('c4', 'c3', 'c2', 'c1'), $arr);
 
-        $this->assertEquals('<ul class="menu"><li class="first">c4</li><li>c3</li><li>c2</li><li class="last">c1</li></ul>', $menu->render());
+        $this->assertEquals('<ul><li class="first">c4</li><li>c3</li><li>c2</li><li class="last">c1</li></ul>', $menu->render());
     }
 
     /**
