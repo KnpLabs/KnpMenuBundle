@@ -10,6 +10,29 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         MenuItem::setRenderCompressed(true);
     }
 
+    public function testRenderEmptyRoot()
+    {
+        $menu = new MenuItem('test');
+        $rendered = '';
+        $this->assertEquals($rendered, $menu->render());
+    }
+
+    public function testRenderRootWithAttributes()
+    {
+        $menu = new MenuItem('test', null, array('class' => 'test_class'));
+        $menu->addChild('c1');
+        $rendered = '<ul class="test_class"><li class="first last">c1</li></ul>';
+        $this->assertEquals($rendered, $menu->render());
+    }
+
+    public function testRenderEncodedAttributes()
+    {
+        $menu = new MenuItem('test', null, array('title' => 'encode " me >'));
+        $menu->addChild('c1');
+        $rendered = '<ul title="encode &quot; me &gt;"><li class="first last">c1</li></ul>';
+        $this->assertEquals($rendered, $menu->render());
+    }
+
     public function testRenderLink()
     {
         extract($this->getSampleTree());
