@@ -5,14 +5,10 @@ use Bundle\MenuBundle\MenuItem;
 
 class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        MenuItem::setRenderCompressed(true);
-    }
-
     public function testRenderEmptyRoot()
     {
         $menu = new MenuItem('test');
+        $menu->getRenderer()->setRenderCompressed(true);
         $rendered = '';
         $this->assertEquals($rendered, $menu->render());
     }
@@ -20,6 +16,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     public function testRenderRootWithAttributes()
     {
         $menu = new MenuItem('test', null, array('class' => 'test_class'));
+        $menu->getRenderer()->setRenderCompressed(true);
         $menu->addChild('c1');
         $rendered = '<ul class="test_class"><li class="first last">c1</li></ul>';
         $this->assertEquals($rendered, $menu->render());
@@ -28,6 +25,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     public function testRenderEncodedAttributes()
     {
         $menu = new MenuItem('test', null, array('title' => 'encode " me >'));
+        $menu->getRenderer()->setRenderCompressed(true);
         $menu->addChild('c1');
         $rendered = '<ul title="encode &quot; me &gt;"><li class="first last">c1</li></ul>';
         $this->assertEquals($rendered, $menu->render());
@@ -42,7 +40,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rendered, $about->renderLink());
 
         $rendered = '<li class="last"><a href="/about">About</a></li>';
-        $this->assertEquals($rendered, $about->renderChild());
+        $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
 
     public function testRenderWeirdLink()
@@ -54,7 +52,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rendered, $about->renderLink());
 
         $rendered = '<li class="last"><a href="http://en.wikipedia.org/wiki/%22Weird_Al%22_Yankovic?v1=1&v2=2">About</a></li>';
-        $this->assertEquals($rendered, $about->renderChild());
+        $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
 
     public function testRenderWholeMenu()
@@ -153,6 +151,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     public function testReordering()
     {
         $menu = new MenuItem('root');
+        $menu->getRenderer()->setRenderCompressed(true);
         $menu->addChild('c1');
         $menu->addChild('c2');
         $menu->addChild('c3');
@@ -193,6 +192,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     protected function getSampleTree($class = 'Bundle\MenuBundle\MenuItem')
     {
         $menu = new $class('Root li', null, array('class' => 'root'));
+        $menu->getRenderer()->setRenderCompressed(true);
         $pt1 = $menu->addChild('Parent 1');
         $ch1 = $pt1->addChild('Child 1');
         $ch2 = $pt1->addChild('Child 2');

@@ -79,9 +79,9 @@ to declare the helper.
 
 You now can render the menu in a template:
 
-    echo $view->main_menu->render()
+    echo $view['main_menu']->render()
 
 Or manipulate it:
 
-    $view->main_menu['Home']->setLabel('<span>Home</span>');
-    $view->main_menu['Home']->setIsCurrent(true);
+    $view['main_menu']['Home']->setLabel('<span>Home</span>');
+    $view['main_menu']['Home']->setIsCurrent(true);
