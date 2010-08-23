@@ -504,15 +504,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getLevel()
     {
-        $count = -1;
-        $obj = $this;
-
-        do {
-            $count++;
-        }
-        while ($obj = $obj->getParent());
-
-        return $count;
+        return $this->parent ? $this->parent->getLevel() + 1 : 0;
     }
 
     /**
