@@ -1,6 +1,8 @@
 <?php
 
 namespace Bundle\MenuBundle;
+use Bundle\MenuBundle\Renderer\RendererInterface;
+use Bundle\MenuBundle\Renderer\ListRenderer;
 
 /**
  * This is your base menu item. It roughly represents a single <li> tag
@@ -10,12 +12,6 @@ namespace Bundle\MenuBundle;
  */
 class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-    /**
-     * Whether or not to render menus with pretty spacing, or fully compressed.
-     */
-    protected static $renderCompressed = false;
-    protected static $charset = 'UTF-8';
-
     /**
      * Properties on this menu item
      */
@@ -41,6 +37,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $parent           = null,    // parent MenuItem
         $isCurrent        = null,    // whether or not this menu item is current
         $currentUri       = null;    // the current uri to use for selecting current menu
+
+    /**
+     * The renderer used to render this menu 
+      
+     * @var RendererInterface
+     */
+    protected $renderer   = null;
 
     /**
      * Class constructor
@@ -727,45 +730,49 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Renders a ul tag and any children inside li tags.
+     * Renders the menu tree by using the statically set renderer.
      *
      * Depth values corresppond to:
      *   * 0 - no children displayed at all (would return a blank string)
      *   * 1 - directly children only
      *   * 2 - children and grandchildren
      *
-     * @param integer $depth         The depth of children to render 
-     * @param boolean $renderAsChild Used internally to render with attributes on the write element
-     * 
+     * @param integer     $depth        The depth of children to render
+     *
      * @return string
      */
-    public function render($depth = null, $renderAsChild = false)
+    public function render($depth = null)
     {
-        /**
-         * Return an empty string if any of the following are true:
-         *   a) The menu has no children eligible to be displayed
-         *   b) The depth is 0
-         *   c) This menu item has been explicitly set to hide its children
-         */
-        if (!$this->hasChildren() || $depth === 0 || !$this->getShowChildren()) {
-            return '';
+        return $this->getRenderer()->render($this, $depth);
+    }
+
+    /**
+     * Sets renderer which will be used to render menu items.
+     *
+     * @param RendererInterface $renderer Renderer.
+     */
+    public function setRenderer(RendererInterface $renderer)
+    {
+        $this->renderer = $renderer;
+    }
+
+    /**
+     * Gets renderer which is used to render menu items.
+     *
+     * @return RendererInterface $renderer Renderer.
+     */
+    public function getRenderer()
+    {
+        if(null === $this->renderer) {
+            if($this->isRoot()) {
+                $this->setRenderer(new ListRenderer());
+            }
+            else {
+                return $this->getParent()->getRenderer();
+            }
         }
 
-        if ($renderAsChild) {
-            $attributes = array('class' => 'menu_level_'.$this->getLevel());
-        }
-        else {
-            $attributes = $this->getAttributes();
-        }
-
-        // render children with a depth - 1
-        $childDepth = ($depth === null) ? null : ($depth - 1);
-
-        $html = $this->format('<ul'.$this->renderHtmlAttributes($attributes).'>', 'ul');
-        $html .= $this->renderChildren($childDepth);
-        $html .= $this->format('</ul>', 'ul');
-
-        return $html;
+        return $this->renderer;
     }
 
     /**
@@ -774,166 +781,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function __toString()
     {
         return $this->render();
-    }
-
-    /**
-     * Renders all of the children of this menu.
-     *
-     * This calls ->renderChild() on each menu item, which instructs each
-     * menu item to render themselves as an <li> tag (with nested ul if it
-     * has children).
-     *
-     * @param integer $depth The depth each child should render
-     * @return string
-     */
-    public function renderChildren($depth = null)
-    {  
-        $html = '';
-        foreach ($this->children as $child) {
-            $html .= $child->renderChild($depth);
-        }
-        return $html;
-    }
-
-    /**
-     * Called by the parent menu item to render this menu.
-     *
-     * This renders the li tag to fit into the parent ul as well as its
-     * own nested ul tag if this menu item has children
-     *
-     * @param integer $depth The depth each child should render
-     * @return string
-     */
-    public function renderChild($depth = null)
-    {
-        // if we don't have access or this item is marked to not be shown
-        if (!$this->shouldBeRendered()) {
-            return; 
-        }
-
-        // explode the class string into an array of classes
-        $class = ($this->getAttribute('class')) ? explode(' ', $this->getAttribute('class')) : array();
-
-        if ($this->getIsCurrent()) {
-            $class[] = 'current';
-        }
-        elseif ($this->getIsCurrentAncestor($depth)) {
-            $class[] = 'current_ancestor';
-        }
-
-        if ($this->actsLikeFirst()) {
-            $class[] = 'first';
-        }
-        if ($this->actsLikeLast()) {
-            $class[] = 'last';
-        }
-
-        // retrieve the attributes and put the final class string back on it
-        $attributes = $this->getAttributes();
-        if (!empty($class)) {
-            $attributes['class'] = implode(' ', $class);
-        }
-
-        // opening li tag
-        $html = $this->format('<li'.$this->renderHtmlAttributes($attributes).'>', 'li');
-
-        // render the text/link inside the li tag
-        $html .= $this->format($this->uri ? $this->renderLink() : $this->renderLabel(), 'link');
-
-        // renders the embedded ul if there are visible children
-        $html .= $this->render($depth, true);
-
-        // closing li tag
-        $html .= $this->format('</li>', 'li');
-
-        return $html;
-    }
-
-    /**
-     * If self::$renderCompressed is on, this will apply the necessary
-     * spacing and line-breaking so that the particular thing being rendered
-     * makes up its part in a fully-rendered and spaced menu.
-     *
-     * @param  string $html The html to render in an (un)formatted way
-     * @param  string $type The type [ul,link,li] of thing being rendered 
-     * @return string
-     */
-    protected function format($html, $type)
-    {
-        if (self::$renderCompressed) {
-            return $html;
-        }
-
-        switch ($type) {
-        case 'ul':
-        case 'link':
-            $spacing = $this->getLevel() * 4;
-            break;
-
-        case 'li':
-            $spacing = $this->getLevel() * 4 - 2;
-            break;
-        }
-
-        return str_repeat(' ', $spacing).$html."\n";
-    }
-
-    /**
-     * Render a HTML attribute
-     */
-    public function renderHtmlAttribute($name, $value)
-    {
-        if (true === $value) {
-            return sprintf('%s="%s"', $name, $this->escape($name));
-        } else {
-            return sprintf('%s="%s"', $name, $this->escape($value));
-        }
-    }
-
-    /**
-     * Render HTML atributes
-     */
-    public function renderHTMLAttributes(array $attributes)
-    {
-        return implode('', array_map(array($this, 'htmlAttributesCallback'), array_keys($attributes), array_values($attributes)));
-    }
-
-    /**
-     * Prepares an attribute key and value for HTML representation.
-     *
-     * It removes empty attributes.
-     *
-     * @param  string $name   The attribute name
-     * @param  string $value  The attribute value
-     *
-     * @return string The HTML representation of the HTML key attribute pair.
-     */
-    private function htmlAttributesCallback($name, $value)
-    {
-        if (false === $value || null === $value) {
-            return '';
-        } else {
-            return ' '.$this->renderHtmlAttribute($name, $value);
-        }
-    }
-
-    /**
-     * Escape an HTML value
-     */
-    public function escape($value)
-    {
-        return $this->fixDoubleEscape(htmlspecialchars((string) $value, ENT_QUOTES, self::$charset));
-    }
-
-    /**
-     * Fixes double escaped strings.
-     *
-     * @param  string $escaped  string to fix
-     * @return string A single escaped string
-     */
-    protected function fixDoubleEscape($escaped)
-    {
-        return preg_replace('/&amp;([a-z]+|(#\d+)|(#x[\da-f]+));/i', '&$1;', $escaped);
     }
 
     /**
@@ -951,9 +798,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         if (!$uri) {
             return $label;
         }
-        $tag = sprintf('<a href="%s">%s</a>', $uri, $label);
 
-        return $this->format($tag, 'link');
+        return sprintf('<a href="%s">%s</a>', $uri, $label);
     }
 
     /**
@@ -1282,7 +1128,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $fields = array(
             'name'           => 'name',
             'label'          => 'label',
-            'uri'          => 'uri',
+            'uri'            => 'uri',
             'attributes'     => 'attributes'
         );
 
@@ -1361,19 +1207,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns whether or not the uri method used is in the old format
-     * or the new format.
-     *
-     * This affects how we generate urls and links
-     *
-     * @return bool
-     */
-    protected function isOldUriMethod()
-    {
-        return ('@' == substr($this->getUri(), 0, 1) || false !== strpos($this->getUri(), '/'));
-    }
-
-    /**
      * Implements Countable
      */
     public function count()
@@ -1419,41 +1252,5 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function offsetUnset($name)
     {
         $this->removeChild($name);
-    }
-
-    /**
-     * Get whether to render compressed HTML or not
-     * 
-     * @return bool
-     */
-    public static function getRenderCompressed()
-    {
-        return self::$renderCompressed;
-    }
-
-    /**
-     * Set whether to render compressed HTML or not
-     */
-    public static function setRenderCompressed($bool)
-    {
-        self::$renderCompressed = (bool) $bool;
-    }
-
-    /**
-     * Get the HTML charset
-     * 
-     * @return string
-     */
-    public static function getCharset()
-    {
-        return self::$charset;
-    }
-
-    /**
-     * Set the HTML charset
-     */
-    public static function setCharset($string)
-    {
-        self::$renderCompressed = (string) $bool;
     }
 }
