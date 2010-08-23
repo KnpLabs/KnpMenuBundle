@@ -2,7 +2,7 @@
 
 namespace Bundle\MenuBundle\Templating\Helper;
 
-use Symfony\Components\Templating\Helper\Helper;
+use Symfony\Component\Templating\Helper\Helper;
 use Bundle\MenuBundle\MenuItem;
 
 class MenuHelper extends Helper implements \ArrayAccess
