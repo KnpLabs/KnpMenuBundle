@@ -580,45 +580,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Sets the array of options to use when running url_for()
-     *
-     * @param  array $options The array of options to set
-     * @return void
-     */
-    public function setUrlOptions(array $options)
-    {
-        $this->urlOptions = $options;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUrlOptions()
-    {
-        return $this->urlOptions;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLinkOptions()
-    {
-        return $this->linkOptions;
-    }
-
-    /**
-     * The options that will be used in the link_to() function for this menu item.
-     *
-     * @param  $linkOptions The options to set
-     * @return void
-     */
-    public function setLinkOptions($linkOptions)
-    {
-        $this->linkOptions = $linkOptions;
-    }
-
-
-    /**
      * Returns the index that this child is within its parent.
      *
      * Primarily used internally to calculate first and last
