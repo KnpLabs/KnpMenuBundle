@@ -84,6 +84,11 @@ class MenuHelper extends Helper implements \ArrayAccess
         return $this->name;
     }
 
+    public function __toString()
+    {
+        return $this->render();
+    }
+
     /**
      * Method deferring
      *
