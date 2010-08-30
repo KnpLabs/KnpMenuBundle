@@ -16,7 +16,7 @@ There a lot of benefits making a menu a service. Its logic is then self-containe
     <?php
     namespace Bundle\MyBundle\Menu;
     use Bundle\MenuBundle\Menu;
-    use Symfony\Components\Routing\Router;
+    use Symfony\Component\Routing\Router;
 
     class MainMenu extends Menu
     {
