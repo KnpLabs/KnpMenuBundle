@@ -56,7 +56,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function __construct($name, $uri = null, $attributes = array())
     {
-        $this->name = $name;
+        $this->name = (string) $name;
         $this->uri = $uri;
         $this->attributes = $attributes;
     }
