@@ -886,15 +886,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return boolean
      */
-    public function getIsCurrentAncestor($depth = null)
+    public function getIsCurrentAncestor()
     {
-        // if children not shown, then we're definitely not a visible ancestor
-        if (!$this->getShowChildren() || $depth === 0) {
-            return false;
-        }
-
         foreach ($this->getChildren() as $child) {
-            if ($child->getIsCurrent() || $child->getIsCurrentAncestor($depth - 1)) {
+            if ($child->getIsCurrent() || $child->getIsCurrentAncestor()) {
                 return true;
             }
         }
