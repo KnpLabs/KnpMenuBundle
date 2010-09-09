@@ -27,9 +27,9 @@ class MenuHelper extends Helper implements \ArrayAccess
      *
      * @return string
      */
-    public function render()
+    public function render($depth = null)
     {
-        return $this->menu->render();
+        return $this->menu->render($depth);
     }
 
     /**
