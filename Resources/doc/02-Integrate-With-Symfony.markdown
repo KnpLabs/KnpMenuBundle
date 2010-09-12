@@ -96,7 +96,7 @@ Or manipulate it:
 
 ### Customize your Menu
 
-If you want to customize the way your menu are rendred, just create a custom MenuItem class
+If you want to customize the way your menu are rendered, just create a custom MenuItem class
 
     # src/Application/MyBundle/Menu/MyCustomMenuItem.php
     <?php
