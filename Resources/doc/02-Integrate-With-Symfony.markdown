@@ -98,7 +98,7 @@ Or manipulate it:
 
 If you want to customize the way your menu are rendered, just create a custom MenuItem class
 
-    # src/Application/MyBundle/Menu/MyCustomMenuItem.php
+    # src/Bundle/MyBundle/Menu/MyCustomMenuItem.php
     <?php
     namespace Application\MyBundle\Menu;
     use Bundle\MenuBundle\MenuItem;
@@ -126,7 +126,27 @@ If you want to customize the way your menu are rendered, just create a custom Me
     }
 
 This example override the renderLink method.
-Then use your new CustomMenuItem in your MainMenu class
+Then use your new CustomMenuItem as the default item class in your MainMenu
+
+    // src/Bundle/MyBundle/Menu/MainMenu.php
+    <?php
+    namespace Bundle\MyBundle\Menu;
+    use Bundle\MenuBundle\Menu;
+    use Symfony\Component\Routing\Router;
+
+
+    class MainMenu extends Menu
+    {
+        public function __construct(Router $router)
+        {
+            parent::__construct(array(), 'Bundle\MyBundle\Menu\MyCustomMenuItem');
+
+            $this->addChild('Home', $router->generate('homepage'));
+            $this->addChild('Comments', $router->generate('comments'));
+      }
+    }
+
+Or, if you want to customize each child item, pass them as an argument of the addChild method
 
     // src/Bundle/MyBundle/Menu/MainMenu.php
     <?php
