@@ -94,7 +94,7 @@ Or manipulate it:
     $view['main_menu']['Home']->setIsCurrent(true);
 
 
-### Customize your Menu
+## Customize your Menu
 
 If you want to customize the way your menu are rendered, just create a custom MenuItem class
 
