@@ -7,12 +7,16 @@ followed by the name of your service.
 
 Here is a complete but simple example for a Menu named `main`, used as your
 main navigation for the whole page (expecting you have a `MainBundle` where you
-store all your menus):
+store all your menus).
+
+Enable both Dependency Injection extensions in your `config.yml`:
 
     # app/config/config.yml
     main.config: ~
     menu.twig: ~
 
+
+Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
     <?php // src/Application/MainBundle/DependencyInjection/MainExtension.php
     
@@ -47,6 +51,8 @@ store all your menus):
     }
 
 
+Create a `MainMenu` class for your `main` menu:
+
     <?php // src/Application/MainBundle/Menu/MainMenu.php
     
     namespace Application\MainBundle\Menu;
@@ -70,6 +76,8 @@ store all your menus):
     }
 
 
+Describe your `main` menu as a Service:
+
     <!-- src/Application/MainBundle/Resources/config/menu.xml -->
     <?xml version="1.0" encoding="UTF-8"?>
     <container xmlns="http://www.symfony-project.org/schema/dic/services"
@@ -81,13 +89,19 @@ store all your menus):
         </parameters>
         
         <services>
-        <service id="menu.admin.main" class="%menu.admin.main.class%" shared="true">
-            <tag name="menu" alias="admin.main" />
+        <service id="menu.main" class="%menu.main.class%" shared="true">
+            <tag name="menu" alias="main" />
             <argument type="service" id="request" />
             <argument type="service" id="router" />
         </service>
     </services>
 
+> **NOTICE:** the `<tag>` attributes are imported. Tagging your menu with the
+> name `menu` tells the Twig helper to load this menu, and the alias `main` is
+> used in your template to tell the helper which one to render.
+
+
+Now its time to render the menu in your main `layout.twig`:
 
     {# app/views/layout.twig #}
     <html>
