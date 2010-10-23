@@ -8,18 +8,18 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MenuExtension extends Extension
 {
-
     public function templatingLoad($config, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('templating.xml');
     }
 
-    /**
-     * Returns the base path for the XSD files.
-     *
-     * @return string The XSD base path
-     */
+    public function twigLoad($config, ContainerBuilder $container)
+    {
+        $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+        $loader->load('twig.xml');
+    }
+
     public function getXsdValidationBasePath()
     {
         return null;
@@ -34,5 +34,4 @@ class MenuExtension extends Extension
     {
         return 'menu';
     }
-
 }
