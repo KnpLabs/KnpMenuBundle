@@ -89,10 +89,11 @@ Describe your `main` menu as a Service:
         </parameters>
         
         <services>
-        <service id="menu.main" class="%menu.main.class%" shared="true">
-            <tag name="menu" alias="main" />
-            <argument type="service" id="request" />
-            <argument type="service" id="router" />
+            <service id="menu.main" class="%menu.main.class%" shared="true">
+                <tag name="menu" alias="main" />
+                <argument type="service" id="request" />
+                <argument type="service" id="router" />
+            </service>
         </service>
     </services>
 
