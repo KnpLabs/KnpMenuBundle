@@ -1,0 +1,102 @@
+Twig Integration
+================
+
+Services tagged as `menu` will be added automatically to the Twig helper. You
+can access those menus with the `{% menu %}` tag in your Twig templates,
+followed by the name of your service. 
+
+Here is a complete but simple example for a Menu named `main`, used as your
+main navigation for the whole page (expecting you have a `MainBundle` where you
+store all your menus):
+
+    # app/config/config.yml
+    main.config: ~
+    menu.twig: ~
+
+
+    <?php // src/Application/MainBundle/DependencyInjection/MainExtension.php
+    
+    namespace Application\MainBundle\DependencyInjection;
+    
+    use Symfony\Component\DependencyInjection\Extension\Extension,
+        Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
+        Symfony\Component\DependencyInjection\ContainerBuilder;
+    
+    class MainExtension extends Extension
+    {
+        public function menuLoad($config, ContainerBuilder $container)
+        {
+            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+            $loader->load('menu.xml');
+        }
+        
+        public function getXsdValidationBasePath()
+        {
+            return null;
+        }
+        
+        public function getNamespace()
+        {
+            return 'http://www.symfony-project.org/schema/dic/symfony';
+        }
+        
+        public function getAlias()
+        {
+            return 'main';
+        }
+    }
+
+
+    <?php // src/Application/MainBundle/Menu/MainMenu.php
+    
+    namespace Application\MainBundle\Menu;
+    
+    use Bundle\MenuBundle\Menu;
+    
+    use Symfony\Component\HttpFoundation\Request,
+        Symfony\Component\Routing\Router;
+    
+    class MainMenu extends Menu
+    {
+        public function __construct(Request $request, Router $router)
+        {
+            parent::__construct();
+            
+            $this->setCurrentUri($request->getRequestUri());
+            
+            $this->addChild('Home', $router->generate('homepage'));
+            // ... add more childs
+        }
+    }
+
+
+    <!-- src/Application/MainBundle/Resources/config/menu.xml -->
+    <?xml version="1.0" encoding="UTF-8"?>
+    <container xmlns="http://www.symfony-project.org/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+        
+        <parameters>
+            <parameter key="menu.main.class">Application\MainBundle\Menu\MainMenu</parameter>
+        </parameters>
+        
+        <services>
+        <service id="menu.admin.main" class="%menu.admin.main.class%" shared="true">
+            <tag name="menu" alias="admin.main" />
+            <argument type="service" id="request" />
+            <argument type="service" id="router" />
+        </service>
+    </services>
+
+
+    {# app/views/layout.twig #}
+    <html>
+        {# ... #}
+        <body>
+            {# ... #}
+            <nav id="main">
+                {% menu 'main' %}
+            </nav>
+            {# ... #}
+        </body>
+    </html>
