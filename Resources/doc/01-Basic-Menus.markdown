@@ -1,7 +1,3 @@
-*Preface*
-
-Like the whole codebase and unit tests, this documentation was ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin).
-
 Creating Menus: The Basics
 ==========================
 
