@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://www.symfony-project.org/schema/dic/menu"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.symfony-project.org/schema/dic/menu"
+    elementFormDefault="qualified">
+
+
+    <!-- Define the templating option, with no options or arguments -->
+    <xsd:element name="templating" type="templating" />
+    <xsd:complexType name="templating" />
+
+    <!-- Define the templating option, with no options or arguments -->
+    <xsd:element name="twig" type="twig" />
+    <xsd:complexType name="twig" />
+</xsd:schema>

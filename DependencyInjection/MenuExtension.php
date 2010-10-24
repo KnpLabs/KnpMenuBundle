@@ -8,28 +8,49 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MenuExtension extends Extension
 {
-    public function templatingLoad($config, ContainerBuilder $container)
+    /**
+     * Handles the menu.templating configuration.
+     *
+     * @param  array $config The configuration being loaded
+     * @param ContainerBuilder $container
+     */
+    public function templatingLoad(array $config, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('templating.xml');
     }
 
-    public function twigLoad($config, ContainerBuilder $container)
+    /**
+     * Handles the menu.templating configuration.
+     *
+     * @param  array $config The configuration being loaded
+     * @param ContainerBuilder $container
+     */
+    public function twigLoad(array $config, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
         $loader->load('twig.xml');
     }
 
+    /**
+     * @see Symfony\Component\DependencyInjection\Extension\ExtensionInterface
+     */
     public function getXsdValidationBasePath()
     {
-        return null;
+        return __DIR__.'/../Resources/config/schema';
     }
 
+    /**
+     * @see Symfony\Component\DependencyInjection\Extension\ExtensionInterface
+     */
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/symfony';
+        return 'http://www.symfony-project.org/schema/dic/menu';
     }
 
+    /**
+     * @see Symfony\Component\DependencyInjection\Extension\ExtensionInterface
+     */
     public function getAlias()
     {
         return 'menu';
