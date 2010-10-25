@@ -3,43 +3,74 @@
 namespace Bundle\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Bundle\MenuBundle\MenuItem;
 
 class MenuHelper extends Helper implements \ArrayAccess
 {
-    protected $menu;
-    protected $name;
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected $container;
 
     /**
-     * Constructor.
-     *
-     * @param MenuItem $menu a Menu
-     * @param string $name the canonical name of the helper
+     * @var array
      */
-    public function __construct(MenuItem $menu, $name)
+    protected $menus;
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @return void
+     */
+    public function __construct(ContainerInterface $container)
     {
-        $this->menu = $menu;
-        $this->name = $name;
+        $this->container = $container;
+
+        $this->menus = array();
+        foreach ($this->container->findTaggedServiceIds('menu') as $id => $attributes) {
+            if (isset($attributes[0]['alias'])) {
+                $this->menus[$attributes[0]['alias']] = $id;
+            }
+        }
     }
 
     /**
      * Render the menu
      *
+     * @param string $name
+     * @param integer $depth (optional)
      * @return string
      */
-    public function render($depth = null)
+    public function render($name, $depth = null)
     {
-        return $this->menu->render($depth);
+        return $this->get($name)->render($depth);
     }
 
     /**
-     * Get the menu
-     *
-     * @return MenuItem
-     **/
-    public function get()
+     * @param string $name
+     * @return \Bundle\MenuBundle\Menu
+     * @throws \InvalidArgumentException
+     */
+    public function get($name)
     {
-        return $this->menu;
+        if (!isset($this->menus[$name])) {
+            throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
+        }
+
+        if (is_string($this->menus[$name])) {
+            $this->menus[$name] = $this->container->get($this->menus[$name]);
+        }
+
+        return $this->menus[$name];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'menu';
     }
 
     /**
@@ -47,7 +78,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function offsetExists($name)
     {
-        $this->menu->offsetExists($name);
+        return isset($this->menus[$name]);
     }
 
     /**
@@ -55,7 +86,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function offsetGet($name)
     {
-        return $this->menu->offsetGet($name);
+        return $this->get($name);
     }
 
     /**
@@ -63,7 +94,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function offsetSet($name, $value)
     {
-        return $this->menu->offsetSet($name, $value);
+        return $this->menus[$name] = $value;
     }
 
     /**
@@ -71,38 +102,6 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function offsetUnset($name)
     {
-        $this->menu->offsetUnset($name);
-    }
-
-    /**
-     * Returns the canonical name of this helper.
-     *
-     * @return string The canonical name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function __toString()
-    {
-        return $this->render();
-    }
-
-    /**
-     * Method deferring
-     *
-     * @param  string $method
-     * @param  array $args
-     * @return mixed
-     * @throws Exception if the menu does not have the required method
-     */
-    public function __call($method, $args)
-    {
-        if (!method_exists($this->menu, $method)) {
-            throw new \Exception('Menu has no method '.$method);
-        }
-
-        return call_user_func_array(array($this->menu, $method), $args);
+        throw new \LogicException(sprintf('You can\'t unset a menu from a template (%s).', $id));
     }
 }

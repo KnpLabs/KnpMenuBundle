@@ -19,14 +19,17 @@ self-contained,and it can be accessed from anywhere in the project.
     <?php
     namespace Application\MyBundle\Menu;
     use Bundle\MenuBundle\Menu;
+    use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 
     class MainMenu extends Menu
     {
-        public function __construct(Router $router)
+        public function __construct(Request $request, Router $router)
         {
             parent::__construct();
-
+            
+            $this->setCurrentUri($request->getRequestUri());
+            
             $this->addChild('Home', $router->generate('homepage'));
             $this->addChild('Comments', $router->generate('comments'));
         }
@@ -49,6 +52,8 @@ is shown below:
 
     <services>
         <service id="menu.main" class="%menu.main.class%" shared="true">
+            <tag name="menu" alias="main" />
+            <argument type="service" id="request" />
             <argument type="service" id="router" />
         </service>
     </services>
@@ -81,18 +86,10 @@ you access it.
 You will probably need to access the menu from a template.
 You _could_ render an entire action to get the menu from a controller class,
 pass it to a template and the render it. But it would be a bit overkill.
-You can easily create a Symfony template helper instead. This bundle
-provides a generic class for menu template helpers, all you need to do is
-declare the helper.
+You can easily enable a Symfony template helper instead. This bundle
+provides a generic menu template helper, all you need to do is enable the helper.
 
-### Declare your menu template helper
-
-    # src/Application/MyBundle/Resources/config/menu.xml
-    <service id="templating.helper.main_menu" class="%templating.helper.menu.class%">
-        <tag name="templating.helper" alias="main_menu" />
-        <argument type="service" id="menu.main" />
-        <argument>main_menu</argument>
-    </service>
+### Enable the menu template helper
 
     # app/config/config.yml
     menu.templating: ~
@@ -101,12 +98,12 @@ declare the helper.
 
 You now can render the menu in a template:
 
-    echo $view['main_menu']->render()
+    echo $view['menu']->get('main')->render()
 
 Or manipulate it:
 
-    $view['main_menu']['Home']->setLabel('<span>Home</span>');
-    $view['main_menu']['Home']->setIsCurrent(true);
+    $view['menu']['main']['Home']->setLabel('<span>Home</span>');
+    $view['menu']['main']['Home']->setIsCurrent(true);
 
 ## Customize your Menu
 
@@ -147,14 +144,17 @@ This example overrides the `renderLink()` method. You can then use the new
     <?php
     namespace Application\MyBundle\Menu;
     use Bundle\MenuBundle\Menu;
+    use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
-
+    
     class MainMenu extends Menu
     {
-        public function __construct(Router $router)
+        public function __construct(Request $request, Router $router)
         {
             parent::__construct(array(), 'Application\MyBundle\Menu\MyCustomMenuItem');
-
+            
+            $this->setCurrentUri($request->getRequestUri());
+            
             $this->addChild('Home', $router->generate('homepage'));
             $this->addChild('Comments', $router->generate('comments'));
       }
@@ -167,14 +167,17 @@ the `addChild()` method:
     <?php
     namespace Application\MyBundle\Menu;
     use Bundle\MenuBundle\Menu;
+    use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 
     class MainMenu extends Menu
     {
-        public function __construct(Router $router)
+        public function __construct(Request $request, Router $router)
         {
             parent::__construct();
-
+            
+            $this->setCurrentUri($request->getRequestUri());
+            
             $this->addChild(new MyCustomMenuItem('Home', $router->generate('homepage')));
             $this->addChild(new MyCustomMenuItem('Comments', $router->generate('comments')));
         }
