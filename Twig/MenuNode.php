@@ -6,13 +6,14 @@ class MenuNode extends \Twig_Node
 {
     /**
      * @param \Twig_NodeInterface $value
+     * @param \Twig_NodeInterface $depth (optional)
      * @param integer $lineno
      * @param string $tag (optional)
      * @return void
      */
-    public function __construct(\Twig_NodeInterface $value, $lineno, $tag = null)
+    public function __construct(\Twig_NodeInterface $value, \Twig_NodeInterface $depth = null, $lineno, $tag = null)
     {
-        parent::__construct(array('value' => $value), array(), $lineno, $tag);
+        parent::__construct(array('value' => $value, 'depth' => $depth), array(), $lineno, $tag);
     }
 
     /**
@@ -21,10 +22,17 @@ class MenuNode extends \Twig_Node
      */
     public function compile($compiler)
     {
+        $compiler->addDebugInfo($this);
+
         $compiler
-            ->addDebugInfo($this)
-            ->write("echo \$this->env->getExtension('menu')->render(")
+            ->write("echo \$this->env->getExtension('menu')->get(")
             ->subcompile($this->getNode('value'))
-            ->raw(");\n");
+            ->raw(")->render(");
+
+        if (null !== $this->getNode('depth')) {
+            $compiler->subcompile($this->getNode('depth'));
+        }
+
+        $compiler->raw(");\n");
     }
 }
