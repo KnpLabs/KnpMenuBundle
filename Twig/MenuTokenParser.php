@@ -8,15 +8,27 @@ class MenuTokenParser extends \Twig_TokenParser
 {
     /**
      * @param \Twig_Token  $token
-     * @return \Application\MenuBundle\Node\MenuNode
+     * @return \Bundle\MenuBundle\Twig\MenuNode
+     * @throws \Twig_SyntaxError
      */
     public function parse(\Twig_Token $token)
     {
+        $lineno = $token->getLine();
+        $stream = $this->parser->getStream();
+
         $value = $this->parser->getExpressionParser()->parseExpression();
 
-        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
+        $depth  = null;
+        if ($stream->test('depth')) {
+            $stream->next();
+            $depth = $this->parser->getExpressionParser()->parseExpression();
+        } elseif (!$stream->test(\Twig_Token::BLOCK_END_TYPE)) {
+            throw new \Twig_SyntaxError(sprintf('Unexpected token. Twig was looking for the "depth" keyword line %s)', $lineno), -1);
+        }
 
-        return new MenuNode($value, $token->getLine(), $this->getTag());
+        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+
+        return new MenuNode($value, $depth, $lineno, $this->getTag());
     }
 
     /**

@@ -115,3 +115,10 @@ Now its time to render the menu in your main `layout.twig`:
             {# ... #}
         </body>
     </html>
+
+
+You can optionally provide a `depth` parameter to control how much of your menu
+you want to render:
+
+    {% menu 'main' depth 3 %}
+

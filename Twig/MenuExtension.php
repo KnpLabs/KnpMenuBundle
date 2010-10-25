@@ -65,11 +65,12 @@ class MenuExtension extends \Twig_Extension
 
     /**
      * @param string $name
+     * @param integer $depth (optional)
      * @return string
      */
-    public function render($name)
+    public function render($name, $depth = null)
     {
-        return $this->get($name)->render();
+        return $this->get($name)->render($depth);
     }
 
     /**
