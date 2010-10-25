@@ -1,9 +1,9 @@
 Creating Menus: The Basics
 ==========================
 
-Let's face it, creating menus sucks. Menus - are common aspect of any
-site - can range from simple, mundane tasks to giant monsters of headache
-and code.
+Let's face it, creating menus sucks. Menus - a common aspect of any
+site - can range from being simple and mundane to giant monsters that
+become a headache to code and maintain.
 
 This bundle solves the issue by giving you a small, yet powerful and flexible
 framework for handling your menus. While most of the examples shown here
@@ -12,9 +12,10 @@ are simple, the menus can grow arbitrarily large and deep.
 Creating a menu
 ---------------
 
-The menu framework centers around one main class: `Bundle\MenuBundle\MenuItem`. It's best
-to think of each `MenuItem` object as an `<li>` tag that can hold children
-objects (`<li>` tags that are wrapped in a `<ul>` tag). For example:
+The menu framework centers around one main class: `Bundle\MenuBundle\MenuItem`.
+It's best to think of each `MenuItem` object as an `<li>` tag that can
+hold children objects (`<li>` tags that are wrapped in a `<ul>` tag).
+For example:
 
     use Bundle\MenuBundle\MenuItem;
 
@@ -43,12 +44,12 @@ The above would render the following html code:
 >`<li>` tag at each level for easy styling. Notice also that a `current`
 >class is added to the "current" menu item by uri. The above example assumes
 >the menu is being rendered on the `/comments` page, making the Comments
->menu item "current".
+>menu the "current" item.
 
 >**NOTE**
 >When the menu is rendered, it's actually spaced correctly so that it appears
 >as shown in the source html. This is to allow for easier debugging and can
->be turned off by calling `ioMenuItem::setRenderCompressed(true)`.
+>be turned off by calling `$menu->getRenderer()->setRenderCompressed(true)`.
 
 Working with your menu tree
 ---------------------------
@@ -94,20 +95,24 @@ change this without changing the name of your menu item by setting its label:
 
 When creating a new menu item (via the constructor or via `addChild()`),
 the second argument is the uri to your menu item. If a menu
-isn't given a route, then text will be output instead of a link:
+isn't given a url, then text will be output instead of a link:
 
     $menu->addChild('Not a link');
     $menu->addChild('Home', $router->generate('homepage'));
-    $menu->addChild('sympal', 'http://www.sympalphp.org');
+    $menu->addChild('Symfony', 'http://www.symfony-reloaded.org');
 
 You can also specify the uri after creation via the `setUri()` method:
 
     $menu['Home']->setUri($router->generate('homepage'));
 
+>**NOTE**
+>To generate Symfony uris, we use Symfony's `Router`. See chapter two for
+>more details on how to create menus that use the `Router` to generate uris.
+
 ### Menu attributes
 
 In fact, you can add any attribute to the `<li>` tag of a menu item. This
-can be done as the optional 3rd argument when creating a menu item or
+can be done via the optional 3rd argument when creating a menu item or
 via the `setAttribute()` method:
 
     $menu->addChild('Home', null, array('id' => 'back_to_homepage'));
