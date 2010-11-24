@@ -39,15 +39,15 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $currentUri       = null;    // the current uri to use for selecting current menu
 
     /**
-     * The renderer used to render this menu 
-      
+     * The renderer used to render this menu
+
      * @var RendererInterface
      */
     protected $renderer   = null;
 
     /**
      * Class constructor
-     * 
+     *
      * @param string $name      The name of this menu, which is how its parent will
      *                          reference it. Also used as label if label not specified
      * @param string $uri       The uri for this menu to use. If not specified,
@@ -170,10 +170,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param  array $attributes 
+     * @param  array $attributes
      * @return MenuItem
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
 
@@ -183,7 +183,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @param  string $name     The name of the attribute to return
      * @param  mixed  $default  The value to return if the attribute doesn't exist
-     * 
+     *
      * @return mixed
      */
     public function getAttribute($name, $default = null)
@@ -211,9 +211,9 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Set whether or not this menu item should show its children 
-     * 
-     * @param bool $bool 
+     * Set whether or not this menu item should show its children
+     *
+     * @param bool $bool
      * @return MenuItem
      */
     public function setShowChildren($bool)
@@ -233,8 +233,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Set whether or not this menu to show this menu item
-     * 
-     * @param bool $bool 
+     *
+     * @param bool $bool
      * @return MenuItem
      */
     public function setShow($bool)
@@ -472,7 +472,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Split menu into two distinct menus.
-     * 
+     *
      * @param mixed $length Name of child, child object, or numeric length.
      * @return array Array with two menus, with "primary" and "secondary" key
      */
@@ -599,7 +599,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Reset children nums.
      *
      * Primarily called after changes to children (removing, reordering, etc)
-     * 
+     *
      * @return void
      */
     protected function resetChildrenNum()
@@ -612,11 +612,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Creates a new MenuItem to be the child of this menu
-     * 
+     *
      * @param string  $name
      * @param string  $uri
      * @param array   $attributes
-     * 
+     *
      * @return MenuItem
      */
     protected function createChild($name, $uri = null, $attributes = array(), $class = null)
@@ -630,7 +630,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Removes a child from this menu item
-     * 
+     *
      * @param mixed $name The name of MenuItem instance to remove
      */
     public function removeChild($name)
@@ -867,8 +867,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Get whether or not this menu item is "current" 
-     * 
+     * Get whether or not this menu item is "current"
+     *
      * @return bool
      */
     public function getIsCurrent()
@@ -911,7 +911,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return bool Whether or not this menu item is first in its parent 
+     * @return bool Whether or not this menu item is first in its parent
      */
     public function isFirst()
     {
@@ -928,13 +928,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * menu item, this function takes into consideration whether children are rendered or not.
      *
      * This returns true if this is the first child that would be rendered
-     * for the current user 
+     * for the current user
      *
      * @return boolean
      */
     public function actsLikeFirst()
     {
-        // root items are never "marked" as first 
+        // root items are never "marked" as first
         if ($this->isRoot()) {
             return false;
         }
@@ -1006,7 +1006,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
                  * This should look strange. But, if we ask our parent for the
                  * current uri, and it returns it successfully, then one of two
                  * different things just happened:
-                 * 
+                 *
                  *   1) The parent already had the currentUri calculated, but it
                  *      hadn't been passed down to the child yet. This technically
                  *      should not happen, but we allow for the possibility. In
@@ -1140,7 +1140,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * The source is an array of data that should match the output from ->toArray().
      *
-     * @param  array $data The array of data to use as a source for the menu tree 
+     * @param  array $data The array of data to use as a source for the menu tree
      * @return MenuItem
      */
     public static function createFromArray(array $data)
