@@ -12,7 +12,7 @@ store all your menus).
 Enable both Dependency Injection extensions in your `config.yml`:
 
     # app/config/config.yml
-    main.config: ~
+    main.menu: ~
     menu.twig: ~
 
 
