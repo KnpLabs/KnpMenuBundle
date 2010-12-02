@@ -68,7 +68,7 @@ For `config.yml`:
     menu.twig:   ~
 
     # to enable the PHP view helper
-    menu.temlating: ~
+    menu.templating: ~
 
 and for `config.xml`:
 
