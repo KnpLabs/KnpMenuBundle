@@ -94,8 +94,8 @@ Describe your `main` menu as a Service:
                 <argument type="service" id="request" />
                 <argument type="service" id="router" />
             </service>
-        </service>
-    </services>
+        </services>
+    </container>
 
 > **NOTICE:** the `<tag>` attributes are imported. Tagging your menu with the
 > name `menu` tells the Twig helper to load this menu, and the alias `main` is
