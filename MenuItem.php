@@ -733,7 +733,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function __toString()
     {
-        return $this->render();
+        return $this->getName();
     }
 
     /**

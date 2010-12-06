@@ -29,8 +29,12 @@ class Menu extends MenuItem
     public function __construct($attributes = array(), $childClass = 'Bundle\MenuBundle\MenuItem')
     {
         $this->childClass = $childClass;
-
+        
         parent::__construct(null, null, $attributes);
+    }
+
+    public function initialize(array $options = array())
+    {
     }
 
     /**

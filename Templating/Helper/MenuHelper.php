@@ -99,31 +99,29 @@ class MenuHelper extends Helper implements \ArrayAccess
      * Render the menu
      *
      * @param string $name
+     * @param integer $path (optional)
      * @param integer $depth (optional)
      * @param string $template (optional)
      * @return string
      */
-    /*public function render($name, $depth = null)
+    public function render($name, $path = null, $depth = null, $template = null)
     {
-        return $this->get($name)->render($depth, $template);
-    }*/
-
-    public function render($name, $depth = null, $template = null)
-    {
-        return $this->doRender($this->get($name), $depth, $template);
+        $item = $this->get($name);
+        $item->initialize(array('path' => $path));
+        
+        return $this->doRender($item, $depth, $template);
     }
 
     /**
      * Renders menu tree. Internal method.
      *
      * @param MenuItem  $item        Menu item
-     * @param integer $depth         The depth of children to render
+     * @param integer $depth (optional)
      * @param string $template       The template name
-     * @param boolean $renderAsChild Render with attributes on the li (true) or the ul around the children (false)
      *
      * @return string
      */
-    public function doRender(MenuItem $item, $depth = null, $template = null, $renderAsChild = false)
+    public function doRender(MenuItem $item, $depth = null, $template = null)
     {
         /**
          * Return an empty string if any of the following are true:
@@ -132,7 +130,7 @@ class MenuHelper extends Helper implements \ArrayAccess
          *   c) This menu item has been explicitly set to hide its children
          */
         if (!$item->hasChildren() || $depth === 0 || !$item->getShowChildren()) {
-            //return '';
+            return '';
         }
 
         if (null === $template) {
