@@ -110,7 +110,7 @@ Now its time to render the menu in your main `layout.twig`:
         <body>
             {# ... #}
             <nav id="main">
-                {% menu 'main' %}
+                {{ menu('main') }}
             </nav>
             {# ... #}
         </body>
@@ -120,5 +120,5 @@ Now its time to render the menu in your main `layout.twig`:
 You can optionally provide a `depth` parameter to control how much of your menu
 you want to render:
 
-    {% menu 'main' depth 3 %}
+    {{ menu('main', { depth: 3 }) }}
 
