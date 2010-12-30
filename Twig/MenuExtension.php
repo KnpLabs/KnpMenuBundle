@@ -37,11 +37,12 @@ class MenuExtension extends \Twig_Extension
     /**
      * @return array
      */
-    public function getTokenParsers()
+    public function getFunctions()
     {
         return array(
-            // {% menu "name" %}
-            new MenuTokenParser(),
+            'menu' => new \Twig_Function_Method($this, 'render', array(
+                'is_safe' => array('html'),
+            )),
         );
     }
 
