@@ -20,7 +20,7 @@ class MenuNode extends \Twig_Node
      * @param \Twig_Compiler $compiler
      * @return void
      */
-    public function compile($compiler)
+    public function compile(\Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this);
 
