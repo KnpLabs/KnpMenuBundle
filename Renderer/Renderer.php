@@ -114,6 +114,6 @@ abstract class Renderer
      */
     public function setCharset($string)
     {
-        $this->renderCompressed = (string) $bool;
+        $this->charset = (string) $string;
     }
 }
