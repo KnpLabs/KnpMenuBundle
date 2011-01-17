@@ -8,9 +8,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
 class MenuBundle extends BaseBundle
 {
-	public function registerExtensions(ContainerBuilder $container)
+    public function registerExtensions(ContainerBuilder $container)
     {
         parent::registerExtensions($container);
-		$container->addCompilerPass(new MenuPass());
+        $container->addCompilerPass(new MenuPass());
     }
 }

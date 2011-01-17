@@ -26,7 +26,7 @@ class MenuExtension extends \Twig_Extension
     {
         $this->container = $container;
 
-        $this->menus = $this->container->getParameter('menu.classes');
+        $this->menus = $this->container->getParameter('menu.services');
     }
 
     /**
