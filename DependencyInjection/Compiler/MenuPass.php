@@ -8,8 +8,7 @@ class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-    	if (!$container->hasDefinition('twig.extension.menu') && !$container->hasDefinition('templating.helper.menu'))
-        {
+    	if (!$container->hasDefinition('twig.extension.menu') && !$container->hasDefinition('templating.helper.menu')) {
             return;
         }
 
