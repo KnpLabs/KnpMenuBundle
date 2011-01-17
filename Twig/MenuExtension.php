@@ -16,7 +16,7 @@ class MenuExtension extends \Twig_Extension
     /**
      * @var array
      */
-    protected $menus;
+    protected $menus = array();
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -26,12 +26,7 @@ class MenuExtension extends \Twig_Extension
     {
         $this->container = $container;
 
-        $this->menus = array();
-        foreach ($this->container->findTaggedServiceIds('menu') as $id => $attributes) {
-            if (isset($attributes[0]['alias'])) {
-                $this->menus[$attributes[0]['alias']] = $id;
-            }
-        }
+        $this->menus = $this->container->getParameter('menu.classes');
     }
 
     /**
