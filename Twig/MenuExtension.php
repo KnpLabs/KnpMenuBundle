@@ -4,8 +4,6 @@ namespace Bundle\MenuBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Bundle\MenuBundle\Twig\MenuTokenParser;
-
 class MenuExtension extends \Twig_Extension
 {
     /**
