@@ -13,4 +13,14 @@ class MenuBundle extends BaseBundle
         parent::registerExtensions($container);
         $container->addCompilerPass(new MenuPass());
     }
+
+    public function getNamespace()
+    {
+        return __NAMESPACE__;
+    }
+
+    public function getPath()
+    {
+        return __DIR__;
+    }
 }
