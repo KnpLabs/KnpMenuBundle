@@ -1,7 +1,7 @@
 <?php
 
-namespace Bundle\MenuBundle\Renderer;
-use Bundle\MenuBundle\MenuItem;
+namespace Knplabs\MenuBundle\Renderer;
+use Knplabs\MenuBundle\MenuItem;
 
 /**
  * Renders MenuItem tree as unordered list
@@ -65,7 +65,7 @@ class ListRenderer extends Renderer implements RendererInterface
      * @return string
      */
     public function renderChildren($item, $depth = null)
-    {  
+    {
         $html = '';
         foreach ($item->getChildren() as $child) {
             $html .= $this->renderItem($child, $depth);
@@ -86,7 +86,7 @@ class ListRenderer extends Renderer implements RendererInterface
     {
         // if we don't have access or this item is marked to not be shown
         if (!$item->shouldBeRendered()) {
-            return; 
+            return;
         }
 
         // explode the class string into an array of classes
@@ -133,7 +133,7 @@ class ListRenderer extends Renderer implements RendererInterface
      * makes up its part in a fully-rendered and spaced menu.
      *
      * @param  string $html The html to render in an (un)formatted way
-     * @param  string $type The type [ul,link,li] of thing being rendered 
+     * @param  string $type The type [ul,link,li] of thing being rendered
      * @return string
      */
     protected function format($html, $type, $level)

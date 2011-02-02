@@ -1,7 +1,7 @@
 <?php
 
-namespace Bundle\MenuBundle\Renderer;
-use Bundle\MenuBundle\MenuItem;
+namespace Knplabs\MenuBundle\Renderer;
+use Knplabs\MenuBundle\MenuItem;
 
 abstract class Renderer
 {
@@ -83,7 +83,7 @@ abstract class Renderer
 
     /**
      * Get whether to render compressed HTML or not
-     * 
+     *
      * @return bool
      */
     public function getRenderCompressed()
@@ -101,7 +101,7 @@ abstract class Renderer
 
     /**
      * Get the HTML charset
-     * 
+     *
      * @return string
      */
     public function getCharset()

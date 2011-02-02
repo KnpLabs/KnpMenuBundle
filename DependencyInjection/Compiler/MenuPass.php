@@ -1,5 +1,5 @@
 <?php
-namespace Bundle\MenuBundle\DependencyInjection\Compiler;
+namespace Knplabs\MenuBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

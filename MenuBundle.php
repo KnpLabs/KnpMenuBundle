@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundle\MenuBundle;
+namespace Knplabs\MenuBundle;
 
-use Bundle\MenuBundle\DependencyInjection\Compiler\MenuPass;
+use Knplabs\MenuBundle\DependencyInjection\Compiler\MenuPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 

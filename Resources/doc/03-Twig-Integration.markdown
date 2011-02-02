@@ -57,7 +57,7 @@ Create a `MainMenu` class for your `main` menu:
     
     namespace Application\MainBundle\Menu;
     
-    use Bundle\MenuBundle\Menu;
+    use Knplabs\MenuBundle\Menu;
     
     use Symfony\Component\HttpFoundation\Request,
         Symfony\Component\Routing\Router;

@@ -1,8 +1,8 @@
 Using menus with Symfony2
 =========================
 
-The core menu classes of the MenuBundle, `Bundle\MenuBundle\Menu` and
-`Bundle\MenuBundle\MenuItem`, are perfectly decoupled from Symfony2 and
+The core menu classes of the MenuBundle, `Knplabs\MenuBundle\Menu` and
+`Knplabs\MenuBundle\MenuItem`, are perfectly decoupled from Symfony2 and
 can be used in any PHP 5.3 project.
 
 This bundle also provides several classes that ease the integration of
@@ -18,7 +18,7 @@ self-contained,and it can be accessed from anywhere in the project.
     // src/Application/MyBundle/Menu/MainMenu.php
     <?php
     namespace Application\MyBundle\Menu;
-    use Bundle\MenuBundle\Menu;
+    use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 
@@ -113,7 +113,7 @@ custom `MenuItem` class
     # src/Application/MyBundle/Menu/MyCustomMenuItem.php
     <?php
     namespace Application\MyBundle\Menu;
-    use Bundle\MenuBundle\MenuItem;
+    use Knplabs\MenuBundle\MenuItem;
 
     class MyCustomMenuItem extends MenuItem
     {
@@ -143,7 +143,7 @@ This example overrides the `renderLink()` method. You can then use the new
     // src/Application/MyBundle/Menu/MainMenu.php
     <?php
     namespace Application\MyBundle\Menu;
-    use Bundle\MenuBundle\Menu;
+    use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
     
@@ -166,7 +166,7 @@ the `addChild()` method:
     // src/Application/MyBundle/Menu/MainMenu.php
     <?php
     namespace Application\MyBundle\Menu;
-    use Bundle\MenuBundle\Menu;
+    use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 

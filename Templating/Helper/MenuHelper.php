@@ -1,12 +1,12 @@
 <?php
 
-namespace Bundle\MenuBundle\Templating\Helper;
+namespace Knplabs\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Bundle\MenuBundle\MenuItem;
+use Knplabs\MenuBundle\MenuItem;
 
 class MenuHelper extends Helper implements \ArrayAccess
 {
@@ -34,7 +34,7 @@ class MenuHelper extends Helper implements \ArrayAccess
 
     /**
      * @param string $name
-     * @return \Bundle\MenuBundle\Menu
+     * @return \Knplabs\MenuBundle\Menu
      * @throws \InvalidArgumentException
      */
     public function get($name)
@@ -103,7 +103,7 @@ class MenuHelper extends Helper implements \ArrayAccess
     {
         $item = $this->get($name);
         $item->initialize(array('path' => $path));
-        
+
         return $this->doRender($item, $depth, $template);
     }
 

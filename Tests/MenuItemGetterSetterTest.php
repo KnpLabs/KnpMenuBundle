@@ -1,7 +1,7 @@
 <?php
 
-namespace Bundle\MenuBundle\Tests;
-use Bundle\MenuBundle\MenuItem;
+namespace Knplabs\MenuBundle\Tests;
+use Knplabs\MenuBundle\MenuItem;
 
 class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
 {
@@ -120,13 +120,13 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $menu->addChild('joe');
         $menu->getChild('joe')->setName('jack');
     }
-        
+
     /**
-     * Create a new MenuItem 
-     * 
-     * @param string $name 
-     * @param string $uri 
-     * @param array $attributes 
+     * Create a new MenuItem
+     *
+     * @param string $name
+     * @param string $uri
+     * @param array $attributes
      * @return MenuItem
      */
     protected function createMenu($name = 'test_menu', $uri = 'homepage', array $attributes = array())

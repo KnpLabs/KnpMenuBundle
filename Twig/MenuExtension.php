@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MenuBundle\Twig;
+namespace Knplabs\MenuBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -41,7 +41,7 @@ class MenuExtension extends \Twig_Extension
 
     /**
      * @param string $name
-     * @return \Bundle\MenuBundle\Menu
+     * @return \Knplabs\MenuBundle\Menu
      * @throws \InvalidArgumentException
      */
     public function get($name)
