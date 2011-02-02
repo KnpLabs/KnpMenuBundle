@@ -13,7 +13,7 @@ class MenuPass implements CompilerPassInterface
                 return;
             }
         }
-    	
+
         if ($container->hasDefinition('templating')) {
             if (!$container->hasDefinition('templating.helper.menu')) {
                 return;
@@ -21,13 +21,13 @@ class MenuPass implements CompilerPassInterface
         }
 
         $menus = array();
-        
+
         foreach ($container->findTaggedServiceIds('menu') as $id => $attributes) {
             if (isset($attributes[0]['alias'])) {
                 $menus[$attributes[0]['alias']] = $id;
             }
         }
-        
+
         $container->setParameter('menu.services', $menus);
     }
 }
