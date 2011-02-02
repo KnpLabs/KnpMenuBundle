@@ -1136,25 +1136,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Creates a new menu item (and tree if $data['children'] is set).
-     *
-     * The source is an array of data that should match the output from ->toArray().
-     *
-     * @param  array $data The array of data to use as a source for the menu tree
-     * @return MenuItem
-     */
-    public static function createFromArray(array $data)
-    {
-        $class = isset($data['class']) ? $data['class'] : 'MenuItem';
-
-        $name = isset($data['name']) ? $data['name'] : null;
-        $menu = new $class($name);
-        $menu->fromArray($data);
-
-        return $menu;
-    }
-
-    /**
      * Implements Countable
      */
     public function count()
