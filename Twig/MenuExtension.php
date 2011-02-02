@@ -36,6 +36,9 @@ class MenuExtension extends \Twig_Extension
             'menu' => new \Twig_Function_Method($this, 'render', array(
                 'is_safe' => array('html'),
             )),
+            'menu_get' => new \Twig_Function_Method($this, 'get', array(
+                'is_safe' => array('html'),
+            )),
         );
     }
 
