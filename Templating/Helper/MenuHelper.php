@@ -3,7 +3,7 @@
 namespace Bundle\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Symfony\Component\Templating\Engine;
+use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Bundle\MenuBundle\MenuItem;
@@ -24,17 +24,12 @@ class MenuHelper extends Helper implements \ArrayAccess
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @return void
      */
-    public function __construct(ContainerInterface $container, Engine $engine)
+    public function __construct(ContainerInterface $container, EngineInterface $engine)
     {
         $this->container = $container;
         $this->engine = $engine;
 
-        $this->menus = array();
-        foreach ($this->container->findTaggedServiceIds('menu') as $id => $attributes) {
-            if (isset($attributes[0]['alias'])) {
-                $this->menus[$attributes[0]['alias']] = $id;
-            }
-        }
+        $this->menus = $this->container->getParameter('menu.services');
     }
 
     /**
@@ -134,7 +129,7 @@ class MenuHelper extends Helper implements \ArrayAccess
         }
 
         if (null === $template) {
-            $template = 'MenuBundle:Menu:menu.php';
+            $template = 'MenuBundle:Menu:menu.html.php';
         }
 
 
