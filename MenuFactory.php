@@ -15,7 +15,7 @@ class MenuFactory
      */
     public function createFromNode(NodeInterface $node)
     {
-        $item = new MenuItem($node->getName(), $node->getUri(), $node->getAttributes());
+        $item = new MenuItem($node->getName(), $this->getUriFromNode($node), $node->getAttributes());
         $item->setLabel($node->getLabel());
 
         foreach ($node->getChildren() as $childNode) {
@@ -42,5 +42,16 @@ class MenuFactory
         $menu->fromArray($data);
 
         return $menu;
+    }
+
+    /**
+     * Get the uri for the given node
+     *
+     * @param NodeInterface $node
+     * @return string
+     */
+    protected function getUriFromNode(NodeInterface $node)
+    {
+        return $node->getUri();
     }
 }
