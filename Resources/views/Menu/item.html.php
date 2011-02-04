@@ -3,6 +3,6 @@
         <a href="<?php echo $item->getUri() ?>"><?php echo $item->getName() ?></a>
     </li>
     <?php if($item->hasChildren()): ?>
-        <?php echo $view->render('MenuBundle:Menu:menu.html.php', array('item' => $item)) ?>
+        <?php echo $view->render('KnplabsMenuBundle:Menu:menu.html.php', array('item' => $item)) ?>
     <?php endif; ?>
 <?php endif; ?>
