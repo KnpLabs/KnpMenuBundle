@@ -18,9 +18,9 @@ Enable both Dependency Injection extensions in your `config.yml`:
 
 Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
-    <?php // src/Application/MainBundle/DependencyInjection/MainExtension.php
+    <?php // src/MyVendor/MainBundle/DependencyInjection/MainExtension.php
     
-    namespace Application\MainBundle\DependencyInjection;
+    namespace MyVendor\MainBundle\DependencyInjection;
     
     use Symfony\Component\DependencyInjection\Extension\Extension,
         Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
@@ -53,9 +53,9 @@ Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
 Create a `MainMenu` class for your `main` menu:
 
-    <?php // src/Application/MainBundle/Menu/MainMenu.php
+    <?php // src/MyVendor/MainBundle/Menu/MainMenu.php
     
-    namespace Application\MainBundle\Menu;
+    namespace MyVendor\MainBundle\Menu;
     
     use Knplabs\MenuBundle\Menu;
     
@@ -78,14 +78,14 @@ Create a `MainMenu` class for your `main` menu:
 
 Describe your `main` menu as a Service:
 
-    <!-- src/Application/MainBundle/Resources/config/menu.xml -->
+    <!-- src/MyVendor/MainBundle/Resources/config/menu.xml -->
     <?xml version="1.0" encoding="UTF-8"?>
     <container xmlns="http://www.symfony-project.org/schema/dic/services"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
         
         <parameters>
-            <parameter key="menu.main.class">Application\MainBundle\Menu\MainMenu</parameter>
+            <parameter key="menu.main.class">MyVendor\MainBundle\Menu\MainMenu</parameter>
         </parameters>
         
         <services>

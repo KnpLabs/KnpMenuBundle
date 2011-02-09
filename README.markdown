@@ -35,7 +35,7 @@ The bulk of the documentation can be found in the `Resources/doc` directory.
 ### Get the bundle
 
 To install the bundle, place it in the `src/Bundle` directory of your project
-(so that it lives at `src/Bundle/MenuBundle`). You can do this by adding
+(so that it lives at `src/Knplabs/MenuBundle`). You can do this by adding
 the bundle as a submodule, cloning it, or simply downloading the source.
 
 ### Initializing the bundle
@@ -47,7 +47,7 @@ file is usually located at `app/AppKernel`:
     {
         $bundles = array(
             // ...
-            new Knplabs\MenuBundle\MenuBundle(),
+            new Knplabs\MenuBundle\KnplabsMenuBundle(),
         );
     )
 

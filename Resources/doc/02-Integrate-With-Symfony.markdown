@@ -43,11 +43,11 @@ It requires a Symfony Router in order to generate uris.
 Next, declare you menu service class via configuration. An example in XML
 is shown below:
 
-    # src/Application/MyBundle/Resources/config/menu.xml
+    # src/MyVendor/MyBundle/Resources/config/menu.xml
     ...
 
     <parameters>
-        <parameter key="menu.main.class">Application\MyBundle\Menu\MainMenu</parameter>
+        <parameter key="menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
     </parameters>
 
     <services>
@@ -110,9 +110,9 @@ Or manipulate it:
 If you want to customize the way your menu are rendered, just create a
 custom `MenuItem` class
 
-    # src/Application/MyBundle/Menu/MyCustomMenuItem.php
+    # src/MyVendor/MyBundle/Menu/MyCustomMenuItem.php
     <?php
-    namespace Application\MyBundle\Menu;
+    namespace MyVendor\MyBundle\Menu;
     use Knplabs\MenuBundle\MenuItem;
 
     class MyCustomMenuItem extends MenuItem
@@ -140,9 +140,9 @@ custom `MenuItem` class
 This example overrides the `renderLink()` method. You can then use the new
 `CustomMenuItem` class as the default item class in your `MainMenu`:
 
-    // src/Application/MyBundle/Menu/MainMenu.php
+    // src/MyVendor/MyBundle/Menu/MainMenu.php
     <?php
-    namespace Application\MyBundle\Menu;
+    namespace MyVendor\MyBundle\Menu;
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
@@ -163,9 +163,9 @@ This example overrides the `renderLink()` method. You can then use the new
 Or, if you want to customize each child item, pass them as an argument of
 the `addChild()` method:
 
-    // src/Application/MyBundle/Menu/MainMenu.php
+    // src/MyVendor/MyBundle/Menu/MainMenu.php
     <?php
-    namespace Application\MyBundle\Menu;
+    namespace MyVendor\MyBundle\Menu;
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
