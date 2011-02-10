@@ -24,13 +24,14 @@ Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
     
     use Symfony\Component\DependencyInjection\Extension\Extension,
         Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
-        Symfony\Component\DependencyInjection\ContainerBuilder;
+        Symfony\Component\DependencyInjection\ContainerBuilder,
+        Symfony\Component\DependencyInjection\Loader\FileLocator;
     
     class MainExtension extends Extension
     {
         public function menuLoad($config, ContainerBuilder $container)
         {
-            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('menu.xml');
         }
         
@@ -89,7 +90,7 @@ Describe your `main` menu as a Service:
         </parameters>
         
         <services>
-            <service id="menu.main" class="%menu.main.class%" shared="true">
+            <service id="menu.main" class="%menu.main.class%" scope="request">
                 <tag name="menu" alias="main" />
                 <argument type="service" id="request" />
                 <argument type="service" id="router" />

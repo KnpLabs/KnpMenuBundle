@@ -92,6 +92,11 @@ and for `config.xml`:
 When the `MenuBundle` sees the above configuration, it will load the
 appropriate view helpers on your behalf.
 
+Ensure that the **php** engine is enabled in your config:
+
+    app.config:
+        templating: { engines: ['twig', 'php'] } # twig is optional
+
 ## Credits
 
 This bundle was originally ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin),
