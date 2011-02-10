@@ -51,7 +51,7 @@ is shown below:
     </parameters>
 
     <services>
-        <service id="menu.main" class="%menu.main.class%" shared="true">
+        <service id="menu.main" class="%menu.main.class%" scope="request">
             <tag name="menu" alias="main" />
             <argument type="service" id="request" />
             <argument type="service" id="router" />
@@ -66,7 +66,7 @@ need to include it as a resource in your base configuration:
     # app/config/config.xml
     ...
     
-    <import resource="MyBundle/Resources/config/menu.xml" />
+    <import resource="@MyBundle/Resources/config/menu.xml" />
 
 ### Access the menu service
 
