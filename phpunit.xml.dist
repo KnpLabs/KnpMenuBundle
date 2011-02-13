@@ -6,7 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="true"
+         processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="../../../app/bootstrap.php"
@@ -19,7 +19,7 @@
 -->
 
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="MenuBundle Test Suite">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
