@@ -18,6 +18,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     protected
         $name             = null,    // the name of this menu item (used for id by parent menu)
         $label            = null,    // the label to output, name is used by default
+        $linkAttributes   = array(), // an array of attributes for the item link
+        $labelAttributes  = array(), // an array of attributes for the item text
         $uri              = null,    // the uri to use in the anchor tag
         $attributes       = array(); // an array of attributes for the li
 
@@ -36,7 +38,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $num              = null,    // the order number this menu is in its parent
         $parent           = null,    // parent MenuItem
         $isCurrent        = null,    // whether or not this menu item is current
-        $currentUri       = null;    // the current uri to use for selecting current menu
+        $currentUri       = null,    // the current uri to use for selecting current menu
+        $currentAsLink    = true;    // boolean to render the current uri as a link or not
 
     /**
      * The renderer used to render this menu
@@ -201,6 +204,94 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         return $this;
     }
+    
+    /**
+     * @return array
+     */
+    public function getLinkAttributes()
+    {
+        return $this->linkAttributes;
+    }
+
+    /**
+     * @param  array $linkAttributes
+     * @return MenuItem
+     */
+    public function setLinkAttributes(array $linkAttributes)
+    {
+        $this->linkAttributes = $linkAttributes;
+
+        return $this;
+    }
+
+    /**
+     * @param  string $name     The name of the attribute to return
+     * @param  mixed  $default  The value to return if the attribute doesn't exist
+     *
+     * @return mixed
+     */
+    public function getLinkAttribute($name, $default = null)
+    {
+        if (isset($this->linkAttributes[$name])) {
+            return $this->linkAttributes[$name];
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * 
+     * @return MenuItem 
+     */   
+    public function setLinkAttribute($name, $value)
+    {
+        $this->linkAttributes[$name] = $value;
+
+        return $this;
+    }  
+    
+    /**
+     * @return array
+     */
+    public function getLabelAttributes()
+    {
+        return $this->labelAttributes;
+    }
+
+    /**
+     * @param  array $labelAttributes
+     * @return MenuItem
+     */
+    public function setLabelAttributes(array $labelAttributes)
+    {
+        $this->labelAttributes = $labelAttributes;
+
+        return $this;
+    }
+
+    /**
+     * @param  string $name     The name of the attribute to return
+     * @param  mixed  $default  The value to return if the attribute doesn't exist
+     *
+     * @return mixed
+     */
+    public function getLabelAttribute($name, $default = null)
+    {
+        if (isset($this->labelAttributes[$name])) {
+            return $this->labelAttributes[$name];
+        }
+
+        return $default;
+    }
+
+    public function setLabelAttribute($name, $value)
+    {
+        $this->labelAttributes[$name] = $value;
+
+        return $this;
+    }  
 
     /**
      * @return bool Whether or not this menu item should show its children.
@@ -1041,6 +1132,30 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             $child->setCurrentUri($uri);
         }
     }
+    
+    /**
+     * Sets if the current item should render a link or not
+     * 
+     * @param bool $currentAsLink 
+     */
+    public function setCurrentAsLink($currentAsLink = true)
+    {
+        $this->currentAsLink = (bool)$currentAsLink;
+    }
+    
+    /**
+     * Returns the currentAsLink
+     * 
+     * Used to determine if the current item must render
+     * its text as a link or not
+     * 
+     * @return bool
+     */
+    public function getCurrentAsLink()
+    {
+        return $this->currentAsLink;
+    }
+    
 
     /**
      * Calls a method recursively on all of the children of this item
