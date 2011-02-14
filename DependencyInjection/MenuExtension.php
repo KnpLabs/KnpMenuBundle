@@ -5,7 +5,7 @@ namespace Knplabs\MenuBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\FileLocator;
+use Symfony\Component\Config\FileLocator;
 
 class MenuExtension extends Extension
 {
