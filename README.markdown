@@ -76,25 +76,25 @@ or `config.xml` file (depending on which you're using in your project).
 For `config.yml`:
 
     # to enable the twig view helper
-    menu.twig:   ~
+    knplabs_menu.twig:   ~
 
     # to enable the PHP view helper
-    menu.templating: ~
+    knplabs_menu.templating: ~
 
 and for `config.xml`:
 
     <!-- to enable the twig view helper -->
-    <menu:twig />
+    <knplabs_menu:twig />
 
     <!-- to enable the PHP view helper -->
-    <menu:templating />
+    <knplabs_menu:templating />
 
 When the `MenuBundle` sees the above configuration, it will load the
 appropriate view helpers on your behalf.
 
 Ensure that the **php** engine is enabled in your config:
 
-    app.config:
+    framework:
         templating: { engines: ['twig', 'php'] } # twig is optional
 
 ## Credits

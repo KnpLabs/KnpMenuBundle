@@ -10,27 +10,22 @@ use Symfony\Component\Config\FileLocator;
 class MenuExtension extends Extension
 {
     /**
-     * Handles the menu.templating configuration.
+     * Handles the knplabs_menu configuration.
      *
-     * @param  array $config The configuration being loaded
+     * @param  array $configs The configurations being loaded
      * @param ContainerBuilder $container
      */
-    public function templatingLoad(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(array(__DIR__.'/../Resources/config')));
-        $loader->load('templating.xml');
-    }
-
-    /**
-     * Handles the menu.templating configuration.
-     *
-     * @param  array $config The configuration being loaded
-     * @param ContainerBuilder $container
-     */
-    public function twigLoad(array $config, ContainerBuilder $container)
-    {
-        $loader = new XmlFileLoader($container, new FileLocator(array(__DIR__.'/../Resources/config')));
-        $loader->load('twig.xml');
+        foreach (self::normalizeKeys($configs) as $config) {
+            if(isset($config['templating'])) {
+                $loader->load('templating.xml');
+            }
+            if(isset($config['twig'])) {
+                $loader->load('twig.xml');
+            }
+        }
     }
 
     /**
@@ -54,6 +49,6 @@ class MenuExtension extends Extension
      */
     public function getAlias()
     {
-        return 'menu';
+        return 'knplabs_menu';
     }
 }
