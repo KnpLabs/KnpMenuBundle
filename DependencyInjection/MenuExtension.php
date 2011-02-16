@@ -15,21 +15,10 @@ class MenuExtension extends Extension
      * @param  array $config The configuration being loaded
      * @param ContainerBuilder $container
      */
-    public function templatingLoad(array $config, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('templating.xml');
-    }
-
-    /**
-     * Handles the menu.templating configuration.
-     *
-     * @param  array $config The configuration being loaded
-     * @param ContainerBuilder $container
-     */
-    public function twigLoad(array $config, ContainerBuilder $container)
-    {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('twig.xml');
     }
 

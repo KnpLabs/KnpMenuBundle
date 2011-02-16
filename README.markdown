@@ -51,7 +51,7 @@ file is usually located at `app/AppKernel`:
         );
     )
 
-That's it! Other than a few templating helpers (explained next), the `MenuBundle`
+That's it! Other than a few templating helpers, the `MenuBundle`
 is a standalone PHP 5.3 library and can be used as soon as Symfony2's
 class autoloader is aware of it (this was just accomplished above).
 
@@ -59,27 +59,6 @@ The MenuBundle also offers two templating helpers that assist you in rendering
 your menus in the view. Two of them are available - one for PHP templates
 and another for Twig templates. For more information on these helpers,
 see the extended documentation in the `Resources/doc` directory.
-
-To enable the templating helpers, add the following to your `config.yml`
-or `config.xml` file (depending on which you're using in your project).
-For `config.yml`:
-
-    # to enable the twig view helper
-    menu.twig:   ~
-
-    # to enable the PHP view helper
-    menu.templating: ~
-
-and for `config.xml`:
-
-    <!-- to enable the twig view helper -->
-    <menu:twig />
-
-    <!-- to enable the PHP view helper -->
-    <menu:templating />
-
-When the `MenuBundle` sees the above configuration, it will load the
-appropriate view helpers on your behalf.
 
 ## Credits
 
