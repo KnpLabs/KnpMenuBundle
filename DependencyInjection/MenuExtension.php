@@ -15,11 +15,22 @@ class MenuExtension extends Extension
      * @param  array $config The configuration being loaded
      * @param ContainerBuilder $container
      */
-    public function load(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('templating.xml');
-        $loader->load('twig.xml');
+        $loader->load('manager.xml');
+
+        $config = array();
+        foreach($configs as $c) {
+            $config = array_merge($config, $c);
+        }
+
+        if(!empty($config['templating'])) {
+            $loader->load('templating.xml');
+        }
+        if(!empty($config['twig'])) {
+            $loader->load('twig.xml');
+        }
     }
 
     /**

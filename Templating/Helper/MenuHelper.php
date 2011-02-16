@@ -3,36 +3,22 @@
 namespace Bundle\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Bundle\MenuBundle\MenuItem;
+use Bundle\MenuBundle\MenuManager;
 
 class MenuHelper extends Helper implements \ArrayAccess
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var MenuManager
      */
-    protected $container;
+    protected $manager;
 
     /**
-     * @var array
-     */
-    protected $menus;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param MenuManager
      * @return void
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(MenuManager $manager)
     {
-        $this->container = $container;
-
-        $this->menus = array();
-        foreach ($this->container->findTaggedServiceIds('menu') as $id => $attributes) {
-            if (isset($attributes[0]['alias'])) {
-                $this->menus[$attributes[0]['alias']] = $id;
-            }
-        }
+        $this->manager = $manager;
     }
 
     /**
@@ -54,15 +40,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function get($name)
     {
-        if (!isset($this->menus[$name])) {
-            throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
-        }
-
-        if (is_string($this->menus[$name])) {
-            $this->menus[$name] = $this->container->get($this->menus[$name]);
-        }
-
-        return $this->menus[$name];
+        return $this->manager->getMenu($name);
     }
 
     /**

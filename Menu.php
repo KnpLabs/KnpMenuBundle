@@ -21,7 +21,7 @@ class Menu extends MenuItem
 
     /**
      * Class constructor
-     * 
+     *
      * @see MenuItem
      * @param array   $attributes
      * @param string  $childClass The class to use if instantiating children menu items

@@ -3,31 +3,21 @@ namespace Bundle\MenuBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition('twig')) {
-            if (!$container->hasDefinition('twig.extension.menu')) {
-                return;
-            }
+        if (!$container->hasDefinition('menu.manager')) {
+            return;
         }
-    	
-        if ($container->hasDefinition('templating')) {
-            if (!$container->hasDefinition('templating.helper.menu')) {
-                return;
-            }
-        }
+        $definition = $container->getDefinition('menu.manager');
 
-        $menus = array();
-        
         foreach ($container->findTaggedServiceIds('menu') as $id => $attributes) {
             if (isset($attributes[0]['alias'])) {
-                $menus[$attributes[0]['alias']] = $id;
+                $definition->addMethodCall('addMenu', array($attributes[0]['alias'], new Reference($id)));
             }
         }
-        
-        $container->setParameter('menu.services', $menus);
     }
 }

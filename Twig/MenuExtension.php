@@ -2,29 +2,21 @@
 
 namespace Bundle\MenuBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Bundle\MenuBundle\MenuManager;
 
 class MenuExtension extends \Twig_Extension
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var MenuManager
      */
-    protected $container;
+    protected $manager;
 
     /**
-     * @var array
+     * @param MenuManager
      */
-    protected $menus = array();
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @return void
-     */
-    public function __construct(ContainerInterface $container)
+    public function __construct(MenuManager $manager)
     {
-        $this->container = $container;
-
-        $this->menus = $this->container->getParameter('menu.services');
+        $this->manager = $manager;
     }
 
     /**
@@ -46,15 +38,7 @@ class MenuExtension extends \Twig_Extension
      */
     public function get($name)
     {
-        if (!isset($this->menus[$name])) {
-            throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
-        }
-
-        if (is_string($this->menus[$name])) {
-            $this->menus[$name] = $this->container->get($this->menus[$name]);
-        }
-
-        return $this->menus[$name];
+        return $this->manager->getMenu($name);
     }
 
     /**
