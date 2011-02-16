@@ -3,22 +3,22 @@
 namespace Bundle\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Bundle\MenuBundle\MenuManager;
+use Bundle\MenuBundle\ProviderInterface;
 
 class MenuHelper extends Helper implements \ArrayAccess
 {
     /**
-     * @var MenuManager
+     * @var ProviderInterface
      */
-    protected $manager;
+    protected $provider;
 
     /**
-     * @param MenuManager
+     * @param ProviderInterface
      * @return void
      */
-    public function __construct(MenuManager $manager)
+    public function __construct(ProviderInterface $provider)
     {
-        $this->manager = $manager;
+        $this->provider = $provider;
     }
 
     /**
@@ -40,7 +40,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function get($name)
     {
-        return $this->manager->getMenu($name);
+        return $this->provider->getMenu($name);
     }
 
     /**

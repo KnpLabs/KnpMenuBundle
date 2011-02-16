@@ -2,21 +2,21 @@
 
 namespace Bundle\MenuBundle\Twig;
 
-use Bundle\MenuBundle\MenuManager;
+use Bundle\MenuBundle\ProviderInterface;
 
 class MenuExtension extends \Twig_Extension
 {
     /**
-     * @var MenuManager
+     * @var ProviderInterface
      */
-    protected $manager;
+    protected $provider;
 
     /**
-     * @param MenuManager
+     * @param ProviderInterface
      */
-    public function __construct(MenuManager $manager)
+    public function __construct(ProviderInterface $provider)
     {
-        $this->manager = $manager;
+        $this->provider = $provider;
     }
 
     /**
@@ -38,7 +38,7 @@ class MenuExtension extends \Twig_Extension
      */
     public function get($name)
     {
-        return $this->manager->getMenu($name);
+        return $this->provider->getMenu($name);
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-namespace Bundle\MenuBundle;
+namespace Bundle\MenuBundle\Provider;
+use Bundle\MenuBundle\ProviderInterface;
 
-class MenuManager
+class BasicProvider implements ProviderInterface
 {
     protected $menus = array();
 
