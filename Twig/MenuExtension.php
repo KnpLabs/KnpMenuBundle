@@ -2,21 +2,21 @@
 
 namespace Knplabs\MenuBundle\Twig;
 
-use Bundle\MenuBundle\ProviderInterface;
+use Knplabs\MenuBundle\Templating\Helper\MenuHelper;
 
 class MenuExtension extends \Twig_Extension
 {
     /**
-     * @var ProviderInterface
+     * @var MenuHelper
      */
     protected $provider;
 
     /**
-     * @param ProviderInterface
+     * @param MenuHelper
      */
-    public function __construct(ProviderInterface $provider)
+    public function __construct(MenuHelper $helper)
     {
-        $this->provider = $provider;
+        $this->helper = $helper;
     }
 
     /**

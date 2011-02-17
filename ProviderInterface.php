@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MenuBundle;
+namespace Knplabs\MenuBundle;
 
 interface ProviderInterface
 {
