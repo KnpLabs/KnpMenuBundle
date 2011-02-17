@@ -204,7 +204,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         return $this;
     }
-    
+
     /**
      * @return array
      */
@@ -242,16 +242,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @param string $name
      * @param string $value
-     * 
-     * @return MenuItem 
-     */   
+     *
+     * @return MenuItem
+     */
     public function setLinkAttribute($name, $value)
     {
         $this->linkAttributes[$name] = $value;
 
         return $this;
-    }  
-    
+    }
+
     /**
      * @return array
      */
@@ -291,7 +291,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->labelAttributes[$name] = $value;
 
         return $this;
-    }  
+    }
 
     /**
      * @return bool Whether or not this menu item should show its children.
@@ -1132,30 +1132,30 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             $child->setCurrentUri($uri);
         }
     }
-    
+
     /**
      * Sets if the current item should render a link or not
-     * 
-     * @param bool $currentAsLink 
+     *
+     * @param bool $currentAsLink
      */
     public function setCurrentAsLink($currentAsLink = true)
     {
         $this->currentAsLink = (bool)$currentAsLink;
     }
-    
+
     /**
      * Returns the currentAsLink
-     * 
+     *
      * Used to determine if the current item must render
      * its text as a link or not
-     * 
+     *
      * @return bool
      */
     public function getCurrentAsLink()
     {
         return $this->currentAsLink;
     }
-    
+
 
     /**
      * Calls a method recursively on all of the children of this item

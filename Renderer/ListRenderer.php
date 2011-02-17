@@ -115,7 +115,7 @@ class ListRenderer extends Renderer implements RendererInterface
         // opening li tag
         $html = $this->format('<li'.$this->renderHtmlAttributes($attributes).'>', 'li', $item->getLevel());
 
-        // render the text/link inside the li tag        
+        // render the text/link inside the li tag
         //$html .= $this->format($item->getUri() ? $item->renderLink() : $item->renderLabel(), 'link', $item->getLevel());
         $html .= $this->renderLink($item);
 
@@ -127,11 +127,11 @@ class ListRenderer extends Renderer implements RendererInterface
 
         return $html;
     }
-    
+
     /**
      * Renders the link in a a tag with link attributes or
      * the label in a span tag with label attributes
-     *      
+     *
      * Tests if item has a an uri and if not tests if it's
      * the current item and if the text has to be rendered
      * as a link or not.
@@ -140,17 +140,17 @@ class ListRenderer extends Renderer implements RendererInterface
      * @return string
      */
     public function renderLink($item)
-    {        
+    {
         $text = '';
         if (!$item->getUri()) {
             $text = sprintf('<span%s>%s</span>', $this->renderHtmlAttributes($item->getLabelAttributes()), $item->getLabel());
-        }   
-        else {            
-            if (($item->getIsCurrent() && $item->getParent()->getCurrentAsLink())                
-                || !$item->getIsCurrent()) {                
+        }
+        else {
+            if (($item->getIsCurrent() && $item->getParent()->getCurrentAsLink())
+                || !$item->getIsCurrent()) {
                 $text = sprintf('<a href="%s"%s>%s</a>', $item->getUri(), $this->renderHtmlAttributes($item->getLinkAttributes()), $item->getLabel());
             }
-            else {                
+            else {
                 $text = sprintf('<span%s>%s</span>', $this->renderHtmlAttributes($item->getLabelAttributes()), $item->getLabel());
             }
         }
