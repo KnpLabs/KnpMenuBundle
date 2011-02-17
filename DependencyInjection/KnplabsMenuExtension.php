@@ -25,11 +25,11 @@ class KnplabsMenuExtension extends Extension
             $config = array_merge($config, $c);
         }
 
-        if(!empty($config['templating'])) {
-            $loader->load('templating.xml');
-        }
         if(!empty($config['twig'])) {
             $loader->load('twig.xml');
+            $loader->load('templating.xml');
+        } elseif(!empty($config['templating'])) {
+            $loader->load('templating.xml');
         }
     }
 
