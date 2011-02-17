@@ -3,12 +3,10 @@
 namespace Knplabs\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Bundle\MenuBundle\ProviderInterface;
+use Knplabs\MenuBundle\ProviderInterface;
 use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Knplabs\MenuBundle\MenuItem;
->>>>>>> fcaf1536911a110b79d7163fb4173a929499f5dd
 
 class MenuHelper extends Helper implements \ArrayAccess
 {
@@ -24,18 +22,6 @@ class MenuHelper extends Helper implements \ArrayAccess
     {
         $this->provider = $provider;
         $this->engine = $engine;
-    }
-
-    /**
-     * Render the menu
-     *
-     * @param string $name
-     * @param integer $depth (optional)
-     * @return string
-     */
-    public function render($name, $depth = null)
-    {
-        return $this->get($name)->render($depth);
     }
 
     /**
