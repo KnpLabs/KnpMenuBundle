@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MenuBundle;
+namespace Knplabs\MenuBundle;
 
 /**
  * A convenience class for creating the root node of a menu.
@@ -26,11 +26,15 @@ class Menu extends MenuItem
      * @param array   $attributes
      * @param string  $childClass The class to use if instantiating children menu items
      */
-    public function __construct($attributes = array(), $childClass = 'Bundle\MenuBundle\MenuItem')
+    public function __construct($attributes = array(), $childClass = 'Knplabs\MenuBundle\MenuItem')
     {
         $this->childClass = $childClass;
 
         parent::__construct(null, null, $attributes);
+    }
+
+    public function initialize(array $options = array())
+    {
     }
 
     /**

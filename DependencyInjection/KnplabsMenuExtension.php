@@ -1,18 +1,18 @@
 <?php
 
-namespace Bundle\MenuBundle\DependencyInjection;
+namespace Knplabs\MenuBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 
-class MenuExtension extends Extension
+class KnplabsMenuExtension extends Extension
 {
     /**
-     * Handles the menu.templating configuration.
+     * Handles the knplabs_menu configuration.
      *
-     * @param  array $config The configuration being loaded
+     * @param  array $configs The configurations being loaded
      * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -54,6 +54,6 @@ class MenuExtension extends Extension
      */
     public function getAlias()
     {
-        return 'menu';
+        return 'knplabs_menu';
     }
 }

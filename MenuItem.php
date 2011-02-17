@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundle\MenuBundle;
-use Bundle\MenuBundle\Renderer\RendererInterface;
-use Bundle\MenuBundle\Renderer\ListRenderer;
+namespace Knplabs\MenuBundle;
+use Knplabs\MenuBundle\Renderer\RendererInterface;
+use Knplabs\MenuBundle\Renderer\ListRenderer;
 
 /**
  * This is your base menu item. It roughly represents a single <li> tag
@@ -18,6 +18,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     protected
         $name             = null,    // the name of this menu item (used for id by parent menu)
         $label            = null,    // the label to output, name is used by default
+        $linkAttributes   = array(), // an array of attributes for the item link
+        $labelAttributes  = array(), // an array of attributes for the item text
         $uri              = null,    // the uri to use in the anchor tag
         $attributes       = array(); // an array of attributes for the li
 
@@ -36,18 +38,19 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $num              = null,    // the order number this menu is in its parent
         $parent           = null,    // parent MenuItem
         $isCurrent        = null,    // whether or not this menu item is current
-        $currentUri       = null;    // the current uri to use for selecting current menu
+        $currentUri       = null,    // the current uri to use for selecting current menu
+        $currentAsLink    = true;    // boolean to render the current uri as a link or not
 
     /**
-     * The renderer used to render this menu 
-      
+     * The renderer used to render this menu
+
      * @var RendererInterface
      */
     protected $renderer   = null;
 
     /**
      * Class constructor
-     * 
+     *
      * @param string $name      The name of this menu, which is how its parent will
      *                          reference it. Also used as label if label not specified
      * @param string $uri       The uri for this menu to use. If not specified,
@@ -170,10 +173,10 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param  array $attributes 
+     * @param  array $attributes
      * @return MenuItem
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
 
@@ -183,7 +186,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @param  string $name     The name of the attribute to return
      * @param  mixed  $default  The value to return if the attribute doesn't exist
-     * 
+     *
      * @return mixed
      */
     public function getAttribute($name, $default = null)
@@ -201,6 +204,94 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
         return $this;
     }
+    
+    /**
+     * @return array
+     */
+    public function getLinkAttributes()
+    {
+        return $this->linkAttributes;
+    }
+
+    /**
+     * @param  array $linkAttributes
+     * @return MenuItem
+     */
+    public function setLinkAttributes(array $linkAttributes)
+    {
+        $this->linkAttributes = $linkAttributes;
+
+        return $this;
+    }
+
+    /**
+     * @param  string $name     The name of the attribute to return
+     * @param  mixed  $default  The value to return if the attribute doesn't exist
+     *
+     * @return mixed
+     */
+    public function getLinkAttribute($name, $default = null)
+    {
+        if (isset($this->linkAttributes[$name])) {
+            return $this->linkAttributes[$name];
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * 
+     * @return MenuItem 
+     */   
+    public function setLinkAttribute($name, $value)
+    {
+        $this->linkAttributes[$name] = $value;
+
+        return $this;
+    }  
+    
+    /**
+     * @return array
+     */
+    public function getLabelAttributes()
+    {
+        return $this->labelAttributes;
+    }
+
+    /**
+     * @param  array $labelAttributes
+     * @return MenuItem
+     */
+    public function setLabelAttributes(array $labelAttributes)
+    {
+        $this->labelAttributes = $labelAttributes;
+
+        return $this;
+    }
+
+    /**
+     * @param  string $name     The name of the attribute to return
+     * @param  mixed  $default  The value to return if the attribute doesn't exist
+     *
+     * @return mixed
+     */
+    public function getLabelAttribute($name, $default = null)
+    {
+        if (isset($this->labelAttributes[$name])) {
+            return $this->labelAttributes[$name];
+        }
+
+        return $default;
+    }
+
+    public function setLabelAttribute($name, $value)
+    {
+        $this->labelAttributes[$name] = $value;
+
+        return $this;
+    }  
 
     /**
      * @return bool Whether or not this menu item should show its children.
@@ -211,9 +302,9 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Set whether or not this menu item should show its children 
-     * 
-     * @param bool $bool 
+     * Set whether or not this menu item should show its children
+     *
+     * @param bool $bool
      * @return MenuItem
      */
     public function setShowChildren($bool)
@@ -233,8 +324,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Set whether or not this menu to show this menu item
-     * 
-     * @param bool $bool 
+     *
+     * @param bool $bool
      * @return MenuItem
      */
     public function setShow($bool)
@@ -472,7 +563,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Split menu into two distinct menus.
-     * 
+     *
      * @param mixed $length Name of child, child object, or numeric length.
      * @return array Array with two menus, with "primary" and "secondary" key
      */
@@ -599,7 +690,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * Reset children nums.
      *
      * Primarily called after changes to children (removing, reordering, etc)
-     * 
+     *
      * @return void
      */
     protected function resetChildrenNum()
@@ -612,11 +703,11 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Creates a new MenuItem to be the child of this menu
-     * 
+     *
      * @param string  $name
      * @param string  $uri
      * @param array   $attributes
-     * 
+     *
      * @return MenuItem
      */
     protected function createChild($name, $uri = null, $attributes = array(), $class = null)
@@ -630,7 +721,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Removes a child from this menu item
-     * 
+     *
      * @param mixed $name The name of MenuItem instance to remove
      */
     public function removeChild($name)
@@ -867,8 +958,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Get whether or not this menu item is "current" 
-     * 
+     * Get whether or not this menu item is "current"
+     *
      * @return bool
      */
     public function getIsCurrent()
@@ -911,7 +1002,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return bool Whether or not this menu item is first in its parent 
+     * @return bool Whether or not this menu item is first in its parent
      */
     public function isFirst()
     {
@@ -928,13 +1019,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * menu item, this function takes into consideration whether children are rendered or not.
      *
      * This returns true if this is the first child that would be rendered
-     * for the current user 
+     * for the current user
      *
      * @return boolean
      */
     public function actsLikeFirst()
     {
-        // root items are never "marked" as first 
+        // root items are never "marked" as first
         if ($this->isRoot()) {
             return false;
         }
@@ -1006,7 +1097,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
                  * This should look strange. But, if we ask our parent for the
                  * current uri, and it returns it successfully, then one of two
                  * different things just happened:
-                 * 
+                 *
                  *   1) The parent already had the currentUri calculated, but it
                  *      hadn't been passed down to the child yet. This technically
                  *      should not happen, but we allow for the possibility. In
@@ -1041,6 +1132,30 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
             $child->setCurrentUri($uri);
         }
     }
+    
+    /**
+     * Sets if the current item should render a link or not
+     * 
+     * @param bool $currentAsLink 
+     */
+    public function setCurrentAsLink($currentAsLink = true)
+    {
+        $this->currentAsLink = (bool)$currentAsLink;
+    }
+    
+    /**
+     * Returns the currentAsLink
+     * 
+     * Used to determine if the current item must render
+     * its text as a link or not
+     * 
+     * @return bool
+     */
+    public function getCurrentAsLink()
+    {
+        return $this->currentAsLink;
+    }
+    
 
     /**
      * Calls a method recursively on all of the children of this item
@@ -1133,25 +1248,6 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         return $this;
-    }
-
-    /**
-     * Creates a new menu item (and tree if $data['children'] is set).
-     *
-     * The source is an array of data that should match the output from ->toArray().
-     *
-     * @param  array $data The array of data to use as a source for the menu tree 
-     * @return MenuItem
-     */
-    public static function createFromArray(array $data)
-    {
-        $class = isset($data['class']) ? $data['class'] : 'MenuItem';
-
-        $name = isset($data['name']) ? $data['name'] : null;
-        $menu = new $class($name);
-        $menu->fromArray($data);
-
-        return $menu;
     }
 
     /**

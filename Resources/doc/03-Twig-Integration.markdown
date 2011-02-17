@@ -18,19 +18,20 @@ Enable both Dependency Injection extensions in your `config.yml`:
 
 Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
-    <?php // src/Application/MainBundle/DependencyInjection/MainExtension.php
+    <?php // src/MyVendor/MainBundle/DependencyInjection/MainExtension.php
     
-    namespace Application\MainBundle\DependencyInjection;
+    namespace MyVendor\MainBundle\DependencyInjection;
     
     use Symfony\Component\DependencyInjection\Extension\Extension,
         Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
-        Symfony\Component\DependencyInjection\ContainerBuilder;
+        Symfony\Component\DependencyInjection\ContainerBuilder,
+        Symfony\Component\DependencyInjection\Loader\FileLocator;
     
     class MainExtension extends Extension
     {
         public function menuLoad($config, ContainerBuilder $container)
         {
-            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('menu.xml');
         }
         
@@ -53,11 +54,11 @@ Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
 Create a `MainMenu` class for your `main` menu:
 
-    <?php // src/Application/MainBundle/Menu/MainMenu.php
+    <?php // src/MyVendor/MainBundle/Menu/MainMenu.php
     
-    namespace Application\MainBundle\Menu;
+    namespace MyVendor\MainBundle\Menu;
     
-    use Bundle\MenuBundle\Menu;
+    use Knplabs\MenuBundle\Menu;
     
     use Symfony\Component\HttpFoundation\Request,
         Symfony\Component\Routing\Router;
@@ -78,18 +79,18 @@ Create a `MainMenu` class for your `main` menu:
 
 Describe your `main` menu as a Service:
 
-    <!-- src/Application/MainBundle/Resources/config/menu.xml -->
+    <!-- src/MyVendor/MainBundle/Resources/config/menu.xml -->
     <?xml version="1.0" encoding="UTF-8"?>
     <container xmlns="http://www.symfony-project.org/schema/dic/services"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
         
         <parameters>
-            <parameter key="menu.main.class">Application\MainBundle\Menu\MainMenu</parameter>
+            <parameter key="menu.main.class">MyVendor\MainBundle\Menu\MainMenu</parameter>
         </parameters>
         
         <services>
-            <service id="menu.main" class="%menu.main.class%" shared="true">
+            <service id="menu.main" class="%menu.main.class%" scope="request">
                 <tag name="menu" alias="main" />
                 <argument type="service" id="request" />
                 <argument type="service" id="router" />

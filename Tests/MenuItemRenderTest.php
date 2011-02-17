@@ -1,7 +1,7 @@
 <?php
 
-namespace Bundle\MenuBundle\Tests;
-use Bundle\MenuBundle\MenuItem;
+namespace Knplabs\MenuBundle\Tests;
+use Knplabs\MenuBundle\MenuItem;
 
 class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $menu = new MenuItem('test', null, array('class' => 'test_class'));
         $menu->getRenderer()->setRenderCompressed(true);
         $menu->addChild('c1');
-        $rendered = '<ul class="test_class"><li class="first last">c1</li></ul>';
+        $rendered = '<ul class="test_class"><li class="first last"><span>c1</span></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
 
@@ -27,7 +27,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $menu = new MenuItem('test', null, array('title' => 'encode " me >'));
         $menu->getRenderer()->setRenderCompressed(true);
         $menu->addChild('c1');
-        $rendered = '<ul title="encode &quot; me &gt;"><li class="first last">c1</li></ul>';
+        $rendered = '<ul title="encode &quot; me &gt;"><li class="first last"><span>c1</span></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
 
@@ -40,6 +40,16 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rendered, $about->renderLink());
 
         $rendered = '<li class="last"><a href="/about">About</a></li>';
+        $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
+    }
+    
+    public function testRenderLinkWithAttributes()
+    {
+        extract($this->getSampleTree());
+        $about = $menu->addChild('About', '/about');
+        $about->setLinkAttribute('title', 'About page');
+        
+        $rendered = '<li class="last"><a href="/about" title="About page">About</a></li>';
         $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
 
@@ -58,14 +68,14 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     public function testRenderWholeMenu()
     {
         extract($this->getSampleTree());
-        $rendered = '<ul class="root"><li class="first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li>Child 2</li><li class="last">Child 3</li></ul></li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span><ul class="menu_level_1"><li class="first"><span>Child 1</span></li><li><span>Child 2</span></li><li class="last"><span>Child 3</span></li></ul></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
 
     public function testToString()
     {
         extract($this->getSampleTree());
-        $rendered = '<ul class="root"><li class="first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li>Child 2</li><li class="last">Child 3</li></ul></li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span><ul class="menu_level_1"><li class="first"><span>Child 1</span></li><li><span>Child 2</span></li><li class="last"><span>Child 3</span></li></ul></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, (string) $menu);
     }
 
@@ -74,7 +84,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         extract($this->getSampleTree());
         $pt2->setAttribute('class', 'parent2_class');
         $pt2->setAttribute('title', 'parent2 title');
-        $rendered = '<ul class="root"><li class="first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li>Child 2</li><li class="last">Child 3</li></ul></li><li class="parent2_class last" title="parent2 title">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span><ul class="menu_level_1"><li class="first"><span>Child 1</span></li><li><span>Child 2</span></li><li class="last"><span>Child 3</span></li></ul></li><li class="parent2_class last" title="parent2 title"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
 
@@ -82,8 +92,30 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     {
         extract($this->getSampleTree());
         $ch2->setIsCurrent(true);
-        $rendered = '<ul class="root"><li class="current_ancestor first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li class="current">Child 2</li><li class="last">Child 3</li></ul></li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="current_ancestor first"><span>Parent 1</span><ul class="menu_level_1"><li class="first"><span>Child 1</span></li><li class="current"><span>Child 2</span></li><li class="last"><span>Child 3</span></li></ul></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render());
+    }
+    
+    public function testRenderWithCurrentItemAsLink()
+    {
+        extract($this->getSampleTree());
+        $about = $menu->addChild('About', '/about');
+        $about->setIsCurrent(true);
+        $menu->setCurrentAsLink(true);
+        
+        $rendered = '<li class="current last"><a href="/about">About</a></li>';
+        $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
+    }
+    
+    public function testRenderWithCurrentItemNotAsLink()
+    {
+        extract($this->getSampleTree());
+        $about = $menu->addChild('About', '/about');
+        $about->setIsCurrent(true);
+        $menu->setCurrentAsLink(false);
+        
+        $rendered = '<li class="current last"><span>About</span></li>';
+        $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
 
     public function testRenderSubMenuPortionWithClassAndTitle()
@@ -91,7 +123,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         extract($this->getSampleTree());
         $pt2->setAttribute('class', 'parent2_class');
         $pt2->setAttribute('title', 'parent2 title');
-        $rendered = '<ul class="parent2_class" title="parent2 title"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul>';
+        $rendered = '<ul class="parent2_class" title="parent2 title"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu['Parent 2']->render());
     }
 
@@ -107,7 +139,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     {
         extract($this->getSampleTree());
         $menu['Parent 1']->setShowChildren(false);
-        $rendered = '<ul class="root"><li class="first">Parent 1</li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
 
@@ -115,7 +147,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     {
         extract($this->getSampleTree());
         $menu['Parent 1']->setShow(false);
-        $rendered = '<ul class="root"><li class="first last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4<ul class="menu_level_2"><li class="first last">Grandchild 1</li></ul></li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
 
@@ -129,14 +161,14 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     public function testDepth1()
     {
         extract($this->getSampleTree());
-        $rendered = '<ul class="root"><li class="first">Parent 1</li><li class="last">Parent 2</li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span></li><li class="last"><span>Parent 2</span></li></ul>';
         $this->assertEquals($rendered, $menu->render(1));
     }
 
     public function testDepth2()
     {
         extract($this->getSampleTree());
-        $rendered = '<ul class="root"><li class="first">Parent 1<ul class="menu_level_1"><li class="first">Child 1</li><li>Child 2</li><li class="last">Child 3</li></ul></li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4</li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span><ul class="menu_level_1"><li class="first"><span>Child 1</span></li><li><span>Child 2</span></li><li class="last"><span>Child 3</span></li></ul></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render(2));
     }
 
@@ -144,7 +176,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     {
         extract($this->getSampleTree());
         $menu['Parent 1']->setShowChildren(false);
-        $rendered = '<ul class="root"><li class="first">Parent 1</li><li class="last">Parent 2<ul class="menu_level_1"><li class="first last">Child 4</li></ul></li></ul>';
+        $rendered = '<ul class="root"><li class="first"><span>Parent 1</span></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render(2));
     }
 
@@ -173,7 +205,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $arr = array_keys($menu->getChildren());
         $this->assertEquals(array('c4', 'c3', 'c2', 'c1'), $arr);
 
-        $this->assertEquals('<ul><li class="first">c4</li><li>c3</li><li>c2</li><li class="last">c1</li></ul>', $menu->render());
+        $this->assertEquals('<ul><li class="first"><span>c4</span></li><li><span>c3</span></li><li><span>c2</span></li><li class="last"><span>c1</span></li></ul>', $menu->render());
     }
 
     /**
@@ -189,7 +221,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array the tree items
      */
-    protected function getSampleTree($class = 'Bundle\MenuBundle\MenuItem')
+    protected function getSampleTree($class = 'Knplabs\MenuBundle\MenuItem')
     {
         $menu = new $class('Root li', null, array('class' => 'root'));
         $menu->getRenderer()->setRenderCompressed(true);

@@ -1,7 +1,7 @@
 <?php
 
-namespace Bundle\MenuBundle\Renderer;
-use Bundle\MenuBundle\MenuItem;
+namespace Knplabs\MenuBundle\Renderer;
+use Knplabs\MenuBundle\MenuItem;
 
 interface RendererInterface
 {

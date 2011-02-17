@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MenuBundle\Twig;
+namespace Knplabs\MenuBundle\Twig;
 
 use Bundle\MenuBundle\ProviderInterface;
 
@@ -28,12 +28,15 @@ class MenuExtension extends \Twig_Extension
             'menu' => new \Twig_Function_Method($this, 'render', array(
                 'is_safe' => array('html'),
             )),
+            'menu_get' => new \Twig_Function_Method($this, 'get', array(
+                'is_safe' => array('html'),
+            )),
         );
     }
 
     /**
      * @param string $name
-     * @return \Bundle\MenuBundle\Menu
+     * @return \Knplabs\MenuBundle\Menu
      * @throws \InvalidArgumentException
      */
     public function get($name)
@@ -46,9 +49,9 @@ class MenuExtension extends \Twig_Extension
      * @param integer $depth (optional)
      * @return string
      */
-    public function render($name, $depth = null)
+    public function render($name, $path = null, $depth = null, $template = null)
     {
-        return $this->get($name)->render($depth);
+        return $this->container->get('templating.helper.menu')->render($name, $path, $depth, $template);
     }
 
     /**

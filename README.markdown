@@ -4,7 +4,7 @@ MenuBundle
 The MenuBundle provides object oriented menus for your Symfony2 project.
 The core menu objects can even be used outside of Symfony2:
 
-    use Bundle\MenuBundle\MenuItem;
+    use Knplabs\MenuBundle\MenuItem;
 
     $menu = new MenuItem('My menu');
     $menu->addChild('Home', $router->generate('homepage'));
@@ -34,9 +34,20 @@ The bulk of the documentation can be found in the `Resources/doc` directory.
 
 ### Get the bundle
 
-To install the bundle, place it in the `src/Bundle` directory of your project
-(so that it lives at `src/Bundle/MenuBundle`). You can do this by adding
+To install the bundle, place it in the `src/Knplabs` directory of your project
+(so that it lives at `src/Knplabs/MenuBundle`). You can do this by adding
 the bundle as a submodule, cloning it, or simply downloading the source.
+
+### Add the namespace to your autoloader
+
+If it is the first Knplabs bundle you install in your Symfony 2 project, you
+need to add the `Knplabs` namespace to your autoloader:
+
+    // app/autoload.php
+    $loader->registerNamespaces(array(
+        'Knplabs'                       => __DIR__.'/../src'
+        // ...
+    ));
 
 ### Initializing the bundle
 
@@ -47,7 +58,7 @@ file is usually located at `app/AppKernel`:
     {
         $bundles = array(
             // ...
-            new Bundle\MenuBundle\MenuBundle(),
+            new Knplabs\MenuBundle\KnplabsMenuBundle(),
         );
     )
 
@@ -74,8 +85,21 @@ For `config.yml`:
     menu:
         templating: true
 
+and for `config.xml`:
+
+    <!-- to enable the twig view helper -->
+    <knplabs_menu:twig />
+
+    <!-- to enable the PHP view helper -->
+    <knplabs_menu:templating />
+
 When the `MenuBundle` sees the above configuration, it will load the
 appropriate view helpers on your behalf.
+
+Ensure that the **php** engine is enabled in your config:
+
+    framework:
+        templating: { engines: ['twig', 'php'] } # twig is optional
 
 ## Credits
 

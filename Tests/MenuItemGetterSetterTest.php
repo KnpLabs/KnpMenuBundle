@@ -1,7 +1,7 @@
 <?php
 
-namespace Bundle\MenuBundle\Tests;
-use Bundle\MenuBundle\MenuItem;
+namespace Knplabs\MenuBundle\Tests;
+use Knplabs\MenuBundle\MenuItem;
 
 class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,6 +25,13 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($title, $menu->getAttribute('title'));
     }
 
+    public function testCurrentAsLink()
+    {
+        $menu = $this->createMenu();
+        $menu->setCurrentAsLink(true);
+        $this->assertEquals(true, $menu->getCurrentAsLink());
+    }
+    
     public function testName()
     {
         $menu = $this->createMenu();
@@ -59,6 +66,22 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $menu = $this->createMenu(null, null, array('id' => 'test_id'));
         $this->assertEquals('test_id', $menu->getAttribute('id'));
         $this->assertEquals('default_value', $menu->getAttribute('unknown_attribute', 'default_value'));
+    }
+    
+    public function testLinkAttributes()
+    {
+        $attributes = array('class' => 'test_class', 'title' => 'Test title');
+        $menu = $this->createMenu();
+        $menu->setLinkAttributes($attributes);
+        $this->assertEquals($attributes, $menu->getLinkAttributes());
+    }
+    
+    public function testLabelAttributes()
+    {
+        $attributes = array('class' => 'test_class', 'title' => 'Test title');
+        $menu = $this->createMenu();
+        $menu->setLabelAttributes($attributes);
+        $this->assertEquals($attributes, $menu->getLabelAttributes());
     }
 
     public function testShow()
@@ -120,13 +143,13 @@ class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
         $menu->addChild('joe');
         $menu->getChild('joe')->setName('jack');
     }
-        
+
     /**
-     * Create a new MenuItem 
-     * 
-     * @param string $name 
-     * @param string $uri 
-     * @param array $attributes 
+     * Create a new MenuItem
+     *
+     * @param string $name
+     * @param string $uri
+     * @param array $attributes
      * @return MenuItem
      */
     protected function createMenu($name = 'test_menu', $uri = 'homepage', array $attributes = array())
