@@ -10,7 +10,7 @@
     <services>
         <service id="twig.extension.menu" class="%twig.extension.menu.class%">
             <tag name="twig.extension" alias="menu" />
-            <argument type="service" id="menu.provider" />
+            <argument type="service" id="templating.helper.menu" />
         </service>
     </services>
 

@@ -41,7 +41,7 @@ class MenuExtension extends \Twig_Extension
      */
     public function get($name)
     {
-        return $this->provider->getMenu($name);
+        return $this->helper->get($name);
     }
 
     /**
@@ -51,7 +51,7 @@ class MenuExtension extends \Twig_Extension
      */
     public function render($name, $path = null, $depth = null, $template = null)
     {
-        return $this->container->get('templating.helper.menu')->render($name, $path, $depth, $template);
+        return $this->helper->render($name, $path, $depth, $template);
     }
 
     /**
