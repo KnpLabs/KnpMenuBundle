@@ -9,7 +9,7 @@ class MenuExtension extends \Twig_Extension
     /**
      * @var MenuHelper
      */
-    protected $provider;
+    protected $helper;
 
     /**
      * @param MenuHelper
