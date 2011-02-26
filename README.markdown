@@ -78,11 +78,11 @@ or `config.xml` file (depending on which you're using in your project).
 For `config.yml`:
 
     # to enable the twig view helper
-    menu:
+    knplabs_menu:
         twig: true
 
     # to enable the PHP view helper
-    menu:
+    knplabs_menu:
         templating: true
 
 and for `config.xml`:
