@@ -15,9 +15,9 @@ self-contained,and it can be accessed from anywhere in the project.
 
 ### Create your menu class
 
-    // src/Application/MyBundle/Menu/MainMenu.php
+    // src/MyVendor/MyBundle/Menu/MainMenu.php
     <?php
-    namespace Application\MyBundle\Menu;
+    namespace MyVendor\MyBundle\Menu;
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
@@ -151,7 +151,7 @@ This example overrides the `renderLink()` method. You can then use the new
     {
         public function __construct(Request $request, Router $router)
         {
-            parent::__construct(array(), 'Application\MyBundle\Menu\MyCustomMenuItem');
+            parent::__construct(array(), 'MyVendor\MyBundle\Menu\MyCustomMenuItem');
             
             $this->setCurrentUri($request->getRequestUri());
             
