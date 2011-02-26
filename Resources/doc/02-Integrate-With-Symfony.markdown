@@ -44,7 +44,6 @@ Next, declare you menu service class via configuration. An example in XML
 is shown below:
 
     # src/MyVendor/MyBundle/Resources/config/menu.xml
-    
     <?xml version="1.0" ?>
 
     <container xmlns="http://www.symfony-project.org/schema/dic/services"
@@ -68,10 +67,10 @@ is shown below:
 If you include the menu configuration in your bundle (as shown above), you'll
 need to include it as a resource in your base configuration:
 
-    # app/config/config.xml
+    # app/config/config.yml
+    imports:
+        - { resource: @MyBundle/Resources/config/menu.xml }
     ...
-    
-    <import resource="@MyBundle/Resources/config/menu.xml" />
 
 ### Access the menu service
 
