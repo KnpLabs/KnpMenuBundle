@@ -104,5 +104,5 @@ Ensure that the **php** engine is enabled in your config:
 ## Credits
 
 This bundle was originally ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin),
-a menu plugin for symfony1. It has since been developed by knpLabs and
+a menu plugin for symfony1. It has since been developed by [knpLabs](http://www.knplabs.com) and
 the Symfony community.
