@@ -68,40 +68,21 @@ That's it! Other than a few templating helpers (explained next), the `MenuBundle
 is a standalone PHP 5.3 library and can be used as soon as Symfony2's
 class autoloader is aware of it (this was just accomplished above).
 
-### Templating helper
+**What now?**
 
-The MenuBundle also offers templating helper that assist you in rendering
-your menus in the view. Two of them are available - one for PHP templates
-and another for Twig templates. For more information on these helpers,
-see the extended documentation in the `Resources/doc` directory.
+Now you probably want to use this bundle in your Symfony2 project.  
+You will need 5 steps to get to the point where you can just type in your template:
 
-To enable the templating helpers, add the following to your `config.yml`
-or `config.xml` file (depending on which you're using in your project).
-For `config.yml`:
+    {{ menu('main') }}
 
-    # to enable the twig view helper
-    knplabs_menu:
-        twig: true
+* Create a Menu class
+* Declare a Menu service
+* Load your Menu service in the Dependency Injection Extension
+* Enable the Dependency Injection for your bundle
+* Render your menu with Twig
 
-    # to enable the PHP view helper
-    knplabs_menu:
-        templating: true
-
-and for `config.xml`:
-
-    <!-- to enable the twig view helper -->
-    <knplabs_menu:twig />
-
-    <!-- to enable the PHP view helper -->
-    <knplabs_menu:templating />
-
-When the `MenuBundle` sees the above configuration, it will load the
-appropriate view helpers on your behalf.
-
-Ensure that the **php** engine is enabled in your config:
-
-    framework:
-        templating: { engines: ['twig', 'php'] } # twig is optional
+Follow the tutorial in `Resources/doc/03-Twig-Integration.markdown` to
+discover how the `MenuBundle` will rock your world!
 
 ## Credits
 
