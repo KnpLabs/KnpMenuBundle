@@ -51,7 +51,7 @@ need to add the `Knplabs` namespace to your autoloader:
         // ...
     ));
 
-### Initializing the bundle
+### Initialize the bundle
 
 To start using the bundle, initialize the bundle in your Kernel. This
 file is usually located at `app/AppKernel`:
@@ -68,10 +68,10 @@ That's it! Other than a few templating helpers (explained next), the `MenuBundle
 is a standalone PHP 5.3 library and can be used as soon as Symfony2's
 class autoloader is aware of it (this was just accomplished above).
 
-**What now?**
+### What now?
 
 Now you probably want to use this bundle in your Symfony2 project.  
-You will need 5 steps to get to the point where you can just type in your template:
+You will need 5 steps to get to the point where you can just type in your Twig template:
 
     {{ menu('main') }}
 
