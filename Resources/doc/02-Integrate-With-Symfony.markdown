@@ -44,21 +44,26 @@ Next, declare you menu service class via configuration. An example in XML
 is shown below:
 
     # src/MyVendor/MyBundle/Resources/config/menu.xml
-    ...
+    
+    <?xml version="1.0" ?>
 
-    <parameters>
-        <parameter key="menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
-    </parameters>
+    <container xmlns="http://www.symfony-project.org/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
-    <services>
-        <service id="menu.main" class="%menu.main.class%" scope="request">
-            <tag name="menu" alias="main" />
-            <argument type="service" id="request" />
-            <argument type="service" id="router" />
-        </service>
-    </services>
+        <parameters>
+            <parameter key="menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
+        </parameters>
 
-    ...
+        <services>
+            <service id="menu.main" class="%menu.main.class%" scope="request">
+                <tag name="menu" alias="main" />
+                <argument type="service" id="request" />
+                <argument type="service" id="router" />
+            </service>
+        </services>
+
+    </container>
 
 If you include the menu configuration in your bundle (as shown above), you'll
 need to include it as a resource in your base configuration:
