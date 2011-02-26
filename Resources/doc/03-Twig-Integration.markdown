@@ -6,21 +6,21 @@ can access those menus with the `{% menu %}` tag in your Twig templates,
 followed by the name of your service. 
 
 Here is a complete but simple example for a Menu named `main`, used as your
-main navigation for the whole page (expecting you have a `MainBundle` where you
+main navigation for the whole page (expecting you have a `MyBundle` where you
 store all your menus).
 
 Enable both Dependency Injection extensions in your `config.yml`:
 
     # app/config/config.yml
     main.menu: ~
-    menu.twig: ~
+    knplabs_menu.twig: ~
 
 
 Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
-    <?php // src/MyVendor/MainBundle/DependencyInjection/MainExtension.php
+    <?php // src/MyVendor/MyBundle/DependencyInjection/MainExtension.php
     
-    namespace MyVendor\MainBundle\DependencyInjection;
+    namespace MyVendor\MyBundle\DependencyInjection;
     
     use Symfony\Component\DependencyInjection\Extension\Extension,
         Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
@@ -54,9 +54,9 @@ Create a Dependency Injection `MainExtension` and a `menuLoad()` function:
 
 Create a `MainMenu` class for your `main` menu:
 
-    <?php // src/MyVendor/MainBundle/Menu/MainMenu.php
+    <?php // src/MyVendor/MyBundle/Menu/MainMenu.php
     
-    namespace MyVendor\MainBundle\Menu;
+    namespace MyVendor\MyBundle\Menu;
     
     use Knplabs\MenuBundle\Menu;
     
@@ -79,14 +79,14 @@ Create a `MainMenu` class for your `main` menu:
 
 Describe your `main` menu as a Service:
 
-    <!-- src/MyVendor/MainBundle/Resources/config/menu.xml -->
+    <!-- src/MyVendor/MyBundle/Resources/config/menu.xml -->
     <?xml version="1.0" encoding="UTF-8"?>
     <container xmlns="http://www.symfony-project.org/schema/dic/services"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
         
         <parameters>
-            <parameter key="menu.main.class">MyVendor\MainBundle\Menu\MainMenu</parameter>
+            <parameter key="menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
         </parameters>
         
         <services>
