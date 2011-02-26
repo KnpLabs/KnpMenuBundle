@@ -2,7 +2,7 @@ Using menus with Symfony2
 =========================
 
 The core menu classes of the MenuBundle, `Knplabs\MenuBundle\Menu` and
-`Knplabs\MenuBundle\MenuItem`, are perfectly decoupled from Symfony2 and
+`Knplabs\MenuBundle\MenuItem`  are perfectly decoupled from Symfony2 and
 can be used in any PHP 5.3 project.
 
 This bundle also provides several classes that ease the integration of
@@ -15,15 +15,22 @@ self-contained,and it can be accessed from anywhere in the project.
 
 ### Create your menu class
 
-    // src/MyVendor/MyBundle/Menu/MainMenu.php
-    <?php
+Create a `MainMenu` class for your `main` menu:
+
+    <?php // src/MyVendor/MyBundle/Menu/MainMenu.php
+    
     namespace MyVendor\MyBundle\Menu;
+    
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
-
+    
     class MainMenu extends Menu
     {
+        /**
+         * @param Request $request
+         * @param Router $router
+         */
         public function __construct(Request $request, Router $router)
         {
             parent::__construct();
@@ -31,7 +38,7 @@ self-contained,and it can be accessed from anywhere in the project.
             $this->setCurrentUri($request->getRequestUri());
             
             $this->addChild('Home', $router->generate('homepage'));
-            $this->addChild('Comments', $router->generate('comments'));
+            // ... add more children
         }
     }
 
@@ -96,13 +103,13 @@ provides a generic menu template helper, all you need to do is enable the helper
 ### Enable the menu template helper
 
     # app/config/config.yml
-    menu.templating: ~
+    knplabs_menu.templating: ~
 
 ### Access the menu from a template
 
 You now can render the menu in a template:
 
-    echo $view['menu']->get('main')->render()
+    echo $view['menu']->get('main')->render();
 
 Or manipulate it:
 

@@ -34,7 +34,7 @@ Create a `MainMenu` class for your `main` menu:
             $this->setCurrentUri($request->getRequestUri());
             
             $this->addChild('Home', $router->generate('homepage'));
-            // ... add more childs
+            // ... add more children
         }
     }
 
