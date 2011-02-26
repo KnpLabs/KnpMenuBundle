@@ -8,8 +8,8 @@ Here is a complete but simple example for a Menu named `main`, used as your
 main navigation for the whole page (expecting you have a `MyVendor\MyBundle` bundle
 where you store your menu).
 
-The Menu class
---------------
+Create a Menu class
+-------------------
 
 Create a `MainMenu` class for your `main` menu:
 
@@ -38,8 +38,8 @@ Create a `MainMenu` class for your `main` menu:
         }
     }
 
-The Menu service
-----------------
+Declare a Menu service
+----------------------
 
 First create a `menu.xml` to declare your `menu.main` service:
 
@@ -69,8 +69,8 @@ First create a `menu.xml` to declare your `menu.main` service:
 > This way you can use a simple alias in your template to tell the twig helper
 > to render THIS menu.
 
-The Dependency Injection
-------------------------
+Load your service in the Dependency Injection Extension
+-------------------------------------------------------
 
 Then you should create a Dependency Injection Extension to load your `menu.xml`
 file when the bundle extensions are enabled.
@@ -108,8 +108,8 @@ file when the bundle extensions are enabled.
         }
     }
 
-Enabling the Dependency Injection
----------------------------------
+Enable the Dependency Injection for your bundle
+-----------------------------------------------
 
 Finally you should enable two extensions in your Dependency Injection config file:
 
@@ -122,8 +122,8 @@ Finally you should enable two extensions in your Dependency Injection config fil
 
     myvendor_mybundle: ~
 
-Rendering
----------
+Render your menu with Twig
+--------------------------
 
 Now its time to render the menu in your main `layout.twig`:
 
