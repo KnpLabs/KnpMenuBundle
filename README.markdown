@@ -2,7 +2,6 @@ MenuBundle
 ==========
 
 The MenuBundle provides object oriented menus for your Symfony2 project.
-The core menu objects can even be used outside of Symfony2:
 
     use Knplabs\MenuBundle\MenuItem;
 
@@ -26,9 +25,10 @@ The above menu would render the following HTML:
       </li>
     </ul>
 
-## Reference Manual
+This way you can finally avoid writing an ugly template to show the selected item,
+the first and last items, submenus, ...
 
-The bulk of the documentation can be found in the `Resources/doc` directory.
+> The bulk of the documentation can be found in the `Resources/doc` directory.
 
 ## Installation
 
@@ -89,3 +89,6 @@ discover how the `MenuBundle` will rock your world!
 This bundle was originally ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin),
 a menu plugin for symfony1. It has since been developed by [knpLabs](http://www.knplabs.com) and
 the Symfony community.
+
+> Although this bundle was written for Symfony2 projects, the core menu objects
+> can also be used outside of Symfony2!
