@@ -38,6 +38,8 @@ To install the bundle, place it in the `src/Knplabs` directory of your project
 (so that it lives at `src/Knplabs/MenuBundle`). You can do this by adding
 the bundle as a submodule, cloning it, or simply downloading the source.
 
+    git submodule add https://github.com/knplabs/MenuBundle.git src/Knplabs/MenuBundle
+
 ### Add the namespace to your autoloader
 
 If it is the first Knplabs bundle you install in your Symfony 2 project, you
