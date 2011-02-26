@@ -80,7 +80,7 @@ You can now access your menu like any Symfony service:
 
 From a controller, it's even easier:
 
-    $menu = $this['menu.main']
+    $menu = $this->get('menu.main');
 
 The menu is lazy loaded, and will construct its children the first time
 you access it.
