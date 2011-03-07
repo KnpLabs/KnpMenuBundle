@@ -46,9 +46,9 @@ First create a `menu.xml` to declare your `menu.main` service:
     # src/MyVendor/MyBundle/Resources/config/menu.xml
     <?xml version="1.0" ?>
 
-    <container xmlns="http://www.symfony-project.org/schema/dic/services"
+    <container xmlns="http://symfony.com/schema/dic/services"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
         <parameters>
             <parameter key="menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
@@ -99,7 +99,7 @@ file when the bundle extensions are enabled.
 
         public function getNamespace()
         {
-            return 'http://www.symfony-project.org/schema/dic/symfony';
+            return 'http://symfony.com/schema/dic/symfony';
         }
 
         public function getAlias()

@@ -46,7 +46,7 @@ class KnplabsMenuExtension extends Extension
      */
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/menu';
+        return 'http://symfony.com/schema/dic/menu';
     }
 
     /**
