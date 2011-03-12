@@ -55,16 +55,16 @@ Working with your menu tree
 ---------------------------
 
 Your menu tree works and acts like a multi-dimensional array. Specifically,
-it implements ArrayAccess, Countable and Iterator: 
+it implements ArrayAccess, Countable and Iterator:
 
     $menu = new MenuItem('My menu');
     $menu->addChild('Home', $router->generate('homepage'));
     $menu->addChild('Comments');
-    
+
     // ArrayAccess
     $menu['Comments']->setUri($router->generate('comments'));
     $menu['Comments']->addChild('My comments', $router->generate('my_comments'));
-    
+
     // Countable
     echo count($menu); // returns 2
 
@@ -176,3 +176,15 @@ was created:
 This will create the same menu as the previous option, but allows you to
 skip the specification of a name or route (the first and only argument
 is the array of attributes for the `<ul>`) for the root node.
+
+Creating a Menu from a Tree structure
+-------------------------------------
+
+You can create a menu easily from a Tree structure (a nested set for example) by
+making it implement ``Knplabs\MenuBundle\NodeInterface``. You will then be able
+to create the menu easily (assuming ``$node`` is the root node of your structure):
+
+    <?php
+
+    $factory = new \Knplabs\MenuBundle\MenuFactory();
+    $menu = $factory->createFromNode($node);

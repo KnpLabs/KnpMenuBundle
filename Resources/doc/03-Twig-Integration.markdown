@@ -14,13 +14,13 @@ Create a Menu class
 Create a `MainMenu` class for your `main` menu:
 
     <?php // src/MyVendor/MyBundle/Menu/MainMenu.php
-    
+
     namespace MyVendor\MyBundle\Menu;
-    
+
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
-    
+
     class MainMenu extends Menu
     {
         /**
@@ -30,9 +30,9 @@ Create a `MainMenu` class for your `main` menu:
         public function __construct(Request $request, Router $router)
         {
             parent::__construct();
-            
+
             $this->setCurrentUri($request->getRequestUri());
-            
+
             $this->addChild('Home', $router->generate('homepage'));
             // ... add more children
         }
@@ -69,58 +69,24 @@ First create a `menu.xml` to declare your `menu.main` service:
 > This way you can use a simple alias in your template to tell the twig helper
 > to render THIS menu.
 
-Load your service in the Dependency Injection Extension
--------------------------------------------------------
 
-Then you should create a Dependency Injection Extension to load your `menu.xml`
-file when the bundle extensions are enabled.
+If you include the menu configuration in your bundle (as shown above), you'll
+need to include it as a resource in your base configuration:
 
-    <?php // src/MyVendor/MyBundle/DependencyInjection/MainExtension.php
+    # app/config/config.yml
+    imports:
+        - { resource: "@MyVendorMyBundle/Resources/config/menu.xml" }
+    ...
 
-    namespace MyVendor\MyBundle\DependencyInjection;
 
-    use Symfony\Component\DependencyInjection\Extension\Extension;
-    use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-    use Symfony\Component\DependencyInjection\ContainerBuilder;
-    use Symfony\Component\Config\FileLocator;
+Configure the bundle to use Twig
+--------------------------------
 
-    class MyVendorMyBundleExtension extends Extension
-    {
-        public function load(array $config, ContainerBuilder $configuration)
-        {
-            $loader = new XmlFileLoader($configuration, new FileLocator(__DIR__.'/../Resources/config'));
-            $loader->load('menu.xml');
-        }
-
-        public function getXsdValidationBasePath()
-        {
-            return null;
-        }
-
-        public function getNamespace()
-        {
-            return 'http://symfony.com/schema/dic/symfony';
-        }
-
-        public function getAlias()
-        {
-            return 'myvendor_mybundle';
-        }
-    }
-
-Enable the Dependency Injection for your bundle
------------------------------------------------
-
-Finally you should enable two extensions in your Dependency Injection config file:
-
-* The `KnplabsMenuExtension` provided in `MenuBundle` to load twig helpers (aliased to `knplabs_menu`)
-* The `MyVendorMyBundleExtension` we just wrote (aliased to `myvendor_mybundle`)
+Finally you should enable the Twig extension of the bundle:
 
     # app/config/config.yml
     knplabs_menu:
         twig: true
-
-    myvendor_mybundle: ~
 
 Render your menu with Twig
 --------------------------
@@ -145,3 +111,24 @@ you want to render:
 
     {{ menu('main', 3) }}
 
+Render your menu using the Renderer of the MenuItem object
+----------------------------------------------------------
+
+You can also use the Renderer which allows you not to use the PHP templating
+engine and to customize the rendering by changing the renderer of the menu.
+Just get the menu object and call the ``render`` method:
+
+    {# app/views/layout.twig #}
+    <html>
+        {# ... #}
+        <body>
+            {# ... #}
+            <nav id="main">
+                {{ menu_get('main').render|raw }}
+            </nav>
+            {# ... #}
+        </body>
+    </html>
+
+> Using the ``raw`` filter is needed when the autoescaping is enabled as the
+> ``render`` method returns HTML code.

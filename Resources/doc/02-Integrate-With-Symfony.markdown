@@ -18,13 +18,13 @@ self-contained,and it can be accessed from anywhere in the project.
 Create a `MainMenu` class for your `main` menu:
 
     <?php // src/MyVendor/MyBundle/Menu/MainMenu.php
-    
+
     namespace MyVendor\MyBundle\Menu;
-    
+
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
-    
+
     class MainMenu extends Menu
     {
         /**
@@ -34,9 +34,9 @@ Create a `MainMenu` class for your `main` menu:
         public function __construct(Request $request, Router $router)
         {
             parent::__construct();
-            
+
             $this->setCurrentUri($request->getRequestUri());
-            
+
             $this->addChild('Home', $router->generate('homepage'));
             // ... add more children
         }
@@ -76,7 +76,7 @@ need to include it as a resource in your base configuration:
 
     # app/config/config.yml
     imports:
-        - { resource: @MyBundle/Resources/config/menu.xml }
+        - { resource: "@MyVendorMyBundle/Resources/config/menu.xml" }
     ...
 
 ### Access the menu service
@@ -103,13 +103,16 @@ provides a generic menu template helper, all you need to do is enable the helper
 ### Enable the menu template helper
 
     # app/config/config.yml
-    knplabs_menu.templating: ~
+    knplabs_menu:
+        templating: true
 
 ### Access the menu from a template
 
 You now can render the menu in a template:
 
-    echo $view['menu']->get('main')->render();
+    echo $view['menu']->get('main')->render(); // This uses the Renderer
+
+    echo $view['menu']->render('main'); // This uses the templates
 
 Or manipulate it:
 
@@ -128,24 +131,24 @@ custom `MenuItem` class
 
     class MyCustomMenuItem extends MenuItem
     {
-      /**
-       * Renders the anchor tag for this menu item.
-       *
-       * If no uri is specified, or if the uri fails to generate, the
-       * label will be output.
-       *
-       * @return string
-       */
-      public function renderLink()
-      {
-        $label = $this->renderLabel();
-        $uri = $this->getUri();
-        if (!$uri) {
-          return $label;
-        }
+        /**
+         * Renders the anchor tag for this menu item.
+         *
+         * If no uri is specified, or if the uri fails to generate, the
+         * label will be output.
+         *
+         * @return string
+         */
+        public function renderLink()
+        {
+            $label = $this->renderLabel();
+            $uri = $this->getUri();
+            if (!$uri) {
+                return $label;
+            }
 
-        return sprintf('<a href="%s"><span></span>%s</a>', $uri, $label);
-      }
+            return sprintf('<a href="%s"><span></span>%s</a>', $uri, $label);
+        }
     }
 
 This example overrides the `renderLink()` method. You can then use the new
@@ -157,15 +160,15 @@ This example overrides the `renderLink()` method. You can then use the new
     use Knplabs\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
-    
+
     class MainMenu extends Menu
     {
         public function __construct(Request $request, Router $router)
         {
             parent::__construct(array(), 'MyVendor\MyBundle\Menu\MyCustomMenuItem');
-            
+
             $this->setCurrentUri($request->getRequestUri());
-            
+
             $this->addChild('Home', $router->generate('homepage'));
             $this->addChild('Comments', $router->generate('comments'));
       }
@@ -186,9 +189,9 @@ the `addChild()` method:
         public function __construct(Request $request, Router $router)
         {
             parent::__construct();
-            
+
             $this->setCurrentUri($request->getRequestUri());
-            
+
             $this->addChild(new MyCustomMenuItem('Home', $router->generate('homepage')));
             $this->addChild(new MyCustomMenuItem('Comments', $router->generate('comments')));
         }
