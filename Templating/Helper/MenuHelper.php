@@ -113,7 +113,7 @@ class MenuHelper extends Helper implements \ArrayAccess
         }
 
         if (null === $template) {
-            $template = 'KnplabsMenuBundle:Menu:menu.html.php';
+            $template = 'KnplabsMenu:Menu:menu.html.php';
         }
 
 
