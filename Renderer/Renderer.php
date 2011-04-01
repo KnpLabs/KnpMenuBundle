@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\MenuBundle\Renderer;
-use Knplabs\MenuBundle\MenuItem;
+namespace Knplabs\Bundle\MenuBundle\Renderer;
+use Knplabs\Bundle\MenuBundle\MenuItem;
 
 abstract class Renderer
 {

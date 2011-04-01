@@ -1,8 +1,8 @@
 <?php
 
-namespace Knplabs\MenuBundle\Twig;
+namespace Knplabs\Bundle\MenuBundle\Twig;
 
-use Knplabs\MenuBundle\Templating\Helper\MenuHelper;
+use Knplabs\Bundle\MenuBundle\Templating\Helper\MenuHelper;
 
 class MenuExtension extends \Twig_Extension
 {
@@ -36,7 +36,7 @@ class MenuExtension extends \Twig_Extension
 
     /**
      * @param string $name
-     * @return \Knplabs\MenuBundle\Menu
+     * @return \Knplabs\Bundle\MenuBundle\Menu
      * @throws \InvalidArgumentException
      */
     public function get($name)

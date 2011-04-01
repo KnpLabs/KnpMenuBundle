@@ -1,6 +1,6 @@
 <?php
 
-namespace Knplabs\MenuBundle\DependencyInjection;
+namespace Knplabs\Bundle\MenuBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;

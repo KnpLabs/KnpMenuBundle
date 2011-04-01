@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\MenuBundle\Tests;
-use Knplabs\MenuBundle\MenuItem;
+namespace Knplabs\Bundle\MenuBundle\Tests;
+use Knplabs\Bundle\MenuBundle\MenuItem;
 
 class TestMenuItem extends MenuItem {}
 
@@ -21,7 +21,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
 
     public function testChildrenHaveParentClass()
     {
-        $class = 'Knplabs\MenuBundle\Tests\TestMenuItem';
+        $class = 'Knplabs\Bundle\MenuBundle\Tests\TestMenuItem';
         extract($this->getSampleTree($class));
 
         $this->assertTrue($pt1 instanceof $class);
@@ -103,7 +103,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $menu['Fake']);
 
         $menu['New Child'] = 'New Label';
-        $this->assertEquals('Knplabs\MenuBundle\MenuItem', get_class($menu['New Child']));
+        $this->assertEquals('Knplabs\Bundle\MenuBundle\MenuItem', get_class($menu['New Child']));
         $this->assertEquals('New Child', $menu['New Child']->getName());
         $this->assertEquals('New Label', $menu['New Child']->getLabel());
 
@@ -163,16 +163,16 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
 
     public function testAddChild()
     {
-        extract($this->getSampleTree('Knplabs\MenuBundle\Tests\TestMenuItem'));
+        extract($this->getSampleTree('Knplabs\Bundle\MenuBundle\Tests\TestMenuItem'));
 
         // a) Add a child (gc2) to ch4 via ->addChild().
         $gc2 = $ch4->addChild('gc2');
         $this->assertEquals(2, count($ch4->getChildren()));
-        $this->assertEquals('Knplabs\MenuBundle\Tests\TestMenuItem', get_class($gc2));
+        $this->assertEquals('Knplabs\Bundle\MenuBundle\Tests\TestMenuItem', get_class($gc2));
 
         // b) Add another child (temp) to ch4 via ->addChild(), but specify the class.
-        $temp = $ch4->addChild('temp', null, array(), 'Knplabs\MenuBundle\Tests\TestMenuItem');
-        $this->assertEquals('Knplabs\MenuBundle\Tests\TestMenuItem', get_class($temp));
+        $temp = $ch4->addChild('temp', null, array(), 'Knplabs\Bundle\MenuBundle\Tests\TestMenuItem');
+        $this->assertEquals('Knplabs\Bundle\MenuBundle\Tests\TestMenuItem', get_class($temp));
         $ch4->removeChild($temp);
 
         // c) Add a child (gc3) to ch4 by passing an object to addChild().
@@ -306,7 +306,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://www.symfony-reloaded.org', $menu['child']->getUri());
     }
 
-    public function getSampleTreeWithExternalUrl($class = 'Knplabs\MenuBundle\MenuItem')
+    public function getSampleTreeWithExternalUrl($class = 'Knplabs\Bundle\MenuBundle\MenuItem')
     {
         $items = $this->getSampleTree($class);
         $items['menu']->addChild('child', 'http://www.symfony-reloaded.org');
@@ -317,7 +317,7 @@ class MenuItemTreeTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array the tree items
      */
-    protected function getSampleTree($class = 'Knplabs\MenuBundle\MenuItem')
+    protected function getSampleTree($class = 'Knplabs\Bundle\MenuBundle\MenuItem')
     {
         $menu = new $class('Root li', null, array('class' => 'root'));
         $pt1 = $menu->addChild('Parent 1');

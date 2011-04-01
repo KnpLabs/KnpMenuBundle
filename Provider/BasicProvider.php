@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\MenuBundle\Provider;
-use Knplabs\MenuBundle\ProviderInterface;
+namespace Knplabs\Bundle\MenuBundle\Provider;
+use Knplabs\Bundle\MenuBundle\ProviderInterface;
 
 class BasicProvider implements ProviderInterface
 {

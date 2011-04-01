@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\MenuBundle\Tests;
-use Knplabs\MenuBundle\MenuItem;
+namespace Knplabs\Bundle\MenuBundle\Tests;
+use Knplabs\Bundle\MenuBundle\MenuItem;
 
 class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,13 +42,13 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $rendered = '<li class="last"><a href="/about">About</a></li>';
         $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
-    
+
     public function testRenderLinkWithAttributes()
     {
         extract($this->getSampleTree());
         $about = $menu->addChild('About', '/about');
         $about->setLinkAttribute('title', 'About page');
-        
+
         $rendered = '<li class="last"><a href="/about" title="About page">About</a></li>';
         $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
@@ -95,25 +95,25 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
         $rendered = '<ul class="root"><li class="current_ancestor first"><span>Parent 1</span><ul class="menu_level_1"><li class="first"><span>Child 1</span></li><li class="current"><span>Child 2</span></li><li class="last"><span>Child 3</span></li></ul></li><li class="last"><span>Parent 2</span><ul class="menu_level_1"><li class="first last"><span>Child 4</span><ul class="menu_level_2"><li class="first last"><span>Grandchild 1</span></li></ul></li></ul></li></ul>';
         $this->assertEquals($rendered, $menu->render());
     }
-    
+
     public function testRenderWithCurrentItemAsLink()
     {
         extract($this->getSampleTree());
         $about = $menu->addChild('About', '/about');
         $about->setIsCurrent(true);
         $menu->setCurrentAsLink(true);
-        
+
         $rendered = '<li class="current last"><a href="/about">About</a></li>';
         $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
-    
+
     public function testRenderWithCurrentItemNotAsLink()
     {
         extract($this->getSampleTree());
         $about = $menu->addChild('About', '/about');
         $about->setIsCurrent(true);
         $menu->setCurrentAsLink(false);
-        
+
         $rendered = '<li class="current last"><span>About</span></li>';
         $this->assertEquals($rendered, $menu->getRenderer()->renderItem($about));
     }
@@ -221,7 +221,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array the tree items
      */
-    protected function getSampleTree($class = 'Knplabs\MenuBundle\MenuItem')
+    protected function getSampleTree($class = 'Knplabs\Bundle\MenuBundle\MenuItem')
     {
         $menu = new $class('Root li', null, array('class' => 'root'));
         $menu->getRenderer()->setRenderCompressed(true);

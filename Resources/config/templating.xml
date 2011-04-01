@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="templating.helper.menu.class">Knplabs\MenuBundle\Templating\Helper\MenuHelper</parameter>
+        <parameter key="templating.helper.menu.class">Knplabs\Bundle\MenuBundle\Templating\Helper\MenuHelper</parameter>
     </parameters>
 
     <services>
