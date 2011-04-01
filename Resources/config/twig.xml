@@ -8,7 +8,7 @@
     </parameters>
 
     <services>
-        <service id="twig.extension.menu" class="%twig.extension.menu.class%">
+        <service id="twig.extension.menu" class="%twig.extension.menu.class%" public="false">
             <tag name="twig.extension" alias="menu" />
             <argument type="service" id="templating.helper.menu" />
         </service>
