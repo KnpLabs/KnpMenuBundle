@@ -12,7 +12,7 @@
         <service id="templating.helper.menu" class="%templating.helper.menu.class%">
             <tag name="templating.helper" alias="menu" />
             <argument type="service" id="menu.provider" />
-            <argument type="service" id="templating.engine.twig" />
+            <argument type="service" id="templating" />
         </service>
     </services>
 
