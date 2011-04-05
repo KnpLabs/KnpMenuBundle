@@ -346,6 +346,16 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Whether or not this menu item should be rendered as a link based on the available factors
+     *
+     * @return boolean
+     */
+    public function shouldBeRenderedAsLink()
+    {
+        return ($this->getIsCurrent() && $this->getParent()->getCurrentAsLink()) || !$this->getIsCurrent();
+    }
+
+    /**
      * Add a child menu item to this menu
      *
      * @param mixed   $child    An MenuItem object or the name of a new menu to create
