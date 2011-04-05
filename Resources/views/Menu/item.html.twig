@@ -1,0 +1,12 @@
+{% if item.shouldBeRendered %}
+    <li {{ menu.attributes(menu.getItemAttributes(item))|raw }}>
+        {% if (item.isCurrent and item.parent.currentAsLink) or not item.isCurrent %}
+        <a href="{{ item.uri }}">{{ item.label }}</a>
+        {% else %}
+        <span {{ menu.attributes(menu.labelAttributes(item))|raw }}>{{ item.label }}</span>
+        {% endif %}
+        {% if item.hasChildren %}
+            {% include 'KnplabsMenuBundle:Menu:menu.html.twig' with {'item': item, 'menu': menu } %}
+        {% endif %}
+    </li>
+{% endif %}

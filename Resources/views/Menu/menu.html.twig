@@ -1,0 +1,5 @@
+<ul {{ menu.attributes(item.attributes)|raw }}>
+    {% for child in item.children %}
+        {% include 'KnplabsMenuBundle:Menu:item.html.twig' with {'item': child, 'menu': menu } %}
+    {% endfor %}
+</ul>
