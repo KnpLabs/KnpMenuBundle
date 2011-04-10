@@ -5,6 +5,7 @@ namespace Knplabs\Bundle\MenuBundle\Templating\Helper;
 use Symfony\Component\Templating\Helper\Helper;
 use Knplabs\Bundle\MenuBundle\ProviderInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Knplabs\Bundle\MenuBundle\MenuItem;
 
@@ -16,12 +17,17 @@ class MenuHelper extends Helper implements \ArrayAccess
     protected $provider;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * @param ProviderInterface
      */
-    public function __construct(ProviderInterface $provider, EngineInterface $engine)
+    public function __construct(ProviderInterface $provider, ContainerInterface $container)
     {
         $this->provider = $provider;
-        $this->engine = $engine;
+        $this->container = $container;
     }
 
     /**
@@ -117,7 +123,7 @@ class MenuHelper extends Helper implements \ArrayAccess
         }
 
 
-        return trim($this->engine->render($template, array(
+        return trim($this->container->get('templating')->render($template, array(
             'item'  => $item,
             'menu' => $this,
         )));
