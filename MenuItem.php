@@ -352,7 +352,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function shouldBeRenderedAsLink()
     {
-        return ($this->getIsCurrent() && $this->getParent()->getCurrentAsLink()) || !$this->getIsCurrent();
+        return ($this->getIsCurrent() && $this->getParent()->getCurrentAsLink())
+                || (!$this->getIsCurrent() && $this->getUri());
     }
 
     /**
