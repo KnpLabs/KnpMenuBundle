@@ -1,9 +1,9 @@
 {% if item.shouldBeRendered %}
     <li {{ menu.attributes(menu.getItemAttributes(item))|raw }}>
         {% if item.shouldBeRenderedAsLink %}
-        <a href="{{ item.uri }}" {{ menu.attributes(item.linkAttributes)|raw }}>{{ item.label }}</a>
+        <a href="{{ item.uri }}" {{ menu.attributes(item.linkAttributes)|raw }}>{{ item.label|raw }}</a>
         {% else %}
-        <span {{ menu.attributes(item.labelAttributes)|raw }}>{{ item.label }}</span>
+        <span {{ menu.attributes(item.labelAttributes)|raw }}>{{ item.label|raw }}</span>
         {% endif %}
         {% if item.hasChildren %}
             {% include 'KnplabsMenuBundle:Menu:menu.html.twig' with {'item': item, 'menu': menu } %}
