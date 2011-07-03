@@ -25,10 +25,10 @@ class MenuExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'menu' => new \Twig_Function_Method($this, 'render', array(
+            'knp_menu' => new \Twig_Function_Method($this, 'render', array(
                 'is_safe' => array('html'),
             )),
-            'menu_get' => new \Twig_Function_Method($this, 'get', array(
+            'knp_menu_get' => new \Twig_Function_Method($this, 'get', array(
                 'is_safe' => array('html'),
             )),
         );
@@ -59,6 +59,6 @@ class MenuExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'menu';
+        return 'knp_menu';
     }
 }

@@ -1,8 +1,8 @@
 Twig Integration
 ================
 
-Services tagged as `menu` will be added automatically to the Twig helper. You
-can access those menus with the `{{ menu('menu_alias') }}` tag in your Twig templates.
+Services tagged as `knp_menu.menu` will be added automatically to the Twig helper. You
+can access those menus with the `{{ knp_menu('menu_alias') }}` tag in your Twig templates.
 
 Here is a complete but simple example for a Menu named `main`, used as your
 main navigation for the whole page (expecting you have a `MyVendor\MyBundle` bundle
@@ -56,7 +56,7 @@ First create a `menu.xml` to declare your `menu.main` service:
 
         <services>
             <service id="menu.main" class="%menu.main.class%" scope="request">
-                <tag name="menu" alias="main" />
+                <tag name="knp_menu.menu" alias="main" />
                 <argument type="service" id="request" />
                 <argument type="service" id="router" />
             </service>
@@ -64,7 +64,7 @@ First create a `menu.xml` to declare your `menu.main` service:
 
     </container>
 
-> **About `<tag>`:** Tagging your menu with the name `menu` tells
+> **About `<tag>`:** Tagging your menu with the name `knp_menu.menu` tells
 > the Twig helper to load this menu and give it the alias `main`.
 > This way you can use a simple alias in your template to tell the twig helper
 > to render THIS menu.
@@ -99,7 +99,7 @@ Now its time to render the menu in your main `layout.twig`:
         <body>
             {# ... #}
             <nav id="main">
-                {{ menu('main') }}
+                {{ knp_menu('main') }}
             </nav>
             {# ... #}
         </body>
@@ -109,7 +109,7 @@ Now its time to render the menu in your main `layout.twig`:
 You can optionally provide a `depth` parameter to control how much of your menu
 you want to render:
 
-    {{ menu('main', 3) }}
+    {{ knp_menu('main', 3) }}
 
 Render your menu using the Renderer of the MenuItem object
 ----------------------------------------------------------
@@ -124,7 +124,7 @@ Just get the menu object and call the ``render`` method:
         <body>
             {# ... #}
             <nav id="main">
-                {{ menu_get('main').render|raw }}
+                {{ knp_menu_get('main').render|raw }}
             </nav>
             {# ... #}
         </body>

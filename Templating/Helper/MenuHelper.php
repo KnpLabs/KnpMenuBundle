@@ -45,7 +45,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function getName()
     {
-        return 'menu';
+        return 'knp_menu';
     }
 
     /**

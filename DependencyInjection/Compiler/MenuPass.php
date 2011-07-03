@@ -8,13 +8,13 @@ class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('menu.provider')) {
+        if (!$container->hasDefinition('knp_menu.provider')) {
             return;
         }
-        $definition = $container->getDefinition('menu.provider');
+        $definition = $container->getDefinition('knp_menu.provider');
 
         $menus = array();
-        foreach ($container->findTaggedServiceIds('menu') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('knp_menu.menu') as $id => $attributes) {
             if (isset($attributes[0]['alias'])) {
                 $definition->addMethodCall('addMenuServiceId', array($attributes[0]['alias'], $id));
             }

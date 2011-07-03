@@ -47,7 +47,7 @@ It requires a Symfony Router in order to generate uris.
 
 ### Declare and configure your menu service
 
-Next, declare you menu service class via configuration. An example in XML
+Next, declare you knp_menu service class via configuration. An example in XML
 is shown below:
 
     # src/MyVendor/MyBundle/Resources/config/menu.xml
@@ -58,12 +58,12 @@ is shown below:
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
         <parameters>
-            <parameter key="menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
+            <parameter key="knp_menu.main.class">MyVendor\MyBundle\Menu\MainMenu</parameter>
         </parameters>
 
         <services>
             <service id="menu.main" class="%menu.main.class%" scope="request">
-                <tag name="menu" alias="main" />
+                <tag name="knp_menu.menu" alias="main" />
                 <argument type="service" id="request" />
                 <argument type="service" id="router" />
             </service>

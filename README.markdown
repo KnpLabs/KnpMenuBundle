@@ -73,7 +73,7 @@ class autoloader is aware of it (this was just accomplished above).
 Now you probably want to use this bundle in your Symfony2 project.  
 You will need 5 steps to get to the point where you can just type in your Twig template:
 
-    {{ menu('main') }}
+    {{ knp_menu('main') }}
 
 * Create a Menu class
 * Declare a Menu service
