@@ -38,7 +38,7 @@ To install the bundle, place it in the `vendor/bundles/Knp/Bundle` directory of 
 (so that it lives at `vendor/bundles/Knp/Bundle/MenuBundle`). You can do this by adding
 the bundle as a submodule, cloning it, or simply downloading the source.
 
-    git submodule add https://github.com/knplabs/MenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
+    git submodule add https://github.com/knplabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
 
 ### Add the namespace to your autoloader
 
