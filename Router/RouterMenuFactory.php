@@ -1,9 +1,9 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Router;
+namespace Knp\Bundle\MenuBundle\Router;
 
-use Knplabs\Bundle\MenuBundle\MenuFactory;
-use Knplabs\Bundle\MenuBundle\NodeInterface;
+use Knp\Bundle\MenuBundle\MenuFactory;
+use Knp\Bundle\MenuBundle\NodeInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**

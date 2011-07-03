@@ -1,8 +1,8 @@
 Using menus with Symfony2
 =========================
 
-The core menu classes of the MenuBundle, `Knplabs\Bundle\MenuBundle\Menu` and
-`Knplabs\Bundle\MenuBundle\MenuItem`  are perfectly decoupled from Symfony2 and
+The core menu classes of the MenuBundle, `Knp\Bundle\MenuBundle\Menu` and
+`Knp\Bundle\MenuBundle\MenuItem`  are perfectly decoupled from Symfony2 and
 can be used in any PHP 5.3 project.
 
 This bundle also provides several classes that ease the integration of
@@ -21,7 +21,7 @@ Create a `MainMenu` class for your `main` menu:
 
     namespace MyVendor\MyBundle\Menu;
 
-    use Knplabs\Bundle\MenuBundle\Menu;
+    use Knp\Bundle\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 
@@ -103,7 +103,7 @@ provides a generic menu template helper, all you need to do is enable the helper
 ### Enable the menu template helper
 
     # app/config/config.yml
-    knplabs_menu:
+    knp_menu:
         templating: true
 
 ### Access the menu from a template
@@ -127,7 +127,7 @@ custom `MenuItem` class
     # src/MyVendor/MyBundle/Menu/MyCustomMenuItem.php
     <?php
     namespace MyVendor\MyBundle\Menu;
-    use Knplabs\Bundle\MenuBundle\MenuItem;
+    use Knp\Bundle\MenuBundle\MenuItem;
 
     class MyCustomMenuItem extends MenuItem
     {
@@ -157,7 +157,7 @@ This example overrides the `renderLink()` method. You can then use the new
     // src/MyVendor/MyBundle/Menu/MainMenu.php
     <?php
     namespace MyVendor\MyBundle\Menu;
-    use Knplabs\Bundle\MenuBundle\Menu;
+    use Knp\Bundle\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 
@@ -180,7 +180,7 @@ the `addChild()` method:
     // src/MyVendor/MyBundle/Menu/MainMenu.php
     <?php
     namespace MyVendor\MyBundle\Menu;
-    use Knplabs\Bundle\MenuBundle\Menu;
+    use Knp\Bundle\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 

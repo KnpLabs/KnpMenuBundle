@@ -1,12 +1,12 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle;
+namespace Knp\Bundle\MenuBundle;
 
-use Knplabs\Bundle\MenuBundle\DependencyInjection\Compiler\MenuPass;
+use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
-class KnplabsMenuBundle extends BaseBundle
+class KnpMenuBundle extends BaseBundle
 {
     public function build(ContainerBuilder $container)
     {

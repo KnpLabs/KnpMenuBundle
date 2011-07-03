@@ -6,7 +6,7 @@
         <span {{ menu.attributes(item.labelAttributes)|raw }}>{{ item.label|raw }}</span>
         {% endif %}
         {% if item.hasChildren %}
-            {% include 'KnplabsMenuBundle:Menu:menu.html.twig' with {'item': item, 'menu': menu } %}
+            {% include 'KnpMenuBundle:Menu:menu.html.twig' with {'item': item, 'menu': menu } %}
         {% endif %}
     </li>
 {% endif %}

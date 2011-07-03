@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Tests;
-use Knplabs\Bundle\MenuBundle\MenuItem;
+namespace Knp\Bundle\MenuBundle\Tests;
+use Knp\Bundle\MenuBundle\MenuItem;
 
 class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -221,7 +221,7 @@ class MenuItemRenderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array the tree items
      */
-    protected function getSampleTree($class = 'Knplabs\Bundle\MenuBundle\MenuItem')
+    protected function getSampleTree($class = 'Knp\Bundle\MenuBundle\MenuItem')
     {
         $menu = new $class('Root li', null, array('class' => 'root'));
         $menu->getRenderer()->setRenderCompressed(true);

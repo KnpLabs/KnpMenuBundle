@@ -3,7 +3,7 @@ MenuBundle
 
 The MenuBundle provides object oriented menus for your Symfony2 project.
 
-    use Knplabs\Bundle\MenuBundle\MenuItem;
+    use Knp\Bundle\MenuBundle\MenuItem;
 
     $menu = new MenuItem('My menu');
     $menu->addChild('Home', $router->generate('homepage'));
@@ -34,20 +34,20 @@ the first and last items, submenus, ...
 
 ### Get the bundle
 
-To install the bundle, place it in the `vendor/bundles/Knplabs/Bundle` directory of your project
-(so that it lives at `vendor/bundles/Knplabs/Bundle/MenuBundle`). You can do this by adding
+To install the bundle, place it in the `vendor/bundles/Knp/Bundle` directory of your project
+(so that it lives at `vendor/bundles/Knp/Bundle/MenuBundle`). You can do this by adding
 the bundle as a submodule, cloning it, or simply downloading the source.
 
-    git submodule add https://github.com/knplabs/MenuBundle.git vendor/bundles/Knplabs/Bundle/MenuBundle
+    git submodule add https://github.com/knplabs/MenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
 
 ### Add the namespace to your autoloader
 
-If it is the first Knplabs bundle you install in your Symfony 2 project, you
-need to add the `Knplabs` namespace to your autoloader:
+If it is the first Knp bundle you install in your Symfony 2 project, you
+need to add the `Knp` namespace to your autoloader:
 
     // app/autoload.php
     $loader->registerNamespaces(array(
-        'Knplabs'                       => __DIR__.'/../vendor/bundles'
+        'Knp'                       => __DIR__.'/../vendor/bundles'
         // ...
     ));
 
@@ -60,7 +60,7 @@ file is usually located at `app/AppKernel`:
     {
         $bundles = array(
             // ...
-            new Knplabs\Bundle\MenuBundle\KnplabsMenuBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
         );
     )
 

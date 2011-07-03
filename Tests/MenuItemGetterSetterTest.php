@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Tests;
-use Knplabs\Bundle\MenuBundle\MenuItem;
+namespace Knp\Bundle\MenuBundle\Tests;
+use Knp\Bundle\MenuBundle\MenuItem;
 
 class MenuItemGetterSetterTest extends \PHPUnit_Framework_TestCase
 {

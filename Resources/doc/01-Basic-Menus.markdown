@@ -12,12 +12,12 @@ are simple, the menus can grow arbitrarily large and deep.
 Creating a menu
 ---------------
 
-The menu framework centers around one main class: `Knplabs\Bundle\MenuBundle\MenuItem`.
+The menu framework centers around one main class: `Knp\Bundle\MenuBundle\MenuItem`.
 It's best to think of each `MenuItem` object as an `<li>` tag that can
 hold children objects (`<li>` tags that are wrapped in a `<ul>` tag).
 For example:
 
-    use Knplabs\Bundle\MenuBundle\MenuItem;
+    use Knp\Bundle\MenuBundle\MenuItem;
 
     $menu = new MenuItem('My menu');
     $menu->addChild('Home', $router->generate('homepage'));
@@ -164,10 +164,10 @@ will always render its children, but not itself. However, any attributes
 that you set on your root will be output on the top-level `<ul`> element
 itself.
 
-To facilitate the creation of the root node, a special helper class, `Knplabs\Bundle\MenuBundle\Menu`
+To facilitate the creation of the root node, a special helper class, `Knp\Bundle\MenuBundle\Menu`
 was created:
 
-    use Knplabs\Bundle\MenuBundle\Menu;
+    use Knp\Bundle\MenuBundle\Menu;
 
     $menu = new Menu(array('class' => 'root_menu');
     $menu->addChild('Home', $router->generate('homepage'));
@@ -181,10 +181,10 @@ Creating a Menu from a Tree structure
 -------------------------------------
 
 You can create a menu easily from a Tree structure (a nested set for example) by
-making it implement ``Knplabs\Bundle\MenuBundle\NodeInterface``. You will then be able
+making it implement ``Knp\Bundle\MenuBundle\NodeInterface``. You will then be able
 to create the menu easily (assuming ``$node`` is the root node of your structure):
 
     <?php
 
-    $factory = new \Knplabs\Bundle\MenuBundle\MenuFactory();
+    $factory = new \Knp\Bundle\MenuBundle\MenuFactory();
     $menu = $factory->createFromNode($node);

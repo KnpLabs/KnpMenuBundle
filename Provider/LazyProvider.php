@@ -1,8 +1,8 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Provider;
+namespace Knp\Bundle\MenuBundle\Provider;
 
-use Knplabs\Bundle\MenuBundle\ProviderInterface;
+use Knp\Bundle\MenuBundle\ProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LazyProvider implements ProviderInterface

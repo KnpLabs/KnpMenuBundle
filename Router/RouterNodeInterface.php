@@ -1,8 +1,8 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Router;
+namespace Knp\Bundle\MenuBundle\Router;
 
-use Knplabs\Bundle\MenuBundle\NodeInterface;
+use Knp\Bundle\MenuBundle\NodeInterface;
 
 /**
  * Interface implemented by a node to construct a menu from a tree.

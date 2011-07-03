@@ -1,6 +1,6 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle;
+namespace Knp\Bundle\MenuBundle;
 
 /**
  * Interface implemented by a node to construct a menu from a tree.

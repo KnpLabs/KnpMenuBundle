@@ -1,6 +1,6 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle;
+namespace Knp\Bundle\MenuBundle;
 
 /**
  * Factory to create a menu from a tree

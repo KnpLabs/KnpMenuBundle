@@ -1,8 +1,8 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle;
-use Knplabs\Bundle\MenuBundle\Renderer\RendererInterface;
-use Knplabs\Bundle\MenuBundle\Renderer\ListRenderer;
+namespace Knp\Bundle\MenuBundle;
+use Knp\Bundle\MenuBundle\Renderer\RendererInterface;
+use Knp\Bundle\MenuBundle\Renderer\ListRenderer;
 
 /**
  * This is your base menu item. It roughly represents a single <li> tag

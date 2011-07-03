@@ -1,13 +1,13 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Templating\Helper;
+namespace Knp\Bundle\MenuBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Knplabs\Bundle\MenuBundle\ProviderInterface;
+use Knp\Bundle\MenuBundle\ProviderInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Knplabs\Bundle\MenuBundle\MenuItem;
+use Knp\Bundle\MenuBundle\MenuItem;
 
 class MenuHelper extends Helper implements \ArrayAccess
 {
@@ -32,7 +32,7 @@ class MenuHelper extends Helper implements \ArrayAccess
 
     /**
      * @param string $name
-     * @return \Knplabs\Bundle\MenuBundle\Menu
+     * @return \Knp\Bundle\MenuBundle\Menu
      * @throws \InvalidArgumentException
      */
     public function get($name)
@@ -119,7 +119,7 @@ class MenuHelper extends Helper implements \ArrayAccess
         }
 
         if (null === $template) {
-            $template = 'KnplabsMenuBundle:Menu:menu.html.twig';
+            $template = 'KnpMenuBundle:Menu:menu.html.twig';
         }
 
 

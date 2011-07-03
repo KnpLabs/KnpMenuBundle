@@ -1,7 +1,7 @@
 <?php
 
-namespace Knplabs\Bundle\MenuBundle\Tests;
-use Knplabs\Bundle\MenuBundle\Menu;
+namespace Knp\Bundle\MenuBundle\Tests;
+use Knp\Bundle\MenuBundle\Menu;
 
 class MenuTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class MenuTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateMenuWithItemClass()
     {
-        $childClass = 'Knplabs\Bundle\MenuBundle\OtherMenuItem';
+        $childClass = 'Knp\Bundle\MenuBundle\OtherMenuItem';
         $menu = new Menu(null, $childClass);
         $this->assertEquals($childClass, $menu->getChildClass());
     }

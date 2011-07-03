@@ -17,7 +17,7 @@ Create a `MainMenu` class for your `main` menu:
 
     namespace MyVendor\MyBundle\Menu;
 
-    use Knplabs\Bundle\MenuBundle\Menu;
+    use Knp\Bundle\MenuBundle\Menu;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 
@@ -85,7 +85,7 @@ Configure the bundle to use Twig
 Finally you should enable the Twig extension of the bundle:
 
     # app/config/config.yml
-    knplabs_menu:
+    knp_menu:
         twig: true
 
 Render your menu with Twig
