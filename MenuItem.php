@@ -67,6 +67,12 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->setActiveMask($activeMask);
     }
     
+    /**
+     * Set the activeMask, can be a regexp, null or TRUE
+     * When set to TRUE it will auto generate
+     * 
+     * @param mixed $activeMask
+     */
     public function setActiveMask($activeMask = null)
     {
     	if (true === $activeMask) {
