@@ -70,7 +70,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function setActiveMask($activeMask = null)
     {
     	if (true === $activeMask) {
-    		$activeMask = '#^'.preg_quote($uri).'(/.*)?#ui';
+    		$activeMask = '#^'.preg_quote($this->uri).'(/.*)?#ui';
     	}
 
     	$this->activeMask = $activeMask;
