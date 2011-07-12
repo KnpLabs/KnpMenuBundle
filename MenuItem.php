@@ -722,6 +722,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string  $name
      * @param string  $uri
      * @param array   $attributes
+     * @param string  $activeMask
      *
      * @return MenuItem
      */
