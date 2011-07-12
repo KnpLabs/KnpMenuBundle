@@ -64,7 +64,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->name = (string) $name;
         $this->uri = $uri;
         $this->attributes = $attributes;
-        $this->activeMask = (null !== $activeMask ?: '#^'.preg_quote($uri).'(/.*)?#ui');
+        $this->activeMask = (null !== $activeMask ? $activeMask : '#^'.preg_quote($uri).'(/.*)?#ui');
     }
 
     /**
@@ -981,7 +981,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function getIsCurrent()
     {
         if (null === $this->isCurrent) {
-            $currentUri = $this->getCurrentUri();
+            $currentUri = $this->getCurrentUri();            
             $this->isCurrent = null !== $currentUri && (null !== $this->activeMask && preg_match($this->activeMask, $currentUri) || $this->getUri() === $currentUri);
         }
 
