@@ -362,17 +362,18 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Add a child menu item to this menu
      *
-     * @param mixed   $child    An MenuItem object or the name of a new menu to create
-     * @param string  $uri    If creating a new menu, the uri for that menu
+     * @param mixed   $child       An MenuItem object or the name of a new menu to create
+     * @param string  $uri         If creating a new menu, the uri for that menu
      * @param string  $attributes  If creating a new menu, the attributes for that menu
-     * @param string  $class    The class for menu item, if it needs to be created
+     * @param string  $class       The class for menu item, if it needs to be created
+     * @param string $activeMask   RegExp to match weither this menu item is active or not
      *
      * @return MenuItem The child menu item
      */
-    public function addChild($child, $uri = null, $attributes = array(), $class = null)
+    public function addChild($child, $uri = null, $attributes = array(), $class = null, $activeMask = null)
     {
         if (!$child instanceof MenuItem) {
-            $child = $this->createChild($child, $uri, $attributes, $class);
+            $child = $this->createChild($child, $uri, $attributes, $class, $activeMask);
         }
         elseif ($child->getParent()) {
             throw new \InvalidArgumentException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
