@@ -21,6 +21,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $linkAttributes   = array(), // an array of attributes for the item link
         $labelAttributes  = array(), // an array of attributes for the item text
         $uri              = null,    // the uri to use in the anchor tag
+        $activeMask       = null,    // the regexp to match for this item to be active
         $attributes       = array(); // an array of attributes for the li
 
     /**
@@ -51,17 +52,19 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Class constructor
      *
-     * @param string $name      The name of this menu, which is how its parent will
-     *                          reference it. Also used as label if label not specified
-     * @param string $uri       The uri for this menu to use. If not specified,
-     *                          text will be shown without a link
-     * @param array $attributes Attributes to place on the li tag of this menu item
+     * @param string $name       The name of this menu, which is how its parent will
+     *                           reference it. Also used as label if label not specified
+     * @param string $uri        The uri for this menu to use. If not specified,
+     *                           text will be shown without a link
+     * @param array $attributes  Attributes to place on the li tag of this menu item
+     * @param string $activeMask RegExp to match weither this menu item is active or not
      */
-    public function __construct($name, $uri = null, $attributes = array())
+    public function __construct($name, $uri = null, $attributes = array(), $activeMask = null)
     {
         $this->name = (string) $name;
         $this->uri = $uri;
         $this->attributes = $attributes;
+        $this->activeMask = (null !== $activeMask ?: '#^'.preg_quote($uri).'(/.*)?#ui');
     }
 
     /**
@@ -977,7 +980,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         if (null === $this->isCurrent) {
             $currentUri = $this->getCurrentUri();
-            $this->isCurrent = null !== $currentUri && ($this->getUri() === $currentUri);
+            $this->isCurrent = null !== $currentUri && ($this->activeMask && preg_match($this->activeMask, $currentUri) || $this->getUri() === $currentUri);
         }
 
         return $this->isCurrent;
