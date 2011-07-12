@@ -57,14 +57,23 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string $uri        The uri for this menu to use. If not specified,
      *                           text will be shown without a link
      * @param array $attributes  Attributes to place on the li tag of this menu item
-     * @param string $activeMask RegExp to match weither this menu item is active or not
+     * @param string $activeMask RegExp to match weither this menu item is active or not, TRUE will autogenerate
      */
     public function __construct($name, $uri = null, $attributes = array(), $activeMask = null)
     {
         $this->name = (string) $name;
         $this->uri = $uri;
         $this->attributes = $attributes;
-        $this->activeMask = (null !== $activeMask ? $activeMask : '#^'.preg_quote($uri).'(/.*)?#ui');
+        $this->setActiveMask($activeMask);
+    }
+    
+    public function setActiveMask($activeMask = null)
+    {
+    	if (true === $activeMask) {
+    		$activeMask = '#^'.preg_quote($uri).'(/.*)?#ui';
+    	}
+
+    	$this->activeMask = $activeMask;
     }
 
     /**
@@ -366,7 +375,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string  $uri         If creating a new menu, the uri for that menu
      * @param string  $attributes  If creating a new menu, the attributes for that menu
      * @param string  $class       The class for menu item, if it needs to be created
-     * @param string $activeMask   RegExp to match weither this menu item is active or not
+     * @param string  $activeMask  RegExp to match weither this menu item is active or not, TRUE will autogenerate
      *
      * @return MenuItem The child menu item
      */
