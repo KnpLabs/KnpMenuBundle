@@ -725,13 +725,13 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return MenuItem
      */
-    protected function createChild($name, $uri = null, $attributes = array(), $class = null)
+    protected function createChild($name, $uri = null, $attributes = array(), $class = null, $activeMask = null)
     {
         if ($class === null) {
             $class = get_class($this);
         }
 
-        return new $class($name, $uri, $attributes);
+        return new $class($name, $uri, $attributes, $activeMask);
     }
 
     /**
