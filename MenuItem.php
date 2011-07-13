@@ -80,6 +80,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         $this->activeMask = $activeMask;
+        
+        return $this;
     }
 
     /**
