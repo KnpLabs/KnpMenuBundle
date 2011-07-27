@@ -5,8 +5,8 @@
         {% else %}
         <span {{ menu.attributes(item.labelAttributes)|raw }}>{{ item.label|raw }}</span>
         {% endif %}
-        {% if item.hasChildren %}
-            {% include 'KnpMenuBundle:Menu:menu.html.twig' with {'item': item, 'menu': menu } %}
+        {% if item.hasChildren and depth > 1 %}
+            {% include 'KnpMenuBundle:Menu:menu.html.twig' with {'item': item, 'menu': menu, 'depth': depth - 1} %}
         {% endif %}
     </li>
 {% endif %}
