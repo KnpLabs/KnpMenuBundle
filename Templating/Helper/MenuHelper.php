@@ -89,10 +89,9 @@ class MenuHelper extends Helper implements \ArrayAccess
      * @param string $template (optional)
      * @return string
      */
-    public function render($name, $path = null, $depth = 1, $template = null)
+    public function render($name, $depth = null, $template = null)
     {
         $item = $this->get($name);
-        $item->initialize(array('path' => $path));
 
         return $this->doRender($item, $depth, $template);
     }
@@ -106,7 +105,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      *
      * @return string
      */
-    public function doRender(MenuItem $item, $depth = 1, $template = null)
+    public function doRender(MenuItem $item, $depth = null, $template = null)
     {
         /**
          * Return an empty string if any of the following are true:
