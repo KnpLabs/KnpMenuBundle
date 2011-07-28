@@ -35,7 +35,7 @@ class MenuFactory
      */
     public function createFromArray(array $data)
     {
-        $class = isset($data['class']) ? $data['class'] : 'MenuItem';
+        $class = isset($data['class']) ? $data['class'] : '\Knp\Bundle\MenuBundle\MenuItem';
 
         $name = isset($data['name']) ? $data['name'] : null;
         $menu = new $class($name);
