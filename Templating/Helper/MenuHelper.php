@@ -37,7 +37,9 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function get($name)
     {
-        return $this->provider->getMenu($name);
+        $menu = $this->provider->getMenu($name);
+        $menu->setCurrentUri($this->container->get('request')->getRequestUri());
+        return $menu;
     }
 
     /**
@@ -89,10 +91,9 @@ class MenuHelper extends Helper implements \ArrayAccess
      * @param string $template (optional)
      * @return string
      */
-    public function render($name, $path = null, $depth = null, $template = null)
+    public function render($name, $depth = null, $template = null)
     {
         $item = $this->get($name);
-        $item->initialize(array('path' => $path));
 
         return $this->doRender($item, $depth, $template);
     }
@@ -126,6 +127,7 @@ class MenuHelper extends Helper implements \ArrayAccess
         return trim($this->container->get('templating')->render($template, array(
             'item'  => $item,
             'menu' => $this,
+            'depth' => $depth,
         )));
     }
 
