@@ -37,7 +37,9 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function get($name)
     {
-        return $this->provider->getMenu($name);
+        $menu = $this->provider->getMenu($name);
+        $menu->setCurrentUri($this->container->get('request')->getRequestUri());
+        return $menu;
     }
 
     /**
