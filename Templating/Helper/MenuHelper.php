@@ -52,8 +52,6 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function parseNameAndGet($name)
     {
-        // normalize name
-        $name = str_replace(':/', ':', preg_replace('#/{2,}#', '/', strtr($name, '\\', '/')));
         $parts = explode(':', $name);
         $count = count($parts);
 
