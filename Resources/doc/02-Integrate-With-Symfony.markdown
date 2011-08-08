@@ -62,7 +62,7 @@ is shown below:
         </parameters>
 
         <services>
-            <service id="menu.main" class="%menu.main.class%" scope="request">
+            <service id="menu.main" class="%knp_menu.main.class%" scope="request">
                 <tag name="knp_menu.menu" alias="main" />
                 <argument type="service" id="request" />
                 <argument type="service" id="router" />
