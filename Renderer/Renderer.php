@@ -38,7 +38,7 @@ abstract class Renderer
     /**
      * Render HTML atributes
      */
-    public function renderHTMLAttributes(array $attributes)
+    public function renderHtmlAttributes(array $attributes)
     {
         return implode('', array_map(array($this, 'htmlAttributesCallback'), array_keys($attributes), array_values($attributes)));
     }
