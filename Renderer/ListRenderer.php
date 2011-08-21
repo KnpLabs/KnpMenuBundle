@@ -92,6 +92,19 @@ class ListRenderer extends Renderer implements RendererInterface
         // explode the class string into an array of classes
         $class = ($item->getAttribute('class')) ? explode(' ', $item->getAttribute('class')) : array();
 
+        if (($current = $item->getRoot()->getCurrent()) !== false)
+        {
+            while($current->getLevel() > $item->getLevel())
+            {
+                $current = $current->getParent();
+            }
+            if ($item->getLevel() === $current->getLevel())
+            {
+                if ($item->getNum() + 1 === $current->getNum())
+                    $class[] = 'pre_current';
+            }
+        }
+
         if ($item->getIsCurrent()) {
             $class[] = 'current';
         }
