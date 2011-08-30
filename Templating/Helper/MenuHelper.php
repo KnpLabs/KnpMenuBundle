@@ -2,55 +2,55 @@
 
 namespace Knp\Bundle\MenuBundle\Templating\Helper;
 
-use Symfony\Component\Templating\Helper\Helper;
-use Knp\Menu\Renderer\RendererProviderInterface;
-use Knp\Menu\Provider\MenuProviderInterface;
-use Knp\Menu\ItemInterface;
+use Symfony\Component\Templating\Helper\Helper as TemplatingHelper;
+use Knp\Menu\Twig\Helper;
 
-class MenuHelper extends Helper
+class MenuHelper extends TemplatingHelper
 {
-    private $rendererProvider;
-    private $menuProvider;
+    private $helper;
 
     /**
-     * @param \Knp\Menu\Renderer\RendererProviderInterface $rendererProvider
-     * @param \Knp\Menu\Provider\MenuProviderInterface|null $menuProvider
+     * @param \Knp\Menu\Twig\Helper $helper
      */
-    public function __construct(RendererProviderInterface $rendererProvider, MenuProviderInterface $menuProvider = null)
+    public function __construct(Helper $helper)
     {
-        $this->rendererProvider = $rendererProvider;
-        $this->menuProvider = $menuProvider;
+        $this->helper = $helper;
     }
 
     /**
+     * Retrieves a menu from the menu provider.
+     *
      * @param string $name
      * @return \Knp\Menu\ItemInterface
-     * @throws \InvalidArgumentException
      */
     public function get($name)
     {
-        if (null === $this->menuProvider) {
-            throw new \BadMethodCallException('A menu provider must be set to retrieve a menu');
-        }
+        return $this->helper->get($name);
+    }
 
-        return $this->menuProvider->get($name);
+    /**
+     * Retrieves an item following a path in the tree.
+     *
+     * @param \Knp\Menu\ItemInterface|string $menu
+     * @param array $path
+     * @return \Knp\Menu\ItemInterface
+     */
+    public function getByPath($menu, array $path)
+    {
+        return $this->helper->getByPath($menu, $path);
     }
 
     /**
      * Renders a menu with the specified renderer.
      *
-     * @param \Knp\Menu\ItemInterface|string $menu
+     * @param \Knp\Menu\ItemInterface|string|array $menu
      * @param string $renderer
      * @param array $options
      * @return string
      */
     public function render($menu, $renderer, array $options = array())
     {
-        if (!$menu instanceof ItemInterface) {
-            $menu = $this->get($menu);
-        }
-
-        return $this->rendererProvider->get($renderer)->render($menu, $options);
+        return $this->helper->render($menu, $renderer, $options);
     }
 
     /**

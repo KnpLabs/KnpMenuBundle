@@ -11,8 +11,7 @@
     <services>
         <service id="knp_menu.templating.helper" class="%knp_menu.templating.helper.class%">
             <tag name="templating.helper" alias="knp_menu" />
-            <argument type="service" id="knp_menu.renderer_provider" />
-            <argument type="service" id="knp_menu.menu_provider" />
+            <argument type="service" id="knp_menu.helper" />
         </service>
     </services>
 
