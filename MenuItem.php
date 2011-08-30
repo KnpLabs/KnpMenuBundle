@@ -397,6 +397,29 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Tries to find and returns the child menu identified by the given name
+     *
+     * @param  string $name  Then name of the child menu to search for
+     * @return MenuItem|null
+     */
+    public function findChild($name)
+    {
+        if (null !== ($child = $this->getChild($name))) {
+            return $child;
+        }
+
+        foreach($this->children as $child) {
+            $wantedChild = $child->findChild($name);
+
+            if (null !== $wantedChild) {
+                return $wantedChild;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Moves child to specified position. Rearange other children accordingly.
      *
      * @param numeric $position Position to move child to.

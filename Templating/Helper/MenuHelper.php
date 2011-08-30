@@ -43,6 +43,36 @@ class MenuHelper extends Helper implements \ArrayAccess
     }
 
     /**
+     * Parses the given name and try to find the corresponding child
+     * Syntax is "menu:child"
+     *
+     * @param string $name
+     * @return \Knp\Bundle\MenuBundle\Menu
+     * @throws \InvalidArgumentException
+     */
+    public function parseNameAndGet($name)
+    {
+        $parts = explode(':', $name);
+        $count = count($parts);
+
+        if ($count > 2) {
+            throw new \InvalidArgumentException(sprintf('Menu name "%s" is not valid (format is "menu:child").', $name));
+        }
+
+        if (1 == $count) {
+            return $this->get($parts[0]);
+        }
+
+        if (2 == $count) {
+            $menu = $this->get($parts[0]);
+
+            return $menu->findChild($parts[1]);
+        }
+
+        return $this->get($name);
+    }
+
+    /**
      * @return string
      */
     public function getName()
@@ -93,7 +123,7 @@ class MenuHelper extends Helper implements \ArrayAccess
      */
     public function render($name, $depth = null, $template = null)
     {
-        $item = $this->get($name);
+        $item = $this->parseNameAndGet($name);
 
         return $this->doRender($item, $depth, $template);
     }
