@@ -21,6 +21,7 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
         $linkAttributes   = array(), // an array of attributes for the item link
         $labelAttributes  = array(), // an array of attributes for the item text
         $uri              = null,    // the uri to use in the anchor tag
+        $activeMask       = null,    // the regexp to match for this item to be active
         $attributes       = array(); // an array of attributes for the li
 
     /**
@@ -51,17 +52,36 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Class constructor
      *
-     * @param string $name      The name of this menu, which is how its parent will
-     *                          reference it. Also used as label if label not specified
-     * @param string $uri       The uri for this menu to use. If not specified,
-     *                          text will be shown without a link
-     * @param array $attributes Attributes to place on the li tag of this menu item
+     * @param string $name       The name of this menu, which is how its parent will
+     *                           reference it. Also used as label if label not specified
+     * @param string $uri        The uri for this menu to use. If not specified,
+     *                           text will be shown without a link
+     * @param array $attributes  Attributes to place on the li tag of this menu item
+     * @param string $activeMask RegExp to match weither this menu item is active or not, TRUE will autogenerate
      */
-    public function __construct($name, $uri = null, $attributes = array())
+    public function __construct($name, $uri = null, $attributes = array(), $activeMask = null)
     {
         $this->name = (string) $name;
         $this->uri = $uri;
         $this->attributes = $attributes;
+        $this->setActiveMask($activeMask);
+    }
+    
+    /**
+     * Set the activeMask, can be a regexp, null or TRUE
+     * When set to TRUE it will auto generate
+     * 
+     * @param mixed $activeMask
+     */
+    public function setActiveMask($activeMask = null)
+    {
+        if (true === $activeMask) {
+            $activeMask = '#^'.preg_quote($this->uri).'(/.*)?#ui';
+        }
+
+        $this->activeMask = $activeMask;
+        
+        return $this;
     }
 
     /**
@@ -359,17 +379,18 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Add a child menu item to this menu
      *
-     * @param mixed   $child    An MenuItem object or the name of a new menu to create
-     * @param string  $uri    If creating a new menu, the uri for that menu
+     * @param mixed   $child       An MenuItem object or the name of a new menu to create
+     * @param string  $uri         If creating a new menu, the uri for that menu
      * @param string  $attributes  If creating a new menu, the attributes for that menu
-     * @param string  $class    The class for menu item, if it needs to be created
+     * @param string  $class       The class for menu item, if it needs to be created
+     * @param string  $activeMask  RegExp to match weither this menu item is active or not, TRUE will autogenerate
      *
      * @return MenuItem The child menu item
      */
-    public function addChild($child, $uri = null, $attributes = array(), $class = null)
+    public function addChild($child, $uri = null, $attributes = array(), $class = null, $activeMask = null)
     {
         if (!$child instanceof MenuItem) {
-            $child = $this->createChild($child, $uri, $attributes, $class);
+            $child = $this->createChild($child, $uri, $attributes, $class, $activeMask);
         }
         elseif ($child->getParent()) {
             throw new \InvalidArgumentException('Cannot add menu item as child, it already belongs to another menu (e.g. has a parent).');
@@ -718,16 +739,17 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string  $name
      * @param string  $uri
      * @param array   $attributes
+     * @param string  $activeMask
      *
      * @return MenuItem
      */
-    protected function createChild($name, $uri = null, $attributes = array(), $class = null)
+    protected function createChild($name, $uri = null, $attributes = array(), $class = null, $activeMask = null)
     {
         if ($class === null) {
             $class = get_class($this);
         }
 
-        return new $class($name, $uri, $attributes);
+        return new $class($name, $uri, $attributes, $activeMask);
     }
 
     /**
@@ -976,8 +998,8 @@ class MenuItem implements \ArrayAccess, \Countable, \IteratorAggregate
     public function getIsCurrent()
     {
         if (null === $this->isCurrent) {
-            $currentUri = $this->getCurrentUri();
-            $this->isCurrent = null !== $currentUri && ($this->getUri() === $currentUri);
+            $currentUri = $this->getCurrentUri();            
+            $this->isCurrent = null !== $currentUri && (null !== $this->activeMask && preg_match($this->activeMask, $currentUri) || $this->getUri() === $currentUri);
         }
 
         return $this->isCurrent;
