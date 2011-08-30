@@ -5,14 +5,14 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="templating.helper.knp_menu.class">Knp\Bundle\MenuBundle\Templating\Helper\MenuHelper</parameter>
+        <parameter key="knp_menu.templating.helper.class">Knp\Bundle\MenuBundle\Templating\Helper\MenuHelper</parameter>
     </parameters>
 
     <services>
-        <service id="templating.helper.knp_menu" class="%templating.helper.knp_menu.class%">
+        <service id="knp_menu.templating.helper" class="%knp_menu.templating.helper.class%">
             <tag name="templating.helper" alias="knp_menu" />
-            <argument type="service" id="knp_menu.provider" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="knp_menu.renderer_provider" />
+            <argument type="service" id="knp_menu.menu_provider" />
         </service>
     </services>
 
