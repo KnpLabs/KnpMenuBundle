@@ -8,16 +8,20 @@ class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('knp_menu.provider')) {
+        if (!$container->hasDefinition('knp_menu.menu_provider')) {
             return;
         }
-        $definition = $container->getDefinition('knp_menu.provider');
+        $definition = $container->getDefinition('knp_menu.menu_provider');
 
         $menus = array();
-        foreach ($container->findTaggedServiceIds('knp_menu.menu') as $id => $attributes) {
-            if (isset($attributes[0]['alias'])) {
-                $definition->addMethodCall('addMenuServiceId', array($attributes[0]['alias'], $id));
+        foreach ($container->findTaggedServiceIds('knp_menu.menu') as $id => $tags) {
+            foreach ($tags as $attributes) {
+                if (empty($attributes['alias'])) {
+                    throw new \InvalidArgumentException(sprintf('The alias is not defined in the "knp_menu.menu" tag for the service "%s"', $id));
+                }
+                $menus[$attributes['alias']] = $id;
             }
         }
+        $definition->replaceArgument(1, $menus);
     }
 }

@@ -18,17 +18,17 @@ class KnpMenuExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('provider.xml');
+        $loader->load('menu.xml');
 
         $config = array();
-        foreach($configs as $c) {
+        foreach ($configs as $c) {
             $config = array_merge($config, $c);
         }
 
-        if(!empty($config['twig'])) {
+        if (!empty($config['twig'])) {
             $loader->load('twig.xml');
-            $loader->load('templating.xml');
-        } elseif(!empty($config['templating'])) {
+        }
+        if (!empty($config['templating'])) {
             $loader->load('templating.xml');
         }
     }

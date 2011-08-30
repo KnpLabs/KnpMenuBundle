@@ -4,13 +4,22 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="twig.extension.knp_menu.class">Knp\Bundle\MenuBundle\Twig\MenuExtension</parameter>
+        <parameter key="knp_menu.twig.extension.class">Knp\Menu\Twig\MenuExtension</parameter>
+        <parameter key="knp_menu.renderer.twig.class">Knp\Menu\Renderer\TwigRenderer</parameter>
+        <parameter key="knp_menu.renderer.twig.template">knp_menu.html.twig</parameter>
     </parameters>
 
     <services>
-        <service id="twig.extension.knp_menu" class="%twig.extension.knp_menu.class%" public="false">
-            <tag name="twig.extension" alias="knp_menu" />
-            <argument type="service" id="templating.helper.knp_menu" />
+        <service id="knp_menu.twig.extension" class="%knp_menu.twig.extension.class%" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="knp_menu.renderer_provider" />
+            <argument type="service" id="knp_menu.menu_provider" />
+        </service>
+
+        <service id="knp_menu.renderer.twig" class="%knp_menu.renderer.twig.class%">
+            <tag name="twig.extension" />
+            <tag name="knp_menu.renderer" alias="twig" />
+            <argument>%knp_menu.renderer.twig.template%</argument>
         </service>
     </services>
 
