@@ -18,24 +18,13 @@ class MenuHelper extends TemplatingHelper
     }
 
     /**
-     * Retrieves a menu from the menu provider.
-     *
-     * @param string $name
-     * @return \Knp\Menu\ItemInterface
-     */
-    public function get($name)
-    {
-        return $this->helper->get($name);
-    }
-
-    /**
      * Retrieves an item following a path in the tree.
      *
      * @param \Knp\Menu\ItemInterface|string $menu
      * @param array $path
      * @return \Knp\Menu\ItemInterface
      */
-    public function getByPath($menu, array $path)
+    public function get($menu, array $path = array())
     {
         return $this->helper->getByPath($menu, $path);
     }

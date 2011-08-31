@@ -29,9 +29,4 @@ class ContainerAwareProvider implements MenuProviderInterface
     {
         return isset($this->menuIds[$name]);
     }
-
-    public function addMenu($name, $serviceId)
-    {
-        $this->menuIds[$name] = $serviceId;
-    }
 }
