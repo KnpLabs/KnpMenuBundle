@@ -60,9 +60,14 @@ located at `app/AppKernel`:
 ```yaml
 # app/config/config.yml
 knp_menu:
-    twig: true  # enables the Twig extension and the TwigRenderer
+    twig: false  # disables the Twig extension and the TwigRenderer
     templating: true # enables the helper for PHP templates
 ```
+
+>**NOTE**
+>The configuration is optional. If you omit it, the default behavior is to
+>enable the Twig support and to disable the PHP helper (as Twig is the recommended
+>templating engine in Symfony2)
 
 ## Create a menu
 

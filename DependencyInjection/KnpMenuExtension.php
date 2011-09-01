@@ -12,7 +12,7 @@ class KnpMenuExtension extends Extension
     /**
      * Handles the knp_menu configuration.
      *
-     * @param  array $configs The configurations being loaded
+     * @param array $configs The configurations being loaded
      * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -20,40 +20,14 @@ class KnpMenuExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('menu.xml');
 
-        $config = array();
-        foreach ($configs as $c) {
-            $config = array_merge($config, $c);
-        }
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
 
-        if (!empty($config['twig'])) {
+        if ($config['twig']) {
             $loader->load('twig.xml');
         }
-        if (!empty($config['templating'])) {
+        if ($config['templating']) {
             $loader->load('templating.xml');
         }
-    }
-
-    /**
-     * @see Symfony\Component\DependencyInjection\Extension\ExtensionInterface
-     */
-    public function getXsdValidationBasePath()
-    {
-        return __DIR__.'/../Resources/config/schema';
-    }
-
-    /**
-     * @see Symfony\Component\DependencyInjection\Extension\ExtensionInterface
-     */
-    public function getNamespace()
-    {
-        return 'http://symfony.com/schema/dic/menu';
-    }
-
-    /**
-     * @see Symfony\Component\DependencyInjection\Extension\ExtensionInterface
-     */
-    public function getAlias()
-    {
-        return 'knp_menu';
     }
 }
