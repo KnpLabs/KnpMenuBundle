@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddRenderersPass;
+use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddTemplatePathPass;
 
 class KnpMenuBundle extends Bundle
 {
@@ -15,5 +16,6 @@ class KnpMenuBundle extends Bundle
 
         $container->addCompilerPass(new MenuPass());
         $container->addCompilerPass(new AddRenderersPass());
+        $container->addCompilerPass(new AddTemplatePathPass());
     }
 }
