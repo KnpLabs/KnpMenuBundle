@@ -17,11 +17,14 @@ class KnpMenuExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('menu.xml');
-
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $this->loadProvider($configs, $container, $loader);
+        $this->loadFactory($configs, $container, $loader);
+
+        $loader->load('menu.xml');
 
         if ($config['twig']) {
             $loader->load('twig.xml');
@@ -31,5 +34,15 @@ class KnpMenuExtension extends Extension
         }
 
         $container->setParameter('knp_menu.scan_container_for_menus', $config['scan_container_for_menus']);
+    }
+
+    protected function loadProvider($configs, $container, $loader)
+    {
+        $loader->load('provider.xml');
+    }
+
+    protected function loadFactory($configs, $container, $loader)
+    {
+        $loader->load('factory.xml');
     }
 }
