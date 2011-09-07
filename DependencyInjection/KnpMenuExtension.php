@@ -9,6 +9,8 @@ use Symfony\Component\Config\FileLocator;
 
 class KnpMenuExtension extends Extension
 {
+    private $loader = null;
+
     /**
      * Handles the knp_menu configuration.
      *
@@ -17,17 +19,32 @@ class KnpMenuExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('menu.xml');
-
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $this->loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $this->loadProvider($configs, $container);
+        $this->loadFactory($configs, $container);
+
+        $this->loader->load('menu.xml');
+
         if ($config['twig']) {
-            $loader->load('twig.xml');
+            $this->loader->load('twig.xml');
         }
         if ($config['templating']) {
-            $loader->load('templating.xml');
+            $this->loader->load('templating.xml');
         }
+
+        $container->setParameter('knp_menu.scan_container_for_menus', $config['scan_container_for_menus']);
+    }
+
+    protected function loadProvider($configs, $container)
+    {
+        $this->loader->load('provider.xml');
+    }
+
+    protected function loadFactory($configs, $container)
+    {
+        $this->loader->load('factory.xml');
     }
 }
