@@ -134,7 +134,7 @@ services:
         class: Acme\HelloBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
 
-    acme_hello.menu.main
+    acme_hello.menu.main:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
         factory_service: acme_hello.menu_builder
         factory_method: createMainMenu
@@ -162,7 +162,7 @@ of creating a service tagger with `knp_menu.renderer`:
 ```yaml
 # src/Acme/HelloBundle/Resources/config/services.yml
 services:
-    acme_hello.menu_renderer
+    acme_hello.menu_renderer:
         class: Acme\HelloBundle\Menu\CustomRenderer # The class implements Knp\Menu\Renderer\RendererInterface
         arguments: [%kernel.charset%] # set your own dependencies here
         tags:
