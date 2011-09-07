@@ -8,6 +8,10 @@ class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
+        if (!$container->getParameter('knp_menu.scan_container_for_menus')) {
+            return;
+        }
+
         if (!$container->hasDefinition('knp_menu.menu_provider')) {
             return;
         }

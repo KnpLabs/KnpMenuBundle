@@ -23,9 +23,11 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('knp_menu');
 
         $rootNode
+            ->addDefaultsIfNotSet()
             ->children()
                 ->booleanNode('twig')->defaultTrue()->end()
                 ->booleanNode('templating')->defaultFalse()->end()
+                ->booleanNode('scan_container_for_menus')->defaultTrue()->end()
             ->end();
 
         return $treeBuilder;
