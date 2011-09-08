@@ -4,7 +4,7 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
 use Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider;
 
-class PimpleProviderTest extends \PHPUnit_Framework_TestCase
+class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function testHas()
     {
@@ -14,7 +14,7 @@ class PimpleProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($provider->has('third'));
     }
 
-    public function testGetExistentProvider()
+    public function testGetExistentMenu()
     {
         $menu = $this->getMock('Knp\Menu\ItemInterface');
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
@@ -30,7 +30,7 @@ class PimpleProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testGetNonExistentProvider()
+    public function testGetNonExistentMenu()
     {
         $provider = new ContainerAwareProvider($this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'));
         $provider->get('non-existent');

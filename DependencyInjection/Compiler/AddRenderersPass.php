@@ -27,6 +27,6 @@ class AddRenderersPass implements CompilerPassInterface
                 $renderers[$attributes['alias']] = $id;
             }
         }
-        $definition->replaceArgument(1, $renderers);
+        $definition->replaceArgument(2, $renderers);
     }
 }

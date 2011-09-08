@@ -29,5 +29,7 @@ class KnpMenuExtension extends Extension
         if ($config['templating']) {
             $loader->load('templating.xml');
         }
+
+        $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
     }
 }

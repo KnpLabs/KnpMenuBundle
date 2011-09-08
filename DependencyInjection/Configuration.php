@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('twig')->defaultTrue()->end()
                 ->booleanNode('templating')->defaultFalse()->end()
+                ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
             ->end();
 
         return $treeBuilder;

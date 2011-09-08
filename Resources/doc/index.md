@@ -62,12 +62,13 @@ located at `app/AppKernel`:
 knp_menu:
     twig: false  # disables the Twig extension and the TwigRenderer
     templating: true # enables the helper for PHP templates
+    default_renderer: list # Change the default renderer as we disabled the Twig one
 ```
 
 >**NOTE**
 >The configuration is optional. If you omit it, the default behavior is to
->enable the Twig support and to disable the PHP helper (as Twig is the recommended
->templating engine in Symfony2)
+>enable the Twig support, to disable the PHP helper (as Twig is the recommended
+>templating engine in Symfony2) and to use the Twig renderer as default renderer.
 
 ## Create a menu
 
@@ -151,7 +152,7 @@ services:
 You can now retrieve the menu by its name in your template:
 
 ```jinja
-{{ 'main'|knp_menu_render('twig') }}
+{{ knp_menu_render('main') }}
 ```
 
 ## Registering your own renderer
@@ -176,7 +177,7 @@ services:
 You can now use your renderer to render your menu:
 
 ```jinja
-{{ 'main'|knp_menu_render('custom', {'my_custom_option': 'some_value'}) }}
+{{ knp_menu_render('main', {'my_custom_option': 'some_value'}, 'custom') }}
 ```
 
 >**NOTE**
@@ -194,5 +195,5 @@ and retrieve your menu from a template, just like available in Twig.
 $item = $view['knp_menu']->get('main', array('child'));
 
 // Render an item
-echo $view['knp_menu']->render($item, 'list');
+echo $view['knp_menu']->render($item, array(), 'list');
 ```

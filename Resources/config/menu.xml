@@ -35,6 +35,7 @@
 
         <service id="knp_menu.renderer_provider" class="%knp_menu.renderer_provider.class%">
             <argument type="service" id="service_container" />
+            <argument>%knp_menu.default_renderer%</argument>
             <argument type="collection" />
         </service>
 
