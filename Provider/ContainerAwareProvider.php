@@ -4,6 +4,7 @@ namespace Knp\Bundle\MenuBundle\Provider;
 
 use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Knp\Menu\ItemInterface;
 
 class ContainerAwareProvider implements MenuProviderInterface
 {
@@ -22,11 +23,51 @@ class ContainerAwareProvider implements MenuProviderInterface
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
         }
 
-        return $this->container->get($this->menuIds[$name]);
+        $menu = $this->container->get($this->menuIds[$name]);
+
+        if (!$menu instanceof ItemInterface) {
+            throw new \LogicException(sprintf('The menu "%s" must be an ItemInterface object (%s given)', $name, $this->varToString($menu)));
+        }
+
+        return $menu;
     }
 
     public function has($name)
     {
         return isset($this->menuIds[$name]);
+    }
+
+    private function varToString($var)
+    {
+        if (is_object($var)) {
+            return sprintf('Object(%s)', get_class($var));
+        }
+
+        if (is_array($var)) {
+            $a = array();
+            foreach ($var as $k => $v) {
+                $a[] = sprintf('%s => %s', $k, $this->varToString($v));
+            }
+
+            return sprintf("Array(%s)", implode(', ', $a));
+        }
+
+        if (is_resource($var)) {
+            return sprintf('Resource(%s)', get_resource_type($var));
+        }
+
+        if (null === $var) {
+            return 'null';
+        }
+
+        if (false === $var) {
+            return 'false';
+        }
+
+        if (true === $var) {
+            return 'true';
+        }
+
+        return (string) $var;
     }
 }
