@@ -8,10 +8,10 @@ class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('knp_menu.menu_provider')) {
+        if (!$container->hasDefinition('knp_menu.menu_provider.container_aware')) {
             return;
         }
-        $definition = $container->getDefinition('knp_menu.menu_provider');
+        $definition = $container->getDefinition('knp_menu.menu_provider.container_aware');
 
         $menus = array();
         foreach ($container->findTaggedServiceIds('knp_menu.menu') as $id => $tags) {
