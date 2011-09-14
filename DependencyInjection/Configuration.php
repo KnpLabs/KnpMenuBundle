@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('twig')->defaultTrue()->end()
                 ->booleanNode('templating')->defaultFalse()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
+                ->scalarNode('template')->cannotBeEmpty()->defaultValue('knp_menu.html.twig')->end()
             ->end();
 
         return $treeBuilder;
