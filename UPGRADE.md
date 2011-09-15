@@ -9,10 +9,16 @@ changes have occurred to the bundle. To handle the changes, you have 2 options:
 
 **1) I'm cool, I don't really need to upgrade**
 
-No problem. You can lock KnpMenuBundle at the old version by adding the following
-to your `deps.lock` file:
+No problem. The original version of the bundle was tagged and called `legacy`.
+You can lock KnpMenuBundle at the legacy version by adding a `version` option
+to the `[KnpMenuBundle]` entry of your `deps` file
 
-    KnpMenuBundle e5d9c865ea7375abd6dbd251d47fc016597053ac
+```
+[KnpMenuBundle]
+    git=git://github.com/knplabs/KnpMenuBundle.git
+    target=/bundles/Knp/Bundle/MenuBundle
+    version=legacy
+```
 
 When you run `bin/vendor install`, the original version of the bundle will
 be downloaded
@@ -73,9 +79,34 @@ $menu->addChild('Comments', array('uri' => $this->generateUrl('about')));
 ### c) Menu classes
 
 Previously, you could create a menu class, make it a service, tag it with
-`knp_menu.menu`, and then render it in a Twig template. This is still true,
-except that instead of having many menu classes, you have one menu "builder",
-which can create many menus.
+`knp_menu.menu`, and then render it in a Twig template. This is still possible,
+except that you would need to inject the `knp_menu.factory` service into
+your new menu. The new menu class might look something like this:
+
+```php
+<?php
+namespace Acme\MainBundle\Menu;
+
+use Knp\Menu\MenuItem;
+
+class MainMenu extends MenuItem
+{
+    public function __construct($name, FactoryInterface $factory)
+    {
+        parent::__construct($name, $factory);
+        
+        $this->addChild('Comments', array('route' => 'comments'));
+        //
+    }
+}
+```
+
+A better way, however, might be to have just one class - called a menu "builder" -
+which is responsible for creating as many different menus as you want. For
+example, a single `MenuBuilder` might have `createMainMenu` and `createSidebarMenu`
+methods, each which create a different menu.
+
+Let's look at how using a menu builder differs from the old approach of
 
 **Before**:
 
@@ -176,6 +207,10 @@ services:
         tags:
             - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
 ```
+
+The key difference is that the single builder itself needs to be registered
+as a service. Then, a tagged menu service is created for each method on the
+builder (e.g. `createMainMenu`) that creates a menu.
 
 Finally, rendering the menu in a template is a little bit different:
 
