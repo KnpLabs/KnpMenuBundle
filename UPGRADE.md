@@ -91,9 +91,9 @@ use Knp\Menu\MenuItem;
 
 class MainMenu extends MenuItem
 {
-    public function __construct($name, FactoryInterface $factory)
+    public function __construct(FactoryInterface $factory)
     {
-        parent::__construct($name, $factory);
+        parent::__construct('Main Menu', $factory);
         
         $this->addChild('Comments', array('route' => 'comments'));
         //
