@@ -15,13 +15,13 @@ to the `[KnpMenuBundle]` entry of your `deps` file
 
 ```
 [KnpMenuBundle]
-    git=git://github.com/knplabs/KnpMenuBundle.git
-    target=/bundles/Knp/Bundle/MenuBundle
+    git=https://github.com/knplabs/KnpMenuBundle.git
+    target=bundles/Knp/Bundle/MenuBundle
     version=legacy
 ```
 
-When you run `bin/vendor install`, the original version of the bundle will
-be downloaded
+When you run `php bin/vendors install`, the original version of the bundle will
+be downloaded.
 
 **2) Let's upgrade!**
 
