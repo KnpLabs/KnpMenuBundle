@@ -40,9 +40,10 @@ To start, you'll need to add a new item to your `deps` file:
 Next, make sure the `Knp` entries in your `app/autoload.php` file look like
 this:
 
-``` php
+```php
 <?php
 // app/autoload.php
+
 $loader->registerNamespaces(array(
     // ...
     'Knp\Bundle' => __DIR__.'/../vendor/bundles',
@@ -55,25 +56,24 @@ $loader->registerNamespaces(array(
 
 Previously, a menu was just a class that you could instantiate. Now, you
 should use a menu factory to create menus. There have also been a few other
-changes in the syntax for reating menus. From inside a controller:
+changes in the syntax for creating menus. From inside a controller:
 
 **Before**:
 
-``` php
+```php
 $menu = new MenuItem('My menu');
 $menu->addChild('Home', $this->generateUrl('homepage'));
-$menu->addChild('Comments', $this->generateUrl('about'));
+$menu->addChild('Comments', $this->generateUrl('comments'));
 ```
 
 **After**:
 
-``` php
-
+```php
 $menuFactory = $this->get('knp_menu.factory');
 
 $menu = $menuFactory->createItem('My menu');
 $menu->addChild('Home', array('uri' => $this->generateUrl('homepage')));
-$menu->addChild('Comments', array('uri' => $this->generateUrl('about')));
+$menu->addChild('Comments', array('uri' => $this->generateUrl('comments')));
 ```
 
 ### c) Menu classes
@@ -87,6 +87,7 @@ your new menu. The new menu class might look something like this:
 <?php
 namespace Acme\MainBundle\Menu;
 
+use Knp\Menu\FactoryInterface;
 use Knp\Menu\MenuItem;
 
 class MainMenu extends MenuItem
@@ -94,9 +95,9 @@ class MainMenu extends MenuItem
     public function __construct(FactoryInterface $factory)
     {
         parent::__construct('Main Menu', $factory);
-        
+
         $this->addChild('Comments', array('route' => 'comments'));
-        //
+        // ...
     }
 }
 ```
@@ -110,8 +111,9 @@ Let's look at how using a menu builder differs from the old approach of
 
 **Before**:
 
-``` php
-<?php // src/MyVendor/MyBundle/Menu/MainMenu.php
+```php
+<?php
+// src/Acme/MainBundle/Menu/MainMenu.php
 
 namespace Acme\MainBundle\Menu;
 
@@ -153,7 +155,7 @@ class MenuBuilder
     private $factory;
 
     /**
-     * @param \Knp\Menu\FactoryInterface $factory
+     * @param FactoryInterface $factory
      */
     public function __construct(FactoryInterface $factory)
     {
@@ -178,7 +180,7 @@ a little bit different.
 
 **Before**:
 
-```php
+```yaml
 services:
     acme_main.menu_main:
         class:   Acme\MainBundle\Menu\MainMenu
@@ -193,10 +195,10 @@ services:
 
 ```yaml
 services:
-    # you'll just need this 
+    # you'll just need this
     acme_main.menu_builder:
         class: Acme\MainBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory", "@router"]
+        arguments: ["@knp_menu.factory"]
 
     acme_main.menu.main:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
@@ -217,7 +219,7 @@ Finally, rendering the menu in a template is a little bit different:
 **Before**:
 
 ```jinja
-{{ {{ knp_menu('main') }} }}
+{{ knp_menu('main') }}
 ```
 
 **After**:
