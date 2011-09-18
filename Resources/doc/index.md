@@ -35,25 +35,32 @@ vendors in the file and run ``php bin/vendors install``:
 
 ### Add the namespaces to your autoloader
 
-    // app/autoload.php
-    $loader->registerNamespaces(array(
-        'Knp\Bundle' => __DIR__.'/../vendor/bundles',
-        'Knp\Menu'   => __DIR__.'/../vendor/knp-menu/src',
-        // ...
-    ));
+```php
+// app/autoload.php
+
+$loader->registerNamespaces(array(
+    // ...
+    'Knp\Bundle' => __DIR__.'/../vendor/bundles',
+    'Knp\Menu'   => __DIR__.'/../vendor/knp-menu/src',
+    // ...
+));
+```
 
 ### Register the bundle
 
 To start using the bundle, register it in your Kernel. This file is usually
-located at `app/AppKernel`:
+located at `app/AppKernel.php`:
 
-    public function registerBundles()
-    {
-        $bundles = array(
-            // ...
-            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-        );
-    )
+```php
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+    );
+    // ...
+)
+```
 
 ### Configure the bundle
 
@@ -85,7 +92,7 @@ tag.
 
 >**NOTE**
 >Registering your menu in the menu provider is optional. You could also create
->it the menu in your controller and pass it explicitly to your template.
+>the menu in your controller and pass it explicitly to your template.
 
 A good way to build the menu tree is to create a builder and use it as factory
 service for the menu.
@@ -106,7 +113,7 @@ class MenuBuilder
     private $factory;
 
     /**
-     * @param \Knp\Menu\FactoryInterface $factory
+     * @param FactoryInterface $factory
      */
     public function __construct(FactoryInterface $factory)
     {
