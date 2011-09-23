@@ -2,13 +2,13 @@
 
 namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
-use Knp\Bundle\MenuBundle\Provider\AliasProvider;
+use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 
-class AliasProviderTest extends \PHPUnit_Framework_TestCase
+class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function testHas()
     {
-        $provider = new AliasProvider(
+        $provider = new BuilderAliasProvider(
             $this->getMock('Symfony\Component\HttpKernel\KernelInterface'),
             $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
             $this->getMock('Knp\Menu\FactoryInterface')
@@ -27,7 +27,7 @@ class AliasProviderTest extends \PHPUnit_Framework_TestCase
             ->with('Main menu')
             ->will($this->returnValue($this->getMock('Knp\Menu\ItemInterface')));
 
-        $provider = new AliasProvider(
+        $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
             $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
             $factory
@@ -43,7 +43,7 @@ class AliasProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNonExistentMenuClass()
     {
-        $provider = new AliasProvider(
+        $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
             $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
             $this->getMock('Knp\Menu\FactoryInterface')
@@ -57,7 +57,7 @@ class AliasProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNonExistentMenuMethod()
     {
-        $provider = new AliasProvider(
+        $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
             $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
             $this->getMock('Knp\Menu\FactoryInterface')

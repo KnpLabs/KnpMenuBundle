@@ -15,7 +15,7 @@ use Knp\Menu\ItemInterface;
  *
  * @author Ryan Weaver <ryan@knplabs.com>
  */
-class AliasProvider implements MenuProviderInterface
+class BuilderAliasProvider implements MenuProviderInterface
 {
     private $kernel;
 
