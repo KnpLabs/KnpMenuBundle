@@ -1,57 +1,76 @@
 Using KnpMenuBundle
 ===================
 
+Welcome to KnpMenuBundle - creating menus is fun again!
+
+**Basic Docs**
+
+* [Installation](#installation)
+* [Your first menu](#first-menu)
+* [Rendering Menus](#rendering-menus)
+* [Using PHP Templates](#php-templates)
+
+**More Advanced Stuff**
+
+* [Menus as Services](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md)
+* [Custom Menu Renderer](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/custom_renderer.md)
+
+<a name="installation"></a>
+
 ## Installation
 
-### Get the bundle and the library
+### Step 1) Get the bundle and the library
 
-To install the bundle, place it in the `vendor/bundles/Knp/Bundle` directory
-of your project (so that it lives at `vendor/bundles/Knp/Bundle/MenuBundle`)
-and place `KnpMenu` in your `vendor` folder.
-You can do this by adding the bundle as a submodule, cloning it, or simply
-downloading the source.
+First, grab the KnpMenu library and KnpMenuBundle. There are two different ways
+to do this:
 
-#### Using submodules
+#### Method a) Using the `deps` file
 
-Simply run the following commands:
-
-```bash
-git submodule add https://github.com/knplabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
-git submodule add https://github.com/knplabs/KnpMenu.git vendor/knp-menu
-```
-
-#### Using the `deps` file
-
-You can also achieve the same by using the `deps` file. Simply add the new
-vendors in the file and run ``php bin/vendors install``:
+Add the following lines to your  `deps` file and then run `php bin/vendors
+install`:
 
 ```
-[knp-menu]
+[KnpMenu]
     git=https://github.com/knplabs/KnpMenu.git
+
 [KnpMenuBundle]
     git=https://github.com/knplabs/KnpMenuBundle.git
     target=bundles/Knp/Bundle/MenuBundle
 ```
 
-### Add the namespaces to your autoloader
+#### Method b) Using submodules
 
-```php
+Run the following commands to bring in the needed libraries as submodules.
+
+```bash
+git submodule add https://github.com/knplabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
+git submodule add https://github.com/knplabs/KnpMenu.git vendor/KnpMenu
+```
+
+### Step 2) Register the namespaces
+
+Add the following two namespace entries to the `registerNamespaces` call
+in your autoloader:
+
+``` php
+<?php
 // app/autoload.php
-
 $loader->registerNamespaces(array(
     // ...
     'Knp\Bundle' => __DIR__.'/../vendor/bundles',
-    'Knp\Menu'   => __DIR__.'/../vendor/knp-menu/src',
+    'Knp\Menu'   => __DIR__.'/../vendor/KnpMenu/src',
     // ...
 ));
 ```
 
-### Register the bundle
+### Step 3) Register the bundle
 
-To start using the bundle, register it in your Kernel. This file is usually
-located at `app/AppKernel.php`:
+To start using the bundle, register it in your Kernel:
 
-```php
+``` php
+<?php
+// app/AppKernel.php
+
 public function registerBundles()
 {
     $bundles = array(
@@ -62,7 +81,10 @@ public function registerBundles()
 )
 ```
 
-### Configure the bundle
+### Step 4) (optional) Configure the bundle
+
+The bundle comes with a sensible default configuration, which is listed below.
+If you skip this step, these defaults will be used.
 
 ```yaml
 # app/config/config.yml
@@ -72,58 +94,35 @@ knp_menu:
     default_renderer: list # Change the default renderer as we disabled the Twig one
 ```
 
->**NOTE**
->The configuration is optional. If you omit it, the default behavior is to
->enable the Twig support, to disable the PHP helper (as Twig is the recommended
->templating engine in Symfony2) and to use the Twig renderer as default renderer.
+<a name="first-menu"></a>
 
-## Create a menu
+## Create your first menu!
 
-To create a menu, simply follow the way described in the `KnpMenu` doc.
+There are two ways to create a menu: the "easy" way, and the more flexible
+method of creating a menu as a service.
 
->**NOTE**
->The `RouterAwareFactory` is available as the `knp_menu.factory` service.
+### Method a) The Easy Way (yay)!
 
-## Registering a menu in the provider
+To create a menu, you create a `Builder` class in the `Menu` directory of
+any bundle. For each menu you need, add a method to this class, build that
+menu and return it.
 
-Registering a menu in the MenuProvider (to access it by its name in the templates)
-is simply a matter of creating a service and tagging it with the `knp_menu.menu`
-tag.
-
->**NOTE**
->Registering your menu in the menu provider is optional. You could also create
->the menu in your controller and pass it explicitly to your template.
-
-A good way to build the menu tree is to create a builder and use it as factory
-service for the menu.
-
-Create a builder for your menu:
+An example builder class would look like this:
 
 ```php
 <?php
-// src/Acme/HelloBundle/Menu/MenuBuilder.php
-
-namespace Acme\HelloBundle\Menu;
+// src/Acme/DemoBundle/Menu/Builder.php
+namespace Acme\DemoBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class MenuBuilder
+class Builder extends ContainerAware
 {
-    private $factory;
-
-    /**
-     * @param FactoryInterface $factory
-     */
-    public function __construct(FactoryInterface $factory)
+    public function mainMenu(FactoryInterface $factory)
     {
-        $this->factory = $factory;
-    }
-
-    public function createMainMenu(Request $request)
-    {
-        $menu = $this->factory->createItem('root');
-        $menu->setCurrentUri($request->getRequestUri());
+        $menu = $factory->createItem('root');
+        $menu->setCurrentUri($this->container->get('request')->getRequestUri());
 
         $menu->addChild('Home', array('route' => 'homepage'));
         // ... add more children
@@ -133,64 +132,72 @@ class MenuBuilder
 }
 ```
 
-Then register your services:
+**Note** You only need to extend `ContainerAware` if you need the service
+container to be available via `$this->container`. You can also implement
+`ContainerAwareInterface` instead of extending this class.
 
-```yaml
-# src/Acme/HelloBundle/Resources/config/services.yml
-services:
-    acme_hello.menu_builder:
-        class: Acme\HelloBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
-
-    acme_hello.menu.main:
-        class: Knp\Menu\MenuItem # the service definition requires setting the class
-        factory_service: acme_hello.menu_builder
-        factory_method: createMainMenu
-        arguments: ["@request"]
-        scope: request # needed as we have the request as a dependency here
-        tags:
-            - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
-```
-
->**NOTE**
->The menu service must be public as it will be retrieved at runtime to keep
->it lazy-loaded.
-
-You can now retrieve the menu by its name in your template:
+To actually render the menu, just do the following from anywhere in any Twig
+template:
 
 ```jinja
-{{ knp_menu_render('main') }}
+{{ knp_menu_render('AcmeDemoBundle:Builder:mainMenu') }}
 ```
 
-## Registering your own renderer
+With this method, you refer to the menu using a three-part string:
+**bundle**:**class**:**method**.
 
-Registering your own renderer in the renderer provider is simply a matter
-of creating a service tagger with `knp_menu.renderer`:
+If you needed to create a second menu, you'd simply add another method to
+the `Builder` class (e.g. `sidebarMenu`), build and return the new menu,
+then render it via `AcmeDemoBundle:Builder:sidebarMenu`.
 
-```yaml
-# src/Acme/HelloBundle/Resources/config/services.yml
-services:
-    acme_hello.menu_renderer:
-        class: Acme\HelloBundle\Menu\CustomRenderer # The class implements Knp\Menu\Renderer\RendererInterface
-        arguments: [%kernel.charset%] # set your own dependencies here
-        tags:
-            - { name: knp_menu.renderer, alias: custom } # The alias is what is used to retrieve the menu
-```
+That's it! The menu is *very* configurable. For more details, see the
+[KnpMenu](https://github.com/knplabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown)
+documentation.
 
->**Note**
->The renderer service must be public as it will be retrieved at runtime to
->keep it lazy-loaded.
+### Method b) A menu as a service
 
-You can now use your renderer to render your menu:
+For information on how to register a service and tag it as a menu, read
+[Creating Menus as Services](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md).
+
+<a name="rendering-menus"></a>
+
+## Rendering Menus
+
+Once you've setup your menu, rendering it easy. If you've used the "easy"
+way, then do the following:
 
 ```jinja
-{{ knp_menu_render('main', {'my_custom_option': 'some_value'}, 'custom') }}
+{{ knp_menu_render('AcmeDemoBundle:Builder:mainMenu') }}
 ```
 
->**NOTE**
->As the renderer is responsible to render some HTML code, the `knp_menu_render`
->filter is marked as safe. Take care to handle escaping data in your renderer
->to avoid XSS if you use some user input in the menu.
+Additionally, you can pass some options to the renderer:
+
+```jinja
+{{ knp_menu_render('AcmeDemoBundle:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
+```
+
+For a full list of options, see the "Other rendering options" header on the
+[KnpMenu](https://github.com/knplabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown) documentation.
+
+You can also "get" a menu, which you can use to render later:
+
+```jinja
+{% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu') %}
+
+{{ knp_menu_render(menuItem) }}
+```
+
+If you want to only retrieve a certain branch of the menu, you can do the
+following, where 'Contact' is one of the root menu items and has children
+beneath it.
+
+```jinja
+{% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu', ['Contact']) %}
+
+{{ knp_menu_render(['AcmeDemoBundle:Builder:mainMenu', 'Contact']) }}
+```
+
+<a name="php-templates"></a>
 
 ## Using PHP templates
 
@@ -199,7 +206,7 @@ and retrieve your menu from a template, just like available in Twig.
 
 ```php
 // Retrieves an item by its path in the main menu
-$item = $view['knp_menu']->get('main', array('child'));
+$item = $view['knp_menu']->get('AcmeDemoBundle:Builder:main', array('child'));
 
 // Render an item
 echo $view['knp_menu']->render($item, array(), 'list');
