@@ -31,5 +31,6 @@ class KnpMenuExtension extends Extension
         }
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
+        $container->setParameter('knp_menu.template', $config['template']);
     }
 }

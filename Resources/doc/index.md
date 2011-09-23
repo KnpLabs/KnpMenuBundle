@@ -70,12 +70,14 @@ knp_menu:
     twig: false  # disables the Twig extension and the TwigRenderer
     templating: true # enables the helper for PHP templates
     default_renderer: list # Change the default renderer as we disabled the Twig one
+    template: AcmeFooBundle:Menu:knp_menu.html.twig # override the default template
 ```
 
 >**NOTE**
 >The configuration is optional. If you omit it, the default behavior is to
 >enable the Twig support, to disable the PHP helper (as Twig is the recommended
->templating engine in Symfony2) and to use the Twig renderer as default renderer.
+>templating engine in Symfony2), use the Twig renderer as default renderer
+>and to use default template placed in the 'KnpMenu'.
 
 ## Create a menu
 
