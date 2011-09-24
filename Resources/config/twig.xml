@@ -16,8 +16,8 @@
         </service>
 
         <service id="knp_menu.renderer.twig" class="%knp_menu.renderer.twig.class%">
-            <tag name="twig.extension" />
             <tag name="knp_menu.renderer" alias="twig" />
+            <argument type="service" id="twig" />
             <argument>%knp_menu.renderer.twig.template%</argument>
         </service>
     </services>
