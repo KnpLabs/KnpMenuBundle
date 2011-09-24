@@ -2,12 +2,17 @@ Creating Menus as Services
 ==========================
 
 This bundle gives you a really convenient way to create menus by following
-a convention and - if needed - injected the entire container. A more flexible
-or precise method of creating a menu is to register it as a service.
+a convention and - if needed - injecting the entire container.
+
+However, if you want to, you can instead choose to create a service for your
+menu object. The advantage of this method is that you can inject the exact
+dependencies that your menu needs, instead of injecting the entire service
+container. This can lead to code that is more testable and also potentially
+more reusable. The disadvantage is that it needs just a little more setup.
 
 Start by creating a builder for your menu. You can stick as many menus into
-a builder as you want, so you may only have one of these builder classes
-in your application:
+a builder as you want, so you may only have one (or just a few) of these
+builder classes in your application:
 
 ```php
 <?php
@@ -51,7 +56,7 @@ object created by the `createMainMenu` method:
 services:
     acme_main.menu_builder:
         class: Acme\MainBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory", "@router"]
+        arguments: ["@knp_menu.factory"]
 
     acme_main.menu.main:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
@@ -66,8 +71,6 @@ services:
 >**NOTE**
 >The menu service must be public as it will be retrieved at runtime to keep
 >it lazy-loaded.
-
-You can now retrieve the menu by its name in your template:
 
 You can now render the menu directly in a template via the name given in the
 `alias` key above:

@@ -89,9 +89,9 @@ If you skip this step, these defaults will be used.
 ```yaml
 # app/config/config.yml
 knp_menu:
-    twig: false  # disables the Twig extension and the TwigRenderer
-    templating: true # enables the helper for PHP templates
-    default_renderer: list # Change the default renderer as we disabled the Twig one
+    twig: true  # set to false to disable the Twig extension and the TwigRenderer
+    templating: false # if true, enables the helper for PHP templates
+    default_renderer: twig # The renderer to use, list is also available by default
 ```
 
 <a name="first-menu"></a>
@@ -103,9 +103,9 @@ method of creating a menu as a service.
 
 ### Method a) The Easy Way (yay)!
 
-To create a menu, you create a `Builder` class in the `Menu` directory of
-any bundle. For each menu you need, add a method to this class, build that
-menu and return it.
+To create a menu, first create a new class in the `Menu` directory of one
+of your bundles. This class - called `Builder` in our example - will have
+one method for each menu that you need to build.
 
 An example builder class would look like this:
 
