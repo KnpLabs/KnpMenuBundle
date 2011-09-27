@@ -25,8 +25,6 @@ class BuilderAliasProvider implements MenuProviderInterface
 
     private $builders = array();
 
-    private $menus = array();
-
     public function __construct(KernelInterface $kernel, ContainerInterface $container, FactoryInterface $menuFactory)
     {
         $this->kernel = $kernel;
@@ -50,22 +48,19 @@ class BuilderAliasProvider implements MenuProviderInterface
             throw new \InvalidArgumentException(sprintf('Invalid pattern passed to AliasProvider - expected "bundle:class:method", got "%s".', $name));
         }
 
-        if (!isset($this->menus[$name])) {
-            list($bundleName, $className, $methodName) = explode(':', $name);
+        list($bundleName, $className, $methodName) = explode(':', $name);
 
-            $builder = $this->getBuilder($bundleName, $className);
-            if (!method_exists($builder, $methodName)) {
-                throw new \InvalidArgumentException(sprintf('Method "%s" was not found on class "%s" when rendering the "%s" menu.', $methodName, $className, $name));
-            }
-
-            $menu = $builder->$methodName($this->menuFactory);
-            if (!$menu instanceof ItemInterface) {
-                throw new \InvalidArgumentException(sprintf('Method "%s" did not return an ItemInterface menu object for menu "%s"', $methodName, $name));
-            }
-            $this->menus[$name] = $menu;
+        $builder = $this->getBuilder($bundleName, $className);
+        if (!method_exists($builder, $methodName)) {
+            throw new \InvalidArgumentException(sprintf('Method "%s" was not found on class "%s" when rendering the "%s" menu.', $methodName, $className, $name));
         }
 
-        return $this->menus[$name];
+        $menu = $builder->$methodName($this->menuFactory);
+        if (!$menu instanceof ItemInterface) {
+            throw new \InvalidArgumentException(sprintf('Method "%s" did not return an ItemInterface menu object for menu "%s"', $methodName, $name));
+        }
+
+        return $menu;
     }
 
     /**
