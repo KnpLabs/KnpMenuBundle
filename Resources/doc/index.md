@@ -125,6 +125,10 @@ class Builder extends ContainerAware
         $menu->setCurrentUri($this->container->get('request')->getRequestUri());
 
         $menu->addChild('Home', array('route' => 'homepage'));
+        $menu->addChild('About Me', array(
+            'route' => 'page_show', 
+            'routeParameters' => array('id' => 42)
+        ));
         // ... add more children
 
         return $menu;
