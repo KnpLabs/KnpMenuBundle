@@ -14,6 +14,7 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 * [Menus as Services](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md)
 * [Custom Menu Renderer](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/custom_renderer.md)
+* [I18n for your menu labels](i18n.md)
 
 <a name="installation"></a>
 
