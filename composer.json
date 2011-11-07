@@ -11,7 +11,7 @@
         },
         {
             "name":     "Symfony Community",
-            "homepage": "https://github.com/knplabs/KnpMenu/contributors"
+            "homepage": "https://github.com/knplabs/KnpMenuBundle/contributors"
         }
     ],
     "require":      {
