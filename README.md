@@ -5,6 +5,8 @@ The `KnpMenuBundle` integrates the [KnpMenu](https://github.com/knplabs/KnpMenu)
 PHP library with Symfony2. This means easy-to-implement and feature-rich menus
 in your Symfony2 application!
 
+[![Build Status](https://secure.travis-ci.org/knplabs/KnpMenuBundle.png)](http://travis-ci.org/knplabs/KnpMenuBundle)
+
 ### What now?
 
 Documentation! The documentation for this bundle is available in the `Resources/doc`
