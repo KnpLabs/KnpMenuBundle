@@ -15,7 +15,7 @@ to the `[KnpMenuBundle]` entry of your `deps` file
 
 ```
 [KnpMenuBundle]
-    git=https://github.com/knplabs/KnpMenuBundle.git
+    git=https://github.com/KnpLabs/KnpMenuBundle.git
     target=bundles/Knp/Bundle/MenuBundle
     version=legacy
 ```
@@ -34,7 +34,7 @@ To start, you'll need to add a new item to your `deps` file:
 
 ```
 [knp-menu]
-    git=https://github.com/knplabs/KnpMenu.git
+    git=https://github.com/KnpLabs/KnpMenu.git
 ```
 
 Next, make sure the `Knp` entries in your `app/autoload.php` file look like

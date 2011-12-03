@@ -126,7 +126,7 @@ class Builder extends ContainerAware
 
         $menu->addChild('Home', array('route' => 'homepage'));
         $menu->addChild('About Me', array(
-            'route' => 'page_show', 
+            'route' => 'page_show',
             'routeParameters' => array('id' => 42)
         ));
         // ... add more children
