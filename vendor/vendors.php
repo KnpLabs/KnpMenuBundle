@@ -6,7 +6,7 @@ set_time_limit(0);
 $vendorDir = __DIR__;
 $deps = array(
     array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
-    array('knp-menu', 'http://github.com/knplabs/KnpMenu.git', 'origin/master'),
+    array('knp-menu', 'http://github.com/KnpLabs/KnpMenu.git', 'origin/master'),
 );
 
 foreach ($deps as $dep) {
