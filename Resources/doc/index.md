@@ -12,8 +12,8 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 **More Advanced Stuff**
 
-* [Menus as Services](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md)
-* [Custom Menu Renderer](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/custom_renderer.md)
+* [Menus as Services](https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md)
+* [Custom Menu Renderer](https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/custom_renderer.md)
 
 <a name="installation"></a>
 
@@ -31,10 +31,10 @@ install`:
 
 ```
 [KnpMenu]
-    git=https://github.com/knplabs/KnpMenu.git
+    git=https://github.com/KnpLabs/KnpMenu.git
 
 [KnpMenuBundle]
-    git=https://github.com/knplabs/KnpMenuBundle.git
+    git=https://github.com/KnpLabs/KnpMenuBundle.git
     target=bundles/Knp/Bundle/MenuBundle
 ```
 
@@ -43,8 +43,8 @@ install`:
 Run the following commands to bring in the needed libraries as submodules.
 
 ```bash
-git submodule add https://github.com/knplabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
-git submodule add https://github.com/knplabs/KnpMenu.git vendor/KnpMenu
+git submodule add https://github.com/KnpLabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
+git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
 ```
 
 ### Step 2) Register the namespaces
@@ -155,13 +155,13 @@ the `Builder` class (e.g. `sidebarMenu`), build and return the new menu,
 then render it via `AcmeDemoBundle:Builder:sidebarMenu`.
 
 That's it! The menu is *very* configurable. For more details, see the
-[KnpMenu](https://github.com/knplabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown)
+[KnpMenu](https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown)
 documentation.
 
 ### Method b) A menu as a service
 
 For information on how to register a service and tag it as a menu, read
-[Creating Menus as Services](https://github.com/knplabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md).
+[Creating Menus as Services](https://github.com/KnpLabs/KnpMenuBundle/blob/master/Resources/doc/menu_service.md).
 
 <a name="rendering-menus"></a>
 
@@ -181,7 +181,7 @@ Additionally, you can pass some options to the renderer:
 ```
 
 For a full list of options, see the "Other rendering options" header on the
-[KnpMenu](https://github.com/knplabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown) documentation.
+[KnpMenu](https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown) documentation.
 
 You can also "get" a menu, which you can use to render later:
 
