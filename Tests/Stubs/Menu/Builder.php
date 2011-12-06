@@ -10,4 +10,9 @@ class Builder
     {
         return $factory->createItem('Main menu');
     }
+
+    public function invalidMethod(FactoryInterface $factory)
+    {
+        return new \stdClass();
+    }
 }

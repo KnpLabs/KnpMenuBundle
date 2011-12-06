@@ -20,12 +20,13 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExistentMenu()
     {
+        $item = $this->getMock('Knp\Menu\ItemInterface');
         // mock the factory to return a set value when the builder creates the menu
         $factory = $this->getMock('Knp\Menu\FactoryInterface');
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
-            ->will($this->returnValue($this->getMock('Knp\Menu\ItemInterface')));
+            ->will($this->returnValue($item));
 
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
@@ -35,7 +36,60 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
         $menu = $provider->get('FooBundle:Builder:mainMenu');
         // returns the mocked value returned from mocked factory
-        $this->assertInstanceOf('Knp\Menu\ItemInterface', $menu);
+        $this->assertSame($item, $menu);
+    }
+
+    public function testGetContainerAwareMenu()
+    {
+        $item = $this->getMock('Knp\Menu\ItemInterface');
+        // mock the factory to return a set value when the builder creates the menu
+        $factory = $this->getMock('Knp\Menu\FactoryInterface');
+        $factory->expects($this->once())
+            ->method('createItem')
+            ->with('Main menu')
+            ->will($this->returnValue($item));
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->once())
+            ->method('get')
+            ->with('test');
+
+        $provider = new BuilderAliasProvider(
+            $this->createMockKernelForStub(),
+            $container,
+            $factory
+        );
+
+        $menu = $provider->get('FooBundle:ContainerAwareBuilder:mainMenu');
+        // returns the mocked value returned from mocked factory
+        $this->assertSame($item, $menu);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetInvalidReturnValue()
+    {
+        $provider = new BuilderAliasProvider(
+            $this->createMockKernelForStub(),
+            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
+            $this->getMock('Knp\Menu\FactoryInterface')
+        );
+
+        $menu = $provider->get('FooBundle:Builder:invalidMethod');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetNonExistentMenu()
+    {
+        $provider = new BuilderAliasProvider(
+            $this->getMock('Symfony\Component\HttpKernel\KernelInterface'),
+            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
+            $this->getMock('Knp\Menu\FactoryInterface')
+        );
+        $provider->get('non-existent');
     }
 
     /**
