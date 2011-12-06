@@ -23,6 +23,12 @@ class KnpMenuExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        foreach ($config['providers'] as $builder => $enabled) {
+            if ($enabled) {
+                $container->getDefinition(sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.menu_provider');
+            }
+        }
+
         if (isset($config['twig'])) {
             $loader->load('twig.xml');
             $container->setParameter('knp_menu.renderer.twig.template', $config['twig']['template']);

@@ -24,6 +24,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('providers')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('builder_alias')->defaultTrue()->end()
+                        ->booleanNode('container_aware')->defaultTrue()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('twig')
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()

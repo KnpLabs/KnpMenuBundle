@@ -127,3 +127,21 @@ It can now be rendered, just like the other menu:
 ```jinja
 {{ knp_menu_render('sidebar') }}
 ```
+
+## Disabling the core menu providers
+
+To be able to use different menu providers together (the container-based
+one and the builder-based one for instance), a chain provider is used.
+However, it is not used when only one provider is enabled to increase performance
+by getting rid of the wrapping. If you don't want to use the built-in providers,
+you can disable them through the configuration:
+
+```yaml
+#app/config/config.yml
+knp_menu:
+    providers:
+        builder_alias: false    # disable the builder-based provider
+        container_aware: true   # keep this one enabled. Can be omitted as it is the default
+```
+
+**Note:** Both providers are enabled by default.
