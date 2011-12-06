@@ -25,7 +25,7 @@ class KnpMenuExtension extends Extension
 
         foreach ($config['providers'] as $builder => $enabled) {
             if ($enabled) {
-                $container->getDefinition(sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.menu_provider');
+                $container->getDefinition(sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
             }
         }
 
