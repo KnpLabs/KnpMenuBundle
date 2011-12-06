@@ -89,10 +89,13 @@ If you skip this step, these defaults will be used.
 ```yaml
 # app/config/config.yml
 knp_menu:
-    twig: true  # set to false to disable the Twig extension and the TwigRenderer
+    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
+        template: knp_menu.html.twig
     templating: false # if true, enables the helper for PHP templates
     default_renderer: twig # The renderer to use, list is also available by default
 ```
+
+**Note:** Take care to change the default renderer if you disable the Twig support.
 
 <a name="first-menu"></a>
 

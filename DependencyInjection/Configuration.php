@@ -24,7 +24,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('twig')->defaultTrue()->end()
+                ->arrayNode('twig')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->scalarNode('template')->defaultValue('knp_menu.html.twig')->end()
+                    ->end()
+                ->end()
                 ->booleanNode('templating')->defaultFalse()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
             ->end();

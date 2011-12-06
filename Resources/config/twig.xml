@@ -6,7 +6,6 @@
     <parameters>
         <parameter key="knp_menu.twig.extension.class">Knp\Menu\Twig\MenuExtension</parameter>
         <parameter key="knp_menu.renderer.twig.class">Knp\Menu\Renderer\TwigRenderer</parameter>
-        <parameter key="knp_menu.renderer.twig.template">knp_menu.html.twig</parameter>
     </parameters>
 
     <services>

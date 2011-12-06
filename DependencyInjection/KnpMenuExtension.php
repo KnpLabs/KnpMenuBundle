@@ -23,8 +23,9 @@ class KnpMenuExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        if ($config['twig']) {
+        if (isset($config['twig'])) {
             $loader->load('twig.xml');
+            $container->setParameter('knp_menu.renderer.twig.template', $config['twig']['template']);
         }
         if ($config['templating']) {
             $loader->load('templating.xml');
