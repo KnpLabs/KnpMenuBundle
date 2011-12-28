@@ -26,7 +26,7 @@ class MenuHelper extends TemplatingHelper
      */
     public function get($menu, array $path = array())
     {
-        return $this->helper->getByPath($menu, $path);
+        return $this->helper->get($menu, $path);
     }
 
     /**
