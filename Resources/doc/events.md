@@ -1,14 +1,14 @@
-Using events to allow extending the menu
-========================================
+Using events to allow a menu to be extended
+===========================================
 
-If you want to let different part of your system hook into the building of
-your menu, a good way is to use an approach based on the Symfony2 EventDispatcher
+If you want to let different parts of your system hook into the building
+of your menu, a good way is to use an approach based on the Symfony2 EventDispatcher
 component.
 
 ## Create the menu builder
 
 Your menu builder will create the base menu item and then dispatch an event
-to allow adding more stuff in it.
+to allow other parts of your application to add more stuff to it.
 
 ```php
 <?php
@@ -43,7 +43,7 @@ it as a service and inject the ``event_dispatcher`` service as a dependency.
 
 ## Create the Event object
 
-The event object allows passing some data to the listener. In this case,
+The event object allows to pass some data to the listener. In this case,
 it will hold the menu being created and the factory.
 
 ```php
@@ -58,6 +58,8 @@ use Symfony\Component\EventDispatcher\Event;
 
 class ConfigureMenuEvent extends Event
 {
+    const CONFIGURE = 'acme_demo.menu_configure';
+
     private $factory;
     private $menu;
 
@@ -71,13 +73,13 @@ class ConfigureMenuEvent extends Event
         $this->menu = $menu;
     }
 
-     /**
-      * @return \Knp\Menu\FactoryInterface
-      */
-     public function getFactory()
-     {
-         return $this->factory;
-     }
+    /**
+     * @return \Knp\Menu\FactoryInterface
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
 
     /**
      * @return \Knp\Menu\ItemInterface
@@ -89,27 +91,10 @@ class ConfigureMenuEvent extends Event
 }
 ```
 
-Following the Symfony2 convention, we will also define a class defining the
-event name. Following the best practices, the first segment of the event
-name will be the alias of the bundle, which allows avoiding conflicts.
+**Note:** Following the Symfony2 best practices, the first segment of the
+event name will be the alias of the bundle, which allows avoiding conflicts.
 
-**Note:** This is not mandatory to use the event. We could hardcode the event
-name in all places.
-
-```php
-<?php
-// src/Acme/DemoBundle/MenuEvents.php
-
-namespace Acme\DemoBundle;
-
-final class MenuEvents
-{
-    const CONFIGURE = 'acme_demo.menu_configure';
-}
-```
-
-That's it. Your builder now provides a hook. Let's now see how you can use
-this hook.
+That's it. Your builder now provides a hook. Let's see how you can use it!
 
 ## Create a listener
 
