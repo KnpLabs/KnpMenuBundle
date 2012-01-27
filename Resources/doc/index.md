@@ -15,6 +15,7 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 * [Menus as Services](menu_service.md)
 * [Custom Menu Renderer](custom_renderer.md)
 * [I18n for your menu labels](i18n.md)
+* [Using events to allow extending the menu](events.md)
 
 <a name="installation"></a>
 
