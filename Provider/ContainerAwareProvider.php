@@ -16,7 +16,7 @@ class ContainerAwareProvider implements MenuProviderInterface
         $this->menuIds = $menuIds;
     }
 
-    public function get($name)
+    public function get($name, array $options = array())
     {
         if (!isset($this->menuIds[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
@@ -25,7 +25,7 @@ class ContainerAwareProvider implements MenuProviderInterface
         return $this->container->get($this->menuIds[$name]);
     }
 
-    public function has($name)
+    public function has($name, array $options = array())
     {
         return isset($this->menuIds[$name]);
     }
