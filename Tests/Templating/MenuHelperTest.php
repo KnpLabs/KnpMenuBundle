@@ -26,6 +26,21 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('returned value', $helper->get('test', array('pathArray')));
     }
 
+    public function testGetMenuWithOptions()
+    {
+        $menu = $this->getMock('Knp\Menu\ItemInterface');
+        $helperMock = $this->getMockBuilder('Knp\Menu\Twig\Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $helperMock->expects($this->once())
+            ->method('get')
+            ->with('default', array(), array('foo' => 'bar'))
+            ->will($this->returnValue($menu))
+        ;
+        $helper = new MenuHelper($helperMock);
+        $this->assertSame($menu, $helper->get('default', array(), array('foo' => 'bar')));
+    }
+
     public function testRender()
     {
         $helperMock = $this->getMockBuilder('Knp\Menu\Twig\Helper')

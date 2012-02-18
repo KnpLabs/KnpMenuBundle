@@ -40,9 +40,11 @@ class BuilderAliasProvider implements MenuProviderInterface
      * on it. The method is passed the menu factory.
      *
      * @param string $name The alias name of the menu
+     * @param array $options
+     * @return \Knp\Menu\ItemInterface
      * @throws \InvalidArgumentException
      */
-    public function get($name)
+    public function get($name, array $options = array())
     {
         if (!$this->has($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid pattern passed to AliasProvider - expected "bundle:class:method", got "%s".', $name));
@@ -55,7 +57,7 @@ class BuilderAliasProvider implements MenuProviderInterface
             throw new \InvalidArgumentException(sprintf('Method "%s" was not found on class "%s" when rendering the "%s" menu.', $methodName, $className, $name));
         }
 
-        $menu = $builder->$methodName($this->menuFactory);
+        $menu = $builder->$methodName($this->menuFactory, $options);
         if (!$menu instanceof ItemInterface) {
             throw new \InvalidArgumentException(sprintf('Method "%s" did not return an ItemInterface menu object for menu "%s"', $methodName, $name));
         }
@@ -67,9 +69,10 @@ class BuilderAliasProvider implements MenuProviderInterface
      * Verifies if the given name follows the bundle:class:method alias syntax.
      *
      * @param string $name The alias name of the menu
+     * @param array $options
      * @return Boolean
      */
-    public function has($name)
+    public function has($name, array $options = array())
     {
         return 2 == substr_count($name, ':');
     }

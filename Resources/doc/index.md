@@ -124,7 +124,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Builder extends ContainerAware
 {
-    public function mainMenu(FactoryInterface $factory)
+    public function mainMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
         $menu->setCurrentUri($this->container->get('request')->getRequestUri());
@@ -204,6 +204,15 @@ beneath it.
 {% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu', ['Contact']) %}
 
 {{ knp_menu_render(['AcmeDemoBundle:Builder:mainMenu', 'Contact']) }}
+```
+
+If you want to pass some options to the builder, you can use the third parameter
+of the `knp_menu_get` function:
+
+```jinja
+{% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu', [], {'some_option': 'my_value'}) %}
+
+{{ knp_menu_render(menuItem) }}
 ```
 
 <a name="php-templates"></a>
