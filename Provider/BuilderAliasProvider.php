@@ -94,14 +94,14 @@ class BuilderAliasProvider implements MenuProviderInterface
 
         if (!isset($this->builders[$name])) {
             
-            // if the Bundle in which the menu is defined is overriden with getParent() then kernel->getBundles() 
-            // returns the uppermost Bundle, not the base Bundle
-            $bundles=$this->kernel->getBundles();
-            if(!isset($bundles[$bundleName])) {
-               throw new \LogicException(sprintf('Bundle %s does not appear to be registered in the kernel',$bundleName));
+            // if the Bundle in which the menu is defined is overriden with getParent() then kernel->getBundle()
+            // returns the uppermost Bundle, not the base Bundle so we have to do it the long way
+            $bundles = $this->kernel->getBundles();
+            if (!isset($bundles[$bundleName])) {
+                throw new \InvalidArgumentException(sprintf('Bundle %s does not appear to be registered in the kernel', $bundleName));
             }
-            
-            $bundle=$bundles[$bundleName];
+
+            $bundle = $bundles[$bundleName];
             
             $class = $bundle->getNamespace().'\\Menu\\'.$className;
 
