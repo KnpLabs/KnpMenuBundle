@@ -47,6 +47,7 @@
 
         <service id="knp_menu.renderer.list" class="%knp_menu.renderer.list.class%">
             <tag name="knp_menu.renderer" alias="list" />
+            <argument type="collection" />
             <argument>%kernel.charset%</argument>
         </service>
     </services>
