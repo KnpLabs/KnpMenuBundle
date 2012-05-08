@@ -80,7 +80,7 @@ public function registerBundles()
         new Knp\Bundle\MenuBundle\KnpMenuBundle(),
     );
     // ...
-)
+}
 ```
 
 ### Step 4) (optional) Configure the bundle
