@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="knp_menu.twig.extension.class">Knp\Menu\Twig\MenuExtension</parameter>
         <parameter key="knp_menu.renderer.twig.class">Knp\Menu\Renderer\TwigRenderer</parameter>
+        <parameter key="knp_menu.renderer.twig.options" type="collection"></parameter>
     </parameters>
 
     <services>
@@ -18,6 +19,7 @@
             <tag name="knp_menu.renderer" alias="twig" />
             <argument type="service" id="twig" />
             <argument>%knp_menu.renderer.twig.template%</argument>
+            <argument>%knp_menu.renderer.twig.options%</argument>
         </service>
     </services>
 
