@@ -145,6 +145,8 @@ class Builder extends ContainerAware
 container to be available via `$this->container`. You can also implement
 `ContainerAwareInterface` instead of extending this class.
 
+**Note** The menu builder can be overwritten using the bundle inheritance.
+
 To actually render the menu, just do the following from anywhere in any Twig
 template:
 

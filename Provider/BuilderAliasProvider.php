@@ -2,13 +2,13 @@
 
 namespace Knp\Bundle\MenuBundle\Provider;
 
+use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Knp\Menu\ItemInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * A menu provider that allows for an AcmeBundle:Builder:mainMenu shortcut syntax
@@ -93,11 +93,27 @@ class BuilderAliasProvider implements MenuProviderInterface
         $name = sprintf('%s:%s', $bundleName, $className);
 
         if (!isset($this->builders[$name])) {
-            $bundle = $this->kernel->getBundle($bundleName);
-            $class = $bundle->getNamespace().'\\Menu\\'.$className;
+            $class = null;
+            $logs = array();
+            $bundles = array();
 
-            if (!class_exists($class)) {
-                throw new \InvalidArgumentException(sprintf('Class "%s" does not exist for menu builder "%s:%s".', $class, $bundle->getName(), $className));
+            foreach ($this->kernel->getBundle($bundleName, false) as  $bundle) {
+                $try = $bundle->getNamespace().'\\Menu\\'.$className;
+                if (class_exists($try)) {
+                    $class = $try;
+                    break;
+                }
+
+                $logs[] = sprintf('Class "%s" does not exist for menu builder "%s".', $try, $name);
+                $bundles[] = $bundle->getName();
+            }
+
+            if (null === $class) {
+                if (1 === count($logs)) {
+                    throw new \InvalidArgumentException($logs[0]);
+                }
+
+                throw new \InvalidArgumentException(sprintf('Unable to find menu builder "%s" in bundles %s.', $name, implode(', ', $bundles)));
             }
 
             $builder = new $class();
