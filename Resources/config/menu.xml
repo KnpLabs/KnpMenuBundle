@@ -12,6 +12,7 @@
         <parameter key="knp_menu.menu_provider.builder_alias.class">Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider</parameter>
         <parameter key="knp_menu.renderer_provider.class">Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider</parameter>
         <parameter key="knp_menu.renderer.list.class">Knp\Menu\Renderer\ListRenderer</parameter>
+        <parameter key="knp_menu.renderer.list.options" type="collection"></parameter>
     </parameters>
 
     <services>
@@ -47,7 +48,7 @@
 
         <service id="knp_menu.renderer.list" class="%knp_menu.renderer.list.class%">
             <tag name="knp_menu.renderer" alias="list" />
-            <argument type="collection" />
+            <argument>%knp_menu.renderer.list.options%</argument>
             <argument>%kernel.charset%</argument>
         </service>
     </services>
