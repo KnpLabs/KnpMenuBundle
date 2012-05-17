@@ -135,9 +135,8 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         $kernel->expects($this->once())
-            ->method('getBundle')
-            ->with('FooBundle')
-            ->will($this->returnValue($bundle))
+            ->method('getBundles')
+            ->will($this->returnValue(array('FooBundle' => $bundle)))
         ;
 
         return $kernel;
