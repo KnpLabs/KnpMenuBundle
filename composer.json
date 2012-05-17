@@ -10,6 +10,10 @@
             "homepage": "http://knplabs.com"
         },
         {
+            "name":     "Christophe Coevoet",
+            "email":    "stof@notk.org"
+        },
+        {
             "name":     "Symfony Community",
             "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
         }
