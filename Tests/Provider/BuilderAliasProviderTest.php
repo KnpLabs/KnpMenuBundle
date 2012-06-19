@@ -4,6 +4,7 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
 use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
+use Symfony\Component\HttpKernel\Kernel;
 
 class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -208,7 +209,11 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     private function createTestKernel($childNamespace = 'Bar', $parentNamespace = 'Knp\Bundle\MenuBundle\Tests\Stubs')
     {
-        $bundle = $this->getMock('Knp\Bundle\MenuBundle\Tests\Stubs\ContainerAwareBundleInterface');
+        $bundleInterface = version_compare(Kernel::VERSION, '2.1-dev', '<')
+            ? 'Knp\Bundle\MenuBundle\Tests\Stubs\ContainerAwareBundleInterface' // Symfony 2.0 misses the extend in the interface
+            : 'Symfony\Component\HttpKernel\Bundle\BundleInterface';
+
+        $bundle = $this->getMock($bundleInterface);
         $bundle->expects($this->any())
             ->method('getNamespace')
             ->will($this->returnValue($parentNamespace))
@@ -218,7 +223,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('FooBundle'))
         ;
 
-        $childBundle = $this->getMock('Knp\Bundle\MenuBundle\Tests\Stubs\ContainerAwareBundleInterface');
+        $childBundle = $this->getMock($bundleInterface);
         $childBundle->expects($this->any())
             ->method('getNamespace')
             ->will($this->returnValue($childNamespace))
