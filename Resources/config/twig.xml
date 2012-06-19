@@ -19,6 +19,7 @@
             <tag name="knp_menu.renderer" alias="twig" />
             <argument type="service" id="twig" />
             <argument>%knp_menu.renderer.twig.template%</argument>
+            <argument type="service" id="knp_menu.matcher" />
             <argument>%knp_menu.renderer.twig.options%</argument>
         </service>
     </services>

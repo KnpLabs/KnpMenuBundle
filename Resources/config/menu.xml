@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="knp_menu.factory.class">Knp\Menu\Silex\RouterAwareFactory</parameter>
         <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
+        <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
         <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
         <parameter key="knp_menu.menu_provider.container_aware.class">Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider</parameter>
         <parameter key="knp_menu.menu_provider.builder_alias.class">Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider</parameter>
@@ -24,6 +25,8 @@
             <argument type="service" id="knp_menu.renderer_provider" />
             <argument type="service" id="knp_menu.menu_provider" />
         </service>
+
+        <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" />
 
         <service id="knp_menu.menu_provider.chain" class="%knp_menu.menu_provider.chain.class%" public="false">
             <argument type="collection" />
@@ -48,6 +51,7 @@
 
         <service id="knp_menu.renderer.list" class="%knp_menu.renderer.list.class%">
             <tag name="knp_menu.renderer" alias="list" />
+            <argument type="service" id="knp_menu.matcher" />
             <argument>%knp_menu.renderer.list.options%</argument>
             <argument>%kernel.charset%</argument>
         </service>

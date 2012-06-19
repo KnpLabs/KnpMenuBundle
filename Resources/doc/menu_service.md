@@ -38,7 +38,6 @@ class MenuBuilder
     public function createMainMenu(Request $request)
     {
         $menu = $this->factory->createItem('root');
-        $menu->setCurrentUri($request->getRequestUri());
 
         $menu->addChild('Home', array('route' => 'homepage'));
         // ... add more children
@@ -95,7 +94,6 @@ class MenuBuilder
     public function createSidebarMenu(Request $request)
     {
         $menu = $this->factory->createItem('sidebar');
-        $menu->setCurrentUri($request->getRequestUri());
 
         $menu->addChild('Home', array('route' => 'homepage'));
         // ... add more children
