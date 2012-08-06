@@ -6,4 +6,6 @@ env:
   - SYMFONY_VERSION=v2.0.10
   - SYMFONY_VERSION=origin/2.0
   - SYMFONY_VERSION=origin/master
-before_script: php vendor/vendors.php
+before_script:
+    - wget -nc http://getcomposer.org/composer.phar
+    - php composer.phar install --dev

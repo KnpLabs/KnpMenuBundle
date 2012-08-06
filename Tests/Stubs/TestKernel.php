@@ -13,7 +13,7 @@ class TestKernel extends Kernel
     {
         $this->mockBundles = $bundles;
 
-        parent::__construct('test', true);
+        parent::__construct('test', false);
     }
 
     public function registerBundles()
