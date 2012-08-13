@@ -12,18 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser;
  */
 class ControllerVoter implements VoterInterface
 {
-    /**
-     * @var ContainerInterface
-     */
     private $container;
 
     private $controllerNameParser;
 
-    /**
-     * @param ContainerInterface $container
-     * @param ControllerNameParser $controllerNameParser A controller name parser (optional)
-     */
-    public function __construct(ContainerInterface $container, ControllerNameParser $controllerNameParser = null)
+    public function __construct(ContainerInterface $container, ControllerNameParser $controllerNameParser)
     {
         $this->container = $container;
         $this->controllerNameParser = $controllerNameParser;
@@ -42,24 +35,16 @@ class ControllerVoter implements VoterInterface
             return null;
         }
 
-        if (!$itemController = (string) $item->getExtra('controller', '')) {
+        if (!$itemControllers = (array) $item->getExtra('controllers', array())) {
             return null;
         }
 
-        if ($itemController === $controller) {
-            return true;
-        }
-
-        if (null === $this->controllerNameParser) {
-            return null;
-        }
-
-        try {
+        foreach ($itemControllers as $itemController) {
             $itemParsedController = $this->controllerNameParser->parse($itemController);
             if ($itemParsedController === $controller) {
                 return true;
             }
-        } catch (\InvalidArgumentException $e) {} // fail silently, as FQCN are also allowed
+        }
 
         return null;
     }
