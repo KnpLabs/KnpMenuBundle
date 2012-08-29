@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 
-class FOSAdvancedEncoderExtensionTest extends \PHPUnit_Framework_TestCase
+class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefault()
     {

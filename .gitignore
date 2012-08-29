@@ -1,4 +1,2 @@
-/phpunit.xml
-/Tests/autoload.php
-/vendor/knp-menu
-/vendor/symfony
+composer.lock
+vendor/*
