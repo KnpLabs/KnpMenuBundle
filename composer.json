@@ -25,5 +25,6 @@
     "autoload":     {
         "psr-0": { "Knp\\Bundle\\MenuBundle": "" }
     },
-    "target-dir": "Knp/Bundle/MenuBundle"
+    "target-dir": "Knp/Bundle/MenuBundle",
+    "minimum-stability": "dev"
 }
