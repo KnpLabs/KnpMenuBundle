@@ -1,11 +1,11 @@
 Using KnpMenuBundle
 ===================
 
-Welcome to KnpMenuBundle - creating menus is fun again!
+Welcome to KnpMenuBundle - creating menus is fun again with Symfony2.1.0!
 
 **Basic Docs**
 
-* [Installation](#installation)
+* 'Installation'
 * [Your first menu](#first-menu)
 * [Rendering Menus](#rendering-menus)
 * [Using PHP Templates](#php-templates)
@@ -19,50 +19,43 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 <a name="installation"></a>
 
-## Installation
+## Installation in Symfony2.1.0
 
 ### Step 1) Get the bundle and the library
 
 First, grab the KnpMenu library and KnpMenuBundle. There are two different ways
 to do this:
 
-#### Method a) Using the `deps` file
+#### Method a) Using the `composer.json` file
 
-Add the following lines to your  `deps` file and then run `php bin/vendors
-install`:
+Add the following lines to your  `composer.json` file and then run `composer.phar update knplabs`:
 
 ```
-[KnpMenu]
-    git=https://github.com/KnpLabs/KnpMenu.git
-
-[KnpMenuBundle]
-    git=https://github.com/KnpLabs/KnpMenuBundle.git
-    target=bundles/Knp/Bundle/MenuBundle
-```
-
-#### Method b) Using submodules
-
-Run the following commands to bring in the needed libraries as submodules.
-
-```bash
-git submodule add https://github.com/KnpLabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
-git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
+ ...
+    "require": {
+        ...
+        "knplabs/knp-menu-bundle": "master",
+        "knplabs/knp-menu": "2.0.*"
+        ...
+    },
+ ...
 ```
 
 ### Step 2) Register the namespaces
 
 Add the following two namespace entries to the `registerNamespaces` call
-in your autoloader:
+in your  autoload_namespaces.php:
 
 ``` php
 <?php
-// app/autoload.php
+// vendor/composer/ autoload_namespaces.php
 $loader->registerNamespaces(array(
-    // ...
-    'Knp\Bundle' => __DIR__.'/../vendor/bundles',
-    'Knp\Menu'   => __DIR__.'/../vendor/KnpMenu/src',
-    // ...
-));
+    return array(
+    ...
+    'Knp\\Menu\\' => $vendorDir . '/knplabs/knp-menu/src/',
+    'Knp\\Bundle\\MenuBundle' => $vendorDir . '/knplabs/knp-menu-bundle/',
+    ...
+);
 ```
 
 ### Step 3) Register the bundle
