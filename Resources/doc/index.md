@@ -26,7 +26,7 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 First, grab the KnpMenu library and KnpMenuBundle. There are two different ways
 to do this:
 
-#### Method a) Using the `deps` file
+#### Method a) Using the `deps` file (Symfony 2.0)
 
 Add the following lines to your  `deps` file and then run `php bin/vendors
 install`:
@@ -38,6 +38,15 @@ install`:
 [KnpMenuBundle]
     git=https://github.com/KnpLabs/KnpMenuBundle.git
     target=bundles/Knp/Bundle/MenuBundle
+```
+
+#### Method a) Using `composer.json` file (Symfony 2.1)
+
+Add the following lines to your `composer.json` file 
+to the `require section` and then run `php composer.phar update`:
+
+```
+"knplabs/knp-menu-bundle": "dev-master"
 ```
 
 #### Method b) Using submodules
