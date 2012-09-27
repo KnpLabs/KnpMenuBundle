@@ -1,7 +1,9 @@
 Registering your own provider
 =============================
 
-Registering your own menu provider allows you to feed your menu with your own data, accessed by your code. It can for example go through a PHPCR repository and create the corresponding menu elements. 
+Registering your own menu provider allows you to feed your menu with your own
+data, accessed by your code. It can for example go through a PHPCR repository
+and create the corresponding menu elements.
 
 Create first your Provider class, in the Provider directory of your bundle:
 
@@ -22,6 +24,7 @@ class CustomMenuProvider implements MenuProviderInterface
      * @var ContainerInterface
      */
     protected $container;
+
     /**
      * @var FactoryInterface
      */
@@ -48,12 +51,11 @@ class CustomMenuProvider implements MenuProviderInterface
      */
     public function get($name, array $options = array())
     {
-		if ('demo' == $name) //several menu could call this provider
-		{
+		if ('demo' == $name) { //several menu could call this provider
+
 			$menu = /* construct / get a \Knp\Menu\NodeInterface */;
 
-			if ($menu === null)
-			{
+			if ($menu === null) {
 				throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
 			}
 
@@ -62,7 +64,8 @@ class CustomMenuProvider implements MenuProviderInterface
 			 */
         
 			$menuItem = $this->factory->createFromNode($menu);
-			$menuItem->setCurrentUri($this->container->get('request')->getRequestUri());
+			$menuItem->setUri($this->container->get('request')->getRequestUri());
+
 			return $menuItem;
 		}
 	}
@@ -77,9 +80,11 @@ class CustomMenuProvider implements MenuProviderInterface
     public function has($name, array $options = array())
     {
         $menu = /* find the menu called $name */;
+
         return $menu !== null;
     }
 }
+
 ```	
 
 Then, configure the services linked to this new provider. 
@@ -92,7 +97,7 @@ services:
           - @service_container
           - @knp_menu.factory
         tags:
-          - { name: knp_menu.provider, alias: demo } # The alias is what is used to retrieve the menu
+          - { name: knp_menu.provider }
 ```	
 
 Finally, to generate the menu, for example inside a twig template type:
