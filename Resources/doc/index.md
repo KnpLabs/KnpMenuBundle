@@ -23,7 +23,7 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 ### Step 1) Get the bundle and the library
 
-First, grab the KnpMenu library and KnpMenuBundle. There are two different ways
+First, grab the KnpMenu library and KnpMenuBundle. There are three different ways
 to do this:
 
 #### Method a) Using the `deps` file
@@ -49,6 +49,14 @@ git submodule add https://github.com/KnpLabs/KnpMenuBundle.git vendor/bundles/Kn
 git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
 ```
 
+#### Method c) Using composer 
+
+Add on composer.json (see http://getcomposer.org/)
+
+    "require" :  {
+        // ...
+        "knplabs/knp-menu-bundle":"*",
+    }
 ### Step 2) Register the namespaces
 
 Add the following two namespace entries to the `registerNamespaces` call
