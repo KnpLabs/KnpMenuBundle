@@ -23,10 +23,20 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 ### Step 1) Get the bundle and the library
 
-First, grab the KnpMenu library and KnpMenuBundle. There are two different ways
+First, grab the KnpMenu library and KnpMenuBundle. There are three different ways
 to do this:
 
-#### Method a) Using the `deps` file
+
+#### Method a) Using composer (symfony 2.1 pattern) 
+
+Add on composer.json (see http://getcomposer.org/)
+
+    "require" :  {
+        // ...
+        "knplabs/knp-menu-bundle":"dev-master",
+    }
+
+#### Method b) Using the `deps` file (symfony 2.0 pattern)
 
 Add the following lines to your  `deps` file and then run `php bin/vendors
 install`:
@@ -40,7 +50,7 @@ install`:
     target=bundles/Knp/Bundle/MenuBundle
 ```
 
-#### Method b) Using submodules
+#### Method c) Using submodules
 
 Run the following commands to bring in the needed libraries as submodules.
 
@@ -51,6 +61,7 @@ git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
 
 ### Step 2) Register the namespaces
 
+If you installed the bundle by composer, use the created autoload.php  (jump to step 3). 
 Add the following two namespace entries to the `registerNamespaces` call
 in your autoloader:
 
