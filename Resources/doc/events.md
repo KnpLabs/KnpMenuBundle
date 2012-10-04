@@ -30,7 +30,7 @@ class MainBuilder extends ContainerAware
         $menu->setCurrentUri($this->container->get('request')->getRequestUri());
         $menu->addChild('Dashboard', array('route' => '_acp_dashboard'));
 
-        $this->container->get('event_dispatcher')->dispatch(MenuEvents::CONFIGURE, new ConfigureMenuEvent($factory, $menu));
+        $this->container->get('event_dispatcher')->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($factory, $menu));
 
         return $menu;
     }
