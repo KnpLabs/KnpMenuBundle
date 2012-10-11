@@ -59,6 +59,10 @@
         <service id="knp_menu.listener.voters" class="Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
+
+        <service id="knp_menu.voter.router" class="Knp\Menu\Silex\Voter\RouteVoter">
+            <tag name="knp_menu.voter" request="true" />
+        </service>
     </services>
 
 </container>
