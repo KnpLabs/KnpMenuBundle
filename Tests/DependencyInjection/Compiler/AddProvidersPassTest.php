@@ -8,9 +8,16 @@ class AddProvidersPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
+        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder->expects($this->once())
+            ->method('hasDefinition')
+            ->will($this->returnValue(false));
+        $containerBuilder->expects($this->never())
+            ->method('findTaggedServiceIds');
+
         $providersPass = new AddProvidersPass();
 
-        $this->assertNull($providersPass->process($this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder')));
+        $providersPass->process($containerBuilder);
     }
 
     public function testProcessForOneProvider()

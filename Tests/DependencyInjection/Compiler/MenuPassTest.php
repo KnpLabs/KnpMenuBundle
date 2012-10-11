@@ -8,9 +8,16 @@ class MenuPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
+        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder->expects($this->once())
+            ->method('hasDefinition')
+            ->will($this->returnValue(false));
+        $containerBuilder->expects($this->never())
+            ->method('findTaggedServiceIds');
+
         $menuPass = new MenuPass();
 
-        $this->assertNull($menuPass->process($this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder')));
+        $menuPass->process($containerBuilder);
     }
 
     /**
