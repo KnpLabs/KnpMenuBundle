@@ -18,10 +18,18 @@ class AddVotersPass implements CompilerPassInterface
         if (!$container->hasDefinition('knp_menu.matcher')) {
             return;
         }
+
         $definition = $container->getDefinition('knp_menu.matcher');
+        $listener = $container->getDefinition('knp_menu.listener.voters');
 
         foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {
             $definition->addMethodCall('addVoter', array(new Reference($id)));
+
+            foreach ($tags as $tag) {
+                if (isset($tag['request']) && $tag['request']) {
+                    $listener->addMethodCall('addVoter', array(new Reference($id)));
+                }
+            }
         }
     }
 }

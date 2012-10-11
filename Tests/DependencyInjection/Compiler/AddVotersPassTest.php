@@ -26,9 +26,19 @@ class AddVotersPassTest extends \PHPUnit_Framework_TestCase
         $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
             ->getMock();
-        $definitionMock->expects($this->once())
+        $definitionMock->expects($this->at(0))
             ->method('addMethodCall')
             ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('id'))));
+        $definitionMock->expects($this->at(1))
+            ->method('addMethodCall')
+            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('foo'))));
+
+        $listenerMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $listenerMock->expects($this->once())
+            ->method('addMethodCall')
+            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('foo'))));
 
         $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $containerBuilderMock->expects($this->once())
@@ -37,11 +47,15 @@ class AddVotersPassTest extends \PHPUnit_Framework_TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->will($this->returnValue(array('id' => array('tag1' => array()))));
-        $containerBuilderMock->expects($this->once())
+            ->will($this->returnValue(array('id' => array('tag1' => array(), 'tag2' => array('request' => false)), 'foo' => array('tag1' => array('request' => true)))));
+        $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))
             ->will($this->returnValue($definitionMock));
+        $containerBuilderMock->expects($this->at(2))
+            ->method('getDefinition')
+            ->with($this->equalTo('knp_menu.listener.voters'))
+            ->will($this->returnValue($listenerMock));
 
         $menuPass = new AddVotersPass();
         $menuPass->process($containerBuilderMock);

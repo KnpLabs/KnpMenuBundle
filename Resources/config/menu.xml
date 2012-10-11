@@ -55,6 +55,10 @@
             <argument>%knp_menu.renderer.list.options%</argument>
             <argument>%kernel.charset%</argument>
         </service>
+
+        <service id="knp_menu.listener.voters" class="Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
     </services>
 
 </container>
