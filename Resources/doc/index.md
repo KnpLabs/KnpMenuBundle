@@ -14,6 +14,7 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 * [Menus as Services](menu_service.md)
 * [Custom Menu Renderer](custom_renderer.md)
+* [Custom Menu Provider](custom_provider.md)
 * [I18n for your menu labels](i18n.md)
 * [Using events to allow extending the menu](events.md)
 
@@ -27,7 +28,7 @@ First, grab the KnpMenu library and KnpMenuBundle. There are three different way
 to do this:
 
 
-#### Method a) Using composer (symfony 2.1 pattern) 
+#### Method a) Using composer (symfony 2.1 pattern)
 
 Add on composer.json (see http://getcomposer.org/)
 
@@ -61,7 +62,7 @@ git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
 
 ### Step 2) Register the namespaces
 
-If you installed the bundle by composer, use the created autoload.php  (jump to step 3). 
+If you installed the bundle by composer, use the created autoload.php  (jump to step 3).
 Add the following two namespace entries to the `registerNamespaces` call
 in your autoloader:
 

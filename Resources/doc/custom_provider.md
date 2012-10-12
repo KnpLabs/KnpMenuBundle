@@ -13,18 +13,11 @@ Create first your Provider class, in the Provider directory of your bundle:
 
 namespace Acme\DemoBundle\Provider;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 
 class CustomMenuProvider implements MenuProviderInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var FactoryInterface
      */
@@ -32,16 +25,14 @@ class CustomMenuProvider implements MenuProviderInterface
 
 
     /**
-     * @param ContainerInterface $container the container used to get the request
      * @param FactoryInterface $factory the menu factory used to create the menu item
      */
-    public function __construct(ContainerInterface $container, FactoryInterface $factory)
+    public function __construct(FactoryInterface $factory)
     {
-        $this->container = $container;
         $this->factory = $factory;
     }
 
-	/**
+    /**
      * Retrieves a menu by its name
      *
      * @param string $name
@@ -51,26 +42,25 @@ class CustomMenuProvider implements MenuProviderInterface
      */
     public function get($name, array $options = array())
     {
-		if ('demo' == $name) { //several menu could call this provider
+        if ('demo' == $name) { //several menu could call this provider
 
-			$menu = /* construct / get a \Knp\Menu\NodeInterface */;
+            $menu = /* construct / get a \Knp\Menu\NodeInterface */;
 
-			if ($menu === null) {
-				throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
-			}
+            if ($menu === null) {
+                throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
+            }
 
-		    /*
-			 * Populate your menu here
-			 */
-        
-			$menuItem = $this->factory->createFromNode($menu);
-			$menuItem->setUri($this->container->get('request')->getRequestUri());
+            /*
+             * Populate your menu here
+             */
 
-			return $menuItem;
-		}
-	}
-    
-	/**
+            $menuItem = $this->factory->createFromNode($menu);
+
+            return $menuItem;
+        }
+    }
+
+    /**
      * Checks whether a menu exists in this provider
      *
      * @param string $name
@@ -84,21 +74,19 @@ class CustomMenuProvider implements MenuProviderInterface
         return $menu !== null;
     }
 }
+```
 
-```	
-
-Then, configure the services linked to this new provider. 
+Then, configure the services linked to this new provider.
 
 ```yaml
 services:
   acme_demo_menu.provider:
         class: Acme\DemoBundle\Provider\CustomMenuProvider
         arguments:
-          - @service_container
           - @knp_menu.factory
         tags:
           - { name: knp_menu.provider }
-```	
+```
 
 Finally, to generate the menu, for example inside a twig template type:
 
@@ -106,4 +94,4 @@ Finally, to generate the menu, for example inside a twig template type:
 {{ knp_menu_render('demo') }}
 ```
 
-The Symfony CMF MenuBundle provides a complete working example: <https://github.com/symfony-cmf/MenuBundle>
+The [Symfony CMF MenuBundle](https://github.com/symfony-cmf/MenuBundle) provides a complete working example.
