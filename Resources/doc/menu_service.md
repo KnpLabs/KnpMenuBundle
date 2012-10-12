@@ -59,7 +59,7 @@ services:
 
     acme_main.menu.main:
         class: Knp\Menu\MenuItem # the service definition requires setting the class
-        factory_service: acme_hello.menu_builder
+        factory_service: acme_main.menu_builder
         factory_method: createMainMenu
         arguments: ["@request"]
         scope: request # needed as we have the request as a dependency here
