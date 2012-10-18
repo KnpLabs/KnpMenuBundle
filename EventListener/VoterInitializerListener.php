@@ -26,6 +26,8 @@ class VoterInitializerListener implements EventSubscriberInterface
         foreach ($this->voters as $voter) {
             if (method_exists($voter, 'setRequest')) {
                 $voter->setRequest($event->getRequest());
+            } elseif (method_exists($voter, 'setUri')) {
+                $voter->setUri($event->getRequest()->getRequestUri());
             }
         }
     }
