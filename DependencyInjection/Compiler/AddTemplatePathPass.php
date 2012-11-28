@@ -13,11 +13,11 @@ class AddTemplatePathPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('twig.loader')) {
+        if (!$container->hasDefinition('twig.loader.filesystem')) {
             return;
         }
         $refl = new \ReflectionClass('Knp\Menu\ItemInterface');
         $path = dirname($refl->getFileName()).'/Resources/views';
-        $container->getDefinition('twig.loader')->addMethodCall('addPath', array($path));
+        $container->getDefinition('twig.loader.filesystem')->addMethodCall('addPath', array($path));
     }
 }
