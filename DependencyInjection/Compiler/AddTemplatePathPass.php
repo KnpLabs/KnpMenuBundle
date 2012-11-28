@@ -13,11 +13,21 @@ class AddTemplatePathPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('twig.loader')) {
+        $loaderDefinition = null;
+
+        if ($container->hasDefinition('twig.loader.filesystem')) {
+            $loaderDefinition = $container->getDefinition('twig.loader.filesystem');
+        } elseif ($container->hasDefinition('twig.loader')) {
+            // Symfony 2.0 and 2.1 were not using an alias for the filesystem loader
+            $loaderDefinition = $container->getDefinition('twig.loader');
+        }
+
+        if (null === $loaderDefinition) {
             return;
         }
+
         $refl = new \ReflectionClass('Knp\Menu\ItemInterface');
         $path = dirname($refl->getFileName()).'/Resources/views';
-        $container->getDefinition('twig.loader')->addMethodCall('addPath', array($path));
+        $loaderDefinition->addMethodCall('addPath', array($path));
     }
 }
