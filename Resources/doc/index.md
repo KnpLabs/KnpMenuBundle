@@ -34,7 +34,8 @@ Add on composer.json (see http://getcomposer.org/)
 
     "require" :  {
         // ...
-        "knplabs/knp-menu-bundle":"dev-master",
+        "knplabs/knp-menu": "dev-master",
+        "knplabs/knp-menu-bundle": "dev-master",
     }
 
 #### Method b) Using the `deps` file (symfony 2.0 pattern)
