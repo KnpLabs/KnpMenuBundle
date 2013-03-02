@@ -16,6 +16,25 @@ services:
             - { name: knp_menu.renderer, alias: custom }
 ```
 
+If your renderer extends ListRenderer, you need to provide a Matcher instance.
+The configuration is then the following:
+
+```yaml
+# src/Acme/MainBundle/Resources/config/services.yml
+services:
+    acme_hello.menu_renderer:
+        # The class implements Knp\Menu\Renderer\RendererInterface
+        class: Acme\MainBundle\Menu\CustomRenderer
+        arguments:
+            - @knp_menu.matcher
+            - %knp_menu.renderer.list.options%
+            - %kernel.charset%
+            # add your own dependencies here
+        tags:
+            # The alias is what is used to retrieve the menu
+            - { name: knp_menu.renderer, alias: custom }
+```
+
 >**Note**
 >The renderer service must be public as it will be retrieved at runtime to
 >keep it lazy-loaded.
