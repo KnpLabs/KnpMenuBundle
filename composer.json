@@ -27,9 +27,9 @@
     },
     "target-dir": "Knp/Bundle/MenuBundle",
     "extra": {
-    "branch-alias": {
-        "dev-master": "2.0.x-dev"
-    }
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
     },
     "minimum-stability": "dev"
 }
