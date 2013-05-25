@@ -9,11 +9,11 @@ class AddTemplatePathPassTest extends \PHPUnit_Framework_TestCase
     public function testProcessWithoutProviderDefinition()
     {
         $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
-        $containerBuilder->expects($this->once())
+        $containerBuilder->expects($this->any())
             ->method('hasDefinition')
             ->will($this->returnValue(false));
         $containerBuilder->expects($this->never())
-            ->method('findTaggedServiceIds');
+            ->method('getDefinition');
 
         $templatePathPass = new AddTemplatePathPass();
 
