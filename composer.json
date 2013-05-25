@@ -19,8 +19,8 @@
         }
     ],
     "require":      {
-        "knplabs/knp-menu":         "1.1.*",
-        "symfony/framework-bundle": ">=2.0,<2.3-dev"
+        "knplabs/knp-menu":         "~1.1",
+        "symfony/framework-bundle": "~2.0"
     },
     "autoload":     {
         "psr-0": { "Knp\\Bundle\\MenuBundle": "" }
