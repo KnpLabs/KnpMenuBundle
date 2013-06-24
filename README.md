@@ -5,6 +5,8 @@ PHP library with Symfony2. This means easy-to-implement and feature-rich menus
 in your Symfony2 application!
 
 [![Build Status](https://secure.travis-ci.org/KnpLabs/KnpMenuBundle.png)](http://travis-ci.org/KnpLabs/KnpMenuBundle)
+[![Latest Stable Version](https://poser.pugx.org/knplabs/knp-menu-bundle/v/stable.png)](https://packagist.org/packages/knplabs/knp-menu-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/knplabs/knp-menu-bundle/v/unstable.png)](https://packagist.org/packages/knplabs/knp-menu-bundle)
 
 [![knpbundles.com](http://knpbundles.com/KnpLabs/KnpMenuBundle/badge-short)](http://knpbundles.com/KnpLabs/KnpMenuBundle)
 
