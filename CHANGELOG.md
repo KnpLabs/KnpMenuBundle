@@ -1,3 +1,7 @@
+## 2.0.0 (2013-XX-XX)
+
+* Updated for changes done in KnpMenu beta
+
 ## 2.0.0 alpha 1 (2013-06-23)
 
 * Updated the bundle for KnpMenu 2.0.0 alpha1
