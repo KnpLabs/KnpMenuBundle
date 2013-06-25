@@ -22,6 +22,7 @@
 
         <service id="knp_menu.factory_extension.routing" class="%knp_menu.factory_extension.routing.class%" public="false">
             <argument type="service" id="router" />
+            <tag name="knp_menu.factory_extension" />
         </service>
 
         <service id="knp_menu.helper" class="%knp_menu.helper.class%" public="false">
