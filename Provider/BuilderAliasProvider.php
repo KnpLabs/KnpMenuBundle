@@ -7,7 +7,6 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -39,8 +38,9 @@ class BuilderAliasProvider implements MenuProviderInterface
      * an Acme\DemoBundle\Menu\Builder class and call the mainMenu() method
      * on it. The method is passed the menu factory.
      *
-     * @param string $name The alias name of the menu
-     * @param array $options
+     * @param string $name    The alias name of the menu
+     * @param array  $options
+     *
      * @return \Knp\Menu\ItemInterface
      * @throws \InvalidArgumentException
      */
@@ -68,8 +68,9 @@ class BuilderAliasProvider implements MenuProviderInterface
     /**
      * Verifies if the given name follows the bundle:class:method alias syntax.
      *
-     * @param string $name The alias name of the menu
-     * @param array $options
+     * @param string $name    The alias name of the menu
+     * @param array  $options
+     *
      * @return Boolean
      */
     public function has($name, array $options = array())
@@ -85,7 +86,8 @@ class BuilderAliasProvider implements MenuProviderInterface
      * container if the class is ContainerAware.
      *
      * @param string $bundleName
-     * @param string $className The class name of the builder
+     * @param string $className  The class name of the builder
+     *
      * @throws \InvalidArgumentException If the class does not exist
      */
     protected function getBuilder($bundleName, $className)
