@@ -26,7 +26,6 @@ services:
         # The class implements Knp\Menu\Renderer\RendererInterface
         class: Acme\MainBundle\Menu\CustomRenderer
         arguments:
-            - @knp_menu.matcher
             - %knp_menu.renderer.list.options%
             - %kernel.charset%
             # add your own dependencies here
