@@ -39,4 +39,9 @@ class KnpMenuExtension extends Extension
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
     }
+
+    public function getNamespace()
+    {
+        return 'http://knplabs.com/schema/dic/menu';
+    }
 }
