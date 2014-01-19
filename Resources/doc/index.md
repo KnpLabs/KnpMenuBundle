@@ -216,7 +216,7 @@ beneath it.
 ```jinja
 {% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu', ['Contact']) %}
 
-{{ knp_menu_render(['AcmeDemoBundle:Builder:mainMenu', 'Contact']) }}
+{{ knp_menu_render(menuItem) }}
 ```
 
 If you want to pass some options to the builder, you can use the third parameter
