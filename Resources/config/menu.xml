@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="knp_menu.factory.class">Knp\Menu\MenuFactory</parameter>
-        <parameter key="knp_menu.factory_extension.routing.class">Knp\Menu\Silex\RoutingExtension</parameter>
+        <parameter key="knp_menu.factory_extension.routing.class">Knp\Menu\Matcher\RoutingExtension</parameter>
         <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
         <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
         <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
@@ -15,6 +15,8 @@
         <parameter key="knp_menu.renderer_provider.class">Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider</parameter>
         <parameter key="knp_menu.renderer.list.class">Knp\Menu\Renderer\ListRenderer</parameter>
         <parameter key="knp_menu.renderer.list.options" type="collection"></parameter>
+        <parameter key="knp_menu.listener.voters.class">Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener</parameter>
+        <parameter key="knp_menu.voter.router.class">Knp\Menu\Matcher\Voter\RouteVoter</parameter>
     </parameters>
 
     <services>
@@ -60,11 +62,11 @@
             <argument>%kernel.charset%</argument>
         </service>
 
-        <service id="knp_menu.listener.voters" class="Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener">
+        <service id="knp_menu.listener.voters" class="%knp_menu.listener.voters.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
 
-        <service id="knp_menu.voter.router" class="Knp\Menu\Silex\Voter\RouteVoter">
+        <service id="knp_menu.voter.router" class="%knp_menu.voter.router.class%">
             <tag name="knp_menu.voter" request="true" />
         </service>
     </services>
