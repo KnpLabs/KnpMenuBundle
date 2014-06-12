@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="knp_menu.factory.class">Knp\Menu\MenuFactory</parameter>
-        <parameter key="knp_menu.factory_extension.routing.class">Knp\Menu\Silex\RoutingExtension</parameter>
+        <parameter key="knp_menu.factory_extension.routing.class">Knp\Menu\Integration\Symfony\RoutingExtension</parameter>
         <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
         <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
         <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
@@ -64,7 +64,7 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
 
-        <service id="knp_menu.voter.router" class="Knp\Menu\Silex\Voter\RouteVoter">
+        <service id="knp_menu.voter.router" class="Knp\Menu\Matcher\Voter\RouteVoter">
             <tag name="knp_menu.voter" request="true" />
         </service>
     </services>
