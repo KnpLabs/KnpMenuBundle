@@ -17,7 +17,7 @@ class MenuPassTest extends \PHPUnit_Framework_TestCase
             ->method('getRequestType')
             ->will($this->returnValue(HttpKernelInterface::SUB_REQUEST));
 
-        $voter = $this->getMockBuilder('Knp\Menu\Silex\Voter\RouteVoter')
+        $voter = $this->getMockBuilder('Knp\Menu\Matcher\RouteVoter')
             ->disableOriginalConstructor()
             ->getMock();
         $voter->expects($this->never())
@@ -43,7 +43,7 @@ class MenuPassTest extends \PHPUnit_Framework_TestCase
             ->method('getRequest')
             ->will($this->returnValue($request));
 
-        $voter = $this->getMockBuilder('Knp\Menu\Silex\Voter\RouteVoter')
+        $voter = $this->getMockBuilder('Knp\Menu\Matcher\RouteVoter')
             ->disableOriginalConstructor()
             ->getMock();
         $voter->expects($this->once())
