@@ -1,4 +1,4 @@
-## 2.0.0 (2013-XX-XX)
+## 2.0.0 (2014-07-18)
 
 * Updated for changes done in KnpMenu beta
 
