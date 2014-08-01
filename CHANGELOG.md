@@ -1,6 +1,6 @@
-## 2.0.0 (2014-07-18)
+## 2.0.0 (2014-08-01)
 
-* Updated for changes done in KnpMenu beta
+* Updated to KnpMenu 2 stable 
 
 ## 2.0.0 alpha 1 (2013-06-23)
 
