@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="knp_menu.array_loader.class">Knp\Menu\Loader\ArrayLoader</parameter>
+        <parameter key="knp_menu.menu_provider.config.class">Knp\Bundle\MenuBundle\Provider\ConfigProvider</parameter>
+    </parameters>
+
+    <services>
+        <service id="knp_menu.array_loader" class="%knp_menu.array_loader.class%" public="false">
+            <argument type="service" id="knp_menu.factory" />
+        </service>
+
+        <service id="knp_menu.menu_provider.config" class="%knp_menu.menu_provider.config.class%" public="false">
+            <argument /> <!-- menu array -->
+            <argument type="service" id="knp_menu.array_loader" />
+            <tag name="knp_menu.provider" />
+        </service>
+    </services>
+</container>

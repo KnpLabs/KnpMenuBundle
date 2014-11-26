@@ -38,6 +38,11 @@ class KnpMenuExtension extends Extension
         }
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
+
+        if ($config['menus']) {
+            $loader->load('config_provider.xml');
+            $container->getDefinition('knp_menu.menu_provider.config')->replaceArgument(0, $config['menus']);
+        }
     }
 
     public function getNamespace()
