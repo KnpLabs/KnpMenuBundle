@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="knp_menu.expression_language.class">Knp\Bundle\MenuBundle\Expression\ExpressionLanguage</parameter>
+        <parameter key="knp_menu.expression_evaluator.class">Knp\Bundle\MenuBundle\Expression\ExpressionEvaluator</parameter>
+        <parameter key="knp_menu.expression_array_loader.class">Knp\Bundle\MenuBundle\Expression\ExpressionArrayLoader</parameter>
+    </parameters>
+
+    <services>
+        <service id="knp_menu.expression_language" class="%knp_menu.expression_language.class%" public="false" />
+
+        <service id="knp_menu.expression_evaluator" class="%knp_menu.expression_evaluator.class%" public="false">
+            <argument type="service" id="knp_menu.expression_language" />
+            <argument type="service" id="security.context" />
+        </service>
+
+        <!-- override knp_menu.array_loader -->
+        <service id="knp_menu.array_loader" class="%knp_menu.expression_array_loader.class%" public="false">
+            <argument type="service" id="knp_menu.factory" />
+            <argument type="service" id="knp_menu.expression_evaluator" />
+        </service>
+    </services>
+</container>

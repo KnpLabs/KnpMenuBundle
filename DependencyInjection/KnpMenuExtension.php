@@ -42,6 +42,10 @@ class KnpMenuExtension extends Extension
         if ($config['menus']) {
             $loader->load('config_provider.xml');
             $container->getDefinition('knp_menu.menu_provider.config')->replaceArgument(0, $config['menus']);
+
+            if (class_exists('Symfony\Component\ExpressionLanguage\ExpressionLanguage')) {
+                $loader->load('expression.xml');
+            }
         }
     }
 
