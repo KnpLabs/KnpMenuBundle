@@ -16,6 +16,7 @@
 
         <service id="knp_menu.expression_evaluator" class="%knp_menu.expression_evaluator.class%" public="false">
             <argument type="service" id="knp_menu.expression_language" />
+            <argument type="service" id="request_stack" />
             <argument type="service" id="security.context" />
         </service>
 

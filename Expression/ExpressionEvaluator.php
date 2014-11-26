@@ -3,6 +3,7 @@
 namespace Knp\Bundle\MenuBundle\Expression;
 
 use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -11,12 +12,14 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class ExpressionEvaluator
 {
     private $expressionLanguage;
+    private $requestStack;
     private $security;
     private $context;
 
-    public function __construct(ExpressionLanguage $expressionLanguage, SecurityContextInterface $security)
+    public function __construct(ExpressionLanguage $expressionLanguage, RequestStack $requestStack, SecurityContextInterface $security)
     {
         $this->expressionLanguage = $expressionLanguage;
+        $this->requestStack = $requestStack;
         $this->security = $security;
     }
 
@@ -44,6 +47,7 @@ class ExpressionEvaluator
 
         return array(
             'user' => $user,
+            'request' => $this->requestStack->getMasterRequest(),
             'security' => $this->security,
         );
     }
