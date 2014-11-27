@@ -2,7 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\Expression;
 
-use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\ExpressionLanguage\SerializedParsedExpression;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class ExpressionEvaluator
 {
+    const EXPRESSION_PREFIX = '@=';
+
     private $expressionLanguage;
     private $requestStack;
     private $security;
@@ -24,13 +26,28 @@ class ExpressionEvaluator
     }
 
     /**
-     * @param $expression
+     * @return array The variables used
+     */
+    public static function getVariableNames()
+    {
+        return array('user', 'request', 'security');
+    }
+
+    /**
+     * @param string $expression Normal string or serialized expression
      *
-     * @return Expression|string
+     * @return string
      */
     public function evaluate($expression)
     {
-        return $this->expressionLanguage->evaluate($expression, $this->getContext());
+        if (0 !== strpos($expression, self::EXPRESSION_PREFIX)) {
+            return $expression;
+        }
+
+        return $this->expressionLanguage->evaluate(
+            new SerializedParsedExpression(null, ltrim($expression, self::EXPRESSION_PREFIX)),
+            $this->getContext()
+        );
     }
 
     /**

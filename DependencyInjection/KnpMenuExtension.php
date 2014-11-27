@@ -2,6 +2,9 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection;
 
+use Knp\Bundle\MenuBundle\Expression\ExpressionEvaluator;
+use Knp\Bundle\MenuBundle\Expression\ExpressionLanguage;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -39,18 +42,43 @@ class KnpMenuExtension extends Extension
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
 
-        if ($config['menus']) {
+        if ($menus = $config['menus']) {
             $loader->load('config_provider.xml');
-            $container->getDefinition('knp_menu.menu_provider.config')->replaceArgument(0, $config['menus']);
 
             if (class_exists('Symfony\Component\ExpressionLanguage\ExpressionLanguage')) {
                 $loader->load('expression.xml');
+                $menus = $this->preParseExpressions($menus, $container);
             }
+
+            $container->getDefinition('knp_menu.menu_provider.config')->replaceArgument(0, $menus);
         }
     }
 
     public function getNamespace()
     {
         return 'http://knplabs.com/schema/dic/menu';
+    }
+
+    private function preParseExpressions(array $menus, ContainerBuilder $container)
+    {
+        $exprEvalClass = $container->getParameter('knp_menu.expression_evaluator.class');
+        $variableNames = call_user_func(array($exprEvalClass, 'getVariableNames'));
+        $exprLangClass = $container->getParameter('knp_menu.expression_language.class');
+        $exprLang = new $exprLangClass();
+
+        if (!$exprLang instanceof ExpressionLanguage) {
+            throw new InvalidArgumentException('Parameter "knp_menu.expression_language.class" must be an instance of "Knp\Bundle\MenuBundle\Expression\ExpressionLanguage"');
+        }
+
+        array_walk_recursive(
+            $menus,
+            function (&$value, $key) use ($exprLang, $variableNames) {
+                if (0 === strpos($value, ExpressionEvaluator::EXPRESSION_PREFIX) || in_array($key, array('show_if', 'hide_if'))) {
+                    $value = ExpressionEvaluator::EXPRESSION_PREFIX.serialize($exprLang->parse(ltrim($value, ExpressionEvaluator::EXPRESSION_PREFIX), $variableNames)->getNodes());
+                }
+            }
+        );
+
+        return $menus;
     }
 }

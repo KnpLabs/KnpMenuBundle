@@ -22,17 +22,17 @@ class ExpressionExtension implements ExtensionInterface
      */
     public function buildOptions(array $options)
     {
-        // label expression
-        if (isset($options['expression'])) {
-            $options['label'] = $this->evaluator->evaluate($options['expression']);
-        }
+        $evaluator = $this->evaluator;
 
-        // translation param expression
-        if (isset($options['extras']['translation_params_expression'])) {
-            foreach ($options['extras']['translation_params_expression'] as $key => $expression) {
-                $options['extras']['translation_params'][$key] = $this->evaluator->evaluate($expression);
+        // evaluate expressions
+        array_walk_recursive(
+            $options,
+            function (&$value) use ($evaluator) {
+                if (is_string($value)) {
+                    $value = $evaluator->evaluate($value);
+                }
             }
-        }
+        );
 
         return $options;
     }
