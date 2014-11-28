@@ -62,24 +62,18 @@ class KnpMenuExtension extends Extension
     {
         $contextClass = $container->getParameter('knp_menu.expression_context.class');
 
-        $exprLangClass = $container->getParameter('knp_menu.expression_language.class');
-        $exprLang = new $exprLangClass();
-
-        // register functions
-        call_user_func(array($contextClass, 'registerFunctions'), $exprLang);
-
         // get variable names
         $variableNames = call_user_func(array($contextClass, 'getNames'));
 
         array_walk_recursive(
             $menus,
-            function (&$value, $key) use ($contextClass, $exprLang, $variableNames) {
+            function (&$value, $key) use ($contextClass, $variableNames) {
                 if (0 !== strpos($value, ExpressionContextInterface::EXPRESSION_PREFIX) && !in_array($key, array('show_if', 'hide_if'))) {
                     return;
                 }
 
                 $expression = ltrim($value, ExpressionContextInterface::EXPRESSION_PREFIX);
-                $parsed = call_user_func(array($contextClass, 'parse'), $expression, $exprLang);
+                $parsed = call_user_func(array($contextClass, 'parse'), $expression);
 
                 $value = ExpressionContextInterface::EXPRESSION_PREFIX.serialize($parsed->getNodes());
             }

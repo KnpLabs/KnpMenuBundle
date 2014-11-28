@@ -11,6 +11,7 @@ use Symfony\Component\ExpressionLanguage\SerializedParsedExpression;
 abstract class AbstractExpressionContext implements ExpressionContextInterface
 {
     private $expressionLanguage;
+    private $values;
 
     public function __construct(ExpressionLanguage $expressionLanguage = null)
     {
@@ -25,6 +26,7 @@ abstract class AbstractExpressionContext implements ExpressionContextInterface
     public static function parse($expression, ExpressionLanguage $expressionLanguage = null)
     {
         $expressionLanguage = $expressionLanguage ?: new ExpressionLanguage();
+        static::registerFunctions($expressionLanguage);
 
         return $expressionLanguage->parse($expression, static::getNames());
     }
@@ -35,6 +37,7 @@ abstract class AbstractExpressionContext implements ExpressionContextInterface
     public static function compile($expression, ExpressionLanguage $expressionLanguage = null)
     {
         $expressionLanguage = $expressionLanguage ?: new ExpressionLanguage();
+        static::registerFunctions($expressionLanguage);
 
         return $expressionLanguage->compile($expression, static::getNames());
     }
@@ -55,9 +58,23 @@ abstract class AbstractExpressionContext implements ExpressionContextInterface
     }
 
     /**
-     * Get the values to be used within this context.
+     * Build the values to be used within this context.
      *
      * @return array
      */
-    abstract protected function getValues();
+    abstract protected function buildValues();
+
+    /**
+     * Get and cache the values to be used within this context.
+     *
+     * @return array
+     */
+    private function getValues()
+    {
+        if ($this->values) {
+            return $this->values;
+        }
+
+        return $this->values = $this->buildValues();
+    }
 }

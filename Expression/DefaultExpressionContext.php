@@ -49,12 +49,12 @@ class DefaultExpressionContext extends AbstractExpressionContext
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function buildValues()
     {
         $token = $this->security->getToken();
         $user = null === $token ? null : $token->getUser();
 
-        return $this->values = array(
+        return array(
             'user' => $user,
             'request' => $this->requestStack->getMasterRequest(),
             'security' => $this->security,
