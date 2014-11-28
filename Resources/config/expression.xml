@@ -5,30 +5,30 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="knp_menu.expression_language.class">Knp\Bundle\MenuBundle\Expression\ExpressionLanguage</parameter>
-        <parameter key="knp_menu.expression_evaluator.class">Knp\Bundle\MenuBundle\Expression\ExpressionEvaluator</parameter>
-        <parameter key="knp_menu.expression_array_loader.class">Knp\Bundle\MenuBundle\Expression\ExpressionArrayLoader</parameter>
-        <parameter key="knp_menu.expression_extension.class">Knp\Bundle\MenuBundle\Expression\ExpressionExtension</parameter>
+        <parameter key="knp_menu.expression_language.class">Symfony\Component\ExpressionLanguage\ExpressionLanguage</parameter>
+        <parameter key="knp_menu.expression_context.class">Knp\Bundle\MenuBundle\Expression\DefaultExpressionContext</parameter>
+        <parameter key="knp_menu.expression_array_loader.class">Knp\Bundle\MenuBundle\Loader\ExpressionArrayLoader</parameter>
+        <parameter key="knp_menu.expression_extension.class">Knp\Bundle\MenuBundle\Factory\ExpressionExtension</parameter>
     </parameters>
 
     <services>
-        <service id="knp_menu.expression_language" class="%knp_menu.expression_language.class%" public="false" />
+        <service id="knp_menu.expression_language" class="%knp_menu.expression_language.class%" public="false"  />
 
-        <service id="knp_menu.expression_evaluator" class="%knp_menu.expression_evaluator.class%" public="false">
-            <argument type="service" id="knp_menu.expression_language" />
+        <service id="knp_menu.expression_context" class="%knp_menu.expression_context.class%" public="false">
             <argument type="service" id="request_stack" />
             <argument type="service" id="security.context" />
+            <argument type="service" id="knp_menu.expression_language" />
         </service>
 
         <service id="knp_menu.expression_extension" class="%knp_menu.expression_extension.class%" public="false">
-            <argument type="service" id="knp_menu.expression_evaluator" />
+            <argument type="service" id="knp_menu.expression_context" />
             <tag name="knp_menu.factory_extension" />
         </service>
 
         <!-- override knp_menu.array_loader -->
         <service id="knp_menu.array_loader" class="%knp_menu.expression_array_loader.class%" public="false">
             <argument type="service" id="knp_menu.factory" />
-            <argument type="service" id="knp_menu.expression_evaluator" />
+            <argument type="service" id="knp_menu.expression_context" />
         </service>
     </services>
 </container>

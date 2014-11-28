@@ -1,7 +1,8 @@
 <?php
 
-namespace Knp\Bundle\MenuBundle\Expression;
+namespace Knp\Bundle\MenuBundle\Factory;
 
+use Knp\Bundle\MenuBundle\Expression\ExpressionContextInterface;
 use Knp\Menu\Factory\ExtensionInterface;
 use Knp\Menu\ItemInterface;
 
@@ -10,11 +11,11 @@ use Knp\Menu\ItemInterface;
  */
 class ExpressionExtension implements ExtensionInterface
 {
-    private $evaluator;
+    private $expressionContext;
 
-    public function __construct(ExpressionEvaluator $evaluator)
+    public function __construct(ExpressionContextInterface $expressionContext)
     {
-        $this->evaluator = $evaluator;
+        $this->expressionContext = $expressionContext;
     }
 
     /**
@@ -22,14 +23,14 @@ class ExpressionExtension implements ExtensionInterface
      */
     public function buildOptions(array $options)
     {
-        $evaluator = $this->evaluator;
+        $expressionContext = $this->expressionContext;
 
         // evaluate expressions
         array_walk_recursive(
             $options,
-            function (&$value) use ($evaluator) {
+            function (&$value) use ($expressionContext) {
                 if (is_string($value)) {
-                    $value = $evaluator->evaluate($value);
+                    $value = $expressionContext->evaluate($value);
                 }
             }
         );

@@ -1,7 +1,8 @@
 <?php
 
-namespace Knp\Bundle\MenuBundle\Expression;
+namespace Knp\Bundle\MenuBundle\Loader;
 
+use Knp\Bundle\MenuBundle\Expression\ExpressionContextInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Loader\ArrayLoader;
@@ -12,12 +13,12 @@ use Knp\Menu\Loader\ArrayLoader;
 class ExpressionArrayLoader extends ArrayLoader
 {
     private $factory;
-    private $evaluator;
+    private $expressionContext;
 
-    public function __construct(FactoryInterface $factory, ExpressionEvaluator $evaluator)
+    public function __construct(FactoryInterface $factory, ExpressionContextInterface $expressionContext)
     {
         $this->factory = $factory;
-        $this->evaluator = $evaluator;
+        $this->expressionContext = $expressionContext;
     }
 
     /**
@@ -73,6 +74,6 @@ class ExpressionArrayLoader extends ArrayLoader
      */
     private function evaluateExpression($expression)
     {
-        return (bool) $this->evaluator->evaluate($expression);
+        return (bool) $this->expressionContext->evaluate($expression);
     }
 }
