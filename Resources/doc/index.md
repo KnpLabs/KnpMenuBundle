@@ -24,20 +24,19 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 ### Step 1) Get the bundle and the library
 
-First, grab the KnpMenu library and KnpMenuBundle. There are three different ways
-to do this:
+First, grab the KnpMenu library and KnpMenuBundle. There are three different
+ways to do this:
 
 
-#### Method a) Using composer (symfony 2.1 pattern)
+#### Method a) Using Composer (Symfony 2.1 or higher)
 
-Add on composer.json (see http://getcomposer.org/)
+Open your command console, browse to your project and execute the following:
 
-    "require" :  {
-        // ...
-        "knplabs/knp-menu-bundle": "~2.0"
-    }
+```bash
+$ composer require knplabs/knp-menu-bundle
+```
 
-#### Method b) Using the `deps` file (symfony 2.0 pattern)
+#### Method b) Using the `deps` file (legacy Symfony 2.0 version)
 
 Add the following lines to your  `deps` file and then run `php bin/vendors
 install`:
@@ -51,19 +50,7 @@ install`:
     target=bundles/Knp/Bundle/MenuBundle
 ```
 
-#### Method c) Using submodules
-
-Run the following commands to bring in the needed libraries as submodules.
-
-```bash
-git submodule add https://github.com/KnpLabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
-git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
-```
-
-### Step 2) Register the namespaces
-
-If you installed the bundle by composer, use the created autoload.php  (jump to step 3).
-Add the following two namespace entries to the `registerNamespaces` call
+Then, add the following two namespace entries to the `registerNamespaces` call
 in your autoloader:
 
 ``` php
@@ -77,7 +64,16 @@ $loader->registerNamespaces(array(
 ));
 ```
 
-### Step 3) Register the bundle
+#### Method c) Using Git submodules
+
+Run the following commands to bring in the needed libraries as submodules.
+
+```bash
+git submodule add https://github.com/KnpLabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
+git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
+```
+
+### Step 2) Register the bundle
 
 To start using the bundle, register it in your Kernel:
 
@@ -95,7 +91,7 @@ public function registerBundles()
 }
 ```
 
-### Step 4) (optional) Configure the bundle
+### Step 3) (optional) Configure the bundle
 
 The bundle comes with a sensible default configuration, which is listed below.
 If you skip this step, these defaults will be used.
