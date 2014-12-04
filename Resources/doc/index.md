@@ -108,9 +108,15 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
 
         $menu->addChild('Home', array('route' => 'homepage'));
-        $menu->addChild('About Me', array(
-            'route' => 'page_show',
-            'routeParameters' => array('id' => 42)
+
+        // access services from the container!
+        $em = $this->container->get('doctrine')->getManager();
+        // findMostRecent and Blog are just imaginary examples
+        $blog = $em->getRepository('AppBundle:Blog')->findMostRecent();
+
+        $menu->addChild('Latest Blog Post', array(
+            'route' => 'blog_show',
+            'routeParameters' => array('id' => $blog->getId())
         ));
         // ... add more children
 
