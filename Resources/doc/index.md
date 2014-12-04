@@ -22,80 +22,47 @@ Welcome to KnpMenuBundle - creating menus is fun again!
 
 ## Installation
 
-### Step 1) Get the bundle and the library
+### Step 1: Download the Bundle
 
-First, grab the KnpMenu library and KnpMenuBundle. There are three different ways
-to do this:
-
-
-#### Method a) Using composer (symfony 2.1 pattern)
-
-Add on composer.json (see http://getcomposer.org/)
-
-    "require" :  {
-        // ...
-        "knplabs/knp-menu-bundle": "~2.0"
-    }
-
-#### Method b) Using the `deps` file (symfony 2.0 pattern)
-
-Add the following lines to your  `deps` file and then run `php bin/vendors
-install`:
-
-```
-[KnpMenu]
-    git=https://github.com/KnpLabs/KnpMenu.git
-
-[KnpMenuBundle]
-    git=https://github.com/KnpLabs/KnpMenuBundle.git
-    target=bundles/Knp/Bundle/MenuBundle
-```
-
-#### Method c) Using submodules
-
-Run the following commands to bring in the needed libraries as submodules.
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
 
 ```bash
-git submodule add https://github.com/KnpLabs/KnpMenuBundle.git vendor/bundles/Knp/Bundle/MenuBundle
-git submodule add https://github.com/KnpLabs/KnpMenu.git vendor/KnpMenu
+$ composer require knplabs/knp-menu-bundle
 ```
 
-### Step 2) Register the namespaces
+This command requires you to have Composer installed globally, as explained
+in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
+of the Composer documentation.
 
-If you installed the bundle by composer, use the created autoload.php  (jump to step 3).
-Add the following two namespace entries to the `registerNamespaces` call
-in your autoloader:
+### Step 2: Enable the Bundle
 
-``` php
-<?php
-// app/autoload.php
-$loader->registerNamespaces(array(
-    // ...
-    'Knp\Bundle' => __DIR__.'/../vendor/bundles',
-    'Knp\Menu'   => __DIR__.'/../vendor/KnpMenu/src',
-    // ...
-));
-```
+Then, enable the bundle by adding the following line in the `app/AppKernel.php`
+file of your project:
 
-### Step 3) Register the bundle
-
-To start using the bundle, register it in your Kernel:
-
-``` php
+```php
 <?php
 // app/AppKernel.php
 
-public function registerBundles()
+// ...
+class AppKernel extends Kernel
 {
-    $bundles = array(
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+        );
+
         // ...
-        new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-    );
+    }
+
     // ...
 }
 ```
 
-### Step 4) (optional) Configure the bundle
+### Step 3: (optional) Configure the bundle
 
 The bundle comes with a sensible default configuration, which is listed below.
 If you skip this step, these defaults will be used.
