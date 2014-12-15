@@ -95,8 +95,8 @@ An example builder class would look like this:
 
 ```php
 <?php
-// src/Acme/DemoBundle/Menu/Builder.php
-namespace Acme\DemoBundle\Menu;
+// src/AppBundle/Menu/Builder.php
+namespace AppBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -112,12 +112,30 @@ class Builder extends ContainerAware
             'route' => 'page_show',
             'routeParameters' => array('id' => 42)
         ));
+        //You can also add sub level's to your menu's as follows
+        $menu['About Me']->addChild('Edit profile', array('route' => 'edit_profile'));
+        
         // ... add more children
 
         return $menu;
     }
 }
 ```
+With the standard 'knp_menu.html.twig' template and your current page being 'Home' you're menu would render with the following markup:
+
+    <ul>
+        <li class="current first">
+            <a href="#rout_to/homepage">Home</a>
+        </li>
+        <li class="current_ancestor">
+            <a href="#route_to/page_show/?id=42">About Me</a>
+            <ul class="menu_level_1">
+                <li class="current first last">
+                    <a href="#route_to/edit_profile">Edit profile</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 
 **Note** You only need to extend `ContainerAware` if you need the service
 container to be available via `$this->container`. You can also implement
@@ -129,7 +147,7 @@ To actually render the menu, just do the following from anywhere in any Twig
 template:
 
 ```jinja
-{{ knp_menu_render('AcmeDemoBundle:Builder:mainMenu') }}
+{{ knp_menu_render('AppBundle:Builder:mainMenu') }}
 ```
 
 With this method, you refer to the menu using a three-part string:
@@ -137,7 +155,7 @@ With this method, you refer to the menu using a three-part string:
 
 If you needed to create a second menu, you'd simply add another method to
 the `Builder` class (e.g. `sidebarMenu`), build and return the new menu,
-then render it via `AcmeDemoBundle:Builder:sidebarMenu`.
+then render it via `AppBundle:Builder:sidebarMenu`.
 
 That's it! The menu is *very* configurable. For more details, see the
 [KnpMenu](https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown)
@@ -156,13 +174,13 @@ Once you've setup your menu, rendering it easy. If you've used the "easy"
 way, then do the following:
 
 ```jinja
-{{ knp_menu_render('AcmeDemoBundle:Builder:mainMenu') }}
+{{ knp_menu_render('AppBundle:Builder:mainMenu') }}
 ```
 
 Additionally, you can pass some options to the renderer:
 
 ```jinja
-{{ knp_menu_render('AcmeDemoBundle:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
+{{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
 ```
 
 For a full list of options, see the "Other rendering options" header on the
@@ -171,7 +189,7 @@ For a full list of options, see the "Other rendering options" header on the
 You can also "get" a menu, which you can use to render later:
 
 ```jinja
-{% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu') %}
+{% set menuItem = knp_menu_get('AppBundle:Builder:mainMenu') %}
 
 {{ knp_menu_render(menuItem) }}
 ```
@@ -181,16 +199,16 @@ following, where 'Contact' is one of the root menu items and has children
 beneath it.
 
 ```jinja
-{% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu', ['Contact']) %}
+{% set menuItem = knp_menu_get('AppBundle:Builder:mainMenu', ['Contact']) %}
 
-{{ knp_menu_render(['AcmeDemoBundle:Builder:mainMenu', 'Contact']) }}
+{{ knp_menu_render(['AppBundle:Builder:mainMenu', 'Contact']) }}
 ```
 
 If you want to pass some options to the builder, you can use the third parameter
 of the `knp_menu_get` function:
 
 ```jinja
-{% set menuItem = knp_menu_get('AcmeDemoBundle:Builder:mainMenu', [], {'some_option': 'my_value'}) %}
+{% set menuItem = knp_menu_get('AppBundle:Builder:mainMenu', [], {'some_option': 'my_value'}) %}
 
 {{ knp_menu_render(menuItem) }}
 ```
@@ -204,7 +222,7 @@ and retrieve your menu from a template, just like available in Twig.
 
 ```php
 // Retrieves an item by its path in the main menu
-$item = $view['knp_menu']->get('AcmeDemoBundle:Builder:main', array('child'));
+$item = $view['knp_menu']->get('AppBundle:Builder:main', array('child'));
 
 // Render an item
 echo $view['knp_menu']->render($item, array(), 'list');
