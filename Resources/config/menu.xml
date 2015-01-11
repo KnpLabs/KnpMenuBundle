@@ -10,6 +10,7 @@
         <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
         <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
         <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
+        <parameter key="knp_menu.menu_provider.event_emitter.class">Knp\Bundle\MenuBundle\Provider\EventEmittingProvider</parameter>
         <parameter key="knp_menu.menu_provider.container_aware.class">Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider</parameter>
         <parameter key="knp_menu.menu_provider.builder_alias.class">Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider</parameter>
         <parameter key="knp_menu.renderer_provider.class">Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider</parameter>
@@ -36,6 +37,11 @@
 
         <service id="knp_menu.menu_provider.chain" class="%knp_menu.menu_provider.chain.class%" public="false">
             <argument type="collection" />
+        </service>
+
+        <service id="knp_menu.menu_provider.event_emitter" class="%knp_menu.menu_provider.event_mitter.class%" abstract="true" public="false">
+            <argument />
+            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="knp_menu.menu_provider.container_aware" class="%knp_menu.menu_provider.container_aware.class%" public="false">

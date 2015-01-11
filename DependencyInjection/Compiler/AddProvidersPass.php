@@ -3,6 +3,8 @@ namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -20,7 +22,10 @@ class AddProvidersPass implements CompilerPassInterface
 
         $providers = array();
         foreach ($container->findTaggedServiceIds('knp_menu.provider') as $id => $tags) {
-            $providers[] = new Reference($id);
+            $provider = new DefinitionDecorator('knp_menu.menu_provider.event_emitter');
+            $provider->replaceArgument(0, new Reference($id));
+
+            $providers[] = $provider;
         }
 
         if (1 === count($providers)) {
