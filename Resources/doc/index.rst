@@ -229,11 +229,11 @@ and retrieve your menu from a template, just like available in Twig.
 More Advanced Stuff
 -------------------
 
-* :doc:`Menus as Services <menu_service>`_
-* :doc:`Custom Menu Renderer <custom_renderer>`_
-* :doc:`Custom Menu Provider <custom_provider>`_
-* :doc:`I18n for your menu labels <i18n>`_
-* :doc:`Using events to allow extending the menu <events>`_
+* :doc:`Menus as Services <menu_service>`
+* :doc:`Custom Menu Renderer <custom_renderer>`
+* :doc:`Custom Menu Provider <custom_provider>`
+* :doc:`I18n for your menu labels <i18n>`
+* :doc:`Using events to allow extending the menu <events>`
 
 .. _````installation chapter````: https://getcomposer.org/doc/00-intro.md
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown
