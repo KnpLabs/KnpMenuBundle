@@ -17,12 +17,12 @@ following command to download the latest stable version of this bundle:
     $ composer require knplabs/knp-menu-bundle
 
 This command requires you to have Composer installed globally, as explained
-in the ``installation chapter``_ of the Composer documentation.
+in the `installation chapter`_ of the Composer documentation.
 
 Step 2: Enable the Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Then, enable the bundle by adding the following line in the ````app/AppKernel.php````
+Then, enable the bundle by adding the following line in the ``app/AppKernel.php``
 file of your project:
 
 .. code-block:: php

@@ -50,54 +50,54 @@ Create the Event object
 The event object allows to pass some data to the listener. In this case,
 it will hold the menu being created and the factory.
 
-.. code-block:: yaml
+.. code-block:: php
 
-  <?php
-  // src/Acme/DemoBundle/Event/ConfigureMenuEvent.php
+    <?php
+    // src/Acme/DemoBundle/Event/ConfigureMenuEvent.php
 
-  namespace Acme\DemoBundle\Event;
+    namespace Acme\DemoBundle\Event;
 
-  use Knp\Menu\FactoryInterface;
-  use Knp\Menu\ItemInterface;
-  use Symfony\Component\EventDispatcher\Event;
+    use Knp\Menu\FactoryInterface;
+    use Knp\Menu\ItemInterface;
+    use Symfony\Component\EventDispatcher\Event;
 
-  class ConfigureMenuEvent extends Event
-  {
-      const CONFIGURE = 'acme_demo.menu_configure';
+    class ConfigureMenuEvent extends Event
+    {
+        const CONFIGURE = 'acme_demo.menu_configure';
 
-      private $factory;
-      private $menu;
+        private $factory;
+        private $menu;
 
-      /**
-       * @param \Knp\Menu\FactoryInterface $factory
-       * @param \Knp\Menu\ItemInterface $menu
-       */
-      public function __construct(FactoryInterface $factory, ItemInterface $menu)
-      {
-          $this->factory = $factory;
-          $this->menu = $menu;
-      }
+        /**
+         * @param \Knp\Menu\FactoryInterface $factory
+         * @param \Knp\Menu\ItemInterface $menu
+         */
+        public function __construct(FactoryInterface $factory, ItemInterface $menu)
+        {
+            $this->factory = $factory;
+            $this->menu = $menu;
+        }
 
-      /**
-       * @return \Knp\Menu\FactoryInterface
-       */
-      public function getFactory()
-      {
-          return $this->factory;
-      }
+        /**
+         * @return \Knp\Menu\FactoryInterface
+         */
+        public function getFactory()
+        {
+            return $this->factory;
+        }
 
-      /**
-       * @return \Knp\Menu\ItemInterface
-       */
-      public function getMenu()
-      {
-          return $this->menu;
-      }
-  }
+        /**
+         * @return \Knp\Menu\ItemInterface
+         */
+        public function getMenu()
+        {
+            return $this->menu;
+        }
+    }
 
 .. note::
 
-  Following the Symfony2 best practices, the first segment of the
+  Following the Symfony best practices, the first segment of the
   event name will be the alias of the bundle, which allows avoiding conflicts.
 
 That's it. Your builder now provides a hook. Let's see how you can use it!
@@ -109,36 +109,36 @@ You can register as many listeners as you want for the event. Let's add one.
 
 .. code-block:: php
 
-  <?php
-  // src/Acme/OtherBundle/EventListener/ConfigureMenuListener.php
+    <?php
+    // src/Acme/OtherBundle/EventListener/ConfigureMenuListener.php
 
-  namespace Acme\OtherBundle\EventListener;
+    namespace Acme\OtherBundle\EventListener;
 
-  use Acme\DemoBundle\Event\ConfigureMenuEvent;
+    use Acme\DemoBundle\Event\ConfigureMenuEvent;
 
-  class ConfigureMenuListener
-  {
-      /**
-       * @param \Acme\DemoBundle\Event\ConfigureMenuEvent $event
-       */
-      public function onMenuConfigure(ConfigureMenuEvent $event)
-      {
-          $menu = $event->getMenu();
+    class ConfigureMenuListener
+    {
+        /**
+         * @param \Acme\DemoBundle\Event\ConfigureMenuEvent $event
+         */
+        public function onMenuConfigure(ConfigureMenuEvent $event)
+        {
+            $menu = $event->getMenu();
 
-          $menu->addChild('Matches', array('route' => 'versus_rankedmatch_acp_matches_index'));
-          $menu->addChild('Participants', array('route' => 'versus_rankedmatch_acp_participants_index'));
-      }
-  }
+            $menu->addChild('Matches', array('route' => 'versus_rankedmatch_acp_matches_index'));
+            $menu->addChild('Participants', array('route' => 'versus_rankedmatch_acp_participants_index'));
+        }
+    }
 
 You can now register the listener.
 
 .. code-block:: yaml
 
-  services:
-      acme_other.configure_menu_listener:
-          class: Acme\OtherBundle\EventListener\ConfigureMenuListener
-          tags:
-            - { name: kernel.event_listener, event: acme_demo.menu_configure, method: onMenuConfigure }
+    services:
+        acme_other.configure_menu_listener:
+            class: Acme\OtherBundle\EventListener\ConfigureMenuListener
+            tags:
+              - { name: kernel.event_listener, event: acme_demo.menu_configure, method: onMenuConfigure }
 
 .. note::
 

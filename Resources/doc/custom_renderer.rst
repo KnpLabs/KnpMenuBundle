@@ -16,7 +16,7 @@ of creating a service tagged with ``knp_menu.renderer``:
                 # The alias is what is used to retrieve the menu
                 - { name: knp_menu.renderer, alias: custom }
 
-If your renderer extends ListRenderer, you need to provide a Matcher instance.
+If your renderer extends ``ListRenderer``, you need to provide a ``Matcher`` instance.
 The configuration is then the following:
 
 .. code-block:: yaml
