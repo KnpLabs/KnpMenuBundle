@@ -2,7 +2,7 @@ Using events to allow a menu to be extended
 ===========================================
 
 If you want to let different parts of your system hook into the building of your
-menu, a good way is to use an approach based on the Symfony2 EventDispatcher
+menu, a good way is to use an approach based on the Symfony EventDispatcher
 component.
 
 Create the menu builder
@@ -13,13 +13,12 @@ to allow other parts of your application to add more stuff to it.
 
 .. code-block:: php
 
-  <?php
-  // src/Acme/DemoBundle/Menu/MainBuilder.php
+  // src/AppBundle/Menu/MainBuilder.php
 
-  namespace Acme\DemoBundle\Menu;
+  namespace AppBundle\Menu;
 
-  use Acme\DemoBundle\MenuEvents;
-  use Acme\DemoBundle\Event\ConfigureMenuEvent;
+  use AappBundle\MenuEvents;
+  use AappBundle\Event\ConfigureMenuEvent;
   use Knp\Menu\FactoryInterface;
   use Symfony\Component\DependencyInjection\ContainerAware;
 
@@ -32,7 +31,10 @@ to allow other parts of your application to add more stuff to it.
           $menu->setCurrentUri($this->container->get('request')->getRequestUri());
           $menu->addChild('Dashboard', array('route' => '_acp_dashboard'));
 
-          $this->container->get('event_dispatcher')->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($factory, $menu));
+          $this->container->get('event_dispatcher')->dispatch(
+              ConfigureMenuEvent::CONFIGURE,
+              new ConfigureMenuEvent($factory, $menu)
+          );
 
           return $menu;
       }
@@ -40,8 +42,8 @@ to allow other parts of your application to add more stuff to it.
 
 .. note::
 
-  This implementation assumes you use the BuilderAliasProvider (getting
-  your menu as ``AcmeDemoBundle:MainBuilder:build``) but you could also define
+  This implementation assumes you use the ``BuilderAliasProvider`` (getting
+  your menu as ``AppBundle:MainBuilder:build``) but you could also define
   it as a service and inject the ``event_dispatcher`` service as a dependency.
 
 Create the Event object
@@ -52,10 +54,9 @@ it will hold the menu being created and the factory.
 
 .. code-block:: php
 
-    <?php
-    // src/Acme/DemoBundle/Event/ConfigureMenuEvent.php
+    // src/AppBundle/Event/ConfigureMenuEvent.php
 
-    namespace Acme\DemoBundle\Event;
+    namespace AppBundle\Event;
 
     use Knp\Menu\FactoryInterface;
     use Knp\Menu\ItemInterface;
@@ -97,8 +98,8 @@ it will hold the menu being created and the factory.
 
 .. note::
 
-  Following the Symfony best practices, the first segment of the
-  event name will be the alias of the bundle, which allows avoiding conflicts.
+  Following the Symfony best practices, the first segment of the event name will
+  be the alias of the bundle, which allows avoiding conflicts.
 
 That's it. Your builder now provides a hook. Let's see how you can use it!
 
@@ -109,17 +110,16 @@ You can register as many listeners as you want for the event. Let's add one.
 
 .. code-block:: php
 
-    <?php
-    // src/Acme/OtherBundle/EventListener/ConfigureMenuListener.php
+    // src/Acme/AdminBundle/EventListener/ConfigureMenuListener.php
 
-    namespace Acme\OtherBundle\EventListener;
+    namespace Acme\adminBundle\EventListener;
 
-    use Acme\DemoBundle\Event\ConfigureMenuEvent;
+    use AppBundle\Event\ConfigureMenuEvent;
 
     class ConfigureMenuListener
     {
         /**
-         * @param \Acme\DemoBundle\Event\ConfigureMenuEvent $event
+         * @param \AppBundle\Event\ConfigureMenuEvent $event
          */
         public function onMenuConfigure(ConfigureMenuEvent $event)
         {
@@ -134,14 +134,13 @@ You can now register the listener.
 
 .. code-block:: yaml
 
+    # app/config/services.yml
     services:
-        acme_other.configure_menu_listener:
-            class: Acme\OtherBundle\EventListener\ConfigureMenuListener
+        app.admin_configure_menu_listener:
+            class: Acme\AdminBundle\EventListener\ConfigureMenuListener
             tags:
-              - { name: kernel.event_listener, event: acme_demo.menu_configure, method: onMenuConfigure }
+              - { name: kernel.event_listener, event: app.menu_configure, method: onMenuConfigure }
 
-.. note::
 
-  When using Symfony 2.1, you could also create your listener as
-  a subscriber and use the ``kernel.event_subscriber`` tag (which does not
-  have any additional attributes).
+You could also create your listener as a subscriber and use the ``kernel.event_subscriber``
+tag, which does not have any additional attributes.

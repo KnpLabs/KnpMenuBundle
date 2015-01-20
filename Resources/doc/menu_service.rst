@@ -16,10 +16,9 @@ builder classes in your application:
 
 .. code-block:: php
 
-    <?php
-    // src/Acme/MainBundle/Menu/MenuBuilder.php
+    // src/AppBundle/Menu/MenuBuilder.php
 
-    namespace Acme\MainBundle\Menu;
+    namespace AppBundle\Menu;
 
     use Knp\Menu\FactoryInterface;
     use Symfony\Component\HttpFoundation\Request;
@@ -52,20 +51,22 @@ object created by the ``createMainMenu`` method:
 
 .. code-block:: yaml
 
-    # src/Acme/MainBundle/Resources/config/services.yml
+    # app/config/services.yml
     services:
-        acme_main.menu_builder:
-            class: Acme\MainBundle\Menu\MenuBuilder
+        app.menu_builder:
+            class: AppBundle\Menu\MenuBuilder
             arguments: ["@knp_menu.factory"]
 
-        acme_main.menu.main:
+        app.main_menu:
             class: Knp\Menu\MenuItem # the service definition requires setting the class
-            factory_service: acme_main.menu_builder
+            factory_service: app.menu_builder
             factory_method: createMainMenu
             arguments: ["@request"]
             scope: request # needed as we have the request as a dependency here
             tags:
                 - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
+
+        # ...
 
 .. note::
 
@@ -84,8 +85,7 @@ is simple! Start by adding a new method to your builder:
 
 .. code-block:: php
 
-    <?php
-    // src/Acme/MainBundle/Menu/MenuBuilder.php
+    // src/AppBundle/Menu/MenuBuilder.php
 
     // ...
 
@@ -109,17 +109,18 @@ Now, create a service for *just* your new menu, giving it a new name, like
 
 .. code-block:: yaml
 
-    # src/Acme/MainBundle/Resources/config/services.yml
+    # app/config/services.yml
     services:
-
-        acme_main.menu.sidebar:
+        app.sidebar_menu:
             class: Knp\Menu\MenuItem
-            factory_service: acme_hello.menu_builder
+            factory_service: app.menu_builder
             factory_method: createSidebarMenu
             arguments: ["@request"]
             scope: request
             tags:
                 - { name: knp_menu.menu, alias: sidebar } # Named "sidebar" this time
+
+        # ...
 
 It can now be rendered, just like the other menu:
 

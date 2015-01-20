@@ -8,14 +8,18 @@ Create the template
 
 At first, you need to create a template which extends ``knp_menu.html.twig``
 and adds the Twig ``trans`` filter. In this example, the template is located
-at ``src/Acme/MainBundle/Resources/views/Default/knp_menu.html.twig``. It allows
-changing the domain and the parameters for the translator through the extras
-of the item.
+at ``src/AppBundle/Resources/views/Default/knp_menu.html.twig``. It allows changing
+the domain and the parameters for the translator through the extras of the item.
 
 .. code-block:: html+jinja
 
     {% extends 'knp_menu.html.twig' %}
-    {% block label %}{{ item.label|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'messages')) }}{% endblock %}
+    {% block label %}
+        {{ item.label|trans(
+            item.getExtra('translation_params', {}),
+            item.getExtra('translation_domain', 'messages')
+        ) }}
+    {% endblock %}
 
 Include the template
 --------------------
@@ -30,7 +34,7 @@ If you want to translate all of your menus, change the default template:
     # app/config/config.yml
     knp_menu:
         twig:
-            template: AcmeMainBundle:Default:knp_menu.html.twig
+            template: AppBundle:Default:knp_menu.html.twig
 
 Alternative B: I18n only for certain menus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -40,7 +44,7 @@ its ``knp_menu_render`` call.
 
 .. code-block:: html+jinja
 
-    {{ knp_menu_render('name_of_your_menu', {'template': 'AcmeMainBundle:Default:knp_menu.html.twig'}) }}
+    {{ knp_menu_render('name_of_your_menu', {'template': 'AppBundle:Default:knp_menu.html.twig'}) }}
 
 That's it.
 
@@ -52,7 +56,6 @@ two menu items Home and Login.
 
 .. code-block:: php
 
-    <?php
     $menu = $factory->createItem('root');
 
     $menu->addChild('Home', array('route' => 'homepage'));
@@ -62,11 +65,10 @@ To translate them you need to add translation_domain parameter using setExtra(s)
 
 .. code-block:: php
 
-    <?php
     $menu = $factory->createItem('root');
 
-    // will look for "Home" in Acme/DemoBundle/Resources/translations/AcmeDemoBundle.locale.yml
-    $menu->addChild('Home', array('route' => 'homepage'))->setExtra('translation_domain', 'AcmeDemoBundle');
+    // will look for "Home" in AppBundle/Resources/translations/AppBundle.locale.yml
+    $menu->addChild('Home', array('route' => 'homepage'))->setExtra('translation_domain', 'AppBundle');
 
-    // will look for "Login" in Acme/AdminBundle/Resources/translations/AcmeLoginBundle.locale.yml
-    $menu->addChild('Login', array('route' => 'login'))->setExtra('translation_domain', 'AcmeLoginBundle');
+    // will look for "Login" in Acme/AdminBundle/Resources/translations/AcmeAdminBundle.locale.yml
+    $menu->addChild('Login', array('route' => 'login'))->setExtra('translation_domain', 'AcmeAdminBundle');
