@@ -118,7 +118,7 @@ An example builder class would look like this:
     }
 
 With the standard ``knp_menu.html.twig`` template and your current page being
-'Home' you're menu would render with the ollowing markup:
+'Home', your menu would render with the following markup:
 
 .. code-block:: html
 
