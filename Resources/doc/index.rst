@@ -167,7 +167,7 @@ Method b) A menu as a service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For information on how to register a service and tag it as a menu, read
-`Creating Menus as Services <menu_service>`_.
+`Creating Menus as Services <menu_service.rst>`_.
 
 Rendering Menus
 ---------------
@@ -229,11 +229,11 @@ and retrieve your menu from a template, just like available in Twig.
 More Advanced Stuff
 -------------------
 
-* :doc:`Menus as Services <menu_service>`
-* :doc:`Custom Menu Renderer <custom_renderer>`
-* :doc:`Custom Menu Provider <custom_provider>`
-* :doc:`I18n for your menu labels <i18n>`
-* :doc:`Using events to allow extending the menu <events>`
+* `Creating Menus as Services <menu_service.rst>`_
+* `Registering your own renderer <custom_renderer.rst>`_
+* `Registering your own provider <custom_provider.rst>`_
+* `I18n for your menu labels <i18n.rst>`_
+* `Using events to allow a menu to be extended <events.rst>`_
 
 .. _````installation chapter````: https://getcomposer.org/doc/00-intro.md
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown
