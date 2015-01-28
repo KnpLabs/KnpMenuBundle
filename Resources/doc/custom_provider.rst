@@ -9,9 +9,7 @@ Create first your Provider class, in the Provider directory of your bundle:
 
 .. code-block:: php
 
-    <?php
-
-    namespace Acme\DemoBundle\Provider;
+    namespace AppBundle\Provider;
 
     use Knp\Menu\FactoryInterface;
     use Knp\Menu\Provider\MenuProviderInterface;
@@ -79,13 +77,16 @@ Then, configure the services linked to this new provider.
 
 .. code-block:: yaml
 
+    # app/config/services.yml
     services:
-      acme_demo_menu.provider:
-            class: Acme\DemoBundle\Provider\CustomMenuProvider
+      app.menu_provider:
+            class: AppBundle\Provider\CustomMenuProvider
             arguments:
               - @knp_menu.factory
             tags:
               - { name: knp_menu.provider }
+
+    # ...
 
 Finally, to generate the menu, for example inside a twig template type:
 

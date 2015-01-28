@@ -17,17 +17,16 @@ following command to download the latest stable version of this bundle:
     $ composer require knplabs/knp-menu-bundle
 
 This command requires you to have Composer installed globally, as explained
-in the ``installation chapter``_ of the Composer documentation.
+in the `installation chapter`_ of the Composer documentation.
 
 Step 2: Enable the Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Then, enable the bundle by adding the following line in the ````app/AppKernel.php````
+Then, enable the bundle by adding the following line in the ``app/AppKernel.php``
 file of your project:
 
 .. code-block:: php
 
-    <?php
     // app/AppKernel.php
 
     // ...
@@ -83,7 +82,6 @@ An example builder class would look like this:
 
 .. code-block:: php
 
-    <?php
     // src/AppBundle/Menu/Builder.php
     namespace AppBundle\Menu;
 
@@ -167,7 +165,7 @@ Method b) A menu as a service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For information on how to register a service and tag it as a menu, read
-`Creating Menus as Services <menu_service>`_.
+:doc:`Creating Menus as Services <menu_service>`.
 
 Rendering Menus
 ---------------
@@ -235,5 +233,5 @@ More Advanced Stuff
 * :doc:`I18n for your menu labels <i18n>`
 * :doc:`Using events to allow extending the menu <events>`
 
-.. _````installation chapter````: https://getcomposer.org/doc/00-intro.md
+.. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown

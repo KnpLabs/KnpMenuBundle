@@ -6,26 +6,28 @@ of creating a service tagged with ``knp_menu.renderer``:
 
 .. code-block:: yaml
 
-    # src/Acme/MainBundle/Resources/config/services.yml
+    # app/config/services.yml
     services:
-        acme_hello.menu_renderer:
+        app.menu_renderer:
             # The class implements Knp\Menu\Renderer\RendererInterface
-            class: Acme\MainBundle\Menu\CustomRenderer
+            class: AppBundle\Menu\CustomRenderer
             arguments: [%kernel.charset%] # set your own dependencies here
             tags:
                 # The alias is what is used to retrieve the menu
                 - { name: knp_menu.renderer, alias: custom }
 
-If your renderer extends ListRenderer, you need to provide a Matcher instance.
+        # ...
+
+If your renderer extends ``ListRenderer``, you need to provide a ``Matcher`` instance.
 The configuration is then the following:
 
 .. code-block:: yaml
 
-    # src/Acme/MainBundle/Resources/config/services.yml
+    # app/config/services.yml
     services:
-        acme_hello.menu_renderer:
+        app.menu_renderer:
             # The class implements Knp\Menu\Renderer\RendererInterface
-            class: Acme\MainBundle\Menu\CustomRenderer
+            class: AppBundle\Menu\CustomRenderer
             arguments:
                 - @knp_menu.matcher
                 - %knp_menu.renderer.list.options%
@@ -34,6 +36,8 @@ The configuration is then the following:
             tags:
                 # The alias is what is used to retrieve the menu
                 - { name: knp_menu.renderer, alias: custom }
+
+        # ...
 
 .. note::
 
