@@ -15,7 +15,7 @@ in your Symfony2 application!
 Documentation! The documentation for this bundle is available in the `Resources/doc`
 directory of the bundle:
 
-* Read the [KnpMenuBundle documentation](Resources/doc/index.rst)
+* Read the [KnpMenuBundle documentation](http://symfony.com/doc/master/bundles/KnpMenuBundle/index.html)
 
 This bundle's job is to integrate a standalone PHP menu library called [KnpMenu](https://github.com/KnpLabs/KnpMenu).
 You can learn a lot more about how this library works by reading that library's
