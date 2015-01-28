@@ -21,7 +21,7 @@ builder classes in your application:
     namespace AppBundle\Menu;
 
     use Knp\Menu\FactoryInterface;
-    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\RequestStack;
 
     class MenuBuilder
     {
@@ -35,7 +35,7 @@ builder classes in your application:
             $this->factory = $factory;
         }
 
-        public function createMainMenu(Request $request)
+        public function createMainMenu(RequestStack $requestStack)
         {
             $menu = $this->factory->createItem('root');
 
@@ -61,8 +61,7 @@ object created by the ``createMainMenu`` method:
             class: Knp\Menu\MenuItem # the service definition requires setting the class
             factory_service: app.menu_builder
             factory_method: createMainMenu
-            arguments: ["@request"]
-            scope: request # needed as we have the request as a dependency here
+            arguments: ["@request_stack"]
             tags:
                 - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
 
@@ -93,7 +92,7 @@ is simple! Start by adding a new method to your builder:
     {
         // ...
 
-        public function createSidebarMenu(Request $request)
+        public function createSidebarMenu(RequestStack $requestStack)
         {
             $menu = $this->factory->createItem('sidebar');
 
@@ -115,8 +114,7 @@ Now, create a service for *just* your new menu, giving it a new name, like
             class: Knp\Menu\MenuItem
             factory_service: app.menu_builder
             factory_method: createSidebarMenu
-            arguments: ["@request"]
-            scope: request
+            arguments: ["@request_stack"]
             tags:
                 - { name: knp_menu.menu, alias: sidebar } # Named "sidebar" this time
 
