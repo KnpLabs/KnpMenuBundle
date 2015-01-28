@@ -1,4 +1,11 @@
 language: php
+
+sudo: false
+
+cache:
+    directory:
+        - $HOME/.composer/cache
+
 php:
     - 5.3
     - 5.4
@@ -6,4 +13,21 @@ php:
     - 5.6
     - hhvm
 
-before_script: composer install --dev
+env:
+    global:
+        - COMPOSER_FLAGS=''
+
+matrix:
+    include:
+        - php: 5.3.3
+          env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+        - php: 5.6
+          env: DEPENDENCIES='dev'
+
+before_install:
+    - composer self-update # remove this once the Travis upgrade of February 2015 is deployed
+    - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
+
+install: composer update $COMPOSER_FLAGS
+
+script: phpunit -v
