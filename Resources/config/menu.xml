@@ -71,7 +71,7 @@
             <tag name="knp_menu.voter" request="true" />
         </service>
 
-        <service id="knp_menu.manipulator" class="Knp\Menu\Util\MenuManipulator" />
+        <service id="knp_menu.manipulator" class="Knp\Menu\Util\MenuManipulator" public="false" />
     </services>
 
 </container>

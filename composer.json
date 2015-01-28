@@ -19,7 +19,7 @@
         }
     ],
     "require":      {
-        "knplabs/knp-menu":         "~2.0",
+        "knplabs/knp-menu":         "~2.1",
         "symfony/framework-bundle": "~2.3"
     },
     "require-dev": {
