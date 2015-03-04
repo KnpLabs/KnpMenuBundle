@@ -233,7 +233,7 @@ Additionally, you can pass some options to the renderer:
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 2, 'currentAsLink': false) }}
+        {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
 
     .. code-block:: html+php
 
