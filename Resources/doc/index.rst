@@ -145,6 +145,8 @@ An example builder class would look like this:
                 'routeParameters' => array('id' => $blog->getId())
             ));
 
+            // create another menu item
+            $menu->addChild('About Me', array('route' => 'about'));
             // you can also add sub level's to your menu's as follows
             $menu['About Me']->addChild('Edit profile', array('route' => 'edit_profile'));
 
