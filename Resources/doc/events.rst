@@ -17,8 +17,8 @@ to allow other parts of your application to add more stuff to it.
 
   namespace AppBundle\Menu;
 
-  use AappBundle\MenuEvents;
-  use AappBundle\Event\ConfigureMenuEvent;
+  use AppBundle\MenuEvents;
+  use AppBundle\Event\ConfigureMenuEvent;
   use Knp\Menu\FactoryInterface;
   use Symfony\Component\DependencyInjection\ContainerAware;
 
