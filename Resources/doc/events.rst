@@ -112,7 +112,7 @@ You can register as many listeners as you want for the event. Let's add one.
 
     // src/Acme/AdminBundle/EventListener/ConfigureMenuListener.php
 
-    namespace Acme\adminBundle\EventListener;
+    namespace Acme\AdminBundle\EventListener;
 
     use AppBundle\Event\ConfigureMenuEvent;
 
