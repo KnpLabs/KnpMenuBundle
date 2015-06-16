@@ -59,8 +59,7 @@ object created by the ``createMainMenu`` method:
 
         app.main_menu:
             class: Knp\Menu\MenuItem # the service definition requires setting the class
-            factory_service: app.menu_builder
-            factory_method: createMainMenu
+            factory: ["@app.menu_builder", createMainMenu]
             arguments: ["@request_stack"]
             tags:
                 - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
@@ -71,6 +70,11 @@ object created by the ``createMainMenu`` method:
 
     The menu service must be public as it will be retrieved at runtime to keep
     it lazy-loaded.
+
+.. note::
+
+    If you are using Symfony `2.5` or older version please check the `Using a Factory to Create Services`_
+    article for correct factories syntax corresponding to your version.
 
 You can now render the menu directly in a template via the name given in the
 ``alias`` key above:
@@ -112,8 +116,7 @@ Now, create a service for *just* your new menu, giving it a new name, like
     services:
         app.sidebar_menu:
             class: Knp\Menu\MenuItem
-            factory_service: app.menu_builder
-            factory_method: createSidebarMenu
+            factory: ["@app.menu_builder", createMainMenu]
             arguments: ["@request_stack"]
             tags:
                 - { name: knp_menu.menu, alias: sidebar } # Named "sidebar" this time
@@ -146,3 +149,5 @@ you can disable them through the configuration:
 .. note::
 
     Both providers are enabled by default.
+
+.. _`Using a Factory to Create Services`: http://symfony.com/doc/2.5/components/dependency_injection/factories.html
