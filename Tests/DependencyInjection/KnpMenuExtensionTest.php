@@ -62,6 +62,7 @@ class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
         $loader->load(array(array('providers' => array('builder_alias' => false))), $container);
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is disabled');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
+        $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware_builder')->hasTag('knp_menu.provider'), 'The ContainerAwareBuilderProvider is enabled');
     }
 
     public function testDisableContainerAwareProvider()
@@ -71,5 +72,16 @@ class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
         $loader->load(array(array('providers' => array('container_aware' => false))), $container);
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is disabled');
+        $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware_builder')->hasTag('knp_menu.provider'), 'The ContainerAwareBuilderProvider is enabled');
+    }
+
+    public function testDisabledContainerAwareBuilderProvider()
+    {
+        $container = new ContainerBuilder();
+        $loader = new KnpMenuExtension();
+        $loader->load(array(array('providers' => array('container_aware_builder' => false))), $container);
+        $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
+        $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
+        $this->assertFalse($container->getDefinition('knp_menu.menu_provider.container_aware_builder')->hasTag('knp_menu.provider'), 'The ContainerAwareBuilderProvider is disabled');
     }
 }
