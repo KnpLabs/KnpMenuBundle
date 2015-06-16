@@ -72,7 +72,7 @@ If you skip this step, these defaults will be used.
         <?xml version="1.0" charset="UTF-8" ?>
         <container xmlns="http://symfony.com/schema/dic/services"
             xmlns:knp-menu="http://knplabs.com/schema/dic/menu">
-        
+
             <!--
                 templating:       if true, enabled the helper for PHP templates
                 default-renderer: the renderer to use, list is also available by default
@@ -207,11 +207,22 @@ then render it via ``AppBundle:Builder:sidebarMenu``.
 That's it! The menu is *very* configurable. For more details, see the
 `KnpMenu documentation`_.
 
-Method b) A menu as a service
+Method b) A menu builder as a service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For information on how to register a menu builder as a service, read
+:doc:`Creating Menu Builders as Services <menu_builder_service>`.
+
+
+Method c) A menu as a service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For information on how to register a service and tag it as a menu, read
 :doc:`Creating Menus as Services <menu_service>`.
+
+.. note::
+
+    To improve performances, you can :doc:`disable providers you don't need <disabling_providers>`.
 
 Rendering Menus
 ---------------
