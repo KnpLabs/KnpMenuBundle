@@ -116,7 +116,7 @@ Now, create a service for *just* your new menu, giving it a new name, like
     services:
         app.sidebar_menu:
             class: Knp\Menu\MenuItem
-            factory: ["@app.menu_builder", createMainMenu]
+            factory: ["@app.menu_builder", createSidebarMenu]
             arguments: ["@request_stack"]
             tags:
                 - { name: knp_menu.menu, alias: sidebar } # Named "sidebar" this time
