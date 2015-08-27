@@ -1,3 +1,5 @@
+* Added DefaultOptionsExtension
+
 ## 2.0.0 (2014-08-01)
 
 * Updated to KnpMenu 2 stable 

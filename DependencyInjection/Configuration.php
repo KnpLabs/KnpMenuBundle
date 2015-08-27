@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->fixXmlConfig('provider')
+            ->fixXmlConfig('default_menu_option')
             ->children()
                 ->arrayNode('providers')
                     ->addDefaultsIfNotSet()
@@ -41,6 +42,11 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->booleanNode('templating')->defaultFalse()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
+                ->arrayNode('default_menu_options')
+                    ->useAttributeAsKey('name')
+                    ->normalizeKeys(false)
+                    ->prototype('scalar')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

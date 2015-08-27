@@ -302,6 +302,7 @@ More Advanced Stuff
 * :doc:`Custom Menu Provider <custom_provider>`
 * :doc:`I18n for your menu labels <i18n>`
 * :doc:`Using events to allow extending the menu <events>`
+* :doc:`Setting Default Menu Options <menu_options>`
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown
