@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://knplabs.com/schema/dic/menu"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://knplabs.com/schema/dic/menu"
+    elementFormDefault="qualified">
+
+    <xsd:element name="config" type="config"/>
+
+    <xsd:complexType name="config">
+        <xsd:all>
+            <xsd:element name="providers" type="providers" minOccurs="0"/>
+            <xsd:element name="twig" type="twig" minOccurs="0"/>
+        </xsd:all>
+
+        <xsd:attribute name="templating" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="default-renderer" type="xsd:string" default="twig"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="providers">
+        <xsd:attribute name="builder-alias" type="xsd:boolean" default="true"/>
+        <xsd:attribute name="container-aware" type="xsd:boolean" default="true"/>
+        <xsd:attribute name="builder-service" type="xsd:boolean" default="true"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="twig">
+        <xsd:attribute name="template" type="xsd:string" default="knp_menu.html.twig"/>
+    </xsd:complexType>
+ 
+</xsd:schema>

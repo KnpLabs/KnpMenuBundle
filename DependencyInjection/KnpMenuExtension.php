@@ -40,8 +40,19 @@ class KnpMenuExtension extends Extension
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getNamespace()
     {
         return 'http://knplabs.com/schema/dic/menu';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getXsdValidationBasePath()
+    {
+        return __DIR__ . '/../Resources/config/schema';
     }
 }

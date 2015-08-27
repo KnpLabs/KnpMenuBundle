@@ -23,7 +23,6 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('knp_menu');
 
         $rootNode
-            ->fixXmlConfig('provider')
             ->children()
                 ->arrayNode('providers')
                     ->addDefaultsIfNotSet()
