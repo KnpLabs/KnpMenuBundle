@@ -14,7 +14,7 @@ class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
         $loader->load(array(array()), $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.list'), 'The list renderer is loaded');
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.twig'), 'The twig renderer is loaded');
-        $this->assertEquals('knp_menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
+        $this->assertEquals('KnpMenuBundle::menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
         $this->assertFalse($container->hasDefinition('knp_menu.templating.helper'), 'The PHP helper is not loaded');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
@@ -26,7 +26,7 @@ class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
         $loader = new KnpMenuExtension();
         $loader->load(array(array('twig' => true)), $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.twig'));
-        $this->assertEquals('knp_menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
+        $this->assertEquals('KnpMenuBundle::menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
     }
 
     public function testOverwriteTwigTemplate()

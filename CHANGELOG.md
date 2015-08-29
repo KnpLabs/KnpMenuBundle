@@ -1,3 +1,5 @@
+* Menu items are translated in the default template
+
 ## 2.1.1 (2015-12-15)
 
 * Support Symfony 3
@@ -13,7 +15,7 @@
 
 ## 2.0.0 (2014-08-01)
 
-* Updated to KnpMenu 2 stable 
+* Updated to KnpMenu 2 stable
 
 ## 2.0.0 alpha 1 (2013-06-23)
 
