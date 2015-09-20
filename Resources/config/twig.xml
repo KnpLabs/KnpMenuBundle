@@ -13,6 +13,8 @@
         <service id="knp_menu.twig.extension" class="%knp_menu.twig.extension.class%" public="false">
             <tag name="twig.extension" />
             <argument type="service" id="knp_menu.helper" />
+            <argument type="service" id="knp_menu.matcher" />
+            <argument type="service" id="knp_menu.menu_manipulator" />
         </service>
 
         <service id="knp_menu.renderer.twig" class="%knp_menu.renderer.twig.class%">

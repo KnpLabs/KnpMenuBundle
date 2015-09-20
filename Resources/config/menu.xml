@@ -30,6 +30,7 @@
         <service id="knp_menu.helper" class="%knp_menu.helper.class%" public="false">
             <argument type="service" id="knp_menu.renderer_provider" />
             <argument type="service" id="knp_menu.menu_provider" />
+            <argument type="service" id="knp_menu.manipulator" />
         </service>
 
         <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" />
@@ -74,6 +75,8 @@
         <service id="knp_menu.voter.router" class="%knp_menu.voter.router.class%">
             <tag name="knp_menu.voter" request="true" />
         </service>
+
+        <service id="knp_menu.manipulator" class="Knp\Menu\Util\MenuManipulator" public="false" />
     </services>
 
 </container>
