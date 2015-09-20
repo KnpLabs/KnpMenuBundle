@@ -32,6 +32,9 @@ class AddVotersPassTest extends \PHPUnit_Framework_TestCase
         $definitionMock->expects($this->at(1))
             ->method('addMethodCall')
             ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('foo'))));
+        $definitionMock->expects($this->at(2))
+            ->method('addMethodCall')
+            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('bar'))));
 
         $listenerMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
@@ -47,7 +50,7 @@ class AddVotersPassTest extends \PHPUnit_Framework_TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->will($this->returnValue(array('id' => array('tag1' => array(), 'tag2' => array('request' => false)), 'foo' => array('tag1' => array('request' => true)))));
+            ->will($this->returnValue(array('id' => array(array()), 'bar' => array(array('priority' => -5, 'request' => false)), 'foo' => array(array('request' => true)))));
         $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))

@@ -22,14 +22,28 @@ class AddVotersPass implements CompilerPassInterface
         $definition = $container->getDefinition('knp_menu.matcher');
         $listener = $container->getDefinition('knp_menu.listener.voters');
 
-        foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {
-            $definition->addMethodCall('addVoter', array(new Reference($id)));
+        $voters = array();
 
+        foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {
             foreach ($tags as $tag) {
+                $priority = isset($tag['priority']) ? (int) $tag['priority'] : 0;
+                $voters[$priority][] = $id;
+
                 if (isset($tag['request']) && $tag['request']) {
                     $listener->addMethodCall('addVoter', array(new Reference($id)));
                 }
             }
+        }
+
+        if (empty($voters)) {
+            return;
+        }
+
+        krsort($voters);
+        $sortedVoters = call_user_func_array('array_merge', $voters);
+
+        foreach ($sortedVoters as $id) {
+            $definition->addMethodCall('addVoter', array(new Reference($id)));
         }
     }
 }
