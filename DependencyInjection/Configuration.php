@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->booleanNode('builder_alias')->defaultTrue()->end()
                         ->booleanNode('container_aware')->defaultTrue()->end()
+                        ->booleanNode('builder_service')->defaultTrue()->end()
                     ->end()
                 ->end()
                 ->arrayNode('twig')

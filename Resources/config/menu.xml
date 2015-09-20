@@ -43,6 +43,11 @@
             <argument type="collection" />
         </service>
 
+        <service id="knp_menu.menu_provider.builder_service" class="Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider" public="false">
+            <argument type="service" id="service_container" />
+            <argument type="collection" />
+        </service>
+
         <service id="knp_menu.menu_provider.builder_alias" class="%knp_menu.menu_provider.builder_alias.class%" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="service_container" />
