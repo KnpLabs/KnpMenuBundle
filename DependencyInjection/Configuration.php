@@ -42,6 +42,13 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->booleanNode('templating')->defaultFalse()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
+                ->variableNode('menus')
+                    ->defaultNull()
+                    ->validate()
+                    ->ifTrue(function ($value) { return !is_array($value); })
+                        ->thenInvalid('Must be an array.')
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
