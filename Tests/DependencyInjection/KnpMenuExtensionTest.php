@@ -72,4 +72,13 @@ class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is disabled');
     }
+
+    public function testConfigureDefaultMenuOptions()
+    {
+        $container = new ContainerBuilder();
+        $loader = new KnpMenuExtension();
+        $loader->load(array(array('default_menu_options' => array('displayChildren' => false))), $container);
+        $this->assertEquals(array('displayChildren' => false), $container->getParameter('knp_menu.default_menu_options'));
+        $this->assertTrue($container->hasDefinition('knp_menu.extension.default_options'));
+    }
 }
