@@ -1,3 +1,11 @@
+## 2.1.0 (2015-09-28)
+
+* Added a priority to allow controlling the order of voters
+* Added new templating features to the templating helper
+* Added the necessary configuration for new Twig features of KnpMenu 2.1
+* Added a menu provider registering builders as services
+* Removed usage of deprecated API to run on Symfony 2.7 without warning
+
 ## 2.0.0 (2014-08-01)
 
 * Updated to KnpMenu 2 stable 
