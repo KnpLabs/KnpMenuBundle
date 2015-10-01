@@ -121,5 +121,5 @@ It can now be rendered, just like the other menu:
 
 .. code-block:: html+jinja
 
-    {% set menu = knp_menu_get('sidebar', {include_homepage: false}) %}
+    {% set menu = knp_menu_get('sidebar', [], {include_homepage: false}) %}
     {{ knp_menu_render(menu) }}
