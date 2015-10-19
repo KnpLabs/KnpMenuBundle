@@ -131,7 +131,7 @@ An example builder class would look like this:
     {
         public function mainMenu(FactoryInterface $factory, array $options)
         {
-            $menu = $factory->createItem('root');
+            $menu = $factory->createItem('root', $options);
 
             $menu->addChild('Home', array('route' => 'homepage'));
 
