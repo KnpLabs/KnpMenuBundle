@@ -7,7 +7,7 @@ Creating Menus as Services
 
     - it does not allow to use builder options
     - it reuses the same instance several times in case you render the same
-      menu several times, which can has weird side-effects.
+      menu several times, which can have weird side-effects.
 
     It is recommended to register only :doc:`menu builders as services <menu_builder_service>`
     instead.
