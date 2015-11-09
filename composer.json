@@ -20,11 +20,11 @@
     ],
     "require":      {
         "knplabs/knp-menu":         "~2.1",
-        "symfony/framework-bundle": "~2.3"
+        "symfony/framework-bundle": "~2.3|~3.0"
     },
-    "require-dev": {
-        "symfony/phpunit-bridge": "~2.7",
-        "symfony/expression-language": "~2.4"
+    "require-dev":  {
+        "symfony/phpunit-bridge": "~2.7|~3.0",
+        "symfony/expression-language": "~2.4|~3.0"
     },
     "autoload":     {
         "psr-4": { "Knp\\Bundle\\MenuBundle\\": "" }
