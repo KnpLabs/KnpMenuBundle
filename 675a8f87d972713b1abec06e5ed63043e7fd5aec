@@ -1,0 +1,27 @@
+---------------------------------------------------------------------------
+
+by stof at 2015-11-10T14:58:52Z
+
+Tests need to be fixed to stop using the ContainerAware class (you can implement the interface manually to avoid it, as it is removed in 3.0. It is a fixture class anyway)
+
+---------------------------------------------------------------------------
+
+by WouterJ at 2015-11-10T19:23:54Z
+
+@stof well, the problem is the [`ContainerAwareProvider`](https://github.com/KnpLabs/KnpMenuBundle/blob/master/Renderer/ContainerAwareProvider.php) provided by the bundle, which extends `ContainerAware`.
+
+Is it maybe possible to change that extend to only implement `ContainerAwareInterface` and add the missing method manually? Or is it considered a BC break? (typehinting ContainerAware instead of ContainerAwareInterface seems a bit strange)
+
+---------------------------------------------------------------------------
+
+by stof at 2015-11-12T13:45:48Z
+
+ContainerAwareProvider does not extends ContainerAware. The issue is in ``Knp\Bundle\MenuBundle\Tests\Stubs\Menu\ContainerAwareBuilder``, which is clearly not covered by BC as it is a test stub.
+
+Btw, there are a few places in the doc which are using ContainerAware too, which should be updated to talk about implementing the interface instead. See https://github.com/KnpLabs/KnpMenuBundle/issues/290 which has a link to the search for them
+
+---------------------------------------------------------------------------
+
+by WouterJ at 2015-11-13T09:45:21Z
+
+Builds are passing now. Thanks @stof for the guidance!
