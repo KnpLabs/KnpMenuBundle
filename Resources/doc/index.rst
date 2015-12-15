@@ -127,8 +127,15 @@ An example builder class would look like this:
     use Knp\Menu\FactoryInterface;
     use Symfony\Component\DependencyInjection\ContainerAware;
 
-    class Builder extends ContainerAware
+    class Builder implements ContainerAwareInterface
     {
+        private $container;
+    
+        public function setContainer(ContainerInterface $container = null)
+        {
+            $this->container = $container;
+        }
+    
         public function mainMenu(FactoryInterface $factory, array $options)
         {
             $menu = $factory->createItem('root');
@@ -156,6 +163,10 @@ An example builder class would look like this:
         }
     }
 
+.. note::
+
+    You could also use the new ``ContainerAwareTrait`` instead of an own implementation.
+
 With the standard ``knp_menu.html.twig`` template and your current page being
 'Home', your menu would render with the following markup:
 
@@ -174,12 +185,6 @@ With the standard ``knp_menu.html.twig`` template and your current page being
             </ul>
         </li>
     </ul>
-
-.. note::
-
-    You only need to extend ``ContainerAware`` if you need the service
-    container to be available via ``$this->container``. You can also implement
-    ``ContainerAwareInterface`` instead of extending this class.
 
 .. note::
 
