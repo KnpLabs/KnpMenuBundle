@@ -1,3 +1,8 @@
+## 2.1.1 (2015-12-15)
+
+* Support Symfony 3
+* Documentation fixes
+
 ## 2.1.0 (2015-09-28)
 
 * Added a priority to allow controlling the order of voters
