@@ -125,10 +125,13 @@ An example builder class would look like this:
     namespace AppBundle\Menu;
 
     use Knp\Menu\FactoryInterface;
-    use Symfony\Component\DependencyInjection\ContainerAware;
+    use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+    use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-    class Builder extends ContainerAware
+    class Builder implements ContainerAwareInterface
     {
+        use ContainerAwareTrait;
+        
         public function mainMenu(FactoryInterface $factory, array $options)
         {
             $menu = $factory->createItem('root');
@@ -177,9 +180,9 @@ With the standard ``knp_menu.html.twig`` template and your current page being
 
 .. note::
 
-    You only need to extend ``ContainerAware`` if you need the service
-    container to be available via ``$this->container``. You can also implement
-    ``ContainerAwareInterface`` instead of extending this class.
+    You only need to implement ``ContainerAwareInterface`` if you need the
+    service container. The more elegant way to handle your dependencies is to
+    inject them in the constructor. If you want to do that, see method b below.
 
 .. note::
 
