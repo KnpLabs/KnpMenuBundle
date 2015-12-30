@@ -21,7 +21,6 @@ builder classes in your application:
     namespace AppBundle\Menu;
 
     use Knp\Menu\FactoryInterface;
-    use Symfony\Component\HttpFoundation\RequestStack;
 
     class MenuBuilder
     {
