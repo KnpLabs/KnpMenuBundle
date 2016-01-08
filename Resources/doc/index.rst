@@ -66,7 +66,7 @@ If you skip this step, these defaults will be used.
             # the renderer to use, list is also available by default
             default_renderer: twig
 
-    .. code-bock:: xml
+    .. code-block:: xml
 
         <!-- app/config/config.xml -->
         <?xml version="1.0" charset="UTF-8" ?>
@@ -131,7 +131,7 @@ An example builder class would look like this:
     class Builder implements ContainerAwareInterface
     {
         use ContainerAwareTrait;
-        
+
         public function mainMenu(FactoryInterface $factory, array $options)
         {
             $menu = $factory->createItem('root');
@@ -311,11 +311,14 @@ of the ``knp_menu_get`` function:
 More Advanced Stuff
 -------------------
 
-* :doc:`Menus as Services <menu_service>`
-* :doc:`Custom Menu Renderer <custom_renderer>`
-* :doc:`Custom Menu Provider <custom_provider>`
-* :doc:`I18n for your menu labels <i18n>`
-* :doc:`Using events to allow extending the menu <events>`
+.. toctree::
+    :maxdepth: 1
+
+    menu_service
+    custom_renderer
+    custom_provider
+    i18n
+    events
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown
