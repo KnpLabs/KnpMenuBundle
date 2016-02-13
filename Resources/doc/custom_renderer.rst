@@ -11,7 +11,7 @@ of creating a service tagged with ``knp_menu.renderer``:
         app.menu_renderer:
             # The class implements Knp\Menu\Renderer\RendererInterface
             class: AppBundle\Menu\CustomRenderer
-            arguments: [%kernel.charset%] # set your own dependencies here
+            arguments: ["%kernel.charset%"] # set your own dependencies here
             tags:
                 # The alias is what is used to retrieve the menu
                 - { name: knp_menu.renderer, alias: custom }
@@ -30,8 +30,8 @@ The configuration is then the following:
             class: AppBundle\Menu\CustomRenderer
             arguments:
                 - @knp_menu.matcher
-                - %knp_menu.renderer.list.options%
-                - %kernel.charset%
+                - "%knp_menu.renderer.list.options%"
+                - "%kernel.charset%"
                 # add your own dependencies here
             tags:
                 # The alias is what is used to retrieve the menu
