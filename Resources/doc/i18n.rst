@@ -1,74 +1,64 @@
-I18n for your menu labels
+I18n for your Menu Labels
 =========================
 
-Let's assume you already have a working translation system.
-
-Create the template
--------------------
-
-At first, you need to create a template which extends ``knp_menu.html.twig``
-and adds the Twig ``trans`` filter. In this example, the template is located
-at ``src/AppBundle/Resources/views/Default/knp_menu.html.twig``. It allows changing
-the domain and the parameters for the translator through the extras of the item.
-
-.. code-block:: html+jinja
-
-    {% extends 'knp_menu.html.twig' %}
-    {% block label %}
-        {{ item.label|trans(
-            item.getExtra('translation_params', {}),
-            item.getExtra('translation_domain', 'messages')
-        ) }}
-    {% endblock %}
-
-Include the template
---------------------
-
-Alternative A: I18n for all menus
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you want to translate all of your menus, change the default template:
-
-.. code-block:: yaml
-
-    # app/config/config.yml
-    knp_menu:
-        twig:
-            template: AppBundle:Default:knp_menu.html.twig
-
-Alternative B: I18n only for certain menus
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you want to translate a certain menu, add the ``template`` parameter to
-its ``knp_menu_render`` call.
-
-.. code-block:: html+jinja
-
-    {{ knp_menu_render('name_of_your_menu', {'template': 'AppBundle:Default:knp_menu.html.twig'}) }}
-
-That's it.
-
-Add translation domain information in the controller
-----------------------------------------------------
-
-In your menu Builder class you need to add extras. For example, imagine you have
-two menu items Home and Login.
-
-.. code-block:: php
+The KnpMenuBundle translates all menu items by default. Assume you've build a menu
+like this::
 
     $menu = $factory->createItem('root');
 
     $menu->addChild('Home', array('route' => 'homepage'));
     $menu->addChild('Login', array('route' => 'login'));
 
-To translate them you need to add translation_domain parameter using setExtra(s):
+The items "Home" and "Login" can now be translated in the message domain:
 
-.. code-block:: php
+.. configuration-block::
 
-    $menu = $factory->createItem('root');
+    .. code-block:: yaml
 
-    // will look for "Home" in AppBundle/Resources/translations/AppBundle.locale.yml
-    $menu->addChild('Home', array('route' => 'homepage'))->setExtra('translation_domain', 'AppBundle');
+        # app/Resources/translations/messages.fr.yml
+        Home: Accueil
+        Login: Connexion
 
-    // will look for "Login" in Acme/AdminBundle/Resources/translations/AcmeAdminBundle.locale.yml
-    $menu->addChild('Login', array('route' => 'login'))->setExtra('translation_domain', 'AcmeAdminBundle');
+    .. code-block:: xliff
+
+        <!-- app/Resources/translations/messages.fr.xlf -->
+        <?xml version="1.0"?>
+        <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+            <file source-language="en" datatype="plaintext" original="file.ext">
+                <body>
+                    <trans-unit id="menu.home">
+                        <source>Home</source>
+                        <target>Accueil</target>
+                    </trans-unit>
+
+                    <trans-unit id="menu.login">
+                        <source>Login</source>
+                        <target>Connexion</target>
+                    </trans-unit>
+                </body>
+            </file>
+        </xliff>
+
+    .. code-block:: php
+
+        // app/Resources/translations/messages.fr.php
+        return array(
+            'Home' => 'Accueil',
+            'Login' => 'Connexion',
+        );
+
+Configure the Translation Domain
+--------------------------------
+
+You can configure the translation domain that's used in the extras of the menu
+item::
+
+    // ...
+    $menu->addChild('Home', array('route' => 'homepage'))
+        ->setExtra('translation_domain' => 'AcmeAdminBundle');
+
+Disabling Translation
+---------------------
+
+You can disable translation of the menu item by setting ``translation_domain``
+to ``false``.
