@@ -19,7 +19,7 @@ The items "Home" and "Login" can now be translated in the message domain:
         Home: Accueil
         Login: Connexion
 
-    .. code-block:: xliff
+    .. code-block:: xml
 
         <!-- app/Resources/translations/messages.fr.xlf -->
         <?xml version="1.0"?>
