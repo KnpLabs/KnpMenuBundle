@@ -315,10 +315,12 @@ More Advanced Stuff
     :maxdepth: 1
 
     menu_service
-    custom_renderer
-    custom_provider
+    menu_builder_service
     i18n
     events
+    custom_renderer
+    custom_provider
+    disabling_providers
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.markdown
