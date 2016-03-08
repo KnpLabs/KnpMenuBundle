@@ -198,7 +198,7 @@ To actually render the menu, just do the following from anywhere in any template
 
     .. code-block:: html+php
 
-        <?php $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
+        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
 
 With this method, you refer to the menu using a three-part string:
 **bundle**:**class**:**method**.
