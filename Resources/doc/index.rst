@@ -241,7 +241,7 @@ way, then do the following:
 
     .. code-block:: html+php
 
-        <?php $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
+        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
 
 Additionally, you can pass some options to the renderer:
 
@@ -253,7 +253,7 @@ Additionally, you can pass some options to the renderer:
 
     .. code-block:: html+php
 
-        <?php $view['knp_menu']->render('AppBundle:Builder:mainMenu', array(
+        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu', array(
             'depth'         => 2,
             'currentAsLink' => false,
         )) ?>
@@ -273,7 +273,7 @@ You can also "get" a menu, which you can use to render later:
     .. code-block:: html+php
 
         <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu') ?>
-        <?php $view['knp_menu']->render($menuItem) ?>
+        <?php echo $view['knp_menu']->render($menuItem) ?>
 
 If you want to only retrieve a certain branch of the menu, you can do the
 following, where 'Contact' is one of the root menu items and has children
@@ -289,7 +289,7 @@ beneath it.
     .. code-block:: html+php
 
         <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', array('Contact')) ?>
-        <?php $view['knp_menu']->render(array('AppBundle:Builder:mainMenu', 'Contact')) ?>
+        <?php echo $view['knp_menu']->render(array('AppBundle:Builder:mainMenu', 'Contact')) ?>
 
 If you want to pass some options to the builder, you can use the third parameter
 of the ``knp_menu_get`` function:
@@ -306,7 +306,7 @@ of the ``knp_menu_get`` function:
         <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', array(), array(
             'some_option' => 'my_value'
         )) ?>
-        <?php $view['knp_menu']->render($menuItem) ?>
+        <?php echo $view['knp_menu']->render($menuItem) ?>
 
 More Advanced Stuff
 -------------------
