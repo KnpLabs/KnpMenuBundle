@@ -1,7 +1,7 @@
 I18n for your Menu Labels
 =========================
 
-The KnpMenuBundle translates all menu items by default. Assume you've build a menu
+The KnpMenuBundle translates all menu items by default. Assume you've built a menu
 like this::
 
     $menu = $factory->createItem('root');
@@ -55,7 +55,7 @@ item::
 
     // ...
     $menu->addChild('Home', array('route' => 'homepage'))
-        ->setExtra('translation_domain' => 'AcmeAdminBundle');
+        ->setExtra('translation_domain', 'AcmeAdminBundle');
 
 Disabling Translation
 ---------------------
