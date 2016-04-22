@@ -1,3 +1,4 @@
+* Menu extensions now also work if you replace the knp_menu.factory service with an alias
 * Menu items are translated in the default template
 
 ## 2.1.1 (2015-12-15)

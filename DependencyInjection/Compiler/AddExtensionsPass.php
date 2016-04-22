@@ -2,6 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -15,13 +16,25 @@ class AddExtensionsPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('knp_menu.factory')) {
+        if (!$container->has('knp_menu.factory')) {
             return;
         }
 
-        $definition = $container->getDefinition('knp_menu.factory');
+        $taggedServiceIds = $container->findTaggedServiceIds('knp_menu.factory_extension');
+        if (0 === count($taggedServiceIds)) {
+            return;
+        }
 
-        foreach ($container->findTaggedServiceIds('knp_menu.factory_extension') as $id => $tags) {
+        $definition = $container->findDefinition('knp_menu.factory');
+
+        if (!method_exists($container->getParameterBag()->resolveValue($definition->getClass()), 'addExtension')) {
+            throw new InvalidConfigurationException(sprintf(
+                'To use factory extensions, the service of class "%s" registered as knp_menu.factory must implement the "addExtension" method',
+                $definition->getClass()
+            ));
+        }
+
+        foreach ($taggedServiceIds as $id => $tags) {
             foreach ($tags as $tag) {
                 $priority = isset($tag['priority']) ? $tag['priority'] : 0;
                 $definition->addMethodCall('addExtension', array(new Reference($id), $priority));
