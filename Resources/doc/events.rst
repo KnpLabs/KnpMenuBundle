@@ -64,7 +64,7 @@ it will hold the menu being created and the factory.
 
     class ConfigureMenuEvent extends Event
     {
-        const CONFIGURE = 'acme_demo.menu_configure';
+        const CONFIGURE = 'app.menu_configure';
 
         private $factory;
         private $menu;
