@@ -50,7 +50,7 @@ Step 3: (optional) Configure the bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The bundle comes with a sensible default configuration, which is listed below.
-If you skip this step, these defaults will be used.
+You can define these options if you need to change them:
 
 .. configuration-block::
 
@@ -60,7 +60,7 @@ If you skip this step, these defaults will be used.
         knp_menu:
             # use "twig: false" to disable the Twig extension and the TwigRenderer
             twig:
-                template: knp_menu.html.twig
+                template: KnpMenuBundle::menu.html.twig
             #  if true, enables the helper for PHP templates
             templating: false
             # the renderer to use, list is also available by default
@@ -82,7 +82,7 @@ If you skip this step, these defaults will be used.
                 default-renderer="twig"
             >
                 <!-- add enabled="false" to disable the Twig extension and the TwigRenderer -->
-                <knp-menu:twig template="knp_menu.html.twig"/>
+                <knp-menu:twig template="KnpMenuBundle::menu.html.twig"/>
             </knp-menu:config>
         </container>
 
@@ -92,13 +92,18 @@ If you skip this step, these defaults will be used.
         $container->loadFromExtension('knp_menu', array(
             // use 'twig' => false to disable the Twig extension and the TwigRenderer
             'twig' => array(
-                'template' => 'knp_menu.html.twig'
+                'template' => 'KnpMenuBundle::menu.html.twig'
             ),
             // if true, enabled the helper for PHP templates
             'templating' => false,
             // the renderer to use, list is also available by default
             'default_renderer' => 'twig',
         ));
+
+.. versionadded::2.1.2
+
+    The template used to be ``knp_menu.html.twig`` which did not translate menu entries.
+    Version 2.1.2 adds the template that translates menu entries.
 
 .. note::
 
