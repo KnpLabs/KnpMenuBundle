@@ -31,6 +31,7 @@
             <argument type="service" id="knp_menu.renderer_provider" />
             <argument type="service" id="knp_menu.menu_provider" />
             <argument type="service" id="knp_menu.manipulator" />
+            <argument type="service" id="knp_menu.matcher" />
         </service>
 
         <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" />

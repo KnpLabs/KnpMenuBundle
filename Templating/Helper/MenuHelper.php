@@ -106,6 +106,18 @@ class MenuHelper extends TemplatingHelper
     }
 
     /**
+     * Returns the current item of a menu.
+     *
+     * @param ItemInterface|array|string $menu
+     *
+     * @return ItemInterface|null
+     */
+    public function getCurrentItem($menu)
+    {
+        return $this->helper->getCurrentItem($menu);
+    }
+
+    /**
      * @return string
      */
     public function getName()
