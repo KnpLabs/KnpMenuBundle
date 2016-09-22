@@ -19,7 +19,7 @@
         }
     ],
     "require":      {
-        "knplabs/knp-menu":         "~2.1",
+        "knplabs/knp-menu":         "~2.2",
         "symfony/framework-bundle": "~2.3|~3.0"
     },
     "require-dev":  {
@@ -31,7 +31,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.1.x-dev"
+            "dev-master": "2.2.x-dev"
         }
     }
 }
