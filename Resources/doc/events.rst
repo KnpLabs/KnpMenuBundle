@@ -19,10 +19,13 @@ to allow other parts of your application to add more stuff to it.
 
   use AppBundle\Event\ConfigureMenuEvent;
   use Knp\Menu\FactoryInterface;
-  use Symfony\Component\DependencyInjection\ContainerAware;
+  use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+  use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-  class MainBuilder extends ContainerAware
+  class MainBuilder implements ContainerAwareInterface
   {
+      use ContainerAwareTrait;
+      
       public function build(FactoryInterface $factory)
       {
           $menu = $factory->createItem('root');
