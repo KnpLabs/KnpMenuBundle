@@ -30,7 +30,6 @@ to allow other parts of your application to add more stuff to it.
       {
           $menu = $factory->createItem('root');
 
-          $menu->setCurrentUri($this->container->get('request')->getRequestUri());
           $menu->addChild('Dashboard', array('route' => '_acp_dashboard'));
 
           $this->container->get('event_dispatcher')->dispatch(
