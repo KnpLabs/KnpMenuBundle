@@ -26,7 +26,6 @@ matrix:
           env: SYMFONY_VERSION='3.0.*@dev'
 
 before_install:
-    - composer self-update # remove this once the Travis upgrade of February 2015 is deployed
     - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
     - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION}; fi;
 
