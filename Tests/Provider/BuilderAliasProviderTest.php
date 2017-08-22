@@ -67,7 +67,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetInvalidReturnValue()
     {
@@ -81,7 +81,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetNonExistentMenu()
     {
@@ -94,7 +94,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Class "Knp\Bundle\MenuBundle\Tests\Stubs\Menu\Fake" does not exist for menu builder "FooBundle:Fake".
      */
     public function testGetNonExistentMenuClass()
@@ -109,7 +109,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetNonExistentMenuMethod()
     {
@@ -166,7 +166,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.
      */
     public function testBundleInheritanceWrongClass()
