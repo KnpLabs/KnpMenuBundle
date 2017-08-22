@@ -3,10 +3,11 @@
 namespace Knp\Bundle\MenuBundle\Tests\EventListener;
 
 use Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class MenuPassTest extends \PHPUnit_Framework_TestCase
+class VoterInitializerListenerTest extends TestCase
 {
     public function testHandleSubRequest()
     {
@@ -52,7 +53,7 @@ class MenuPassTest extends \PHPUnit_Framework_TestCase
 
         $listener = new VoterInitializerListener();
         $listener->addVoter($voter);
-        $listener->addVoter($this->getMock('Knp\Menu\Matcher\Voter\VoterInterface'));
+        $listener->addVoter($this->getMockBuilder('Knp\Menu\Matcher\Voter\VoterInterface')->getMock());
 
         $listener->onKernelRequest($event);
     }

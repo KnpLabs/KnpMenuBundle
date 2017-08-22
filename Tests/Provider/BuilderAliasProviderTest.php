@@ -4,16 +4,16 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
 use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
-use Symfony\Component\HttpKernel\Kernel;
+use PHPUnit\Framework\TestCase;
 
-class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
+class BuilderAliasProviderTest extends TestCase
 {
     public function testHas()
     {
         $provider = new BuilderAliasProvider(
-            $this->getMock('Symfony\Component\HttpKernel\KernelInterface'),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
-            $this->getMock('Knp\Menu\FactoryInterface')
+            $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock(),
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
+            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
         $this->assertFalse($provider->has('foo'));
         $this->assertFalse($provider->has('foo:bar'));
@@ -22,9 +22,9 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExistentMenu()
     {
-        $item = $this->getMock('Knp\Menu\ItemInterface');
+        $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
-        $factory = $this->getMock('Knp\Menu\FactoryInterface');
+        $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
@@ -32,7 +32,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
             $factory
         );
 
@@ -43,15 +43,15 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetContainerAwareMenu()
     {
-        $item = $this->getMock('Knp\Menu\ItemInterface');
+        $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
-        $factory = $this->getMock('Knp\Menu\FactoryInterface');
+        $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
             ->will($this->returnValue($item));
 
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock();
         $container->expects($this->once())
             ->method('get')
             ->with('test');
@@ -68,56 +68,56 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetInvalidReturnValue()
     {
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
-            $this->getMock('Knp\Menu\FactoryInterface')
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
+            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
         $menu = $provider->get('FooBundle:Builder:invalidMethod');
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetNonExistentMenu()
     {
         $provider = new BuilderAliasProvider(
-            $this->getMock('Symfony\Component\HttpKernel\KernelInterface'),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
-            $this->getMock('Knp\Menu\FactoryInterface')
+            $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock(),
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
+            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
         $provider->get('non-existent');
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Class "Knp\Bundle\MenuBundle\Tests\Stubs\Menu\Fake" does not exist for menu builder "FooBundle:Fake".
      */
     public function testGetNonExistentMenuClass()
     {
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
-            $this->getMock('Knp\Menu\FactoryInterface')
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
+            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetNonExistentMenuMethod()
     {
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
-            $this->getMock('Knp\Menu\FactoryInterface')
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
+            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
         // bundle will return a null namespace, class won't be found
@@ -126,9 +126,9 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testBundleInheritanceParent()
     {
-        $item = $this->getMock('Knp\Menu\ItemInterface');
+        $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
-        $factory = $this->getMock('Knp\Menu\FactoryInterface');
+        $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
@@ -136,7 +136,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider = new BuilderAliasProvider(
             $this->createTestKernel(),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
             $factory
         );
 
@@ -147,9 +147,9 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testBundleInheritanceChild()
     {
-        $item = $this->getMock('Knp\Menu\ItemInterface');
+        $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
-        $factory = $this->getMock('Knp\Menu\FactoryInterface');
+        $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu for the child')
@@ -157,7 +157,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider = new BuilderAliasProvider(
             $this->createTestKernel('Knp\Bundle\MenuBundle\Tests\Stubs\Child'),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
             $factory
         );
 
@@ -167,15 +167,15 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.
      */
     public function testBundleInheritanceWrongClass()
     {
         $provider = new BuilderAliasProvider(
             $this->createTestKernel(),
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
-            $this->getMock('Knp\Menu\FactoryInterface')
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
+            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
         $provider->get('FooBundle:Fake:mainMenu');
@@ -187,7 +187,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
      */
     private function createMockKernelForStub()
     {
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
+        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $bundle->expects($this->once())
             ->method('getNamespace')
             ->will($this->returnValue('Knp\Bundle\MenuBundle\Tests\Stubs'))
@@ -197,7 +197,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('FooBundle'))
         ;
 
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+        $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
         $kernel->expects($this->once())
             ->method('getBundle')
             ->with('FooBundle', false)
@@ -209,11 +209,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
 
     private function createTestKernel($childNamespace = 'Bar', $parentNamespace = 'Knp\Bundle\MenuBundle\Tests\Stubs')
     {
-        $bundleInterface = version_compare(Kernel::VERSION, '2.1-dev', '<')
-            ? 'Knp\Bundle\MenuBundle\Tests\Stubs\ContainerAwareBundleInterface' // Symfony 2.0 misses the extend in the interface
-            : 'Symfony\Component\HttpKernel\Bundle\BundleInterface';
-
-        $bundle = $this->getMock($bundleInterface);
+        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $bundle->expects($this->any())
             ->method('getNamespace')
             ->will($this->returnValue($parentNamespace))
@@ -223,7 +219,7 @@ class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('FooBundle'))
         ;
 
-        $childBundle = $this->getMock($bundleInterface);
+        $childBundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $childBundle->expects($this->any())
             ->method('getNamespace')
             ->will($this->returnValue($childNamespace))

@@ -3,12 +3,13 @@
 namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
 use Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider;
+use PHPUnit\Framework\TestCase;
 
-class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
+class ContainerAwareProviderTest extends TestCase
 {
     public function testHas()
     {
-        $provider = new ContainerAwareProvider($this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'), array('first' => 'first', 'second' => 'dummy'));
+        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(), array('first' => 'first', 'second' => 'dummy'));
         $this->assertTrue($provider->has('first'));
         $this->assertTrue($provider->has('second'));
         $this->assertFalse($provider->has('third'));
@@ -16,8 +17,8 @@ class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExistentMenu()
     {
-        $menu = $this->getMock('Knp\Menu\ItemInterface');
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
+        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock();
         $container->expects($this->once())
             ->method('get')
             ->with('menu')
@@ -28,11 +29,11 @@ class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetNonExistentMenu()
     {
-        $provider = new ContainerAwareProvider($this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'));
+        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock());
         $provider->get('non-existent');
     }
 }

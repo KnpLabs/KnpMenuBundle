@@ -3,13 +3,14 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AddVotersPassTest extends \PHPUnit_Framework_TestCase
+class AddVotersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(false));
@@ -43,7 +44,7 @@ class AddVotersPassTest extends \PHPUnit_Framework_TestCase
             ->method('addMethodCall')
             ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('foo'))));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));

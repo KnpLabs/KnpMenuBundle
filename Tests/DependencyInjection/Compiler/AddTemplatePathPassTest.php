@@ -3,12 +3,13 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddTemplatePathPass;
+use PHPUnit\Framework\TestCase;
 
-class AddTemplatePathPassTest extends \PHPUnit_Framework_TestCase
+class AddTemplatePathPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->any())
             ->method('hasDefinition')
             ->will($this->returnValue(false));
@@ -29,7 +30,7 @@ class AddTemplatePathPassTest extends \PHPUnit_Framework_TestCase
             ->method('addMethodCall')
             ->with($this->equalTo('addPath'), $this->isType('array'));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -51,7 +52,7 @@ class AddTemplatePathPassTest extends \PHPUnit_Framework_TestCase
             ->method('addMethodCall')
             ->with($this->equalTo('addPath'), $this->isType('array'));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->exactly(2))
             ->method('hasDefinition')
             ->will($this->onConsecutiveCalls(false, true));

@@ -3,12 +3,13 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
+use PHPUnit\Framework\TestCase;
 
-class AddProvidersPassTest extends \PHPUnit_Framework_TestCase
+class AddProvidersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(false));
@@ -22,7 +23,7 @@ class AddProvidersPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessForOneProvider()
     {
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -50,7 +51,7 @@ class AddProvidersPassTest extends \PHPUnit_Framework_TestCase
             ->method('replaceArgument')
             ->with($this->equalTo(0), $this->isType('array'));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));

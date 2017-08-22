@@ -3,8 +3,9 @@
 namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
 use Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider;
+use PHPUnit\Framework\TestCase;
 
-class BuilderServiceProviderTest extends \PHPUnit_Framework_TestCase
+class BuilderServiceProviderTest extends TestCase
 {
     public function testHas()
     {

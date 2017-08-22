@@ -3,9 +3,10 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\KnpMenuExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class KnpMenuExtensionTest extends \PHPUnit_Framework_TestCase
+class KnpMenuExtensionTest extends TestCase
 {
     public function testDefault()
     {
