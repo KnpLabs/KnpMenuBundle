@@ -47,6 +47,50 @@ The items "Home" and "Login" can now be translated in the message domain:
             'Login' => 'Connexion',
         );
 
+More Complex Translation Structure
+----------------------------------
+
+Lets assume that your translations are a bit more complex, and they look something like this::
+
+.. configuration-block::
+
+    .. code-block:: yaml
+    
+        # app/Resources/translations/messages.fr.yml
+        dashboard:
+          tabs:
+            home: Accueil
+            login: Connexion
+          header:
+            search: Chercher
+            
+    .. code-block:: php
+
+        // app/Resources/translations/messages.fr.php
+        return array(
+            'dashboard' => array(
+                'tabs' => array(
+                    'home' => 'Accueil',
+                    'login' => 'Connexion',
+                ),
+                'header' => array(
+                    'search' => 'Chercher'
+                ),
+            ),
+        );
+            
+Now lets look at how you can accomplish this with the same menu from above::
+
+    $menu = $factory->createItem('root');
+
+    $menu->addChild('Home', array('route' => 'homepage', 'label' => 'dashboard.tabs.home'));
+    $menu->addChild('Login', array('route' => 'login', 'label' => 'dashboard.tabs.login'));
+
+.. note::
+
+    Translations are just strings, and this method is the same as you would do in Forms, and other components.
+
+
 Configure the Translation Domain
 --------------------------------
 
