@@ -8,7 +8,7 @@ class AddRenderersPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(false));
@@ -25,7 +25,7 @@ class AddRenderersPassTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessWithEmptyAlias()
     {
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -47,7 +47,7 @@ class AddRenderersPassTest extends \PHPUnit_Framework_TestCase
             ->method('replaceArgument')
             ->with($this->equalTo(2), $this->equalTo(array('test_alias' => 'id')));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));

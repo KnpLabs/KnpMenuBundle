@@ -9,7 +9,7 @@ class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
     public function testHas()
     {
         $provider = new ContainerAwareProvider(
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'),
+            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
             'first',
             array('first' => 'first', 'second' => 'dummy')
         );
@@ -20,8 +20,8 @@ class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExistentRenderer()
     {
-        $renderer = $this->getMock('Knp\Menu\Renderer\RendererInterface');
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $renderer = $this->getMockBuilder('Knp\Menu\Renderer\RendererInterface')->getMock();
+        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock();
         $container->expects($this->once())
             ->method('get')
             ->with('renderer')
@@ -33,8 +33,8 @@ class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultRenderer()
     {
-        $renderer = $this->getMock('Knp\Menu\Renderer\RendererInterface');
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $renderer = $this->getMockBuilder('Knp\Menu\Renderer\RendererInterface')->getMock();
+        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock();
         $container->expects($this->once())
             ->method('get')
             ->with('renderer')
@@ -49,7 +49,7 @@ class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNonExistentRenderer()
     {
-        $provider = new ContainerAwareProvider($this->getMock('Symfony\Component\DependencyInjection\ContainerInterface'), 'default', array());
+        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(), 'default', array());
         $provider->get('non-existent');
     }
 }

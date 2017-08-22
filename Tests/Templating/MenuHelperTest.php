@@ -26,7 +26,7 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMenuWithOptions()
     {
-        $menu = $this->getMock('Knp\Menu\ItemInterface');
+        $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
         $helperMock = $this->getHelperMock();
         $helperMock->expects($this->any())
@@ -76,7 +76,7 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testPathAsString()
     {
-        $menu = $this->getMock('Knp\Menu\ItemInterface');
+        $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
         $manipulatorMock = $this->getManipulatorMock(array('getPathAsString'));
         $manipulatorMock->expects($this->any())
@@ -92,8 +92,8 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCurrent()
     {
-        $current = $this->getMock('Knp\Menu\ItemInterface');
-        $notCurrent = $this->getMock('Knp\Menu\ItemInterface');
+        $current = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
+        $notCurrent = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
         $matcherMock = $this->getMatcherMock();
         $matcherMock->expects($this->any())
@@ -110,7 +110,7 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAncestor()
     {
-        $menu = $this->getMock('Knp\Menu\ItemInterface');
+        $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
         $matcherMock = $this->getMatcherMock();
         $matcherMock->expects($this->any())
@@ -126,7 +126,7 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentItem()
     {
-        $menu = $this->getMock('Knp\Menu\ItemInterface');
+        $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
         $helperMock = $this->getHelperMock(array('getCurrentItem'));
         $helperMock->expects($this->any())
@@ -150,7 +150,7 @@ class MenuHelperTest extends \PHPUnit_Framework_TestCase
 
     private function getMatcherMock()
     {
-        return $this->getMock('Knp\Menu\Matcher\MatcherInterface');
+        return $this->getMockBuilder('Knp\Menu\Matcher\MatcherInterface')->getMock();
     }
 
     private function getManipulatorMock(array $methods = array())

@@ -9,7 +9,7 @@ class AddExtensionsPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('has')
             ->will($this->returnValue(false));
@@ -41,13 +41,13 @@ class AddExtensionsPassTest extends \PHPUnit_Framework_TestCase
             ->method('addMethodCall')
             ->with($this->equalTo('addExtension'), $this->equalTo(array(new Reference('foo'), -4)));
 
-        $parameterBagMock = $this->getMock('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface');
+        $parameterBagMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface')->getMock();
         $parameterBagMock->expects($this->once())
             ->method('resolveValue')
             ->with($menuFactoryClass)
             ->will($this->returnValue($menuFactoryClass));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('has')
             ->will($this->returnValue(true));
@@ -79,13 +79,13 @@ class AddExtensionsPassTest extends \PHPUnit_Framework_TestCase
             ->method('getClass')
             ->will($this->returnValue('SimpleMenuFactory'));
 
-        $parameterBagMock = $this->getMock('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface');
+        $parameterBagMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface')->getMock();
         $parameterBagMock->expects($this->once())
             ->method('resolveValue')
             ->with('SimpleMenuFactory')
             ->will($this->returnValue('SimpleMenuFactory'));
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('has')
             ->will($this->returnValue(true));
