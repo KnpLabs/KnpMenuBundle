@@ -18,6 +18,7 @@ php:
     - 5.6
     - 7.0
     - 7.1
+    - nightly
 
 matrix:
     include:
@@ -36,6 +37,8 @@ matrix:
 before_install:
     - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
     - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION}; fi;
+    # force the PHPUnit version for PHP 7.2, until https://github.com/symfony/symfony/issues/23943 is resolved
+    - if [ "$TRAVIS_PHP_VERSION" = "nightly" ]; then export SYMFONY_PHPUNIT_VERSION="6.3"; fi;
 
 install:
     - composer update $COMPOSER_FLAGS
