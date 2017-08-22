@@ -5,9 +5,14 @@ sudo: false
 cache:
     directory:
         - $HOME/.composer/cache/files
+        - $HOME/symfony-bridge/.phpunit
+
+env:
+    global:
+        - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+        - SYMFONY_PHPUNIT_REMOVE="symfony/yaml" # keep Prophecy
 
 php:
-    - 5.3
     - 5.4
     - 5.5
     - 5.6
@@ -17,21 +22,23 @@ php:
 matrix:
     include:
         - php: 5.3
+          dist: precise # PHP 5.3 is not available on Trusty
+        - php: 5.6
           env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
+        - php: 7.1
+          env: DEPENDENCIES='dev'
+        # Test LTS version
         - php: 5.6
-          env: DEPENDENCIES='dev' SYMFONY_VERSION='2.8.*@dev'
-        - php: 5.6
-          env: SYMFONY_VERSION='2.3.*'
-        - php: 5.6
-          env: SYMFONY_VERSION='3.0.*@dev'
+          env: SYMFONY_VERSION='2.8.*'
         - php: hhvm
           dist: trusty
 
 before_install:
-    - composer self-update # remove this once the Travis upgrade of February 2015 is deployed
     - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
     - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION}; fi;
 
-install: composer update $COMPOSER_FLAGS
+install:
+    - composer update $COMPOSER_FLAGS
+    - ./vendor/bin/simple-phpunit install
 
-script: phpunit -v
+script: ./vendor/bin/simple-phpunit -v
