@@ -78,6 +78,11 @@
         </service>
 
         <service id="knp_menu.manipulator" class="Knp\Menu\Util\MenuManipulator" public="false" />
+
+        <!-- autowiring aliases -->
+        <service id="Knp\Menu\FactoryInterface" alias="knp_menu.factory" public="false" />
+        <service id="Knp\Menu\Matcher\MatcherInterface" alias="knp_menu.matcher" public="false" />
+        <service id="Knp\Menu\Util\MenuManipulator" alias="knp_menu.manipulator" public="false" />
     </services>
 
 </container>
