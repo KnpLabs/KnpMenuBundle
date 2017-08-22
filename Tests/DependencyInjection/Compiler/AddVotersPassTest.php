@@ -3,9 +3,10 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AddVotersPassTest extends \PHPUnit_Framework_TestCase
+class AddVotersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {

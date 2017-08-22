@@ -3,8 +3,9 @@
 namespace Knp\Bundle\MenuBundle\Tests\Renderer;
 
 use Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider;
+use PHPUnit\Framework\TestCase;
 
-class ContainerAwareProviderTest extends \PHPUnit_Framework_TestCase
+class ContainerAwareProviderTest extends TestCase
 {
     public function testHas()
     {

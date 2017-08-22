@@ -3,8 +3,9 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddTemplatePathPass;
+use PHPUnit\Framework\TestCase;
 
-class AddTemplatePathPassTest extends \PHPUnit_Framework_TestCase
+class AddTemplatePathPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {

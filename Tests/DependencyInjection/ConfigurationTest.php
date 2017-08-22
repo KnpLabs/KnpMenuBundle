@@ -2,7 +2,9 @@
 
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ConfigurationTest extends TestCase
 {
     /**
      * @dataProvider getConfigs

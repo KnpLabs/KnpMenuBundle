@@ -3,8 +3,9 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuBuilderPass;
+use PHPUnit\Framework\TestCase;
 
-class MenuBuilderPassTest extends \PHPUnit_Framework_TestCase
+class MenuBuilderPassTest extends TestCase
 {
     private $containerBuilder;
     private $definition;

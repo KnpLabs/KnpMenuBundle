@@ -3,9 +3,10 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
 use Knp\Menu\FactoryInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AddExtensionsPassTest extends \PHPUnit_Framework_TestCase
+class AddExtensionsPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {

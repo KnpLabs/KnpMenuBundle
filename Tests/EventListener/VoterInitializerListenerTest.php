@@ -3,10 +3,11 @@
 namespace Knp\Bundle\MenuBundle\Tests\EventListener;
 
 use Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class VoterInitializerListenerTest extends \PHPUnit_Framework_TestCase
+class VoterInitializerListenerTest extends TestCase
 {
     public function testHandleSubRequest()
     {

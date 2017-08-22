@@ -3,8 +3,9 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
+use PHPUnit\Framework\TestCase;
 
-class AddProvidersPassTest extends \PHPUnit_Framework_TestCase
+class AddProvidersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {

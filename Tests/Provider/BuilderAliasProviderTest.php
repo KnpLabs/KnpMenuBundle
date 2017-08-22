@@ -4,8 +4,9 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 
 use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
+use PHPUnit\Framework\TestCase;
 
-class BuilderAliasProviderTest extends \PHPUnit_Framework_TestCase
+class BuilderAliasProviderTest extends TestCase
 {
     public function testHas()
     {

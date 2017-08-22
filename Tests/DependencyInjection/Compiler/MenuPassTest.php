@@ -3,8 +3,9 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuPass;
+use PHPUnit\Framework\TestCase;
 
-class MenuPassTest extends \PHPUnit_Framework_TestCase
+class MenuPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {

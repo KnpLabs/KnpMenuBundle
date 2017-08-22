@@ -3,13 +3,14 @@
 namespace Knp\Bundle\MenuBundle\Tests\Templating;
 
 use Knp\Bundle\MenuBundle\Templating\Helper\MenuHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for MenuHelper class
  *
  * @author Leszek Prabucki <leszek.prabucki@gmail.com>
  */
-class MenuHelperTest extends \PHPUnit_Framework_TestCase
+class MenuHelperTest extends TestCase
 {
     public function testGet()
     {
