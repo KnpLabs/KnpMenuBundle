@@ -25,6 +25,10 @@ class AddVotersPass implements CompilerPassInterface
         $voters = array();
 
         foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {
+            // Process only the first tag. Registering the same voter multiple time
+            // does not make any sense, and this allows user to overwrite the tag added
+            // by the autoconfiguration to change the priority (autoconfigured tags are
+            // always added at the end of the list).
             $tag = $tags[0];
 
             $priority = isset($tag['priority']) ? (int) $tag['priority'] : 0;
