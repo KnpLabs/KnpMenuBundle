@@ -38,6 +38,12 @@ class KnpMenuExtension extends Extension
         }
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
+
+        // Register autoconfiguration rules for Symfony DI 3.3+
+        if (method_exists($container, 'registerForAutoconfiguration')) {
+            $container->registerForAutoconfiguration('Knp\Menu\Matcher\Voter\VoterInterface')
+                ->addTag('knp_menu.voter');
+        }
     }
 
     /**
