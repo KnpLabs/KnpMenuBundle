@@ -39,6 +39,8 @@ before_install:
     - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION}; fi;
     # force the PHPUnit version for PHP 7.2, until https://github.com/symfony/symfony/issues/23943 is resolved
     - if [ "$TRAVIS_PHP_VERSION" = "nightly" ]; then export SYMFONY_PHPUNIT_VERSION="6.3"; fi;
+    # Account for https://github.com/symfony/symfony/pull/24102 until the bugfix is released
+    - mkdir -p "$SYMFONY_PHPUNIT_DIR"
 
 install:
     - composer update $COMPOSER_FLAGS
