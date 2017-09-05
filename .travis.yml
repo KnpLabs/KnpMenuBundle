@@ -44,4 +44,6 @@ install:
     - composer update $COMPOSER_FLAGS
     - ./vendor/bin/simple-phpunit install
 
-script: ./vendor/bin/simple-phpunit -v
+script:
+    - composer validate --strict --no-check-lock
+    - ./vendor/bin/simple-phpunit -v
