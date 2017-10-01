@@ -5,6 +5,7 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class BuilderAliasProviderTest extends TestCase
 {
@@ -126,6 +127,10 @@ class BuilderAliasProviderTest extends TestCase
 
     public function testBundleInheritanceParent()
     {
+        if (!method_exists(BundleInterface::class, 'getParent')) {
+            $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
+        }
+
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
         $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
@@ -147,6 +152,10 @@ class BuilderAliasProviderTest extends TestCase
 
     public function testBundleInheritanceChild()
     {
+        if (!method_exists(BundleInterface::class, 'getParent')) {
+            $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
+        }
+
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
         $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
@@ -172,6 +181,10 @@ class BuilderAliasProviderTest extends TestCase
      */
     public function testBundleInheritanceWrongClass()
     {
+        if (!method_exists(BundleInterface::class, 'getParent')) {
+            $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
+        }
+
         $provider = new BuilderAliasProvider(
             $this->createTestKernel(),
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
