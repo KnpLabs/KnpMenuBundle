@@ -4,6 +4,8 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use Symfony\Component\DependencyInjection\Reference;
 
 class AddProvidersPassTest extends TestCase
 {
@@ -44,12 +46,18 @@ class AddProvidersPassTest extends TestCase
 
     public function testProcessForManyProviders()
     {
+        $expectedProviders = array(new Reference('id'), new Reference('id2'));
+
+        if (class_exists(IteratorArgument::class)) {
+            $expectedProviders = new IteratorArgument($expectedProviders);
+        }
+
         $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
             ->getMock();
         $definitionMock->expects($this->once())
             ->method('replaceArgument')
-            ->with($this->equalTo(0), $this->isType('array'));
+            ->with($this->equalTo(0), $expectedProviders);
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())

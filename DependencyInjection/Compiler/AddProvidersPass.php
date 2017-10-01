@@ -1,6 +1,7 @@
 <?php
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -30,6 +31,10 @@ class AddProvidersPass implements CompilerPassInterface
             // when using only one (the default case as the bundle defines one provider)
             $container->setAlias('knp_menu.menu_provider', (string) reset($providers));
         } else {
+            if (class_exists(IteratorArgument::class)) {
+                $providers = new IteratorArgument($providers);
+            }
+
             $definition = $container->getDefinition('knp_menu.menu_provider.chain');
             $definition->replaceArgument(0, $providers);
             $container->setAlias('knp_menu.menu_provider', 'knp_menu.menu_provider.chain');
