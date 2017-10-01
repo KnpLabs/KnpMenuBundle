@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * This compiler pass registers the menu builders in the BuilderServiceProvider.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class MenuBuilderPass implements CompilerPassInterface
 {

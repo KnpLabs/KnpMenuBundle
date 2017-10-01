@@ -8,6 +8,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * This compiler pass registers the renderers in the RendererProvider.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class AddRenderersPass implements CompilerPassInterface
 {

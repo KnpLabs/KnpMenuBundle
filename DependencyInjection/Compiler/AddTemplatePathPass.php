@@ -8,6 +8,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * This compiler pass adds the path for the KnpMenu template in the twig loader.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class AddTemplatePathPass implements CompilerPassInterface
 {

@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * This compiler pass registers the providers in the ChainProvider.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class AddProvidersPass implements CompilerPassInterface
 {

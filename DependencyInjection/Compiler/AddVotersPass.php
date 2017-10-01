@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * This compiler pass registers the voters in the Matcher.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class AddVotersPass implements CompilerPassInterface
 {
