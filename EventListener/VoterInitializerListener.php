@@ -2,6 +2,8 @@
 
 namespace Knp\Bundle\MenuBundle\EventListener;
 
+@trigger_error(sprintf('The %s class is deprecated since 2.2 and will be removed in 3.0.', VoterInitializerListener::class), E_USER_DEPRECATED);
+
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
