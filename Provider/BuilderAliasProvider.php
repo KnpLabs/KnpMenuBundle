@@ -88,6 +88,8 @@ class BuilderAliasProvider implements MenuProviderInterface
      * @param string $bundleName
      * @param string $className  The class name of the builder
      *
+     * @return object
+     *
      * @throws \InvalidArgumentException If the class does not exist
      */
     protected function getBuilder($bundleName, $className)
