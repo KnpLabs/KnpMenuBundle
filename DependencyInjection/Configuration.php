@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
-                        ->scalarNode('template')->defaultValue('KnpMenuBundle::menu.html.twig')->end()
+                        ->scalarNode('template')->defaultValue('@KnpMenu/menu.html.twig')->end()
                     ->end()
                 ->end()
                 ->booleanNode('templating')->defaultFalse()->end()

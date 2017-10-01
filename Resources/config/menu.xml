@@ -20,7 +20,7 @@
     </parameters>
 
     <services>
-        <service id="knp_menu.factory" class="%knp_menu.factory.class%" />
+        <service id="knp_menu.factory" class="%knp_menu.factory.class%" public="true" />
 
         <service id="knp_menu.factory_extension.routing" class="%knp_menu.factory_extension.routing.class%" public="false">
             <argument type="service" id="router" />
@@ -34,7 +34,7 @@
             <argument type="service" id="knp_menu.matcher" />
         </service>
 
-        <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" />
+        <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" public="true" />
 
         <service id="knp_menu.menu_provider.chain" class="%knp_menu.menu_provider.chain.class%" public="false">
             <argument type="collection" />
