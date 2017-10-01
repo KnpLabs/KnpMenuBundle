@@ -13,8 +13,6 @@ env:
         - SYMFONY_PHPUNIT_REMOVE="symfony/yaml" # keep Prophecy
 
 php:
-    - 5.4
-    - 5.5
     - 5.6
     - 7.0
     - 7.1
@@ -22,8 +20,6 @@ php:
 
 matrix:
     include:
-        - php: 5.3
-          dist: precise # PHP 5.3 is not available on Trusty
         - php: 5.6
           env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
         - php: 7.1
@@ -31,16 +27,12 @@ matrix:
         # Test LTS version
         - php: 5.6
           env: SYMFONY_VERSION='2.8.*'
-        - php: hhvm
-          dist: trusty
 
 before_install:
     - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
     - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION}; fi;
     # force the PHPUnit version for PHP 7.2, until https://github.com/symfony/symfony/issues/23943 is resolved
     - if [ "$TRAVIS_PHP_VERSION" = "nightly" ]; then export SYMFONY_PHPUNIT_VERSION="6.3"; fi;
-    # Account for https://github.com/symfony/symfony/pull/24102 until the bugfix is released
-    - mkdir -p "$SYMFONY_PHPUNIT_DIR"
 
 install:
     - composer update $COMPOSER_FLAGS
