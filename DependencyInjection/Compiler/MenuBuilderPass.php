@@ -16,6 +16,10 @@ class MenuBuilderPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition('knp_menu.menu_provider.builder_service')) {
+            return;
+        }
+
         $definition = $container->getDefinition('knp_menu.menu_provider.builder_service');
 
         $menuBuilders = array();

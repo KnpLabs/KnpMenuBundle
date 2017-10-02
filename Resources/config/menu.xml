@@ -42,6 +42,11 @@
             <argument type="collection" />
         </service>
 
+        <service id="knp_menu.menu_provider.lazy" class="Knp\Menu\Provider\LazyProvider" public="false">
+            <argument type="collection" />
+            <tag name="knp_menu.provider" />
+        </service>
+
         <service id="knp_menu.menu_provider.container_aware" class="%knp_menu.menu_provider.container_aware.class%" public="false">
             <argument type="service" id="service_container" />
             <argument type="collection" />

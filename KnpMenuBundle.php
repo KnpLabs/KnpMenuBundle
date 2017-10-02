@@ -9,6 +9,7 @@ use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddTemplatePathPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuBuilderPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuPass;
+use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\RegisterMenusPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -18,6 +19,7 @@ class KnpMenuBundle extends Bundle
     {
         parent::build($container);
 
+        $container->addCompilerPass(new RegisterMenusPass());
         $container->addCompilerPass(new MenuPass());
         $container->addCompilerPass(new MenuBuilderPass());
         $container->addCompilerPass(new AddExtensionsPass());
