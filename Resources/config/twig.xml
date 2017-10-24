@@ -17,7 +17,7 @@
             <argument type="service" id="knp_menu.manipulator" />
         </service>
 
-        <service id="knp_menu.renderer.twig" class="%knp_menu.renderer.twig.class%">
+        <service id="knp_menu.renderer.twig" class="%knp_menu.renderer.twig.class%" public="true">
             <tag name="knp_menu.renderer" alias="twig" />
             <argument type="service" id="twig" />
             <argument>%knp_menu.renderer.twig.template%</argument>
