@@ -7,6 +7,7 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -101,22 +102,29 @@ class BuilderAliasProvider implements MenuProviderInterface
             $logs = array();
             $bundles = array();
 
-            $allBundles = $this->kernel->getBundle($bundleName, false);
+            $allBundles = $this->kernel->getBundles();
 
             // In Symfony 4, bundle inheritance is gone, so there is no way to get an array anymore.
             if (!is_array($allBundles)) {
                 $allBundles = array($allBundles);
             }
 
-            foreach ($allBundles as  $bundle) {
-                $try = $bundle->getNamespace().'\\Menu\\'.$className;
+            foreach (array_merge($allBundles, [$bundleName]) as $bundle) {
+
+                if ($bundle instanceof Bundle) {
+                    $try = $bundle->getNamespace() . '\\Menu\\' . $className;
+
+                } else {
+                    $try = $bundle . '\\Menu\\' . $className;
+                }
+
                 if (class_exists($try)) {
                     $class = $try;
                     break;
                 }
 
+                $bundles[] = $bundle instanceof Bundle ? $bundle->getName() : $bundle;
                 $logs[] = sprintf('Class "%s" does not exist for menu builder "%s".', $try, $name);
-                $bundles[] = $bundle->getName();
             }
 
             if (null === $class) {
