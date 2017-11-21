@@ -18,10 +18,7 @@ class AddVotersPass implements CompilerPassInterface
         if (!$container->hasDefinition('knp_menu.matcher')) {
             return;
         }
-
-        $definition = $container->getDefinition('knp_menu.matcher');
-        $listener = $container->getDefinition('knp_menu.listener.voters');
-
+        
         $voters = array();
 
         foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {
@@ -31,14 +28,15 @@ class AddVotersPass implements CompilerPassInterface
             // always added at the end of the list).
             $tag = $tags[0];
 
-            $priority = isset($tag['priority']) ? (int) $tag['priority'] : 0;
+            $priority = isset($tag['priority']) ? (int)$tag['priority'] : 0;
             $voters[$priority][] = $id;
 
             if (isset($tag['request']) && $tag['request']) {
-                $listener->addMethodCall('addVoter', array(new Reference($id)));
+                $voterDefinition = $container->getDefinition($id);
+                $voterDefinition->addArgument(new Reference('request_stack'));
             }
-        }
 
+        }
         if (empty($voters)) {
             return;
         }
@@ -46,8 +44,12 @@ class AddVotersPass implements CompilerPassInterface
         krsort($voters);
         $sortedVoters = call_user_func_array('array_merge', $voters);
 
+        $sortedVotersReferences = [];
         foreach ($sortedVoters as $id) {
-            $definition->addMethodCall('addVoter', array(new Reference($id)));
+            $sortedVotersReferences[] = new Reference($id);
         }
+
+        $definition = $container->getDefinition('knp_menu.matcher');
+        $definition->addArgument($sortedVotersReferences);
     }
 }

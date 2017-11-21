@@ -69,10 +69,6 @@
             <argument>%kernel.charset%</argument>
         </service>
 
-        <service id="knp_menu.listener.voters" class="%knp_menu.listener.voters.class%">
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
-        </service>
-
         <service id="knp_menu.voter.router" class="%knp_menu.voter.router.class%">
             <tag name="knp_menu.voter" request="true" />
         </service>
