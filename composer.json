@@ -20,13 +20,14 @@
     ],
     "require":      {
         "php": "^5.6 || ^7",
-        "knplabs/knp-menu":         "~2.2",
+        "knplabs/knp-menu":         "~2.3",
         "symfony/framework-bundle": "~2.7|~3.0"
     },
     "require-dev":  {
         "symfony/phpunit-bridge": "^3.3",
         "symfony/expression-language": "~2.7|~3.0",
-        "symfony/templating": "~2.7|~3.0"
+        "symfony/templating": "~2.7|~3.0",
+        "phpspec/prophecy": "^1.7"
     },
     "autoload":     {
         "psr-4": { "Knp\\Bundle\\MenuBundle\\": "" }
