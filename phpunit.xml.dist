@@ -3,17 +3,15 @@
 <phpunit colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="KnpMenuBundle Test Suite">
-            <directory suffix="Test.php">./Tests/</directory>
+            <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
+            <directory>./src</directory>
             <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
+                <directory>./src/Resources</directory>
             </exclude>
         </whitelist>
     </filter>
