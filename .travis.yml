@@ -27,13 +27,13 @@ matrix:
           env: DEPENDENCIES='dev'
         # Test LTS version
         - php: 5.6
-          env: SYMFONY_VERSION='2.8.*'
+          env: SYMFONY_VERSION='^2'
         - php: 7.1
-          env: SYMFONY_VERSION='3.4.*' DEPENDENCIES='dev'
+          env: SYMFONY_VERSION='^3' DEPENDENCIES='dev'
 
 before_install:
-    - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
-    - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION}; fi;
+    - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
+    - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/lts:${SYMFONY_VERSION}; fi;
 
 install:
     - composer update $COMPOSER_FLAGS
