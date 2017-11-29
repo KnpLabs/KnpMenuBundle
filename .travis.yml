@@ -33,7 +33,7 @@ matrix:
 
 before_install:
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
-    - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/lts:${SYMFONY_VERSION}; fi;
+    - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/lts:${SYMFONY_VERSION} --no-update; fi;
 
 install:
     - composer update $COMPOSER_FLAGS
