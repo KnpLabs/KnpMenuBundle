@@ -1,3 +1,21 @@
+## 2.2.0 (2017-11-29)
+
+New features:
+
+* Added support for Symfony 3.3+ autowiring for `Knp\Menu\FactoryInterface`, `Knp\Menu\Matcher\MatcherInterface` and `Knp\Menu\Util\MenuManipulator`
+* Added support for autoconfiguring menu voters
+* Added support for Symfony 4
+* Added support for private services for menu builders and renderers
+* Added lazy-loading for menu providers and voters when using Symfony DI 3.3+
+
+Removed:
+
+* Removed support for PHP 5.5 and older
+
+## 2.1.3 (2016-10-03)
+
+* Added support for `getCurrentItem` in the templating helper
+
 ## 2.1.2 (2016-06-21)
 
 * Menu extensions now also work if you replace the knp_menu.factory service with an alias
