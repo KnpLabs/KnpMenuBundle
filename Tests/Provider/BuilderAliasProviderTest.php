@@ -79,7 +79,7 @@ class BuilderAliasProviderTest extends TestCase
             $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
-        $menu = $provider->get('FooBundle:Builder:invalidMethod');
+        $provider->get('FooBundle:Builder:invalidMethod');
     }
 
     /**
@@ -125,6 +125,9 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('FooBundle:Builder:fakeMenu');
     }
 
+    /**
+     * @group legacy
+     */
     public function testBundleInheritanceParent()
     {
         if (!method_exists(BundleInterface::class, 'getParent')) {
@@ -150,6 +153,9 @@ class BuilderAliasProviderTest extends TestCase
         $this->assertSame($item, $menu);
     }
 
+    /**
+     * @group legacy
+     */
     public function testBundleInheritanceChild()
     {
         if (!method_exists(BundleInterface::class, 'getParent')) {
@@ -178,6 +184,7 @@ class BuilderAliasProviderTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.
+     * @group legacy
      */
     public function testBundleInheritanceWrongClass()
     {

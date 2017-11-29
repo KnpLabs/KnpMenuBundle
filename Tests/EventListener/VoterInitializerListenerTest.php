@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+/**
+ * @group legacy
+ */
 class VoterInitializerListenerTest extends TestCase
 {
     public function testHandleSubRequest()

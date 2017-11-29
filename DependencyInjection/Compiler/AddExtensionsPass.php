@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * This compiler pass registers the renderers in the RendererProvider.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class AddExtensionsPass implements CompilerPassInterface
 {

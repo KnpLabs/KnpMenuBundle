@@ -23,11 +23,21 @@ class MenuBuilderPassTest extends TestCase
         $this->builderDefinition = $this->prophesize('Symfony\Component\DependencyInjection\Definition');
         $this->pass = new MenuBuilderPass();
 
+        $this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service')->willReturn(true);
         $this->containerBuilder->getDefinition('knp_menu.menu_provider.builder_service')->willReturn($this->definition);
         $this->containerBuilder->getDefinition('id')->willReturn($this->builderDefinition);
 
         $this->builderDefinition->isPublic()->willReturn(true);
         $this->builderDefinition->isAbstract()->willReturn(false);
+    }
+
+    public function testNoopWithoutProvider()
+    {
+        $this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service')->willReturn(false);
+
+        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->shouldNotBeCalled();
+
+        $this->pass->process($this->containerBuilder->reveal());
     }
 
     /**

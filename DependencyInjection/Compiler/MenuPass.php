@@ -4,6 +4,9 @@ namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
+/**
+ * @internal
+ */
 class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)

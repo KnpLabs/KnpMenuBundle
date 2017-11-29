@@ -9,11 +9,17 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * This compiler pass registers the menu builders in the BuilderServiceProvider.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @internal
  */
 class MenuBuilderPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition('knp_menu.menu_provider.builder_service')) {
+            return;
+        }
+
         $definition = $container->getDefinition('knp_menu.menu_provider.builder_service');
 
         $menuBuilders = array();

@@ -34,10 +34,17 @@
             <argument type="service" id="knp_menu.matcher" />
         </service>
 
-        <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" public="true" />
+        <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" public="true">
+            <argument type="collection" />
+        </service>
 
         <service id="knp_menu.menu_provider.chain" class="%knp_menu.menu_provider.chain.class%" public="false">
             <argument type="collection" />
+        </service>
+
+        <service id="knp_menu.menu_provider.lazy" class="Knp\Menu\Provider\LazyProvider" public="false">
+            <argument type="collection" />
+            <tag name="knp_menu.provider" />
         </service>
 
         <service id="knp_menu.menu_provider.container_aware" class="%knp_menu.menu_provider.container_aware.class%" public="false">
@@ -60,6 +67,7 @@
             <argument type="service" id="service_container" />
             <argument>%knp_menu.default_renderer%</argument>
             <argument type="collection" />
+            <argument>false</argument>
         </service>
 
         <service id="knp_menu.renderer.list" class="%knp_menu.renderer.list.class%">
@@ -74,7 +82,8 @@
         </service>
 
         <service id="knp_menu.voter.router" class="%knp_menu.voter.router.class%">
-            <tag name="knp_menu.voter" request="true" />
+            <argument type="service" id="request_stack" />
+            <tag name="knp_menu.voter" />
         </service>
 
         <service id="knp_menu.manipulator" class="Knp\Menu\Util\MenuManipulator" public="false" />

@@ -4,6 +4,7 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AddVotersPassTest extends TestCase
@@ -27,15 +28,63 @@ class AddVotersPassTest extends TestCase
         $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
             ->getMock();
-        $definitionMock->expects($this->at(0))
-            ->method('addMethodCall')
-            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('id'))));
-        $definitionMock->expects($this->at(1))
-            ->method('addMethodCall')
-            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('foo'))));
-        $definitionMock->expects($this->at(2))
-            ->method('addMethodCall')
-            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('bar'))));
+
+        $voters = array(new Reference('id'), new Reference('foo'), new Reference('bar'));
+
+        if (class_exists(IteratorArgument::class)) {
+            $voters = new IteratorArgument($voters);
+        }
+
+        $definitionMock->expects($this->once())
+            ->method('replaceArgument')
+            ->with(0, $voters);
+
+        $listenerMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilderMock->expects($this->once())
+            ->method('hasDefinition')
+            ->will($this->returnValue(true));
+        $containerBuilderMock->expects($this->once())
+            ->method('findTaggedServiceIds')
+            ->with($this->equalTo('knp_menu.voter'))
+            ->will($this->returnValue(array('id' => array(array()), 'bar' => array(array('priority' => -5, 'request' => false)), 'foo' => array(array()))));
+        $containerBuilderMock->expects($this->at(1))
+            ->method('getDefinition')
+            ->with($this->equalTo('knp_menu.matcher'))
+            ->will($this->returnValue($definitionMock));
+        $containerBuilderMock->expects($this->at(2))
+            ->method('getDefinition')
+            ->with($this->equalTo('knp_menu.listener.voters'))
+            ->will($this->returnValue($listenerMock));
+        $containerBuilderMock->expects($this->once())
+            ->method('removeDefinition')
+            ->with('knp_menu.listener.voters');
+
+        $menuPass = new AddVotersPass();
+        $menuPass->process($containerBuilderMock);
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testProcessRequestAware()
+    {
+        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $voters = array(new Reference('id'), new Reference('foo'), new Reference('bar'));
+
+        if (class_exists(IteratorArgument::class)) {
+            $voters = new IteratorArgument($voters);
+        }
+
+        $definitionMock->expects($this->once())
+            ->method('replaceArgument')
+            ->with(0, $voters);
 
         $listenerMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
