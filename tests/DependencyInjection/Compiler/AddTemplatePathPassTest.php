@@ -31,7 +31,7 @@ class AddTemplatePathPassTest extends TestCase
             ->with($this->equalTo('addPath'), $this->isType('array'));
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
+        $containerBuilderMock->expects($this->exactly(2))
             ->method('hasDefinition')
             ->will($this->returnValue(true));
         $containerBuilderMock->expects($this->once())
@@ -53,9 +53,9 @@ class AddTemplatePathPassTest extends TestCase
             ->with($this->equalTo('addPath'), $this->isType('array'));
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->exactly(2))
+        $containerBuilderMock->expects($this->exactly(3))
             ->method('hasDefinition')
-            ->will($this->onConsecutiveCalls(false, true));
+            ->will($this->onConsecutiveCalls(true, false, true));
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('twig.loader.native_filesystem'))
