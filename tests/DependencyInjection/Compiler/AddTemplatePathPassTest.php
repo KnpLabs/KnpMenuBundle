@@ -21,7 +21,7 @@ class AddTemplatePathPassTest extends TestCase
         $templatePathPass->process($containerBuilder);
     }
 
-    public function testProcess()
+    public function testProcessWithTemplatingProvider()
     {
         $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
@@ -31,12 +31,34 @@ class AddTemplatePathPassTest extends TestCase
             ->with($this->equalTo('addPath'), $this->isType('array'));
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
+        $containerBuilderMock->expects($this->exactly(2))
             ->method('hasDefinition')
             ->will($this->returnValue(true));
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('twig.loader.filesystem'))
+            ->will($this->returnValue($definitionMock));
+
+        $templatePathPass = new AddTemplatePathPass();
+        $templatePathPass->process($containerBuilderMock);
+    }
+
+    public function testProcessWithTwigBundleProvider()
+    {
+        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $definitionMock->expects($this->once())
+            ->method('addMethodCall')
+            ->with($this->equalTo('addPath'), $this->isType('array'));
+
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilderMock->expects($this->exactly(3))
+            ->method('hasDefinition')
+            ->will($this->onConsecutiveCalls(true, false, true));
+        $containerBuilderMock->expects($this->once())
+            ->method('getDefinition')
+            ->with($this->equalTo('twig.loader.native_filesystem'))
             ->will($this->returnValue($definitionMock));
 
         $templatePathPass = new AddTemplatePathPass();

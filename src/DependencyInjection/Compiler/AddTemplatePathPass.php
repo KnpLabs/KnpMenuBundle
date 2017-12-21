@@ -17,8 +17,11 @@ class AddTemplatePathPass implements CompilerPassInterface
     {
         $loaderDefinition = null;
 
-        if ($container->hasDefinition('twig.loader.filesystem')) {
+        if ($container->hasDefinition('twig.loader.filesystem') && $container->hasDefinition('templating.locator')) {
             $loaderDefinition = $container->getDefinition('twig.loader.filesystem');
+        }
+        else if ($container->hasDefinition('twig.loader.native_filesystem')) {
+            $loaderDefinition = $container->getDefinition('twig.loader.native_filesystem');
         }
 
         if (null === $loaderDefinition) {
