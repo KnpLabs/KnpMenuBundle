@@ -29,7 +29,7 @@ matrix:
         - php: 5.6
           env: SYMFONY_VERSION='^2'
         - php: 7.1
-          env: SYMFONY_VERSION='^3' DEPENDENCIES='dev'
+          env: SYMFONY_VERSION='^3'
 
 before_install:
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
