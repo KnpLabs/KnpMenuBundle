@@ -1,3 +1,9 @@
+## 2.2.1 (2017-12-24)
+
+Bugfixes:
+
+* Fixed registration of the KnpMenu templates when not using the Templating component.
+
 ## 2.2.0 (2017-11-29)
 
 New features:

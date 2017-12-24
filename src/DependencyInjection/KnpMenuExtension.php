@@ -2,13 +2,15 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 
-class KnpMenuExtension extends Extension
+class KnpMenuExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * Handles the knp_menu configuration.
@@ -61,5 +63,18 @@ class KnpMenuExtension extends Extension
     public function getXsdValidationBasePath()
     {
         return __DIR__ . '/../Resources/config/schema';
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        if (!$container->hasExtension('twig')) {
+            return;
+        }
+
+
+        $refl = new \ReflectionClass(ItemInterface::class);
+        $path = dirname($refl->getFileName()).'/Resources/views';
+
+        $container->prependExtensionConfig('twig', array('paths' => array($path)));
     }
 }
