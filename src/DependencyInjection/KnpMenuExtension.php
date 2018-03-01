@@ -26,6 +26,10 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        if($config['use_knp_voters'] === true) {
+            $loader->load('voters.xml');
+        }
+
         foreach ($config['providers'] as $builder => $enabled) {
             if ($enabled) {
                 $container->getDefinition(sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');

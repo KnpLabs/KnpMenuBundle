@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="knp_menu.voter.router.class">Knp\Menu\Matcher\Voter\RouteVoter</parameter>
+    </parameters>
+
+    <services>
+        <service id="knp_menu.voter.router" class="%knp_menu.voter.router.class%">
+            <argument type="service" id="request_stack" />
+            <tag name="knp_menu.voter" />
+        </service>
+    </services>
+
+</container>
