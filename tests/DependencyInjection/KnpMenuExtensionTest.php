@@ -74,4 +74,12 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is disabled');
     }
+
+    public function testNotUseKnpVoters()
+    {
+        $container = new ContainerBuilder();
+        $loader = new KnpMenuExtension();
+        $loader->load(array(array('use_knp_voters' => false)), $container);
+        $this->assertFalse($container->hasDefinition('knp_menu.voter.router'));
+    }
 }
