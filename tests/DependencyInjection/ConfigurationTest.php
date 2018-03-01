@@ -31,7 +31,7 @@ class ConfigurationTest extends TestCase
         return array(
             array('<config xmlns="http://knplabs.com/schema/dic/menu"/>'),
             array(<<<EOC
-<config xmlns="http://knplabs.com/schema/dic/menu" templating="true" default-renderer="templating">
+<config xmlns="http://knplabs.com/schema/dic/menu" templating="true" default-renderer="templating" use-knp-voters="true">
     <providers builder-alias="false" container-aware="false" builder-service="false"/>
     <twig template="custom.html.twig"/>
 </config>
