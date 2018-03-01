@@ -19,6 +19,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertFalse($container->hasDefinition('knp_menu.templating.helper'), 'The PHP helper is not loaded');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
+        $this->assertTrue($container->hasDefinition('knp_menu.voter.router'),'The RouteVoter is loaded');
     }
 
     public function testEnableTwig()
