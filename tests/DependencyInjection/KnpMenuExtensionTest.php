@@ -19,6 +19,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertFalse($container->hasDefinition('knp_menu.templating.helper'), 'The PHP helper is not loaded');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
+        $this->assertTrue($container->hasDefinition('knp_menu.voter.router'),'The RouteVoter is loaded');
     }
 
     public function testEnableTwig()
@@ -72,5 +73,13 @@ class KnpMenuExtensionTest extends TestCase
         $loader->load(array(array('providers' => array('container_aware' => false))), $container);
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is disabled');
+    }
+
+    public function testNotUseKnpVoters()
+    {
+        $container = new ContainerBuilder();
+        $loader = new KnpMenuExtension();
+        $loader->load(array(array('use_knp_voters' => false)), $container);
+        $this->assertFalse($container->hasDefinition('knp_menu.voter.router'));
     }
 }

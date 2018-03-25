@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->booleanNode('templating')->defaultFalse()->end()
+                ->booleanNode('use_knp_voters')->defaultTrue()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
             ->end();
 

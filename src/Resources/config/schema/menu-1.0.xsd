@@ -13,6 +13,7 @@
             <xsd:element name="twig" type="twig" minOccurs="0"/>
         </xsd:all>
 
+        <xsd:attribute name="use-knp-voters" type="xsd:boolean" default="true"/>
         <xsd:attribute name="templating" type="xsd:boolean" default="false"/>
         <xsd:attribute name="default-renderer" type="xsd:string" default="twig"/>
     </xsd:complexType>
