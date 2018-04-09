@@ -8,6 +8,7 @@ use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * A menu provider that allows for an AcmeBundle:Builder:mainMenu shortcut syntax
@@ -16,6 +17,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class BuilderAliasProvider implements MenuProviderInterface
 {
+    const VERSION_DEPRECATION = 34;
+
     private $kernel;
 
     private $container;
@@ -101,7 +104,13 @@ class BuilderAliasProvider implements MenuProviderInterface
             $logs = array();
             $bundles = array();
 
-            $allBundles = $this->kernel->getBundle($bundleName, false);
+            // Fix deprecation notice on Symfony 3.4 and higher, assuring BC
+            $version = Kernel::MAJOR_VERSION.Kernel::MINOR_VERSION;
+            if ($version >= $this::VERSION_DEPRECATION) {
+                $allBundles = $this->kernel->getBundle($bundleName);
+            } else {
+                $allBundles = $this->kernel->getBundle($bundleName, false);
+            }
 
             // In Symfony 4, bundle inheritance is gone, so there is no way to get an array anymore.
             if (!is_array($allBundles)) {
