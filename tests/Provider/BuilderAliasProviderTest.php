@@ -6,6 +6,7 @@ use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class BuilderAliasProviderTest extends TestCase
 {
@@ -218,11 +219,21 @@ class BuilderAliasProviderTest extends TestCase
         ;
 
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
-        $kernel->expects($this->once())
-            ->method('getBundle')
-            ->with('FooBundle', false)
-            ->will($this->returnValue(array($bundle)))
-        ;
+        // Fix deprecation notice on Symfony 3.4 and higher, assuring BC
+        $version = Kernel::MAJOR_VERSION.Kernel::MINOR_VERSION;
+        if ($version >= BuilderAliasProvider::VERSION_DEPRECATION) {
+            $kernel->expects($this->once())
+                ->method('getBundle')
+                ->with('FooBundle')
+                ->will($this->returnValue(array($bundle)))
+            ;
+        } else {
+            $kernel->expects($this->once())
+                ->method('getBundle')
+                ->with('FooBundle', false)
+                ->will($this->returnValue(array($bundle)))
+            ;
+        }
 
         return $kernel;
     }
