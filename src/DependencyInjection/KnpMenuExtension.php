@@ -75,6 +75,6 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         $refl = new \ReflectionClass(ItemInterface::class);
         $path = dirname($refl->getFileName()).'/Resources/views';
 
-        $container->prependExtensionConfig('twig', array('paths' => array($path)));
+        $container->prependExtensionConfig('twig', ['paths' => [$path]]);
     }
 }

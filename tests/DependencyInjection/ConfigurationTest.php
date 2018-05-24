@@ -28,15 +28,15 @@ class ConfigurationTest extends TestCase
 
     public function getConfigs()
     {
-        return array(
-            array('<config xmlns="http://knplabs.com/schema/dic/menu"/>'),
-            array(<<<EOC
+        return [
+            ['<config xmlns="http://knplabs.com/schema/dic/menu"/>'],
+            [<<<EOC
 <config xmlns="http://knplabs.com/schema/dic/menu" templating="true" default-renderer="templating">
     <providers builder-alias="false" container-aware="false" builder-service="false"/>
     <twig template="custom.html.twig"/>
 </config>
 EOC
-            ),
-        );
+            ],
+        ];
     }
 }

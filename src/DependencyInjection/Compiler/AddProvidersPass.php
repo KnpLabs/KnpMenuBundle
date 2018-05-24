@@ -21,7 +21,7 @@ class AddProvidersPass implements CompilerPassInterface
             return;
         }
 
-        $providers = array();
+        $providers = [];
         foreach ($container->findTaggedServiceIds('knp_menu.provider') as $id => $tags) {
             $providers[] = new Reference($id);
         }

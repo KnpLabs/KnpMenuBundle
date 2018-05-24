@@ -15,7 +15,7 @@ class ContainerAwareProviderTest extends TestCase
         $provider = new ContainerAwareProvider(
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
             'first',
-            array('first' => 'first', 'second' => 'dummy')
+            ['first' => 'first', 'second' => 'dummy']
         );
         $this->assertTrue($provider->has('first'));
         $this->assertTrue($provider->has('second'));
@@ -31,7 +31,7 @@ class ContainerAwareProviderTest extends TestCase
             ->with('renderer')
             ->will($this->returnValue($renderer))
         ;
-        $provider = new ContainerAwareProvider($container, 'custom', array('default' => 'renderer', 'custom' => 'other'));
+        $provider = new ContainerAwareProvider($container, 'custom', ['default' => 'renderer', 'custom' => 'other']);
         $this->assertSame($renderer, $provider->get('default'));
     }
 
@@ -44,7 +44,7 @@ class ContainerAwareProviderTest extends TestCase
             ->with('renderer')
             ->will($this->returnValue($renderer))
         ;
-        $provider = new ContainerAwareProvider($container, 'default', array('default' => 'renderer'));
+        $provider = new ContainerAwareProvider($container, 'default', ['default' => 'renderer']);
         $this->assertSame($renderer, $provider->get());
     }
 
@@ -53,7 +53,7 @@ class ContainerAwareProviderTest extends TestCase
      */
     public function testGetNonExistentRenderer()
     {
-        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(), 'default', array());
+        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(), 'default', []);
         $provider->get('non-existent');
     }
 }

@@ -25,12 +25,12 @@ to allow other parts of your application to add more stuff to it.
   class MainBuilder implements ContainerAwareInterface
   {
       use ContainerAwareTrait;
-      
+
       public function build(FactoryInterface $factory)
       {
           $menu = $factory->createItem('root');
 
-          $menu->addChild('Dashboard', array('route' => '_acp_dashboard'));
+          $menu->addChild('Dashboard', ['route' => '_acp_dashboard']);
 
           $this->container->get('event_dispatcher')->dispatch(
               ConfigureMenuEvent::CONFIGURE,
@@ -126,8 +126,8 @@ You can register as many listeners as you want for the event. Let's add one.
         {
             $menu = $event->getMenu();
 
-            $menu->addChild('Matches', array('route' => 'versus_rankedmatch_acp_matches_index'));
-            $menu->addChild('Participants', array('route' => 'versus_rankedmatch_acp_participants_index'));
+            $menu->addChild('Matches', ['route' => 'versus_rankedmatch_acp_matches_index']);
+            $menu->addChild('Participants', ['route' => 'versus_rankedmatch_acp_participants_index']);
         }
     }
 

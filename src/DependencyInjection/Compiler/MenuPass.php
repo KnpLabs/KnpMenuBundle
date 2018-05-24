@@ -16,7 +16,7 @@ class MenuPass implements CompilerPassInterface
         }
         $definition = $container->getDefinition('knp_menu.menu_provider.container_aware');
 
-        $menus = array();
+        $menus = [];
         foreach ($container->findTaggedServiceIds('knp_menu.menu') as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (empty($attributes['alias'])) {

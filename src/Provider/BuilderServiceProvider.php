@@ -15,13 +15,13 @@ class BuilderServiceProvider implements MenuProviderInterface
     private $container;
     private $menuBuilders;
 
-    public function __construct(ContainerInterface $container, array $menuBuilders = array())
+    public function __construct(ContainerInterface $container, array $menuBuilders = [])
     {
         $this->container = $container;
         $this->menuBuilders = $menuBuilders;
     }
 
-    public function get($name, array $options = array())
+    public function get($name, array $options = [])
     {
         if (!isset($this->menuBuilders[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
@@ -36,7 +36,7 @@ class BuilderServiceProvider implements MenuProviderInterface
         return $this->container->get($id)->$method($options);
     }
 
-    public function has($name, array $options = array())
+    public function has($name, array $options = [])
     {
         return isset($this->menuBuilders[$name]);
     }

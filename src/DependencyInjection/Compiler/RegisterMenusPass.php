@@ -34,7 +34,7 @@ class RegisterMenusPass implements CompilerPassInterface
         $container->removeDefinition('knp_menu.menu_provider.container_aware');
         $container->removeDefinition('knp_menu.menu_provider.builder_service');
 
-        $menuBuilders = array();
+        $menuBuilders = [];
         foreach ($container->findTaggedServiceIds('knp_menu.menu_builder', true) as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (empty($attributes['alias'])) {
@@ -43,7 +43,7 @@ class RegisterMenusPass implements CompilerPassInterface
                 if (empty($attributes['method'])) {
                     throw new \InvalidArgumentException(sprintf('The method is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
                 }
-                $menuBuilders[$attributes['alias']] = array(new ServiceClosureArgument(new Reference($id)), $attributes['method']);
+                $menuBuilders[$attributes['alias']] = [new ServiceClosureArgument(new Reference($id)), $attributes['method']];
             }
         }
 

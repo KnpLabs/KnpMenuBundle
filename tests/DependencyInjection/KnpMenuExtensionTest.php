@@ -12,7 +12,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array()), $container);
+        $loader->load([[]], $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.list'), 'The list renderer is loaded');
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.twig'), 'The twig renderer is loaded');
         $this->assertEquals('@KnpMenu/menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
@@ -25,7 +25,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array('twig' => true)), $container);
+        $loader->load([['twig' => true]], $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.twig'));
         $this->assertEquals('@KnpMenu/menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
     }
@@ -34,7 +34,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array('twig' => array('template' => 'foobar'))), $container);
+        $loader->load([['twig' => ['template' => 'foobar']]], $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.twig'));
         $this->assertEquals('foobar', $container->getParameter('knp_menu.renderer.twig.template'));
     }
@@ -43,7 +43,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array('twig' => false)), $container);
+        $loader->load([['twig' => false]], $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.list'));
         $this->assertFalse($container->hasDefinition('knp_menu.renderer.twig'));
     }
@@ -52,7 +52,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array('templating' => true)), $container);
+        $loader->load([['templating' => true]], $container);
         $this->assertTrue($container->hasDefinition('knp_menu.templating.helper'));
     }
 
@@ -60,7 +60,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array('providers' => array('builder_alias' => false))), $container);
+        $loader->load([['providers' => ['builder_alias' => false]]], $container);
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is disabled');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
     }
@@ -69,7 +69,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load(array(array('providers' => array('container_aware' => false))), $container);
+        $loader->load([['providers' => ['container_aware' => false]]], $container);
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertFalse($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is disabled');
     }

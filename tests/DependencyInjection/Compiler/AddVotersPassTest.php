@@ -29,7 +29,7 @@ class AddVotersPassTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $voters = array(new Reference('id'), new Reference('foo'), new Reference('bar'));
+        $voters = [new Reference('id'), new Reference('foo'), new Reference('bar')];
 
         if (class_exists(IteratorArgument::class)) {
             $voters = new IteratorArgument($voters);
@@ -50,7 +50,7 @@ class AddVotersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->will($this->returnValue(array('id' => array(array()), 'bar' => array(array('priority' => -5, 'request' => false)), 'foo' => array(array()))));
+            ->will($this->returnValue(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [[]]]));
         $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))
@@ -76,7 +76,7 @@ class AddVotersPassTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $voters = array(new Reference('id'), new Reference('foo'), new Reference('bar'));
+        $voters = [new Reference('id'), new Reference('foo'), new Reference('bar')];
 
         if (class_exists(IteratorArgument::class)) {
             $voters = new IteratorArgument($voters);
@@ -91,7 +91,7 @@ class AddVotersPassTest extends TestCase
             ->getMock();
         $listenerMock->expects($this->once())
             ->method('addMethodCall')
-            ->with($this->equalTo('addVoter'), $this->equalTo(array(new Reference('foo'))));
+            ->with($this->equalTo('addVoter'), $this->equalTo([new Reference('foo')]));
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
@@ -100,7 +100,7 @@ class AddVotersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->will($this->returnValue(array('id' => array(array()), 'bar' => array(array('priority' => -5, 'request' => false)), 'foo' => array(array('request' => true)))));
+            ->will($this->returnValue(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [['request' => true]]]));
         $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))

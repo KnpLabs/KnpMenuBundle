@@ -34,11 +34,11 @@ file of your project:
     {
         public function registerBundles()
         {
-            $bundles = array(
+            $bundles = [
                 // ...
 
                 new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            );
+            ];
 
             // ...
         }
@@ -89,16 +89,16 @@ You can define these options if you need to change them:
     .. code-block:: php
 
         // app/config/config.php
-        $container->loadFromExtension('knp_menu', array(
+        $container->loadFromExtension('knp_menu', [
             // use 'twig' => false to disable the Twig extension and the TwigRenderer
-            'twig' => array(
+            'twig' => [
                 'template' => 'KnpMenuBundle::menu.html.twig'
-            ),
+            ],
             // if true, enabled the helper for PHP templates
             'templating' => false,
             // the renderer to use, list is also available by default
             'default_renderer' => 'twig',
-        ));
+        ]);
 
 .. versionadded::2.1.2
 
@@ -141,22 +141,22 @@ An example builder class would look like this:
         {
             $menu = $factory->createItem('root');
 
-            $menu->addChild('Home', array('route' => 'homepage'));
+            $menu->addChild('Home', ['route' => 'homepage']);
 
             // access services from the container!
             $em = $this->container->get('doctrine')->getManager();
             // findMostRecent and Blog are just imaginary examples
             $blog = $em->getRepository('AppBundle:Blog')->findMostRecent();
 
-            $menu->addChild('Latest Blog Post', array(
+            $menu->addChild('Latest Blog Post', [
                 'route' => 'blog_show',
-                'routeParameters' => array('id' => $blog->getId())
-            ));
+                'routeParameters' => ['id' => $blog->getId()]
+            ]);
 
             // create another menu item
-            $menu->addChild('About Me', array('route' => 'about'));
+            $menu->addChild('About Me', ['route' => 'about']);
             // you can also add sub level's to your menu's as follows
-            $menu['About Me']->addChild('Edit profile', array('route' => 'edit_profile'));
+            $menu['About Me']->addChild('Edit profile', ['route' => 'edit_profile']);
 
             // ... add more children
 
@@ -258,10 +258,10 @@ Additionally, you can pass some options to the renderer:
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu', array(
+        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu', [
             'depth'         => 2,
             'currentAsLink' => false,
-        )) ?>
+        ]) ?>
 
 For a full list of options, see the "Other rendering options" header on the
 `KnpMenu documentation`_.
@@ -293,8 +293,8 @@ beneath it.
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', array('Contact')) ?>
-        <?php echo $view['knp_menu']->render(array('AppBundle:Builder:mainMenu', 'Contact')) ?>
+        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', ['Contact']) ?>
+        <?php echo $view['knp_menu']->render(['AppBundle:Builder:mainMenu', 'Contact']) ?>
 
 If you want to pass some options to the builder, you can use the third parameter
 of the ``knp_menu_get`` function:
@@ -308,9 +308,9 @@ of the ``knp_menu_get`` function:
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', array(), array(
+        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', [], [
             'some_option' => 'my_value'
-        )) ?>
+        ]) ?>
         <?php echo $view['knp_menu']->render($menuItem) ?>
 
 More Advanced Stuff

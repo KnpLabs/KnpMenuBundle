@@ -47,7 +47,7 @@ class MenuBuilderPassTest extends TestCase
     public function testFailsWhenServiceIsAbstract()
     {
         $this->builderDefinition->isAbstract()->willReturn(true);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(array('id' => array(array('alias' => 'foo'))));
+        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
@@ -59,7 +59,7 @@ class MenuBuilderPassTest extends TestCase
     public function testFailsWhenServiceIsPrivate()
     {
         $this->builderDefinition->isPublic()->willReturn(false);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(array('id' => array(array('alias' => 'foo'))));
+        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
@@ -70,7 +70,7 @@ class MenuBuilderPassTest extends TestCase
      */
     public function testFailsWhenAliasIsMissing()
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(array('id' => array(array('alias' => ''))));
+        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => '']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
@@ -81,7 +81,7 @@ class MenuBuilderPassTest extends TestCase
      */
     public function testFailsWhenMethodIsMissing()
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(array('id' => array(array('alias' => 'foo'))));
+        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
@@ -91,17 +91,17 @@ class MenuBuilderPassTest extends TestCase
         $this->containerBuilder->getDefinition('id1')->willReturn($this->builderDefinition);
         $this->containerBuilder->getDefinition('id2')->willReturn($this->builderDefinition);
 
-        $taggedServiceIds = array(
-            'id1' => array(array('alias' => 'foo', 'method' => 'fooMenu'), array('alias' => 'bar', 'method' => 'bar')),
-            'id2' => array(array('alias' => 'foo', 'method' => 'fooBar'), array('alias' => 'baz', 'method' => 'bar')),
-        );
+        $taggedServiceIds = [
+            'id1' => [['alias' => 'foo', 'method' => 'fooMenu'], ['alias' => 'bar', 'method' => 'bar']],
+            'id2' => [['alias' => 'foo', 'method' => 'fooBar'], ['alias' => 'baz', 'method' => 'bar']],
+        ];
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn($taggedServiceIds);
 
-        $menuBuilders = array(
-            'foo' => array('id2', 'fooBar'),
-            'bar' => array('id1', 'bar'),
-            'baz' => array('id2', 'bar'),
-        );
+        $menuBuilders = [
+            'foo' => ['id2', 'fooBar'],
+            'bar' => ['id1', 'bar'],
+            'baz' => ['id2', 'bar'],
+        ];
         $this->definition->replaceArgument(1, $menuBuilders)->shouldBeCalled();
 
         $this->pass->process($this->containerBuilder->reveal());

@@ -50,7 +50,7 @@ builder classes in your application:
         {
             $menu = $this->factory->createItem('root');
 
-            $menu->addChild('Home', array('route' => 'homepage'));
+            $menu->addChild('Home', ['route' => 'homepage']);
             // ... add more children
 
             return $menu;
@@ -111,7 +111,7 @@ is simple! Start by adding a new method to your builder:
         {
             $menu = $this->factory->createItem('sidebar');
 
-            $menu->addChild('Home', array('route' => 'homepage'));
+            $menu->addChild('Home', ['route' => 'homepage']);
             // ... add more children
 
             return $menu;
