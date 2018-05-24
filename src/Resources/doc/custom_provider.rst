@@ -38,7 +38,7 @@ Create first your Provider class, in the Provider directory of your bundle:
          * @return \Knp\Menu\ItemInterface
          * @throws \InvalidArgumentException if the menu does not exists
          */
-        public function get($name, array $options = array())
+        public function get($name, array $options = [])
         {
             if ('demo' == $name) { //several menu could call this provider
 
@@ -65,7 +65,7 @@ Create first your Provider class, in the Provider directory of your bundle:
          * @param array $options
          * @return bool
          */
-        public function has($name, array $options = array())
+        public function has($name, array $options = [])
         {
             $menu = /* find the menu called $name */;
 

@@ -27,7 +27,7 @@ class AddVotersPass implements CompilerPassInterface
 
         $hasRequestAwareVoter = false;
 
-        $voters = array();
+        $voters = [];
 
         foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {
             // Process only the first tag. Registering the same voter multiple time
@@ -42,7 +42,7 @@ class AddVotersPass implements CompilerPassInterface
             if (isset($tag['request']) && $tag['request']) {
                 @trigger_error('Using the "request" attribute of the "knp_menu.voter" tag is deprecated since version 2.2. Inject the RequestStack in the voter instead.', E_USER_DEPRECATED);
                 $hasRequestAwareVoter = true;
-                $listener->addMethodCall('addVoter', array(new Reference($id)));
+                $listener->addMethodCall('addVoter', [new Reference($id)]);
             }
         }
 

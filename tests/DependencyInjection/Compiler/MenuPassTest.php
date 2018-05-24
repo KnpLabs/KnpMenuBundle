@@ -33,7 +33,7 @@ class MenuPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.menu'))
-            ->will($this->returnValue(array('id' => array('tag1' => array('alias' => '')))));
+            ->will($this->returnValue(['id' => ['tag1' => ['alias' => '']]]));
 
         $menuPass = new MenuPass();
         $menuPass->process($containerBuilderMock);
@@ -46,7 +46,7 @@ class MenuPassTest extends TestCase
             ->getMock();
         $definitionMock->expects($this->once())
             ->method('replaceArgument')
-            ->with($this->equalTo(1), $this->equalTo(array('test_alias' => 'id')));
+            ->with($this->equalTo(1), $this->equalTo(['test_alias' => 'id']));
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
@@ -55,7 +55,7 @@ class MenuPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.menu'))
-            ->will($this->returnValue(array('id' => array('tag1' => array('alias' => 'test_alias')))));
+            ->will($this->returnValue(['id' => ['tag1' => ['alias' => 'test_alias']]]));
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.menu_provider.container_aware'))

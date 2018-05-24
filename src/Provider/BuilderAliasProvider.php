@@ -22,7 +22,7 @@ class BuilderAliasProvider implements MenuProviderInterface
 
     private $menuFactory;
 
-    private $builders = array();
+    private $builders = [];
 
     public function __construct(KernelInterface $kernel, ContainerInterface $container, FactoryInterface $menuFactory)
     {
@@ -44,7 +44,7 @@ class BuilderAliasProvider implements MenuProviderInterface
      * @return \Knp\Menu\ItemInterface
      * @throws \InvalidArgumentException
      */
-    public function get($name, array $options = array())
+    public function get($name, array $options = [])
     {
         if (!$this->has($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid pattern passed to AliasProvider - expected "bundle:class:method", got "%s".', $name));
@@ -73,7 +73,7 @@ class BuilderAliasProvider implements MenuProviderInterface
      *
      * @return Boolean
      */
-    public function has($name, array $options = array())
+    public function has($name, array $options = [])
     {
         return 2 == substr_count($name, ':');
     }
@@ -98,14 +98,14 @@ class BuilderAliasProvider implements MenuProviderInterface
 
         if (!isset($this->builders[$name])) {
             $class = null;
-            $logs = array();
-            $bundles = array();
+            $logs = [];
+            $bundles = [];
 
             $allBundles = $this->kernel->getBundle($bundleName, false);
 
             // In Symfony 4, bundle inheritance is gone, so there is no way to get an array anymore.
             if (!is_array($allBundles)) {
-                $allBundles = array($allBundles);
+                $allBundles = [$allBundles];
             }
 
             foreach ($allBundles as  $bundle) {

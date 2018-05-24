@@ -9,7 +9,7 @@ class ContainerAwareProviderTest extends TestCase
 {
     public function testHas()
     {
-        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(), array('first' => 'first', 'second' => 'dummy'));
+        $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(), ['first' => 'first', 'second' => 'dummy']);
         $this->assertTrue($provider->has('first'));
         $this->assertTrue($provider->has('second'));
         $this->assertFalse($provider->has('third'));
@@ -24,7 +24,7 @@ class ContainerAwareProviderTest extends TestCase
             ->with('menu')
             ->will($this->returnValue($menu))
         ;
-        $provider = new ContainerAwareProvider($container, array('default' => 'menu'));
+        $provider = new ContainerAwareProvider($container, ['default' => 'menu']);
         $this->assertSame($menu, $provider->get('default'));
     }
 

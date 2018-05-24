@@ -34,13 +34,13 @@ class AddExtensionsPassTest extends TestCase
             ->will($this->returnValue($menuFactoryClass));
         $definitionMock->expects($this->at(1))
             ->method('addMethodCall')
-            ->with($this->equalTo('addExtension'), $this->equalTo(array(new Reference('id'), 0)));
+            ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('id'), 0]));
         $definitionMock->expects($this->at(2))
             ->method('addMethodCall')
-            ->with($this->equalTo('addExtension'), $this->equalTo(array(new Reference('id'), 12)));
+            ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('id'), 12]));
         $definitionMock->expects($this->at(3))
             ->method('addMethodCall')
-            ->with($this->equalTo('addExtension'), $this->equalTo(array(new Reference('foo'), -4)));
+            ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('foo'), -4]));
 
         $parameterBagMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface')->getMock();
         $parameterBagMock->expects($this->once())
@@ -55,7 +55,7 @@ class AddExtensionsPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.factory_extension'))
-            ->will($this->returnValue(array('id' => array('tag1' => array(), 'tag2' => array('priority' => 12)), 'foo' => array('tag1' => array('priority' => -4)))));
+            ->will($this->returnValue(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]));
         $containerBuilderMock->expects($this->once())
             ->method('findDefinition')
             ->with($this->equalTo('knp_menu.factory'))
@@ -93,7 +93,7 @@ class AddExtensionsPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.factory_extension'))
-            ->will($this->returnValue(array('id' => array('tag1' => array(), 'tag2' => array('priority' => 12)), 'foo' => array('tag1' => array('priority' => -4)))));
+            ->will($this->returnValue(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]));
         $containerBuilderMock->expects($this->once())
             ->method('findDefinition')
             ->with($this->equalTo('knp_menu.factory'))
@@ -109,7 +109,7 @@ class AddExtensionsPassTest extends TestCase
 
 class MenuFactoryMock implements FactoryInterface
 {
-    public function createItem($name, array $options = array())
+    public function createItem($name, array $options = [])
     {
     }
 

@@ -33,7 +33,7 @@ class MenuHelper extends TemplatingHelper
      *
      * @return \Knp\Menu\ItemInterface
      */
-    public function get($menu, array $path = array(), array $options = array())
+    public function get($menu, array $path = [], array $options = [])
     {
         return $this->helper->get($menu, $path, $options);
     }
@@ -47,7 +47,7 @@ class MenuHelper extends TemplatingHelper
      *
      * @return string
      */
-    public function render($menu, array $options = array(), $renderer = null)
+    public function render($menu, array $options = [], $renderer = null)
     {
         return $this->helper->render($menu, $options, $renderer);
     }

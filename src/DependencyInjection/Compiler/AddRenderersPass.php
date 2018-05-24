@@ -22,8 +22,8 @@ class AddRenderersPass implements CompilerPassInterface
             return;
         }
 
-        $renderers = array();
-        $rendererReferences = array();
+        $renderers = [];
+        $rendererReferences = [];
 
         foreach ($container->findTaggedServiceIds('knp_menu.renderer', true) as $id => $tags) {
             foreach ($tags as $attributes) {

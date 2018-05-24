@@ -40,7 +40,7 @@ class AddRenderersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.renderer'))
-            ->will($this->returnValue(array('id' => array('tag1' => array('alias' => '')))));
+            ->will($this->returnValue(['id' => ['tag1' => ['alias' => '']]]));
 
         $renderersPass = new AddRenderersPass();
         $renderersPass->process($containerBuilderMock);
@@ -50,10 +50,10 @@ class AddRenderersPassTest extends TestCase
     {
         $containerBuilder = new ContainerBuilder();
         $def = $containerBuilder->register('knp_menu.renderer_provider', ContainerAwareProvider::class)
-            ->setArguments(array(new Reference('service_container'), '%knp_menu.default_renderer%', array()));
+            ->setArguments([new Reference('service_container'), '%knp_menu.default_renderer%', []]);
 
         $containerBuilder->register('test_renderer', TwigRenderer::class)
-            ->addTag('knp_menu.renderer', array('alias' => 'test_alias'));
+            ->addTag('knp_menu.renderer', ['alias' => 'test_alias']);
 
         $renderersPass = new AddRenderersPass();
         $renderersPass->process($containerBuilder);
@@ -61,7 +61,7 @@ class AddRenderersPassTest extends TestCase
         // Assertions for Symfony < 3.3
         if (!class_exists(ServiceLocatorTagPass::class)) {
             $this->assertSame($def, $containerBuilder->getDefinition('knp_menu.renderer_provider'));
-            $this->assertSame(array('test_alias' => 'test_renderer'), $def->getArgument(2));
+            $this->assertSame(['test_alias' => 'test_renderer'], $def->getArgument(2));
 
             return;
         }
@@ -72,6 +72,6 @@ class AddRenderersPassTest extends TestCase
         $this->assertInstanceOf(Reference::class, $providerDef->getArgument(0));
 
         $locatorDef = $containerBuilder->getDefinition((string) $providerDef->getArgument(0));
-        $this->assertEquals(array('test_alias' => new ServiceClosureArgument(new Reference('test_renderer'))), $locatorDef->getArgument(0));
+        $this->assertEquals(['test_alias' => new ServiceClosureArgument(new Reference('test_renderer'))], $locatorDef->getArgument(0));
     }
 }

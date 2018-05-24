@@ -221,7 +221,7 @@ class BuilderAliasProviderTest extends TestCase
         $kernel->expects($this->once())
             ->method('getBundle')
             ->with('FooBundle', false)
-            ->will($this->returnValue(array($bundle)))
+            ->will($this->returnValue([$bundle]))
         ;
 
         return $kernel;
@@ -253,7 +253,7 @@ class BuilderAliasProviderTest extends TestCase
             ->will($this->returnValue('FooBundle'))
         ;
 
-        $kernel = new TestKernel(array($bundle, $childBundle));
+        $kernel = new TestKernel([$bundle, $childBundle]);
         $kernel->boot();
 
         return $kernel;

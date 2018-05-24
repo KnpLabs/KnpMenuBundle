@@ -6,8 +6,8 @@ like this::
 
     $menu = $factory->createItem('root');
 
-    $menu->addChild('Home', array('route' => 'homepage'));
-    $menu->addChild('Login', array('route' => 'login'));
+    $menu->addChild('Home', ['route' => 'homepage']);
+    $menu->addChild('Login', ['route' => 'login']);
 
 The items "Home" and "Login" can now be translated in the message domain:
 
@@ -42,10 +42,10 @@ The items "Home" and "Login" can now be translated in the message domain:
     .. code-block:: php
 
         // app/Resources/translations/messages.fr.php
-        return array(
+        return [
             'Home' => 'Accueil',
             'Login' => 'Connexion',
-        );
+        ];
 
 Configure the Translation Domain
 --------------------------------
@@ -54,7 +54,7 @@ You can configure the translation domain that's used in the extras of the menu
 item::
 
     // ...
-    $menu->addChild('Home', array('route' => 'homepage'))
+    $menu->addChild('Home', ['route' => 'homepage'])
         ->setExtra('translation_domain', 'AcmeAdminBundle');
 
 Disabling Translation

@@ -39,7 +39,7 @@ class AddExtensionsPass implements CompilerPassInterface
         foreach ($taggedServiceIds as $id => $tags) {
             foreach ($tags as $tag) {
                 $priority = isset($tag['priority']) ? $tag['priority'] : 0;
-                $definition->addMethodCall('addExtension', array(new Reference($id), $priority));
+                $definition->addMethodCall('addExtension', [new Reference($id), $priority]);
             }
         }
     }

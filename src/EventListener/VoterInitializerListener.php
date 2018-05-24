@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class VoterInitializerListener implements EventSubscriberInterface
 {
-    protected $voters = array();
+    protected $voters = [];
 
     public function onKernelRequest(GetResponseEvent $event)
     {
@@ -44,8 +44,8 @@ class VoterInitializerListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::REQUEST => 'onKernelRequest',
-        );
+        ];
     }
 }

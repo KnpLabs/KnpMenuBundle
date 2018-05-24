@@ -17,12 +17,12 @@ class MenuHelperTest extends TestCase
         $helperMock = $this->getHelperMock();
         $helperMock->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('test'), $this->equalTo(array('pathArray')))
+            ->with($this->equalTo('test'), $this->equalTo(['pathArray']))
             ->will($this->returnValue('returned value'));
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
-        $this->assertEquals('returned value', $helper->get('test', array('pathArray')));
+        $this->assertEquals('returned value', $helper->get('test', ['pathArray']));
     }
 
     public function testGetMenuWithOptions()
@@ -32,13 +32,13 @@ class MenuHelperTest extends TestCase
         $helperMock = $this->getHelperMock();
         $helperMock->expects($this->any())
             ->method('get')
-            ->with('default', array(), array('foo' => 'bar'))
+            ->with('default', [], ['foo' => 'bar'])
             ->will($this->returnValue($menu))
         ;
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
-        $this->assertSame($menu, $helper->get('default', array(), array('foo' => 'bar')));
+        $this->assertSame($menu, $helper->get('default', [], ['foo' => 'bar']));
     }
 
     public function testRender()
@@ -46,12 +46,12 @@ class MenuHelperTest extends TestCase
         $helperMock = $this->getHelperMock();
         $helperMock->expects($this->any())
             ->method('render')
-            ->with($this->equalTo('test'), $this->equalTo(array('options')))
+            ->with($this->equalTo('test'), $this->equalTo(['options']))
             ->will($this->returnValue('returned value'));
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
-        $this->assertEquals('returned value', $helper->render('test', array('options')));
+        $this->assertEquals('returned value', $helper->render('test', ['options']));
     }
 
     public function testGetName()
@@ -63,23 +63,23 @@ class MenuHelperTest extends TestCase
 
     public function testGetBreadcrumbsArray()
     {
-        $helperMock = $this->getHelperMock(array('getBreadcrumbsArray'));
+        $helperMock = $this->getHelperMock(['getBreadcrumbsArray']);
         $helperMock->expects($this->any())
             ->method('getBreadcrumbsArray')
             ->with('default')
-            ->will($this->returnValue(array('A', 'B')))
+            ->will($this->returnValue(['A', 'B']))
         ;
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
-        $this->assertEquals(array('A', 'B'), $helper->getBreadcrumbsArray('default'));
+        $this->assertEquals(['A', 'B'], $helper->getBreadcrumbsArray('default'));
     }
 
     public function testPathAsString()
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
-        $manipulatorMock = $this->getManipulatorMock(array('getPathAsString'));
+        $manipulatorMock = $this->getManipulatorMock(['getPathAsString']);
         $manipulatorMock->expects($this->any())
             ->method('getPathAsString')
             ->with($menu)
@@ -99,7 +99,7 @@ class MenuHelperTest extends TestCase
         $matcherMock = $this->getMatcherMock();
         $matcherMock->expects($this->any())
             ->method('isCurrent')
-            ->withConsecutive(array($current), array($notCurrent))
+            ->withConsecutive([$current], [$notCurrent])
             ->will($this->onConsecutiveCalls(true, false))
         ;
 
@@ -129,7 +129,7 @@ class MenuHelperTest extends TestCase
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
-        $helperMock = $this->getHelperMock(array('getCurrentItem'));
+        $helperMock = $this->getHelperMock(['getCurrentItem']);
         $helperMock->expects($this->any())
             ->method('getCurrentItem')
             ->with('default')
@@ -141,7 +141,7 @@ class MenuHelperTest extends TestCase
         $this->assertEquals($menu, $helper->getCurrentItem('default'));
     }
 
-    private function getHelperMock(array $methods = array())
+    private function getHelperMock(array $methods = [])
     {
         return $this->getMockBuilder('Knp\Menu\Twig\Helper')
             ->setMethods($methods)
@@ -154,7 +154,7 @@ class MenuHelperTest extends TestCase
         return $this->getMockBuilder('Knp\Menu\Matcher\MatcherInterface')->getMock();
     }
 
-    private function getManipulatorMock(array $methods = array())
+    private function getManipulatorMock(array $methods = [])
     {
         return $this->getMockBuilder('Knp\Menu\Util\MenuManipulator')
             ->setMethods($methods)

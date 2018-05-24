@@ -32,7 +32,7 @@ class AddProvidersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
-            ->will($this->returnValue(array('id' => array('provider_tag1'))));
+            ->will($this->returnValue(['id' => ['provider_tag1']]));
         $containerBuilderMock->expects($this->once())
             ->method('setAlias')
             ->with(
@@ -46,7 +46,7 @@ class AddProvidersPassTest extends TestCase
 
     public function testProcessForManyProviders()
     {
-        $expectedProviders = array(new Reference('id'), new Reference('id2'));
+        $expectedProviders = [new Reference('id'), new Reference('id2')];
 
         if (class_exists(IteratorArgument::class)) {
             $expectedProviders = new IteratorArgument($expectedProviders);
@@ -66,10 +66,10 @@ class AddProvidersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
-            ->will($this->returnValue(array(
-                'id' => array('provider_tag1'),
-                'id2' => array('provider_tag2')
-            )));
+            ->will($this->returnValue([
+                'id' => ['provider_tag1'],
+                'id2' => ['provider_tag2']
+            ]));
         $containerBuilderMock->expects($this->once())
             ->method('setAlias')
             ->with(

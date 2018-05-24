@@ -11,7 +11,7 @@ class BuilderServiceProviderTest extends TestCase
     {
         $provider = new BuilderServiceProvider(
             $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface')->reveal(),
-            array('first' => array('first', 'method'), 'second' => array('dummy', 'menu'))
+            ['first' => ['first', 'method'], 'second' => ['dummy', 'menu']]
         );
         $this->assertTrue($provider->has('first'));
         $this->assertTrue($provider->has('second'));
@@ -24,10 +24,10 @@ class BuilderServiceProviderTest extends TestCase
         $container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
         $builder = $this->prophesize('Knp\Bundle\MenuBundle\Tests\Provider\Builder');
         $container->get('menu_builder')->willReturn($builder);
-        $builder->build(array('test' => 'foo'))->willReturn($menu);
+        $builder->build(['test' => 'foo'])->willReturn($menu);
 
-        $provider = new BuilderServiceProvider($container->reveal(), array('default' => array('menu_builder', 'build')));
-        $this->assertSame($menu->reveal(), $provider->get('default', array('test' => 'foo')));
+        $provider = new BuilderServiceProvider($container->reveal(), ['default' => ['menu_builder', 'build']]);
+        $this->assertSame($menu->reveal(), $provider->get('default', ['test' => 'foo']));
     }
 
     /**
@@ -47,17 +47,17 @@ class BuilderServiceProviderTest extends TestCase
      */
     public function testThrowsExceptionWhenGettingInvalidMenu($definition)
     {
-        $provider = new BuilderServiceProvider($this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface')->reveal(), array('invalid' => $definition));
+        $provider = new BuilderServiceProvider($this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface')->reveal(), ['invalid' => $definition]);
         $provider->get('invalid');
     }
 
     public function provideInvalidMenuDefinitions()
     {
-        return array(
-            'string' => array('def'),
-            'missing array elements' => array(array('id')),
-            'too much array elements' => array(array('id', 'method', 'foo')),
-        );
+        return [
+            'string' => ['def'],
+            'missing array elements' => [['id']],
+            'too much array elements' => [['id', 'method', 'foo']],
+        ];
     }
 }
 
