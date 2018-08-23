@@ -155,7 +155,7 @@ An example builder class would look like this:
 
             // create another menu item
             $menu->addChild('About Me', ['route' => 'about']);
-            // you can also add sub level's to your menu's as follows
+            // you can also add sub levels to your menus as follows
             $menu['About Me']->addChild('Edit profile', ['route' => 'edit_profile']);
 
             // ... add more children
