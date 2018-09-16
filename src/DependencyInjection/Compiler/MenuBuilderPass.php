@@ -2,6 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
+use Knp\Bundle\MenuBundle\MenuBuilderProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
@@ -44,6 +45,38 @@ class MenuBuilderPass implements CompilerPassInterface
                 $menuBuilders[$attributes['alias']] = [$id, $attributes['method']];
             }
         }
+
+
+        foreach ($container->findTaggedServiceIds('knp_menu.menu_builder_provider') as $id => $tags) {
+            $def = $container->getDefinition($id);
+
+            if (!$def->isPublic()) {
+                throw new \InvalidArgumentException(sprintf('Menu builder services must be public but "%s" is a private service.', $id));
+            }
+
+            if ($def->isAbstract()) {
+                throw new \InvalidArgumentException(sprintf('Abstract services cannot be registered as menu builders but "%s" is.', $id));
+            }
+
+            // We must assume that the class value has been correctly filled, even if the service is created by a factory
+            $class = $container->getParameterBag()->resolveValue($def->getClass());
+            $interface = MenuBuilderProviderInterface::class;
+
+            if (!is_subclass_of($class, $interface)) {
+                if (!class_exists($class, false)) {
+                    throw new \InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
+                }
+
+                throw new \InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, $interface));
+            }
+
+            $container->addObjectResource($class);
+
+            foreach ($class::getMenuBuilders() as $alias => $method) {
+                $menuBuilders[$alias] = [$id, $method];
+            }
+        }
+
         $definition->replaceArgument(1, $menuBuilders);
     }
 }

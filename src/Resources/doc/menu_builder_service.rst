@@ -1,6 +1,12 @@
 Creating Menu Builders as Services
 ==================================
 
+.. note::
+
+    Registering menu builders as services without using the ``MenuBuilderProviderInterface``
+    means that the registration of services will live in your config file
+    rather than in the code. Other than that, things are exactly the same.
+
 This bundle gives you a really convenient way to create menus by following
 a convention and - if needed - injecting the entire container.
 
@@ -63,8 +69,9 @@ Next, register your menu builder as service and register its ``createMainMenu`` 
 
 .. note::
 
-    The menu service must be public as it will be retrieved at runtime to keep
-    it lazy-loaded.
+    When using Symfony 3.2 or older, the menu service must be public as it
+    will be retrieved at runtime to keep it lazy-loaded. On Symfony 3.3+,
+    private services are supported.
 
 You can now render the menu directly in a template via the name given in the
 ``alias`` key above:

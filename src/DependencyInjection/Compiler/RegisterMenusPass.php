@@ -2,6 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
+use Knp\Bundle\MenuBundle\MenuBuilderProviderInterface;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -53,6 +54,28 @@ class RegisterMenusPass implements CompilerPassInterface
                     throw new \InvalidArgumentException(sprintf('The alias is not defined in the "knp_menu.menu" tag for the service "%s"', $id));
                 }
                 $menuBuilders[$attributes['alias']] = new ServiceClosureArgument(new Reference($id));
+            }
+        }
+
+        foreach ($container->findTaggedServiceIds('knp_menu.menu_builder_provider', true) as $id => $tags) {
+            $def = $container->getDefinition($id);
+
+            // We must assume that the class value has been correctly filled, even if the service is created by a factory
+            $class = $container->getParameterBag()->resolveValue($def->getClass());
+            $interface = MenuBuilderProviderInterface::class;
+
+            if (!is_subclass_of($class, $interface)) {
+                if (!class_exists($class, false)) {
+                    throw new \InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
+                }
+
+                throw new \InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, $interface));
+            }
+
+            $container->addObjectResource($class);
+
+            foreach ($class::getMenuBuilders() as $alias => $method) {
+                $menuBuilders[$alias] = [new ServiceClosureArgument(new Reference($id)), $method];
             }
         }
 

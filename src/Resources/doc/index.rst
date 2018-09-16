@@ -22,6 +22,10 @@ in the `installation chapter`_ of the Composer documentation.
 Step 2: Enable the Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. note::
+
+    This step is performed for you automatically when using Flex.
+
 Then, enable the bundle by adding the following line in the ``app/AppKernel.php``
 file of your project:
 
@@ -118,40 +122,42 @@ method of creating a menu as a service.
 Method a) The Easy Way (yay)!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a menu, first create a new class in the ``Menu`` directory of one
-of your bundles. This class - called ``Builder`` in our example - will have
-one method for each menu that you need to build.
+To create a menu, first create a class implementing
+``Knp\Bundle\MenuBundle\MenuBuilderProviderInterface``. This class - called
+``Builder`` in our example - will have one method for each menu that you
+need to build.
 
 An example builder class would look like this:
 
 .. code-block:: php
 
-    // src/AppBundle/Menu/Builder.php
-    namespace AppBundle\Menu;
+    // src/App/Menu/Builder.php
+    namespace App\Menu;
 
+    use Knp\Bundle\MenuBundle\MenuBuilderProviderInterface;
     use Knp\Menu\FactoryInterface;
-    use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-    use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-    class Builder implements ContainerAwareInterface
+    class Builder implements MenuBuilderProviderInterface
     {
-        use ContainerAwareTrait;
+        private $factory;
 
-        public function mainMenu(FactoryInterface $factory, array $options)
+        public function __construct(FactoryInterface $factory)
         {
-            $menu = $factory->createItem('root');
+            $this->factory = $factory;
+        }
+
+        public static function getMenuBuilders()
+        {
+            return [
+                'main' => 'buildMainMenu',
+            ];
+        }
+
+        public function buildMainMenu(array $options)
+        {
+            $menu = $this->factory->createItem('root');
 
             $menu->addChild('Home', ['route' => 'homepage']);
-
-            // access services from the container!
-            $em = $this->container->get('doctrine')->getManager();
-            // findMostRecent and Blog are just imaginary examples
-            $blog = $em->getRepository('AppBundle:Blog')->findMostRecent();
-
-            $menu->addChild('Latest Blog Post', [
-                'route' => 'blog_show',
-                'routeParameters' => ['id' => $blog->getId()]
-            ]);
 
             // create another menu item
             $menu->addChild('About Me', ['route' => 'about']);
@@ -164,13 +170,23 @@ An example builder class would look like this:
         }
     }
 
+To register this menu builder, it needs to be defined as a service tagged
+with ``knp_menu.menu_builder_provider``. If you use Symfony 3.3+, the tag
+will be added automatically when using auto-configuration thanks to detecting
+the interface.
+
+.. note::
+
+    In a Flex project, you won't need to do anything to register the builder,
+    as all your classes are already registered as services by default.
+
 With the standard ``knp_menu.html.twig`` template and your current page being
 'Home', your menu would render with the following markup:
 
 .. code-block:: html
 
     <ul>
-        <li class="current first">
+        <li class="first">
             <a href="#route_to/homepage">Home</a>
         </li>
         <li class="current_ancestor">
@@ -183,34 +199,20 @@ With the standard ``knp_menu.html.twig`` template and your current page being
         </li>
     </ul>
 
-.. note::
-
-    You only need to implement ``ContainerAwareInterface`` if you need the
-    service container. The more elegant way to handle your dependencies is to
-    inject them in the constructor. If you want to do that, see method below.
-
-.. note::
-
-    The menu builder can be overwritten using the bundle inheritance.
-
 To actually render the menu, just do the following from anywhere in any template:
 
 .. configuration-block::
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+        {{ knp_menu_render('main') }}
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
-
-With this method, you refer to the menu using a three-part string:
-**bundle**:**class**:**method**.
+        <?php echo $view['knp_menu']->render('main') ?>
 
 If you needed to create a second menu, you'd simply add another method to
-the ``Builder`` class (e.g. ``sidebarMenu``), build and return the new menu,
-then render it via ``AppBundle:Builder:sidebarMenu``.
+the ``Builder`` class (e.g. ``sidebarMenu``) and register it in ``getMenuBuilders``.
 
 That's it! The menu is *very* configurable. For more details, see the
 `KnpMenu documentation`_.
@@ -227,6 +229,12 @@ Method c) A menu as a service
 
 For information on how to register a service and tag it as a menu, read
 :doc:`Creating Menus as Services <menu_service>`.
+
+Method d) A menu based on a convention for builders
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For projects using a bundle, menu builders can also be accessed based on
+a naming convention. For more information, read :doc:`Convention-based menus <menu_convention>`.
 
 .. note::
 
@@ -321,6 +329,7 @@ More Advanced Stuff
 
     menu_service
     menu_builder_service
+    menu_convention
     i18n
     events
     custom_renderer
