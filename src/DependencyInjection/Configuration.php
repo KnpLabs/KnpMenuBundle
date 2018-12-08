@@ -19,8 +19,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('knp_menu');
+        if (\method_exists(TreeBuilder::class, '__construct')) {
+            $treeBuilder = new TreeBuilder('knp_menu');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('knp_menu');
+        }
 
         $rootNode
             ->children()
