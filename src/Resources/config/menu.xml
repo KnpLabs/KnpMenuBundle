@@ -10,8 +10,10 @@
         <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
         <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
         <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
+        <parameter key="knp_menu.menu_provider.lazy.class">Knp\Menu\Provider\LazyProvider</parameter>
         <parameter key="knp_menu.menu_provider.container_aware.class">Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider</parameter>
         <parameter key="knp_menu.menu_provider.builder_alias.class">Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider</parameter>
+        <parameter key="knp_menu.menu_provider.builder_service.class">Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider</parameter>
         <parameter key="knp_menu.renderer_provider.class">Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider</parameter>
         <parameter key="knp_menu.renderer.list.class">Knp\Menu\Renderer\ListRenderer</parameter>
         <parameter key="knp_menu.renderer.list.options" type="collection"></parameter>
@@ -44,7 +46,7 @@
             <argument type="collection" />
         </service>
 
-        <service id="knp_menu.menu_provider.lazy" class="Knp\Menu\Provider\LazyProvider" public="false">
+        <service id="knp_menu.menu_provider.lazy" class="%knp_menu.menu_provider.lazy.class%" public="false">
             <argument type="collection" />
             <tag name="knp_menu.provider" />
         </service>
@@ -54,7 +56,7 @@
             <argument type="collection" />
         </service>
 
-        <service id="knp_menu.menu_provider.builder_service" class="Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider" public="false">
+        <service id="knp_menu.menu_provider.builder_service" class="%knp_menu.menu_provider.builder_service.class%" public="false">
             <argument type="service" id="service_container" />
             <argument type="collection" />
         </service>
