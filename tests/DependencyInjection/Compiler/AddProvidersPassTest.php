@@ -91,8 +91,8 @@ class AddProvidersPassTest extends TestCase
     public function testPriorityRegisteredProviders()
     {
         $expectedProviders = [];
+        $expectedProviders[-20][] = new Reference('id2');
         $expectedProviders[0][] = new Reference('id');
-        $expectedProviders[20][] = new Reference('id2');
 
         krsort($expectedProviders);
         $expectedProviders = call_user_func_array('array_merge', $expectedProviders);
