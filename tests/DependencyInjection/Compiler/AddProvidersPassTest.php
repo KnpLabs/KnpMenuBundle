@@ -101,14 +101,12 @@ class AddProvidersPassTest extends TestCase
             $expectedProviders = new IteratorArgument($expectedProviders);
         }
 
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $definitionMock = $this->createMock('Symfony\Component\DependencyInjection\Definition');
         $definitionMock->expects($this->once())
             ->method('replaceArgument')
             ->with($this->equalTo(0), $expectedProviders);
 
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilderMock = $this->createMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -116,7 +114,7 @@ class AddProvidersPassTest extends TestCase
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
             ->will($this->returnValue([
-                'id2' => ['provider_tag2', ['priority' => 20]],
+                'id2' => ['provider_tag2', ['priority' => -20]],
                 'id' => ['provider_tag1', ['priority' => 0]]
             ]));
         $containerBuilderMock->expects($this->once())
