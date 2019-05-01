@@ -2,16 +2,15 @@
 
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
-use function call_user_func_array;
-use function class_exists;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
-use function krsort;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\Reference;
+use function class_exists;
 
 class AddProvidersPassTest extends TestCase
 {
+
     public function testProcessWithoutProviderDefinition()
     {
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
@@ -28,7 +27,8 @@ class AddProvidersPassTest extends TestCase
 
     public function testProcessForOneProvider()
     {
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -62,7 +62,8 @@ class AddProvidersPassTest extends TestCase
             ->method('replaceArgument')
             ->with($this->equalTo(0), $expectedProviders);
 
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -70,7 +71,7 @@ class AddProvidersPassTest extends TestCase
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
             ->will($this->returnValue([
-                'id' => ['provider_tag1'],
+                'id'  => ['provider_tag1'],
                 'id2' => ['provider_tag2']
             ]));
         $containerBuilderMock->expects($this->once())
@@ -90,12 +91,7 @@ class AddProvidersPassTest extends TestCase
 
     public function testPriorityRegisteredProviders()
     {
-        $expectedProviders = [];
-        $expectedProviders[-20][] = new Reference('id2');
-        $expectedProviders[0][] = new Reference('id');
-
-        krsort($expectedProviders);
-        $expectedProviders = call_user_func_array('array_merge', $expectedProviders);
+        $expectedProviders = [new Reference('id2'), new Reference('id')];
 
         if (class_exists(IteratorArgument::class)) {
             $expectedProviders = new IteratorArgument($expectedProviders);
@@ -114,8 +110,8 @@ class AddProvidersPassTest extends TestCase
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
             ->will($this->returnValue([
-                'id2' => ['provider_tag2', ['priority' => -20]],
-                'id' => ['provider_tag1', ['priority' => 0]]
+                'id2' => ['provider_tag2', ['priority' => - 20]],
+                'id'  => ['provider_tag1', ['priority' => 0]]
             ]));
         $containerBuilderMock->expects($this->once())
             ->method('setAlias')
