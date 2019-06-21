@@ -16,7 +16,7 @@ class MenuBuilderPassTest extends TestCase
      */
     private $pass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->containerBuilder = $this->prophesize('Symfony\Component\DependencyInjection\ContainerBuilder');
         $this->definition = $this->prophesize('Symfony\Component\DependencyInjection\Definition');

@@ -19,7 +19,7 @@ class RegisterMenusPassTest extends TestCase
      */
     private $pass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(ServiceClosureArgument::class)) {
             $this->markTestSkipped('The RegisterMenuPass requires Symfony DI 3.3+.');
