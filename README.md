@@ -21,6 +21,13 @@ This bundle's job is to integrate a standalone PHP menu library called [KnpMenu]
 You can learn a lot more about how this library works by reading that library's
 documentation.
 
+## Maintainers
+Please read [this post](https://knplabs.com/en/blog/news-for-our-foss-projects-maintenance) first.
+
+This library is maintained by the following people (alphabetically sorted) :
+- @garak
+- @stof
+
 ## Credits
 
 This bundle was originally ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin),
