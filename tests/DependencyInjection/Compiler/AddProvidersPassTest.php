@@ -5,7 +5,10 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use function class_exists;
 
 class AddProvidersPassTest extends TestCase
 {
@@ -69,6 +72,45 @@ class AddProvidersPassTest extends TestCase
             ->will($this->returnValue([
                 'id' => ['provider_tag1'],
                 'id2' => ['provider_tag2']
+            ]));
+        $containerBuilderMock->expects($this->once())
+            ->method('setAlias')
+            ->with(
+                $this->equalTo('knp_menu.menu_provider'),
+                $this->equalTo('knp_menu.menu_provider.chain')
+            );
+        $containerBuilderMock->expects($this->once())
+            ->method('getDefinition')
+            ->with($this->equalTo('knp_menu.menu_provider.chain'))
+            ->will($this->returnValue($definitionMock));
+
+        $providersPass = new AddProvidersPass();
+        $providersPass->process($containerBuilderMock);
+    }
+
+    public function testPriorityRegisteredProviders()
+    {
+        $expectedProviders = [new Reference('id2'), new Reference('id')];
+
+        if (class_exists(IteratorArgument::class)) {
+            $expectedProviders = new IteratorArgument($expectedProviders);
+        }
+
+        $definitionMock = $this->createMock(Definition::class);
+        $definitionMock->expects($this->once())
+            ->method('replaceArgument')
+            ->with($this->equalTo(0), $expectedProviders);
+
+        $containerBuilderMock = $this->createMock(ContainerBuilder::class);
+        $containerBuilderMock->expects($this->once())
+            ->method('hasDefinition')
+            ->will($this->returnValue(true));
+        $containerBuilderMock->expects($this->once())
+            ->method('findTaggedServiceIds')
+            ->with($this->equalTo('knp_menu.provider'))
+            ->will($this->returnValue([
+                'id2' => ['provider_tag2', ['priority' => - 20]],
+                'id'  => ['provider_tag1', ['priority' => 0]]
             ]));
         $containerBuilderMock->expects($this->once())
             ->method('setAlias')
