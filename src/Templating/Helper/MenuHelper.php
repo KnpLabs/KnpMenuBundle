@@ -66,7 +66,7 @@ class MenuHelper extends TemplatingHelper
     }
 
     /**
-     * A string representation of this menu item
+     * A string representation of this menu item.
      *
      * e.g. Top Level 1 > Second Level > This menu
      *
@@ -85,7 +85,7 @@ class MenuHelper extends TemplatingHelper
      *
      * @param ItemInterface $item
      *
-     * @return boolean
+     * @return bool
      */
     public function isCurrent(ItemInterface $item)
     {
@@ -96,9 +96,9 @@ class MenuHelper extends TemplatingHelper
      * Checks whether an item is the ancestor of a current item.
      *
      * @param ItemInterface $item
-     * @param integer       $depth The max depth to look for the item
+     * @param int           $depth The max depth to look for the item
      *
-     * @return boolean
+     * @return bool
      */
     public function isAncestor(ItemInterface $item, $depth = null)
     {

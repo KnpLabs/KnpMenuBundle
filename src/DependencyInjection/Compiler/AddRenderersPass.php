@@ -1,4 +1,5 @@
 <?php
+
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
 use Knp\Menu\Renderer\PsrProvider;

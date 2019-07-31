@@ -29,7 +29,7 @@ class BuilderAliasProviderTest extends TestCase
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
-            ->will($this->returnValue($item));
+            ->willReturn($item);
 
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
@@ -50,7 +50,7 @@ class BuilderAliasProviderTest extends TestCase
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
-            ->will($this->returnValue($item));
+            ->willReturn($item);
 
         $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock();
         $container->expects($this->once())
@@ -140,7 +140,7 @@ class BuilderAliasProviderTest extends TestCase
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu')
-            ->will($this->returnValue($item));
+            ->willReturn($item);
 
         $provider = new BuilderAliasProvider(
             $this->createTestKernel(),
@@ -168,7 +168,7 @@ class BuilderAliasProviderTest extends TestCase
         $factory->expects($this->once())
             ->method('createItem')
             ->with('Main menu for the child')
-            ->will($this->returnValue($item));
+            ->willReturn($item);
 
         $provider = new BuilderAliasProvider(
             $this->createTestKernel('Knp\Bundle\MenuBundle\Tests\Stubs\Child'),
@@ -210,18 +210,18 @@ class BuilderAliasProviderTest extends TestCase
         $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $bundle->expects($this->once())
             ->method('getNamespace')
-            ->will($this->returnValue('Knp\Bundle\MenuBundle\Tests\Stubs'))
+            ->willReturn('Knp\Bundle\MenuBundle\Tests\Stubs')
         ;
         $bundle->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('FooBundle'))
+            ->willReturn('FooBundle')
         ;
 
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
         $kernel->expects($this->once())
             ->method('getBundle')
             ->with('FooBundle', false)
-            ->will($this->returnValue([$bundle]))
+            ->willReturn([$bundle])
         ;
 
         return $kernel;
@@ -232,25 +232,25 @@ class BuilderAliasProviderTest extends TestCase
         $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $bundle->expects($this->any())
             ->method('getNamespace')
-            ->will($this->returnValue($parentNamespace))
+            ->willReturn($parentNamespace)
         ;
         $bundle->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('FooBundle'))
+            ->willReturn('FooBundle')
         ;
 
         $childBundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $childBundle->expects($this->any())
             ->method('getNamespace')
-            ->will($this->returnValue($childNamespace))
+            ->willReturn($childNamespace)
         ;
         $childBundle->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('BarBundle'))
+            ->willReturn('BarBundle')
         ;
         $childBundle->expects($this->any())
             ->method('getParent')
-            ->will($this->returnValue('FooBundle'))
+            ->willReturn('FooBundle')
         ;
 
         $kernel = new TestKernel([$bundle, $childBundle]);

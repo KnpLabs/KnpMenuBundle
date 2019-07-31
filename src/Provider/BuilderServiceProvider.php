@@ -27,7 +27,7 @@ class BuilderServiceProvider implements MenuProviderInterface
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
         }
 
-        if (!is_array($this->menuBuilders[$name]) || 2 !== count($this->menuBuilders[$name])) {
+        if (!\is_array($this->menuBuilders[$name]) || 2 !== \count($this->menuBuilders[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu builder definition for the menu "%s" is invalid. It should be an array (serviceId, method)', $name));
         }
 

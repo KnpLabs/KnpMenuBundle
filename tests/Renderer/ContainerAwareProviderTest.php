@@ -29,7 +29,7 @@ class ContainerAwareProviderTest extends TestCase
         $container->expects($this->once())
             ->method('get')
             ->with('renderer')
-            ->will($this->returnValue($renderer))
+            ->willReturn($renderer)
         ;
         $provider = new ContainerAwareProvider($container, 'custom', ['default' => 'renderer', 'custom' => 'other']);
         $this->assertSame($renderer, $provider->get('default'));
@@ -42,7 +42,7 @@ class ContainerAwareProviderTest extends TestCase
         $container->expects($this->once())
             ->method('get')
             ->with('renderer')
-            ->will($this->returnValue($renderer))
+            ->willReturn($renderer)
         ;
         $provider = new ContainerAwareProvider($container, 'default', ['default' => 'renderer']);
         $this->assertSame($renderer, $provider->get());

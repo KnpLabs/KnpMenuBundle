@@ -21,7 +21,7 @@ class ContainerAwareProvider implements RendererProviderInterface
         $this->defaultRenderer = $defaultRenderer;
 
         if ($triggerDeprecation) {
-            @trigger_error(sprintf('The %s class is deprecated since 2.2 and will be removed in 3.0. USe "Knp\Menu\Renderer\PsrProvider" instead.', __CLASS__),E_USER_DEPRECATED);
+            @trigger_error(sprintf('The %s class is deprecated since 2.2 and will be removed in 3.0. USe "Knp\Menu\Renderer\PsrProvider" instead.', __CLASS__), E_USER_DEPRECATED);
         }
     }
 

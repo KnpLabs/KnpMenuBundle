@@ -14,7 +14,7 @@ class AddVotersPassTest extends TestCase
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $containerBuilder->expects($this->never())
             ->method('findTaggedServiceIds');
 
@@ -46,19 +46,19 @@ class AddVotersPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->will($this->returnValue(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [[]]]));
+            ->willReturn(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [[]]]);
         $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))
-            ->will($this->returnValue($definitionMock));
+            ->willReturn($definitionMock);
         $containerBuilderMock->expects($this->at(2))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.listener.voters'))
-            ->will($this->returnValue($listenerMock));
+            ->willReturn($listenerMock);
         $containerBuilderMock->expects($this->once())
             ->method('removeDefinition')
             ->with('knp_menu.listener.voters');
@@ -96,19 +96,19 @@ class AddVotersPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->will($this->returnValue(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [['request' => true]]]));
+            ->willReturn(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [['request' => true]]]);
         $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))
-            ->will($this->returnValue($definitionMock));
+            ->willReturn($definitionMock);
         $containerBuilderMock->expects($this->at(2))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.listener.voters'))
-            ->will($this->returnValue($listenerMock));
+            ->willReturn($listenerMock);
 
         $menuPass = new AddVotersPass();
         $menuPass->process($containerBuilderMock);

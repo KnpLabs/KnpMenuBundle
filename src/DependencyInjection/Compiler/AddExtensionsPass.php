@@ -23,7 +23,7 @@ class AddExtensionsPass implements CompilerPassInterface
         }
 
         $taggedServiceIds = $container->findTaggedServiceIds('knp_menu.factory_extension');
-        if (0 === count($taggedServiceIds)) {
+        if (0 === \count($taggedServiceIds)) {
             return;
         }
 

@@ -55,7 +55,7 @@ class AddVotersPass implements CompilerPassInterface
         }
 
         krsort($voters);
-        $sortedVoters = call_user_func_array('array_merge', $voters);
+        $sortedVoters = \call_user_func_array('array_merge', $voters);
 
         if (class_exists(IteratorArgument::class)) {
             $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
