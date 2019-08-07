@@ -117,6 +117,5 @@ class RegisterMenusPassTest extends TestCase
         $this->definition->replaceArgument(0, $menus)->shouldBeCalled();
 
         $this->pass->process($this->containerBuilder->reveal());
-
     }
 }

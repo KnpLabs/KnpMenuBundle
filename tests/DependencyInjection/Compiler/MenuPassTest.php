@@ -12,7 +12,7 @@ class MenuPassTest extends TestCase
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $containerBuilder->expects($this->never())
             ->method('findTaggedServiceIds');
 
@@ -29,11 +29,11 @@ class MenuPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.menu'))
-            ->will($this->returnValue(['id' => ['tag1' => ['alias' => '']]]));
+            ->willReturn(['id' => ['tag1' => ['alias' => '']]]);
 
         $menuPass = new MenuPass();
         $menuPass->process($containerBuilderMock);
@@ -51,15 +51,15 @@ class MenuPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.menu'))
-            ->will($this->returnValue(['id' => ['tag1' => ['alias' => 'test_alias']]]));
+            ->willReturn(['id' => ['tag1' => ['alias' => 'test_alias']]]);
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.menu_provider.container_aware'))
-            ->will($this->returnValue($definitionMock));
+            ->willReturn($definitionMock);
 
         $menuPass = new MenuPass();
         $menuPass->process($containerBuilderMock);

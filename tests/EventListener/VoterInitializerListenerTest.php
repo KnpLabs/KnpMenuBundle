@@ -19,7 +19,7 @@ class VoterInitializerListenerTest extends TestCase
             ->getMock();
         $event->expects($this->once())
             ->method('getRequestType')
-            ->will($this->returnValue(HttpKernelInterface::SUB_REQUEST));
+            ->willReturn(HttpKernelInterface::SUB_REQUEST);
 
         $voter = $this->getMockBuilder('Knp\Menu\Matcher\Voter\RouteVoter')
             ->disableOriginalConstructor()
@@ -42,10 +42,10 @@ class VoterInitializerListenerTest extends TestCase
             ->getMock();
         $event->expects($this->once())
             ->method('getRequestType')
-            ->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
+            ->willReturn(HttpKernelInterface::MASTER_REQUEST);
         $event->expects($this->once())
             ->method('getRequest')
-            ->will($this->returnValue($request));
+            ->willReturn($request);
 
         $voter = $this->getMockBuilder('Knp\Menu\Matcher\Voter\RouteVoter')
             ->disableOriginalConstructor()

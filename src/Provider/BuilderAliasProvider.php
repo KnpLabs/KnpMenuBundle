@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * A menu provider that allows for an AcmeBundle:Builder:mainMenu shortcut syntax
+ * A menu provider that allows for an AcmeBundle:Builder:mainMenu shortcut syntax.
  *
  * @author Ryan Weaver <ryan@knplabs.com>
  */
@@ -32,7 +32,7 @@ class BuilderAliasProvider implements MenuProviderInterface
     }
 
     /**
-     * Looks for a menu with the bundle:class:method format
+     * Looks for a menu with the bundle:class:method format.
      *
      * For example, AcmeBundle:Builder:mainMenu would create and instantiate
      * an Acme\DemoBundle\Menu\Builder class and call the mainMenu() method
@@ -42,6 +42,7 @@ class BuilderAliasProvider implements MenuProviderInterface
      * @param array  $options
      *
      * @return \Knp\Menu\ItemInterface
+     *
      * @throws \InvalidArgumentException
      */
     public function get($name, array $options = [])
@@ -71,7 +72,7 @@ class BuilderAliasProvider implements MenuProviderInterface
      * @param string $name    The alias name of the menu
      * @param array  $options
      *
-     * @return Boolean
+     * @return bool
      */
     public function has($name, array $options = [])
     {
@@ -79,7 +80,7 @@ class BuilderAliasProvider implements MenuProviderInterface
     }
 
     /**
-     * Creates and returns the builder that lives in the given bundle
+     * Creates and returns the builder that lives in the given bundle.
      *
      * The convention is to look in the Menu namespace of the bundle for
      * this class, to instantiate it with no arguments, and to inject the
@@ -104,7 +105,7 @@ class BuilderAliasProvider implements MenuProviderInterface
             $allBundles = $this->kernel->getBundle($bundleName, false);
 
             // In Symfony 4, bundle inheritance is gone, so there is no way to get an array anymore.
-            if (!is_array($allBundles)) {
+            if (!\is_array($allBundles)) {
                 $allBundles = [$allBundles];
             }
 
@@ -120,7 +121,7 @@ class BuilderAliasProvider implements MenuProviderInterface
             }
 
             if (null === $class) {
-                if (1 === count($logs)) {
+                if (1 === \count($logs)) {
                     throw new \InvalidArgumentException($logs[0]);
                 }
 

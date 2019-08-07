@@ -6,7 +6,7 @@ use Knp\Bundle\MenuBundle\Templating\Helper\MenuHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Test for MenuHelper class
+ * Test for MenuHelper class.
  *
  * @author Leszek Prabucki <leszek.prabucki@gmail.com>
  */
@@ -18,7 +18,7 @@ class MenuHelperTest extends TestCase
         $helperMock->expects($this->any())
             ->method('get')
             ->with($this->equalTo('test'), $this->equalTo(['pathArray']))
-            ->will($this->returnValue('returned value'));
+            ->willReturn('returned value');
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
@@ -33,7 +33,7 @@ class MenuHelperTest extends TestCase
         $helperMock->expects($this->any())
             ->method('get')
             ->with('default', [], ['foo' => 'bar'])
-            ->will($this->returnValue($menu))
+            ->willReturn($menu)
         ;
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
@@ -47,7 +47,7 @@ class MenuHelperTest extends TestCase
         $helperMock->expects($this->any())
             ->method('render')
             ->with($this->equalTo('test'), $this->equalTo(['options']))
-            ->will($this->returnValue('returned value'));
+            ->willReturn('returned value');
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
@@ -67,7 +67,7 @@ class MenuHelperTest extends TestCase
         $helperMock->expects($this->any())
             ->method('getBreadcrumbsArray')
             ->with('default')
-            ->will($this->returnValue(['A', 'B']))
+            ->willReturn(['A', 'B'])
         ;
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
@@ -83,7 +83,7 @@ class MenuHelperTest extends TestCase
         $manipulatorMock->expects($this->any())
             ->method('getPathAsString')
             ->with($menu)
-            ->will($this->returnValue('A > B'))
+            ->willReturn('A > B')
         ;
 
         $helper = new MenuHelper($this->getHelperMock(), $this->getMatcherMock(), $manipulatorMock);
@@ -117,7 +117,7 @@ class MenuHelperTest extends TestCase
         $matcherMock->expects($this->any())
             ->method('isAncestor')
             ->with($menu)
-            ->will($this->returnValue(false))
+            ->willReturn(false)
         ;
 
         $helper = new MenuHelper($this->getHelperMock(), $matcherMock, $this->getManipulatorMock());
@@ -133,7 +133,7 @@ class MenuHelperTest extends TestCase
         $helperMock->expects($this->any())
             ->method('getCurrentItem')
             ->with('default')
-            ->will($this->returnValue($menu))
+            ->willReturn($menu)
         ;
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());

@@ -14,7 +14,7 @@ class AddProvidersPassTest extends TestCase
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $containerBuilder->expects($this->never())
             ->method('findTaggedServiceIds');
 
@@ -28,11 +28,11 @@ class AddProvidersPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
-            ->will($this->returnValue(['id' => ['provider_tag1']]));
+            ->willReturn(['id' => ['provider_tag1']]);
         $containerBuilderMock->expects($this->once())
             ->method('setAlias')
             ->with(
@@ -62,14 +62,14 @@ class AddProvidersPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.provider'))
-            ->will($this->returnValue([
+            ->willReturn([
                 'id' => ['provider_tag1'],
-                'id2' => ['provider_tag2']
-            ]));
+                'id2' => ['provider_tag2'],
+            ]);
         $containerBuilderMock->expects($this->once())
             ->method('setAlias')
             ->with(
@@ -79,7 +79,7 @@ class AddProvidersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.menu_provider.chain'))
-            ->will($this->returnValue($definitionMock));
+            ->willReturn($definitionMock);
 
         $providersPass = new AddProvidersPass();
         $providersPass->process($containerBuilderMock);

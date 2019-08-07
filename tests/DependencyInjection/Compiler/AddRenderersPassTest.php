@@ -19,7 +19,7 @@ class AddRenderersPassTest extends TestCase
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $containerBuilder->expects($this->never())
             ->method('findTaggedServiceIds');
 
@@ -36,11 +36,11 @@ class AddRenderersPassTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.renderer'))
-            ->will($this->returnValue(['id' => ['tag1' => ['alias' => '']]]));
+            ->willReturn(['id' => ['tag1' => ['alias' => '']]]);
 
         $renderersPass = new AddRenderersPass();
         $renderersPass->process($containerBuilderMock);

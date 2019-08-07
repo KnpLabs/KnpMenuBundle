@@ -22,7 +22,7 @@ class ContainerAwareProviderTest extends TestCase
         $container->expects($this->once())
             ->method('get')
             ->with('menu')
-            ->will($this->returnValue($menu))
+            ->willReturn($menu)
         ;
         $provider = new ContainerAwareProvider($container, ['default' => 'menu']);
         $this->assertSame($menu, $provider->get('default'));

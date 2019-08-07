@@ -62,7 +62,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
      */
     public function getXsdValidationBasePath()
     {
-        return __DIR__ . '/../Resources/config/schema';
+        return __DIR__.'/../Resources/config/schema';
     }
 
     public function prepend(ContainerBuilder $container)
@@ -71,9 +71,8 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
             return;
         }
 
-
         $refl = new \ReflectionClass(ItemInterface::class);
-        $path = dirname($refl->getFileName()).'/Resources/views';
+        $path = \dirname($refl->getFileName()).'/Resources/views';
 
         $container->prependExtensionConfig('twig', ['paths' => [$path]]);
     }

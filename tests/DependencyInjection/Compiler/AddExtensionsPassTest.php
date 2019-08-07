@@ -1,4 +1,5 @@
 <?php
+
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
@@ -13,7 +14,7 @@ class AddExtensionsPassTest extends TestCase
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilder->expects($this->once())
             ->method('has')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $containerBuilder->expects($this->never())
             ->method('findTaggedServiceIds');
 
@@ -31,7 +32,7 @@ class AddExtensionsPassTest extends TestCase
             ->getMock();
         $definitionMock->expects($this->at(0))
             ->method('getClass')
-            ->will($this->returnValue($menuFactoryClass));
+            ->willReturn($menuFactoryClass);
         $definitionMock->expects($this->at(1))
             ->method('addMethodCall')
             ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('id'), 0]));
@@ -46,23 +47,23 @@ class AddExtensionsPassTest extends TestCase
         $parameterBagMock->expects($this->once())
             ->method('resolveValue')
             ->with($menuFactoryClass)
-            ->will($this->returnValue($menuFactoryClass));
+            ->willReturn($menuFactoryClass);
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('has')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.factory_extension'))
-            ->will($this->returnValue(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]));
+            ->willReturn(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]);
         $containerBuilderMock->expects($this->once())
             ->method('findDefinition')
             ->with($this->equalTo('knp_menu.factory'))
-            ->will($this->returnValue($definitionMock));
+            ->willReturn($definitionMock);
         $containerBuilderMock->expects($this->once())
             ->method('getParameterBag')
-            ->will($this->returnValue($parameterBagMock));
+            ->willReturn($parameterBagMock);
 
         $menuPass = new AddExtensionsPass();
         $menuPass->process($containerBuilderMock);
@@ -78,29 +79,29 @@ class AddExtensionsPassTest extends TestCase
             ->getMock();
         $definitionMock->expects($this->at(0))
             ->method('getClass')
-            ->will($this->returnValue('SimpleMenuFactory'));
+            ->willReturn('SimpleMenuFactory');
 
         $parameterBagMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface')->getMock();
         $parameterBagMock->expects($this->once())
             ->method('resolveValue')
             ->with('SimpleMenuFactory')
-            ->will($this->returnValue('SimpleMenuFactory'));
+            ->willReturn('SimpleMenuFactory');
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('has')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.factory_extension'))
-            ->will($this->returnValue(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]));
+            ->willReturn(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]);
         $containerBuilderMock->expects($this->once())
             ->method('findDefinition')
             ->with($this->equalTo('knp_menu.factory'))
-            ->will($this->returnValue($definitionMock));
+            ->willReturn($definitionMock);
         $containerBuilderMock->expects($this->once())
             ->method('getParameterBag')
-            ->will($this->returnValue($parameterBagMock));
+            ->willReturn($parameterBagMock);
 
         $menuPass = new AddExtensionsPass();
         $menuPass->process($containerBuilderMock);
