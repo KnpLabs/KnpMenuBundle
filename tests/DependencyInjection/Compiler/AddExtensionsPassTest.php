@@ -5,6 +5,7 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
 use Knp\Menu\FactoryInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AddExtensionsPassTest extends TestCase
@@ -100,7 +101,7 @@ class AddExtensionsPassTest extends TestCase
             ->method('getParameterBag')
             ->willReturn($parameterBagMock);
 
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
 
         $menuPass = new AddExtensionsPass();
         $menuPass->process($containerBuilderMock);
