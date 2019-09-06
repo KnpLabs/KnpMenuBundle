@@ -19,7 +19,6 @@ class KnpMenuBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new RegisterMenusPass());
-        $container->addCompilerPass(new MenuPass());
         $container->addCompilerPass(new MenuBuilderPass());
         $container->addCompilerPass(new AddExtensionsPass());
         $container->addCompilerPass(new AddProvidersPass());

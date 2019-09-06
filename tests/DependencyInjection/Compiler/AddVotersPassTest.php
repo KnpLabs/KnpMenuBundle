@@ -51,9 +51,6 @@ class AddVotersPassTest extends TestCase
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))
             ->willReturn($definitionMock);
-        $containerBuilderMock->expects($this->once())
-            ->method('removeDefinition')
-            ->with('knp_menu.listener.voters');
 
         $menuPass = new AddVotersPass();
         $menuPass->process($containerBuilderMock);

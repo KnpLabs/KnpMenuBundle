@@ -39,10 +39,6 @@ class AddVotersPass implements CompilerPassInterface
             $voters[$priority][] = new Reference($id);
         }
 
-        if (!$hasRequestAwareVoter) {
-            $container->removeDefinition('knp_menu.listener.voters');
-        }
-
         if (empty($voters)) {
             return;
         }
@@ -50,11 +46,6 @@ class AddVotersPass implements CompilerPassInterface
         krsort($voters);
         $sortedVoters = \call_user_func_array('array_merge', $voters);
 
-        if (class_exists(IteratorArgument::class)) {
-            $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
-        } else {
-            // BC layer for Symfony DI < 3.3
-            $definition->replaceArgument(0, $sortedVoters);
-        }
+        $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
     }
 }

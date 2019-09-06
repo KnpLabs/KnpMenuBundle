@@ -34,8 +34,6 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('builder_alias')->defaultTrue()->end()
-                        ->booleanNode('container_aware')->setDeprecated('The "%node%" option is deprecated and will be removed in version 3.')->defaultTrue()->end()
-                        ->booleanNode('builder_service')->setDeprecated('The "%node%" option is deprecated and will be removed in version 3.')->defaultTrue()->end()
                     ->end()
                 ->end()
                 ->arrayNode('twig')

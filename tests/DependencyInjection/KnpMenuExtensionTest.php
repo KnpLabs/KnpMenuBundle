@@ -70,7 +70,7 @@ class KnpMenuExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
-        $loader->load([['providers' => ['container_aware' => false]]], $container);
+        $loader->load([['providers' => []]], $container);
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
     }
 }
