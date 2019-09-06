@@ -38,12 +38,6 @@ class AddVotersPass implements CompilerPassInterface
 
             $priority = isset($tag['priority']) ? (int) $tag['priority'] : 0;
             $voters[$priority][] = new Reference($id);
-
-            if (isset($tag['request']) && $tag['request']) {
-                @trigger_error('Using the "request" attribute of the "knp_menu.voter" tag is deprecated since version 2.2. Inject the RequestStack in the voter instead.', E_USER_DEPRECATED);
-                $hasRequestAwareVoter = true;
-                $listener->addMethodCall('addVoter', [new Reference($id)]);
-            }
         }
 
         if (!$hasRequestAwareVoter) {

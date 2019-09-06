@@ -2,10 +2,11 @@
 
 namespace Knp\Bundle\MenuBundle\Provider;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerAwareProvider implements MenuProviderInterface
+final class ContainerAwareProvider implements MenuProviderInterface
 {
     private $container;
     private $menuIds;
@@ -16,7 +17,7 @@ class ContainerAwareProvider implements MenuProviderInterface
         $this->menuIds = $menuIds;
     }
 
-    public function get($name, array $options = [])
+    public function get(string $name, array $options = []): ItemInterface
     {
         if (!isset($this->menuIds[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
@@ -25,7 +26,7 @@ class ContainerAwareProvider implements MenuProviderInterface
         return $this->container->get($this->menuIds[$name]);
     }
 
-    public function has($name, array $options = [])
+    public function has(string $name, array $options = []): bool
     {
         return isset($this->menuIds[$name]);
     }

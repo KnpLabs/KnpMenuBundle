@@ -89,9 +89,6 @@ class AddVotersPassTest extends TestCase
         $listenerMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
             ->getMock();
-        $listenerMock->expects($this->once())
-            ->method('addMethodCall')
-            ->with($this->equalTo('addVoter'), $this->equalTo([new Reference('foo')]));
 
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
@@ -100,7 +97,7 @@ class AddVotersPassTest extends TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('knp_menu.voter'))
-            ->willReturn(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [['request' => true]]]);
+            ->willReturn(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [['request' => false]]]);
         $containerBuilderMock->expects($this->at(1))
             ->method('getDefinition')
             ->with($this->equalTo('knp_menu.matcher'))

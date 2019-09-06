@@ -22,16 +22,7 @@ class RegisterMenusPass implements CompilerPassInterface
             return;
         }
 
-        // When using Symfony < 3.3, the LazyProvider cannot be used (at least not in a lazy way)
-        // so the older providers will be used.
-        if (!class_exists(ServiceClosureArgument::class)) {
-            $container->removeDefinition('knp_menu.menu_provider.lazy');
-
-            return;
-        }
-
         // Remove the old way of handling this feature.
-        $container->removeDefinition('knp_menu.menu_provider.container_aware');
         $container->removeDefinition('knp_menu.menu_provider.builder_service');
 
         $menuBuilders = [];

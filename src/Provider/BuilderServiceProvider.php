@@ -2,6 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\Provider;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -10,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Christophe Coevoet <stof@notk.org>
  */
-class BuilderServiceProvider implements MenuProviderInterface
+final class BuilderServiceProvider implements MenuProviderInterface
 {
     private $container;
     private $menuBuilders;
@@ -21,7 +22,7 @@ class BuilderServiceProvider implements MenuProviderInterface
         $this->menuBuilders = $menuBuilders;
     }
 
-    public function get($name, array $options = [])
+    public function get(string $name, array $options = []): ItemInterface
     {
         if (!isset($this->menuBuilders[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
@@ -36,7 +37,7 @@ class BuilderServiceProvider implements MenuProviderInterface
         return $this->container->get($id)->$method($options);
     }
 
-    public function has($name, array $options = [])
+    public function has(string $name, array $options = []): bool
     {
         return isset($this->menuBuilders[$name]);
     }

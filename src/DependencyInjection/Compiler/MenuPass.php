@@ -8,9 +8,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * @internal
  */
-class MenuPass implements CompilerPassInterface
+final class MenuPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('knp_menu.menu_provider.container_aware')) {
             return;
