@@ -14,8 +14,8 @@ configuration:
     knp_menu:
         providers:
             builder_alias: false    # disable the builder-alias-based provider
-            builder_service: false
-            container_aware: true   # keep this one enabled. Can be omitted as it is the default
+            builder_service: false  # this option is deprecated
+            container_aware: true   # this option is deprecated
 
 .. note::
 
