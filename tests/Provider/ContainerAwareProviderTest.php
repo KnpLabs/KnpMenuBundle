@@ -28,11 +28,10 @@ class ContainerAwareProviderTest extends TestCase
         $this->assertSame($menu, $provider->get('default'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetNonExistentMenu()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $provider = new ContainerAwareProvider($this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock());
         $provider->get('non-existent');
     }

@@ -40,47 +40,43 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Abstract services cannot be registered as menu builders but "id" is.
-     */
     public function testFailsWhenServiceIsAbstract()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Abstract services cannot be registered as menu builders but "id" is.');
+
         $this->builderDefinition->isAbstract()->willReturn(true);
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Menu builder services must be public but "id" is a private service.
-     */
     public function testFailsWhenServiceIsPrivate()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Menu builder services must be public but "id" is a private service.');
+
         $this->builderDefinition->isPublic()->willReturn(false);
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"
-     */
     public function testFailsWhenAliasIsMissing()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"');
+
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => '']]]);
 
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The method is not defined in the "knp_menu.menu_builder" tag for the service "id"
-     */
     public function testFailsWhenMethodIsMissing()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The method is not defined in the "knp_menu.menu_builder" tag for the service "id"');
+
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->pass->process($this->containerBuilder->reveal());

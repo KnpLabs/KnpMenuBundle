@@ -68,11 +68,10 @@ class BuilderAliasProviderTest extends TestCase
         $this->assertSame($item, $menu);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetInvalidReturnValue()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
@@ -82,11 +81,10 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('FooBundle:Builder:invalidMethod');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetNonExistentMenu()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $provider = new BuilderAliasProvider(
             $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock(),
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
@@ -95,12 +93,11 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('non-existent');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Class "Knp\Bundle\MenuBundle\Tests\Stubs\Menu\Fake" does not exist for menu builder "FooBundle:Fake".
-     */
     public function testGetNonExistentMenuClass()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class "Knp\\Bundle\\MenuBundle\\Tests\\Stubs\\Menu\\Fake" does not exist for menu builder "FooBundle:Fake".');
+
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
@@ -110,11 +107,10 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetNonExistentMenuMethod()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
@@ -182,12 +178,13 @@ class BuilderAliasProviderTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.
      * @group legacy
      */
     public function testBundleInheritanceWrongClass()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.');
+
         if (!method_exists(BundleInterface::class, 'getParent')) {
             $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
         }
