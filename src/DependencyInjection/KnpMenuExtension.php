@@ -18,7 +18,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
      * @param array            $configs   The configurations being loaded
      * @param ContainerBuilder $container
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('menu.xml');
@@ -52,7 +52,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return 'http://knplabs.com/schema/dic/menu';
     }
@@ -60,12 +60,12 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getXsdValidationBasePath()
+    public function getXsdValidationBasePath(): string
     {
         return __DIR__.'/../Resources/config/schema';
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         if (!$container->hasExtension('twig')) {
             return;

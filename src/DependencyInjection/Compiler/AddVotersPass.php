@@ -23,7 +23,6 @@ class AddVotersPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition('knp_menu.matcher');
-        $listener = $container->getDefinition('knp_menu.listener.voters');
 
         $hasRequestAwareVoter = false;
 
