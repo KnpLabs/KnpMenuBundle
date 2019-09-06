@@ -30,6 +30,8 @@ class AddRenderersPassTest extends TestCase
 
     public function testProcessWithEmptyAlias()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')

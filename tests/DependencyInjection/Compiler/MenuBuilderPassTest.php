@@ -42,6 +42,9 @@ class MenuBuilderPassTest extends TestCase
 
     public function testFailsWhenServiceIsAbstract()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Abstract services cannot be registered as menu builders but "id" is.');
+
         $this->builderDefinition->isAbstract()->willReturn(true);
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
@@ -52,6 +55,9 @@ class MenuBuilderPassTest extends TestCase
 
     public function testFailsWhenServiceIsPrivate()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Menu builder services must be public but "id" is a private service.');
+
         $this->builderDefinition->isPublic()->willReturn(false);
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
@@ -62,6 +68,9 @@ class MenuBuilderPassTest extends TestCase
 
     public function testFailsWhenAliasIsMissing()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"');
+
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => '']]]);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -71,6 +80,9 @@ class MenuBuilderPassTest extends TestCase
 
     public function testFailsWhenMethodIsMissing()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The method is not defined in the "knp_menu.menu_builder" tag for the service "id"');
+
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->expectException(\InvalidArgumentException::class);
