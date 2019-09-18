@@ -28,9 +28,6 @@ class AddRenderersPassTest extends TestCase
         $renderersPass->process($containerBuilder);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testProcessWithEmptyAlias()
     {
         $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
@@ -42,6 +39,7 @@ class AddRenderersPassTest extends TestCase
             ->with($this->equalTo('knp_menu.renderer'))
             ->willReturn(['id' => ['tag1' => ['alias' => '']]]);
 
+        $this->expectException(\InvalidArgumentException::class);
         $renderersPass = new AddRenderersPass();
         $renderersPass->process($containerBuilderMock);
     }

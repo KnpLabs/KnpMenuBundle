@@ -51,36 +51,30 @@ class RegisterMenusPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"
-     */
     public function testFailsWhenBuilderAliasIsMissing()
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => '']]]);
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"');
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The method is not defined in the "knp_menu.menu_builder" tag for the service "id"
-     */
     public function testFailsWhenBuilderMethodIsMissing()
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => 'foo']]]);
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The method is not defined in the "knp_menu.menu_builder" tag for the service "id"');
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The alias is not defined in the "knp_menu.menu" tag for the service "id"
-     */
     public function testFailsWhenMenuAliasIsMissing()
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn(['id' => [['alias' => '']]]);
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu" tag for the service "id"');
         $this->pass->process($this->containerBuilder->reveal());
     }
 

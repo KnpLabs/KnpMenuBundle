@@ -30,23 +30,23 @@ class BuilderServiceProviderTest extends TestCase
         $this->assertSame($menu->reveal(), $provider->get('default', ['test' => 'foo']));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The menu "non-existent" is not defined.
-     */
     public function testThrowsExceptionWhenGettingUndefinedMenu()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The menu "non-existent" is not defined.');
+
         $provider = new BuilderServiceProvider($this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface')->reveal());
         $provider->get('non-existent');
     }
 
     /**
      * @dataProvider provideInvalidMenuDefinitions
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The menu builder definition for the menu "invalid" is invalid. It should be an array (serviceId, method)
      */
     public function testThrowsExceptionWhenGettingInvalidMenu($definition)
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The menu builder definition for the menu "invalid" is invalid. It should be an array (serviceId, method)');
+
         $provider = new BuilderServiceProvider($this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface')->reveal(), ['invalid' => $definition]);
         $provider->get('invalid');
     }

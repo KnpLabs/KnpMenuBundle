@@ -68,9 +68,6 @@ class BuilderAliasProviderTest extends TestCase
         $this->assertSame($item, $menu);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetInvalidReturnValue()
     {
         $provider = new BuilderAliasProvider(
@@ -79,12 +76,10 @@ class BuilderAliasProviderTest extends TestCase
             $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
+        $this->expectException(\InvalidArgumentException::class);
         $provider->get('FooBundle:Builder:invalidMethod');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetNonExistentMenu()
     {
         $provider = new BuilderAliasProvider(
@@ -92,13 +87,10 @@ class BuilderAliasProviderTest extends TestCase
             $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
             $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
+        $this->expectException(\InvalidArgumentException::class);
         $provider->get('non-existent');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Class "Knp\Bundle\MenuBundle\Tests\Stubs\Menu\Fake" does not exist for menu builder "FooBundle:Fake".
-     */
     public function testGetNonExistentMenuClass()
     {
         $provider = new BuilderAliasProvider(
@@ -107,12 +99,11 @@ class BuilderAliasProviderTest extends TestCase
             $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class "Knp\\Bundle\\MenuBundle\\Tests\\Stubs\\Menu\\Fake" does not exist for menu builder "FooBundle:Fake".');
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetNonExistentMenuMethod()
     {
         $provider = new BuilderAliasProvider(
@@ -122,6 +113,7 @@ class BuilderAliasProviderTest extends TestCase
         );
 
         // bundle will return a null namespace, class won't be found
+        $this->expectException(\InvalidArgumentException::class);
         $provider->get('FooBundle:Builder:fakeMenu');
     }
 
@@ -182,8 +174,6 @@ class BuilderAliasProviderTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.
      * @group legacy
      */
     public function testBundleInheritanceWrongClass()
@@ -198,6 +188,8 @@ class BuilderAliasProviderTest extends TestCase
             $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
         );
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.');
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
