@@ -73,8 +73,6 @@ class AddExtensionsPassTest extends TestCase
 
     public function testMissingAddExtension()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
-
         $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->disableOriginalConstructor()
             ->getMock();
