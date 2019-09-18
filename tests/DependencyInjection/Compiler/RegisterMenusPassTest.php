@@ -51,9 +51,6 @@ class RegisterMenusPassTest extends TestCase
 
     public function testFailsWhenBuilderAliasIsMissing()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"');
-
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => '']]]);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -63,9 +60,6 @@ class RegisterMenusPassTest extends TestCase
 
     public function testFailsWhenBuilderMethodIsMissing()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The method is not defined in the "knp_menu.menu_builder" tag for the service "id"');
-
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => 'foo']]]);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -75,9 +69,6 @@ class RegisterMenusPassTest extends TestCase
 
     public function testFailsWhenMenuAliasIsMissing()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu" tag for the service "id"');
-
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn(['id' => [['alias' => '']]]);
 
         $this->expectException(\InvalidArgumentException::class);
