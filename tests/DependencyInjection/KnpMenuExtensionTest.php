@@ -65,6 +65,9 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.container_aware')->hasTag('knp_menu.provider'), 'The ContainerAwareProvider is enabled');
     }
 
+    /**
+     * @group legacy
+     */
     public function testDisableContainerAwareProvider()
     {
         $container = new ContainerBuilder();
