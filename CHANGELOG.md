@@ -1,3 +1,10 @@
+## 2.3.0 (2019-09-19)
+
+* Bumped minimum PHP version to 7.1
+* Enforced some coding standards
+* Deprecated some options
+* Removed deprecations in tests
+
 ## 2.2.2 (2019-06-17)
 
 New features:
