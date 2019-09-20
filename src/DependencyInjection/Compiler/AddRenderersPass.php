@@ -15,9 +15,9 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @internal
  */
-class AddRenderersPass implements CompilerPassInterface
+final class AddRenderersPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('knp_menu.renderer_provider')) {
             return;

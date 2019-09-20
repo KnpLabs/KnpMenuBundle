@@ -14,9 +14,9 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @internal
  */
-class AddVotersPass implements CompilerPassInterface
+final class AddVotersPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('knp_menu.matcher')) {
             return;
