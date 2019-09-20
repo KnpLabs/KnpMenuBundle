@@ -56,14 +56,6 @@ class AddRenderersPassTest extends TestCase
         $renderersPass = new AddRenderersPass();
         $renderersPass->process($containerBuilder);
 
-        // Assertions for Symfony < 3.3
-        if (!class_exists(ServiceLocatorTagPass::class)) {
-            $this->assertSame($def, $containerBuilder->getDefinition('knp_menu.renderer_provider'));
-            $this->assertSame(['test_alias' => 'test_renderer'], $def->getArgument(2));
-
-            return;
-        }
-
         $providerDef = $containerBuilder->getDefinition('knp_menu.renderer_provider');
         $this->assertEquals(PsrProvider::class, $providerDef->getClass());
         $this->assertEquals('%knp_menu.default_renderer%', $providerDef->getArgument(1));
