@@ -38,18 +38,13 @@
             <tag name="knp_menu.provider" />
         </service>
 
-        <service id="knp_menu.menu_provider.builder_service" class="Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider" public="false">
-            <argument type="service" id="service_container" />
-            <argument type="collection" />
-        </service>
-
         <service id="knp_menu.menu_provider.builder_alias" class="Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="service_container" />
             <argument type="service" id="knp_menu.factory" />
         </service>
 
-        <service id="knp_menu.renderer_provider" class="Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider">
+        <service id="knp_menu.renderer_provider" class="Knp\Menu\Renderer\PsrProvider">
             <argument type="service" id="service_container" />
             <argument>%knp_menu.default_renderer%</argument>
             <argument type="collection" />

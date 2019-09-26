@@ -24,8 +24,6 @@ final class AddVotersPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('knp_menu.matcher');
 
-        $hasRequestAwareVoter = false;
-
         $voters = [];
 
         foreach ($container->findTaggedServiceIds('knp_menu.voter') as $id => $tags) {

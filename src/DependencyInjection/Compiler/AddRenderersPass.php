@@ -38,8 +38,6 @@ final class AddRenderersPass implements CompilerPassInterface
 
         $locator = ServiceLocatorTagPass::register($container, $rendererReferences);
         // Replace the service definition with a PsrProvider
-        $container->register('knp_menu.renderer_provider', PsrProvider::class)
-            ->addArgument($locator)
-            ->addArgument('%knp_menu.default_renderer%');
+        $container->getDefinition('knp_menu.renderer_provider')->replaceArgument(0, $locator);
     }
 }
