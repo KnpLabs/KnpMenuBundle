@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * @author Christophe Coevoet <stof@notk.org>
  *
  * @internal
+ * @final
  */
 class MenuBuilderPass implements CompilerPassInterface
 {
