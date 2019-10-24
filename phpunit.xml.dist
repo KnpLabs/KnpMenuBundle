@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit colors="true" bootstrap="vendor/autoload.php">
+    <server name="SYMFONY_PHPUNIT_VERSION" value="8.4" />
+
     <testsuites>
         <testsuite name="KnpMenuBundle Test Suite">
             <directory suffix="Test.php">./tests/</directory>

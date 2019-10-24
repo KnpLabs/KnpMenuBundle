@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 cache:
-    directory:
+    directories:
         - $HOME/.composer/cache/files
         - $HOME/symfony-bridge/.phpunit
 
@@ -20,19 +20,29 @@ php:
 matrix:
     include:
         - php: 7.2
-          env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
+          env:
+              - SYMFONY_VERSION='3.4.*'
+              - COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+              - SYMFONY_DEPRECATIONS_HELPER=weak
         - php: 7.3
-          env: DEPENDENCIES='dev'
-          env: SYMFONY_DEPRECATIONS_HELPER='max[self]=0'
-        # Test LTS version
-        - php: 7.3
-          env: SYMFONY_VERSION='^3'
-    allow_failures:
+          env:
+              - SYMFONY_DEPRECATIONS_HELPER='max[self]=0'
+              - SYMFONY_VERSION='4.3.*'
         - php: 7.4snapshot
+          env:
+              - SYMFONY_VERSION=5.0.*
+              - COMPOSER_FLAGS="--prefer-stable"
+              - DEPENDENCIES=beta
+        - php: 7.4snapshot
+          env: DEPENDENCIES='dev'
 
 before_install:
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
-    - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/lts:${SYMFONY_VERSION} --no-update; fi;
+    - if [ "$DEPENDENCIES" == "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
+    - |
+        if [ "$SYMFONY_VERSION" != "" ]; then
+            sed -ri 's/"symfony\/(.+)": "(.+)"/"symfony\/\1": "'$SYMFONY_VERSION'"/' composer.json;
+        fi;
 
 install:
     - composer update $COMPOSER_FLAGS --prefer-dist
