@@ -3,12 +3,10 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddRenderersPass;
-use Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider;
 use Knp\Menu\Renderer\PsrProvider;
 use Knp\Menu\Renderer\TwigRenderer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
-use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -16,7 +14,7 @@ class AddRenderersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilder = $this->getMockBuilder(ContainerBuilder::class)->getMock();
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')
             ->willReturn(false);
@@ -30,7 +28,7 @@ class AddRenderersPassTest extends TestCase
 
     public function testProcessWithEmptyAlias()
     {
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
+        $containerBuilderMock = $this->getMockBuilder(ContainerBuilder::class)->getMock();
         $containerBuilderMock->expects($this->once())
             ->method('hasDefinition')
             ->willReturn(true);
@@ -47,7 +45,7 @@ class AddRenderersPassTest extends TestCase
     public function testProcessWithAlias()
     {
         $containerBuilder = new ContainerBuilder();
-        $def = $containerBuilder->register('knp_menu.renderer_provider', ContainerAwareProvider::class)
+        $containerBuilder->register('knp_menu.renderer_provider', PsrProvider::class)
             ->setArguments([new Reference('service_container'), '%knp_menu.default_renderer%', []]);
 
         $containerBuilder->register('test_renderer', TwigRenderer::class)
@@ -55,14 +53,6 @@ class AddRenderersPassTest extends TestCase
 
         $renderersPass = new AddRenderersPass();
         $renderersPass->process($containerBuilder);
-
-        // Assertions for Symfony < 3.3
-        if (!class_exists(ServiceLocatorTagPass::class)) {
-            $this->assertSame($def, $containerBuilder->getDefinition('knp_menu.renderer_provider'));
-            $this->assertSame(['test_alias' => 'test_renderer'], $def->getArgument(2));
-
-            return;
-        }
 
         $providerDef = $containerBuilder->getDefinition('knp_menu.renderer_provider');
         $this->assertEquals(PsrProvider::class, $providerDef->getClass());

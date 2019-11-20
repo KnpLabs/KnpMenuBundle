@@ -15,9 +15,9 @@ use Symfony\Component\DependencyInjection\Reference;
  * @internal
  * @final
  */
-class AddExtensionsPass implements CompilerPassInterface
+final class AddExtensionsPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has('knp_menu.factory')) {
             return;

@@ -32,7 +32,6 @@ class RegisterMenusPassTest extends TestCase
         $this->containerBuilder->hasDefinition('knp_menu.menu_provider.lazy')->willReturn(true);
         $this->containerBuilder->getDefinition('knp_menu.menu_provider.lazy')->willReturn($this->definition);
 
-        $this->containerBuilder->removeDefinition('knp_menu.menu_provider.container_aware')->shouldBeCalled();
         $this->containerBuilder->removeDefinition('knp_menu.menu_provider.builder_service')->shouldBeCalled();
 
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn([]);
@@ -45,7 +44,6 @@ class RegisterMenusPassTest extends TestCase
 
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->shouldNotBeCalled();
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->shouldNotBeCalled();
-        $this->containerBuilder->removeDefinition('knp_menu.menu_provider.container_aware')->shouldNotBeCalled();
         $this->containerBuilder->removeDefinition('knp_menu.menu_provider.builder_service')->shouldNotBeCalled();
 
         $this->pass->process($this->containerBuilder->reveal());

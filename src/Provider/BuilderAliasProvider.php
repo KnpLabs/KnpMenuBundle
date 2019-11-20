@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @author Ryan Weaver <ryan@knplabs.com>
  */
-class BuilderAliasProvider implements MenuProviderInterface
+final class BuilderAliasProvider implements MenuProviderInterface
 {
     private $kernel;
 
@@ -41,11 +41,11 @@ class BuilderAliasProvider implements MenuProviderInterface
      * @param string $name    The alias name of the menu
      * @param array  $options
      *
-     * @return \Knp\Menu\ItemInterface
+     * @return ItemInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function get($name, array $options = [])
+    public function get(string $name, array $options = []): ItemInterface
     {
         if (!$this->has($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid pattern passed to AliasProvider - expected "bundle:class:method", got "%s".', $name));
@@ -74,9 +74,9 @@ class BuilderAliasProvider implements MenuProviderInterface
      *
      * @return bool
      */
-    public function has($name, array $options = [])
+    public function has(string $name, array $options = []): bool
     {
-        return 2 == substr_count($name, ':');
+        return 2 === substr_count($name, ':');
     }
 
     /**
@@ -93,7 +93,7 @@ class BuilderAliasProvider implements MenuProviderInterface
      *
      * @throws \InvalidArgumentException If the class does not exist
      */
-    protected function getBuilder($bundleName, $className)
+    private function getBuilder(string $bundleName, string $className): object
     {
         $name = sprintf('%s:%s', $bundleName, $className);
 

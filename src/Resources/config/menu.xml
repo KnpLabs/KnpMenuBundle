@@ -5,42 +5,31 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="knp_menu.factory.class">Knp\Menu\MenuFactory</parameter>
-        <parameter key="knp_menu.factory_extension.routing.class">Knp\Menu\Integration\Symfony\RoutingExtension</parameter>
-        <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
-        <parameter key="knp_menu.matcher.class">Knp\Menu\Matcher\Matcher</parameter>
-        <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
-        <parameter key="knp_menu.menu_provider.container_aware.class">Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider</parameter>
-        <parameter key="knp_menu.menu_provider.builder_alias.class">Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider</parameter>
-        <parameter key="knp_menu.renderer_provider.class">Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider</parameter>
-        <parameter key="knp_menu.renderer.list.class">Knp\Menu\Renderer\ListRenderer</parameter>
         <parameter key="knp_menu.renderer.list.options" type="collection"></parameter>
-        <parameter key="knp_menu.listener.voters.class">Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener</parameter>
-        <parameter key="knp_menu.voter.router.class">Knp\Menu\Matcher\Voter\RouteVoter</parameter>
     </parameters>
 
     <services>
-        <service id="knp_menu.factory" class="%knp_menu.factory.class%" public="true" />
+        <service id="knp_menu.factory" class="Knp\Menu\MenuFactory" public="true" />
 
-        <service id="knp_menu.factory_extension.routing" class="%knp_menu.factory_extension.routing.class%" public="false">
+        <service id="knp_menu.factory_extension.routing" class="Knp\Menu\Integration\Symfony\RoutingExtension" public="false">
             <argument type="service" id="router" />
             <tag name="knp_menu.factory_extension" />
         </service>
 
-        <service id="knp_menu.helper" class="%knp_menu.helper.class%" public="false">
+        <service id="knp_menu.helper" class="Knp\Menu\Twig\Helper" public="false">
             <argument type="service" id="knp_menu.renderer_provider" />
             <argument type="service" id="knp_menu.menu_provider" />
             <argument type="service" id="knp_menu.manipulator" />
             <argument type="service" id="knp_menu.matcher" />
         </service>
 
-        <service id="knp_menu.matcher" class="%knp_menu.matcher.class%" public="true">
+        <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher" public="true">
             <argument type="collection" />
         </service>
 
         <service id="Knp\Menu\Provider\MenuProviderInterface" alias="knp_menu.menu_provider" public="false"/>
 
-        <service id="knp_menu.menu_provider.chain" class="%knp_menu.menu_provider.chain.class%" public="false">
+        <service id="knp_menu.menu_provider.chain" class="Knp\Menu\Provider\ChainProvider" public="false">
             <argument type="collection" />
         </service>
 
@@ -49,41 +38,27 @@
             <tag name="knp_menu.provider" />
         </service>
 
-        <service id="knp_menu.menu_provider.container_aware" class="%knp_menu.menu_provider.container_aware.class%" public="false">
-            <argument type="service" id="service_container" />
-            <argument type="collection" />
-        </service>
-
-        <service id="knp_menu.menu_provider.builder_service" class="Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider" public="false">
-            <argument type="service" id="service_container" />
-            <argument type="collection" />
-        </service>
-
-        <service id="knp_menu.menu_provider.builder_alias" class="%knp_menu.menu_provider.builder_alias.class%" public="false">
+        <service id="knp_menu.menu_provider.builder_alias" class="Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="service_container" />
             <argument type="service" id="knp_menu.factory" />
         </service>
 
-        <service id="knp_menu.renderer_provider" class="%knp_menu.renderer_provider.class%">
+        <service id="knp_menu.renderer_provider" class="Knp\Menu\Renderer\PsrProvider">
             <argument type="service" id="service_container" />
             <argument>%knp_menu.default_renderer%</argument>
             <argument type="collection" />
             <argument>false</argument>
         </service>
 
-        <service id="knp_menu.renderer.list" class="%knp_menu.renderer.list.class%">
+        <service id="knp_menu.renderer.list" class="Knp\Menu\Renderer\ListRenderer">
             <tag name="knp_menu.renderer" alias="list" />
             <argument type="service" id="knp_menu.matcher" />
             <argument>%knp_menu.renderer.list.options%</argument>
             <argument>%kernel.charset%</argument>
         </service>
 
-        <service id="knp_menu.listener.voters" class="%knp_menu.listener.voters.class%">
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
-        </service>
-
-        <service id="knp_menu.voter.router" class="%knp_menu.voter.router.class%">
+        <service id="knp_menu.voter.router" class="Knp\Menu\Matcher\Voter\RouteVoter">
             <argument type="service" id="request_stack" />
             <tag name="knp_menu.voter" />
         </service>

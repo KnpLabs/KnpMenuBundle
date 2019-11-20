@@ -15,18 +15,15 @@ use Symfony\Component\DependencyInjection\Reference;
  * @internal
  * @final
  */
-class AddVotersPass implements CompilerPassInterface
+final class AddVotersPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('knp_menu.matcher')) {
             return;
         }
 
         $definition = $container->getDefinition('knp_menu.matcher');
-        $listener = $container->getDefinition('knp_menu.listener.voters');
-
-        $hasRequestAwareVoter = false;
 
         $voters = [];
 
@@ -39,16 +36,6 @@ class AddVotersPass implements CompilerPassInterface
 
             $priority = isset($tag['priority']) ? (int) $tag['priority'] : 0;
             $voters[$priority][] = new Reference($id);
-
-            if (isset($tag['request']) && $tag['request']) {
-                @trigger_error('Using the "request" attribute of the "knp_menu.voter" tag is deprecated since version 2.2. Inject the RequestStack in the voter instead.', E_USER_DEPRECATED);
-                $hasRequestAwareVoter = true;
-                $listener->addMethodCall('addVoter', [new Reference($id)]);
-            }
-        }
-
-        if (!$hasRequestAwareVoter) {
-            $container->removeDefinition('knp_menu.listener.voters');
         }
 
         if (empty($voters)) {
@@ -58,11 +45,6 @@ class AddVotersPass implements CompilerPassInterface
         krsort($voters);
         $sortedVoters = \call_user_func_array('array_merge', $voters);
 
-        if (class_exists(IteratorArgument::class)) {
-            $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
-        } else {
-            // BC layer for Symfony DI < 3.3
-            $definition->replaceArgument(0, $sortedVoters);
-        }
+        $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
     }
 }

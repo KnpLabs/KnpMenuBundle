@@ -1,34 +1,35 @@
 {
-    "name":         "knplabs/knp-menu-bundle",
-    "description":  "This bundle provides an integration of the KnpMenu library",
-    "keywords":     ["menu"],
-    "type":         "symfony-bundle",
-    "license":      "MIT",
-    "authors":      [
+    "name": "knplabs/knp-menu-bundle",
+    "description": "This bundle provides an integration of the KnpMenu library",
+    "keywords": ["menu"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
         {
-            "name":     "Knplabs",
+            "name": "Knplabs",
             "homepage": "http://knplabs.com"
         },
         {
-            "name":     "Christophe Coevoet",
-            "email":    "stof@notk.org"
+            "name": "Christophe Coevoet",
+            "email": "stof@notk.org"
         },
         {
-            "name":     "Symfony Community",
+            "name": "Symfony Community",
             "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
         }
     ],
-    "require":      {
-        "php": "^7.1",
-        "knplabs/knp-menu": "~2.3",
+    "require": {
+        "php": "^7.2",
+        "knplabs/knp-menu": "^3.0",
         "symfony/framework-bundle": "^3.4 | ^4.0"
     },
-    "require-dev":  {
+    "require-dev": {
+        "phpspec/prophecy": "^1.8",
         "symfony/phpunit-bridge": "^3.4 | ^4.0",
         "symfony/expression-language": "^3.4 | ^4.0",
         "symfony/templating": "^3.4 | ^4.0"
     },
-    "autoload":     {
+    "autoload": {
         "psr-4": { "Knp\\Bundle\\MenuBundle\\": "src" }
     },
     "autoload-dev": {

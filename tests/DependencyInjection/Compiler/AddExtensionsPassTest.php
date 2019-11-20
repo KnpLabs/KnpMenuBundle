@@ -4,6 +4,7 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Reference;
@@ -110,7 +111,7 @@ class AddExtensionsPassTest extends TestCase
 
 class MenuFactoryMock implements FactoryInterface
 {
-    public function createItem($name, array $options = [])
+    public function createItem(string $name, array $options = []): ItemInterface
     {
     }
 

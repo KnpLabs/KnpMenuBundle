@@ -99,3 +99,4 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 }
+

@@ -1,3 +1,11 @@
+## 3.0.0 (to be released)
+
+* [BC break] removed deprecated features
+* [BC break] made final all classes that implement an interface
+* Dropped support for KnpMenu 2
+* Increased minimum PHP version to 7.2 (to be consistent with KnpMenu 3)
+* Removed class parameters name from service definitions
+
 ## 2.3.0 (2019-09-19)
 
 * Bumped minimum PHP version to 7.1

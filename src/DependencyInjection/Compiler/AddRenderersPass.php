@@ -16,9 +16,9 @@ use Symfony\Component\DependencyInjection\Reference;
  * @internal
  * @final
  */
-class AddRenderersPass implements CompilerPassInterface
+final class AddRenderersPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('knp_menu.renderer_provider')) {
             return;
@@ -37,16 +37,8 @@ class AddRenderersPass implements CompilerPassInterface
             }
         }
 
-        if (class_exists(ServiceLocatorTagPass::class)) {
-            $locator = ServiceLocatorTagPass::register($container, $rendererReferences);
-            // Replace the service definition with a PsrProvider
-            $container->register('knp_menu.renderer_provider', PsrProvider::class)
-                ->addArgument($locator)
-                ->addArgument('%knp_menu.default_renderer%');
-        } else {
-            // BC for Symfony < 3.3
-            $definition = $container->getDefinition('knp_menu.renderer_provider');
-            $definition->replaceArgument(2, $renderers);
-        }
+        $locator = ServiceLocatorTagPass::register($container, $rendererReferences);
+        // Replace the service definition with a PsrProvider
+        $container->getDefinition('knp_menu.renderer_provider')->replaceArgument(0, $locator);
     }
 }
