@@ -1,4 +1,4 @@
-## 3.0.0 (to be released)
+## 3.0.0 (2019-12-01)
 
 * [BC break] removed deprecated features
 * [BC break] made final all classes that implement an interface
