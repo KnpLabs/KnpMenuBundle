@@ -15,7 +15,7 @@ env:
 php:
     - 7.2
     - 7.3
-    - 7.4snapshot
+    - 7.4
 
 matrix:
     include:
@@ -28,12 +28,12 @@ matrix:
           env:
               - SYMFONY_DEPRECATIONS_HELPER='max[self]=0'
               - SYMFONY_VERSION='4.3.*'
-        - php: 7.4snapshot
+        - php: 7.4
           env:
               - SYMFONY_VERSION=5.0.*
               - COMPOSER_FLAGS="--prefer-stable"
               - DEPENDENCIES=beta
-        - php: 7.4snapshot
+        - php: 7.4
           env: DEPENDENCIES='dev'
 
 before_install:
