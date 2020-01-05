@@ -2,6 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection;
 
+use Knp\Bundle\MenuBundle\MenuBuilderProviderInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -46,6 +47,8 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         if (method_exists($container, 'registerForAutoconfiguration')) {
             $container->registerForAutoconfiguration(VoterInterface::class)
                 ->addTag('knp_menu.voter');
+            $container->registerForAutoconfiguration(MenuBuilderProviderInterface::class)
+                ->addTag('knp_menu.menu_builder_provider');
         }
     }
 
