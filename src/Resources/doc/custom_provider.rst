@@ -21,7 +21,6 @@ Create first your Provider class, in the Provider directory of your bundle:
          */
         protected $factory = null;
 
-
         /**
          * @param FactoryInterface $factory the menu factory used to create the menu item
          */
