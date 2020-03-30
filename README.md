@@ -12,7 +12,7 @@ in your Symfony application!
 
 ### What now?
 
-Documentation! The documentation for this bundle is available in the `Resources/doc`
+Documentation! The documentation for this bundle is available in the `docs`
 directory of the bundle:
 
 * Read the [KnpMenuBundle documentation](http://symfony.com/doc/master/bundles/KnpMenuBundle/index.html)
@@ -31,5 +31,5 @@ This library is maintained by the following people (alphabetically sorted) :
 ## Credits
 
 This bundle was originally ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin),
-a menu plugin for symfony1. It has since been developed by [knpLabs](http://www.knplabs.com) and
+a menu plugin for symfony1. It has since been developed by [knpLabs](https://knplabs.com) and
 the Symfony community.
