@@ -82,7 +82,7 @@ Then, configure the services linked to this new provider.
       app.menu_provider:
             class: AppBundle\Provider\CustomMenuProvider
             arguments:
-              - @knp_menu.factory
+              - '@knp_menu.factory'
             tags:
               - { name: knp_menu.provider }
 
