@@ -29,9 +29,9 @@ The configuration is then the following:
             # The class implements Knp\Menu\Renderer\RendererInterface
             class: AppBundle\Menu\CustomRenderer
             arguments:
-                - @knp_menu.matcher
-                - "%knp_menu.renderer.list.options%"
-                - "%kernel.charset%"
+                - '@knp_menu.matcher'
+                - '%knp_menu.renderer.list.options%'
+                - '%kernel.charset%'
                 # add your own dependencies here
             tags:
                 # The alias is what is used to retrieve the menu
