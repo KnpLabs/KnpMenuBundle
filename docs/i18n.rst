@@ -15,13 +15,13 @@ The items "Home" and "Login" can now be translated in the message domain:
 
     .. code-block:: yaml
 
-        # app/Resources/translations/messages.fr.yml
+        # translations/messages.fr.yaml
         Home: Accueil
         Login: Connexion
 
     .. code-block:: xml
 
-        <!-- app/Resources/translations/messages.fr.xlf -->
+        <!-- translations/messages.fr.xliff -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">
@@ -41,7 +41,7 @@ The items "Home" and "Login" can now be translated in the message domain:
 
     .. code-block:: php
 
-        // app/Resources/translations/messages.fr.php
+        // translations/messages.fr.php
         return [
             'Home' => 'Accueil',
             'Login' => 'Connexion',

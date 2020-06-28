@@ -14,7 +14,7 @@ following command to download the latest stable version of this bundle:
 
 .. code-block:: bash
 
-    $ composer require knplabs/knp-menu-bundle "^2.0"
+    $ composer require knplabs/knp-menu-bundle
 
 This command requires you to have Composer installed globally, as explained
 in the `installation chapter`_ of the Composer documentation.
@@ -22,12 +22,14 @@ in the `installation chapter`_ of the Composer documentation.
 Step 2: Enable the Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Then, enable the bundle by adding the following line in the ``app/AppKernel.php``
-file of your project:
+KnpMenuBundle should be automatically enabled and configured, thanks to `Flex`_.
+
+If you don't use Flex, you can manually enable it, by adding the following line in
+your project's Kernel:
 
 .. code-block:: php
 
-    // app/AppKernel.php
+    // e.g. app/AppKernel.php
 
     // ...
     class AppKernel extends Kernel
@@ -56,7 +58,7 @@ You can define these options if you need to change them:
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/knp_menu.yaml
         knp_menu:
             # use "twig: false" to disable the Twig extension and the TwigRenderer
             twig:
@@ -68,7 +70,7 @@ You can define these options if you need to change them:
 
     .. code-block:: xml
 
-        <!-- app/config/config.xml -->
+        <!-- config/packages/knp_menu.xml -->
         <?xml version="1.0" charset="UTF-8" ?>
         <container xmlns="http://symfony.com/schema/dic/services"
             xmlns:knp-menu="http://knplabs.com/schema/dic/menu">
@@ -88,7 +90,7 @@ You can define these options if you need to change them:
 
     .. code-block:: php
 
-        // app/config/config.php
+        // config/packages/knp_menu.php
         $container->loadFromExtension('knp_menu', [
             // use 'twig' => false to disable the Twig extension and the TwigRenderer
             'twig' => [
@@ -99,11 +101,6 @@ You can define these options if you need to change them:
             // the renderer to use, list is also available by default
             'default_renderer' => 'twig',
         ]);
-
-.. versionadded::2.1.2
-
-    The template used to be ``knp_menu.html.twig`` which did not translate menu entries.
-    Version 2.1.2 adds the template that translates menu entries.
 
 .. note::
 
@@ -126,18 +123,20 @@ An example builder class would look like this:
 
 .. code-block:: php
 
-    // src/AppBundle/Menu/Builder.php
-    namespace AppBundle\Menu;
+    // src/Menu/Builder.php
+    namespace App\Menu;
 
+    use App\Entity\Blog;
     use Knp\Menu\FactoryInterface;
+    use Knp\Menu\ItemInterface;
     use Symfony\Component\DependencyInjection\ContainerAwareInterface;
     use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-    class Builder implements ContainerAwareInterface
+    final class Builder implements ContainerAwareInterface
     {
         use ContainerAwareTrait;
 
-        public function mainMenu(FactoryInterface $factory, array $options)
+        public function mainMenu(FactoryInterface $factory, array $options): ItemInterface
         {
             $menu = $factory->createItem('root');
 
@@ -146,7 +145,7 @@ An example builder class would look like this:
             // access services from the container!
             $em = $this->container->get('doctrine')->getManager();
             // findMostRecent and Blog are just imaginary examples
-            $blog = $em->getRepository('AppBundle:Blog')->findMostRecent();
+            $blog = $em->getRepository(Blog::class)->findMostRecent();
 
             $menu->addChild('Latest Blog Post', [
                 'route' => 'blog_show',
@@ -199,18 +198,18 @@ To actually render the menu, just do the following from anywhere in any template
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+        {{ knp_menu_render('App:Builder:mainMenu') }}
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
+        <?php echo $view['knp_menu']->render('App:Builder:mainMenu') ?>
 
 With this method, you refer to the menu using a three-part string:
 **bundle**:**class**:**method**.
 
 If you needed to create a second menu, you'd simply add another method to
 the ``Builder`` class (e.g. ``sidebarMenu``), build and return the new menu,
-then render it via ``AppBundle:Builder:sidebarMenu``.
+then render it via ``App:Builder:sidebarMenu``.
 
 That's it! The menu is *very* configurable. For more details, see the
 `KnpMenu documentation`_.
@@ -242,11 +241,11 @@ way, then do the following:
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+        {{ knp_menu_render('App:Builder:mainMenu') }}
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu') ?>
+        <?php echo $view['knp_menu']->render('App:Builder:mainMenu') ?>
 
 Additionally, you can pass some options to the renderer:
 
@@ -254,11 +253,11 @@ Additionally, you can pass some options to the renderer:
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
+        {{ knp_menu_render('App:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('AppBundle:Builder:mainMenu', [
+        <?php echo $view['knp_menu']->render('App:Builder:mainMenu', [
             'depth'         => 2,
             'currentAsLink' => false,
         ]) ?>
@@ -272,12 +271,12 @@ You can also "get" a menu, which you can use to render later:
 
     .. code-block:: html+jinja
 
-        {% set menuItem = knp_menu_get('AppBundle:Builder:mainMenu') %}
+        {% set menuItem = knp_menu_get('App:Builder:mainMenu') %}
         {{ knp_menu_render(menuItem) }}
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu') ?>
+        <?php $menuItem = $view['knp_menu']->get('App:Builder:mainMenu') ?>
         <?php echo $view['knp_menu']->render($menuItem) ?>
 
 If you want to only retrieve a certain branch of the menu, you can do the
@@ -288,13 +287,13 @@ beneath it.
 
     .. code-block:: html+jinja
 
-        {% set menuItem = knp_menu_get('AppBundle:Builder:mainMenu', ['Contact']) %}
-        {{ knp_menu_render(['AppBundle:Builder:mainMenu', 'Contact']) }}
+        {% set menuItem = knp_menu_get('App:Builder:mainMenu', ['Contact']) %}
+        {{ knp_menu_render(['App:Builder:mainMenu', 'Contact']) }}
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', ['Contact']) ?>
-        <?php echo $view['knp_menu']->render(['AppBundle:Builder:mainMenu', 'Contact']) ?>
+        <?php $menuItem = $view['knp_menu']->get('App:Builder:mainMenu', ['Contact']) ?>
+        <?php echo $view['knp_menu']->render(['App:Builder:mainMenu', 'Contact']) ?>
 
 If you want to pass some options to the builder, you can use the third parameter
 of the ``knp_menu_get`` function:
@@ -303,12 +302,12 @@ of the ``knp_menu_get`` function:
 
     .. code-block:: html+jinja
 
-        {% set menuItem = knp_menu_get('AppBundle:Builder:mainMenu', [], {'some_option': 'my_value'}) %}
+        {% set menuItem = knp_menu_get('App:Builder:mainMenu', [], {'some_option': 'my_value'}) %}
         {{ knp_menu_render(menuItem) }}
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('AppBundle:Builder:mainMenu', [], [
+        <?php $menuItem = $view['knp_menu']->get('App:Builder:mainMenu', [], [
             'some_option' => 'my_value'
         ]) ?>
         <?php echo $view['knp_menu']->render($menuItem) ?>
@@ -328,4 +327,5 @@ More Advanced Stuff
     disabling_providers
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
+.. _`Flex`: https://flex.symfony.com
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.md

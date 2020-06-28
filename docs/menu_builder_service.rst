@@ -16,27 +16,26 @@ builder classes in your application:
 
 .. code-block:: php
 
-    // src/AppBundle/Menu/MenuBuilder.php
+    // src/Menu/MenuBuilder.php
 
-    namespace AppBundle\Menu;
+    namespace App\Menu;
 
     use Knp\Menu\FactoryInterface;
+    use Knp\Menu\ItemInterface;
 
     class MenuBuilder
     {
         private $factory;
 
         /**
-         * @param FactoryInterface $factory
-         *
-         * Add any other dependency you need
+         * Add any other dependency you need...
          */
         public function __construct(FactoryInterface $factory)
         {
             $this->factory = $factory;
         }
 
-        public function createMainMenu(array $options)
+        public function createMainMenu(array $options): ItemInterface
         {
             $menu = $this->factory->createItem('root');
 
@@ -51,10 +50,10 @@ Next, register your menu builder as service and register its ``createMainMenu`` 
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
         app.menu_builder:
-            class: AppBundle\Menu\MenuBuilder
+            class: App\Menu\MenuBuilder
             arguments: ["@knp_menu.factory"]
             tags:
                 - { name: knp_menu.menu_builder, method: createMainMenu, alias: main } # The alias is what is used to retrieve the menu
@@ -78,7 +77,7 @@ is simple! Start by adding a new method to your builder:
 
 .. code-block:: php
 
-    // src/AppBundle/Menu/MenuBuilder.php
+    // src/Menu/MenuBuilder.php
 
     // ...
 
@@ -86,7 +85,7 @@ is simple! Start by adding a new method to your builder:
     {
         // ...
 
-        public function createSidebarMenu(array $options)
+        public function createSidebarMenu(array $options): ItemInterface
         {
             $menu = $this->factory->createItem('sidebar');
 
@@ -105,10 +104,10 @@ Now, create a service for *just* your new menu, giving it a new name, like
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
         app.menu_builder:
-            class: AppBundle\Menu\MenuBuilder
+            class: App\Menu\MenuBuilder
             arguments: ["@knp_menu.factory"]
             tags:
                 - { name: knp_menu.menu_builder, method: createMainMenu, alias: main } # the previous menu

@@ -27,9 +27,9 @@ builder classes in your application:
 
 .. code-block:: php
 
-    // src/AppBundle/Menu/MenuBuilder.php
+    // src/Menu/MenuBuilder.php
 
-    namespace AppBundle\Menu;
+    namespace App\Menu;
 
     use Knp\Menu\FactoryInterface;
     use Symfony\Component\HttpFoundation\RequestStack;
@@ -38,9 +38,6 @@ builder classes in your application:
     {
         private $factory;
 
-        /**
-         * @param FactoryInterface $factory
-         */
         public function __construct(FactoryInterface $factory)
         {
             $this->factory = $factory;
@@ -62,10 +59,10 @@ object created by the ``createMainMenu`` method:
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
         app.menu_builder:
-            class: AppBundle\Menu\MenuBuilder
+            class: App\Menu\MenuBuilder
             arguments: ["@knp_menu.factory"]
 
         app.main_menu:
@@ -82,11 +79,6 @@ object created by the ``createMainMenu`` method:
     The menu service must be public as it will be retrieved at runtime to keep
     it lazy-loaded.
 
-.. note::
-
-    If you are using Symfony `2.5` or older version please check the `Using a Factory to Create Services`_
-    article for correct factories syntax corresponding to your version.
-
 You can now render the menu directly in a template via the name given in the
 ``alias`` key above:
 
@@ -99,7 +91,7 @@ is simple! Start by adding a new method to your builder:
 
 .. code-block:: php
 
-    // src/AppBundle/Menu/MenuBuilder.php
+    // src/Menu/MenuBuilder.php
 
     // ...
 
@@ -123,7 +115,7 @@ Now, create a service for *just* your new menu, giving it a new name, like
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
         app.sidebar_menu:
             class: Knp\Menu\MenuItem
@@ -139,5 +131,3 @@ It can now be rendered, just like the other menu:
 .. code-block:: html+jinja
 
     {{ knp_menu_render('sidebar') }}
-
-.. _`Using a Factory to Create Services`: http://symfony.com/doc/2.5/components/dependency_injection/factories.html

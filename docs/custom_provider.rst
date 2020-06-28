@@ -9,7 +9,7 @@ Create first your Provider class, in the Provider directory of your bundle:
 
 .. code-block:: php
 
-    namespace AppBundle\Provider;
+    namespace App\Provider;
 
     use Knp\Menu\FactoryInterface;
     use Knp\Menu\Provider\MenuProviderInterface;
@@ -77,10 +77,10 @@ Then, configure the services linked to this new provider.
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml or app/config/services.yml
     services:
-      app.menu_provider:
-            class: AppBundle\Provider\CustomMenuProvider
+        app.menu_provider:
+            class: App\Provider\CustomMenuProvider
             arguments:
               - '@knp_menu.factory'
             tags:
