@@ -10,7 +10,7 @@ configuration:
 
 .. code-block:: yaml
 
-    #app/config/config.yml
+    # config/packages/knp_menu.yaml
     knp_menu:
         providers:
             builder_alias: false    # disable the builder-alias-based provider

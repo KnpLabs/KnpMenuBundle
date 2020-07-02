@@ -6,11 +6,11 @@ of creating a service tagged with ``knp_menu.renderer``:
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
         app.menu_renderer:
             # The class implements Knp\Menu\Renderer\RendererInterface
-            class: AppBundle\Menu\CustomRenderer
+            class: App\Menu\CustomRenderer
             arguments: ["%kernel.charset%"] # set your own dependencies here
             tags:
                 # The alias is what is used to retrieve the menu
@@ -23,11 +23,11 @@ The configuration is then the following:
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
         app.menu_renderer:
             # The class implements Knp\Menu\Renderer\RendererInterface
-            class: AppBundle\Menu\CustomRenderer
+            class: App\Menu\CustomRenderer
             arguments:
                 - '@knp_menu.matcher'
                 - '%knp_menu.renderer.list.options%'
