@@ -16,6 +16,7 @@ php:
     - 7.2
     - 7.3
     - 7.4
+    - 8.0
 
 matrix:
     include:
@@ -34,6 +35,8 @@ matrix:
               - COMPOSER_FLAGS="--prefer-stable"
               - DEPENDENCIES=beta
         - php: 7.4
+          env: DEPENDENCIES='dev'
+        - php: 8.0
           env: DEPENDENCIES='dev'
 
 before_install:
