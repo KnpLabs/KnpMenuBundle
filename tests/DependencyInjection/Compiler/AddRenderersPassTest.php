@@ -14,32 +14,23 @@ class AddRenderersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMockBuilder(ContainerBuilder::class)->getMock();
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(false);
-        $containerBuilder->expects($this->never())
-            ->method('findTaggedServiceIds');
+        $containerBuilder = new ContainerBuilder();
+        (new AddRenderersPass())->process($containerBuilder);
 
-        $renderersPass = new AddRenderersPass();
-
-        $renderersPass->process($containerBuilder);
+        self::assertFalse($containerBuilder->has('knp_menu.renderer_provider'));
     }
 
     public function testProcessWithEmptyAlias()
     {
-        $containerBuilderMock = $this->getMockBuilder(ContainerBuilder::class)->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.renderer'))
-            ->willReturn(['id' => ['tag1' => ['alias' => '']]]);
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->register('knp_menu.renderer_provider', PsrProvider::class);
+        $containerBuilder->register('id')
+            ->addTag('knp_menu.renderer', ['alias' => '']);
+
+        $renderersPass = new AddRenderersPass();
 
         $this->expectException(\InvalidArgumentException::class);
-        $renderersPass = new AddRenderersPass();
-        $renderersPass->process($containerBuilderMock);
+        $renderersPass->process($containerBuilder);
     }
 
     public function testProcessWithAlias()

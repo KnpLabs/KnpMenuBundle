@@ -3,119 +3,57 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
-use Knp\Menu\FactoryInterface;
-use Knp\Menu\ItemInterface;
+use Knp\Menu\MenuFactory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AddExtensionsPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilder->expects($this->once())
-            ->method('has')
-            ->willReturn(false);
-        $containerBuilder->expects($this->never())
-            ->method('findTaggedServiceIds');
+        $containerBuilder = new ContainerBuilder();
+        (new AddExtensionsPass())->process($containerBuilder);
 
-        $menuPass = new AddExtensionsPass();
-
-        $menuPass->process($containerBuilder);
+        self::assertFalse($containerBuilder->has('knp_menu.factory'));
     }
 
     public function testProcessWithAlias()
     {
-        $menuFactoryClass = 'Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler\MenuFactoryMock';
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->register('knp_menu.factory', MenuFactory::class);
 
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $definitionMock->expects($this->at(0))
-            ->method('getClass')
-            ->willReturn($menuFactoryClass);
-        $definitionMock->expects($this->at(1))
-            ->method('addMethodCall')
-            ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('id'), 0]));
-        $definitionMock->expects($this->at(2))
-            ->method('addMethodCall')
-            ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('id'), 12]));
-        $definitionMock->expects($this->at(3))
-            ->method('addMethodCall')
-            ->with($this->equalTo('addExtension'), $this->equalTo([new Reference('foo'), -4]));
+        $containerBuilder->register('id', 'stdClass')
+            ->addTag('knp_menu.factory_extension')
+            ->addTag('knp_menu.factory_extension', ['priority' => 12]);
 
-        $parameterBagMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface')->getMock();
-        $parameterBagMock->expects($this->once())
-            ->method('resolveValue')
-            ->with($menuFactoryClass)
-            ->willReturn($menuFactoryClass);
-
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.factory_extension'))
-            ->willReturn(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]);
-        $containerBuilderMock->expects($this->once())
-            ->method('findDefinition')
-            ->with($this->equalTo('knp_menu.factory'))
-            ->willReturn($definitionMock);
-        $containerBuilderMock->expects($this->once())
-            ->method('getParameterBag')
-            ->willReturn($parameterBagMock);
+        $containerBuilder->register('foo', 'stdClass')
+            ->addTag('knp_menu.factory_extension', ['priority' => -4]);
 
         $menuPass = new AddExtensionsPass();
-        $menuPass->process($containerBuilderMock);
+        $menuPass->process($containerBuilder);
+
+        self::assertEquals(
+            [
+                ['addExtension', [new Reference('id'), 0]],
+                ['addExtension', [new Reference('id'), 12]],
+                ['addExtension', [new Reference('foo'), -4]],
+            ],
+            $containerBuilder->getDefinition('knp_menu.factory')->getMethodCalls()
+        );
     }
 
     public function testMissingAddExtension()
     {
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $definitionMock->expects($this->at(0))
-            ->method('getClass')
-            ->willReturn('SimpleMenuFactory');
+        $containerBuilder = new ContainerBuilder();
 
-        $parameterBagMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface')->getMock();
-        $parameterBagMock->expects($this->once())
-            ->method('resolveValue')
-            ->with('SimpleMenuFactory')
-            ->willReturn('SimpleMenuFactory');
-
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.factory_extension'))
-            ->willReturn(['id' => ['tag1' => [], 'tag2' => ['priority' => 12]], 'foo' => ['tag1' => ['priority' => -4]]]);
-        $containerBuilderMock->expects($this->once())
-            ->method('findDefinition')
-            ->with($this->equalTo('knp_menu.factory'))
-            ->willReturn($definitionMock);
-        $containerBuilderMock->expects($this->once())
-            ->method('getParameterBag')
-            ->willReturn($parameterBagMock);
-
-        $this->expectException(InvalidConfigurationException::class);
+        $containerBuilder->register('knp_menu.factory', 'SimpleMenuFactory');
+        $containerBuilder->register('foo', 'stdClass')->addTag('knp_menu.factory_extension');
 
         $menuPass = new AddExtensionsPass();
-        $menuPass->process($containerBuilderMock);
-    }
-}
 
-class MenuFactoryMock implements FactoryInterface
-{
-    public function createItem(string $name, array $options = []): ItemInterface
-    {
-    }
-
-    public function addExtension()
-    {
+        $this->expectException(InvalidConfigurationException::class);
+        $menuPass->process($containerBuilder);
     }
 }
