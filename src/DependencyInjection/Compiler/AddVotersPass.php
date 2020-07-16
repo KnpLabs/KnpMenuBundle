@@ -3,8 +3,8 @@
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -43,7 +43,7 @@ final class AddVotersPass implements CompilerPassInterface
         }
 
         krsort($voters);
-        $sortedVoters = \call_user_func_array('array_merge', $voters);
+        $sortedVoters = array_merge(...$voters);
 
         $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
     }
