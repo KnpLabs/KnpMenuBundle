@@ -3,31 +3,29 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
+use Knp\Menu\Matcher\Matcher;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AddVotersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(false);
-        $containerBuilder->expects($this->never())
-            ->method('findTaggedServiceIds');
+        $containerBuilder = new ContainerBuilder();
+        (new AddVotersPass())->process($containerBuilder);
 
-        $menuPass = new AddVotersPass();
-
-        $menuPass->process($containerBuilder);
+        self::assertFalse($containerBuilder->has('knp_menu.matcher'));
     }
 
     public function testProcessWithAlias()
     {
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->register('knp_menu.matcher', Matcher::class)->setArguments([[]]);
+        $containerBuilder->register('id')->addTag('knp_menu.voter');
+        $containerBuilder->register('bar')->addTag('knp_menu.voter', ['priority' => -5, 'request' => false]);
+        $containerBuilder->register('foo')->addTag('knp_menu.voter');
 
         $voters = [new Reference('id'), new Reference('foo'), new Reference('bar')];
 
@@ -35,25 +33,12 @@ class AddVotersPassTest extends TestCase
             $voters = new IteratorArgument($voters);
         }
 
-        $definitionMock->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $voters);
+        (new AddVotersPass())->process($containerBuilder);
 
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.voter'))
-            ->willReturn(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [[]]]);
-        $containerBuilderMock->expects($this->at(1))
-            ->method('getDefinition')
-            ->with($this->equalTo('knp_menu.matcher'))
-            ->willReturn($definitionMock);
-
-        $menuPass = new AddVotersPass();
-        $menuPass->process($containerBuilderMock);
+        self::assertEquals(
+            [$voters],
+            $containerBuilder->getDefinition('knp_menu.matcher')->getArguments()
+        );
     }
 
     /**
@@ -61,9 +46,11 @@ class AddVotersPassTest extends TestCase
      */
     public function testProcessRequestAware()
     {
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->register('knp_menu.matcher', Matcher::class)->setArguments([[]]);
+        $containerBuilder->register('id')->addTag('knp_menu.voter');
+        $containerBuilder->register('bar')->addTag('knp_menu.voter', ['priority' => -5, 'request' => false]);
+        $containerBuilder->register('foo')->addTag('knp_menu.voter', ['request' => false]);
 
         $voters = [new Reference('id'), new Reference('foo'), new Reference('bar')];
 
@@ -71,24 +58,11 @@ class AddVotersPassTest extends TestCase
             $voters = new IteratorArgument($voters);
         }
 
-        $definitionMock->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $voters);
+        (new AddVotersPass())->process($containerBuilder);
 
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.voter'))
-            ->willReturn(['id' => [[]], 'bar' => [['priority' => -5, 'request' => false]], 'foo' => [['request' => false]]]);
-        $containerBuilderMock->expects($this->at(1))
-            ->method('getDefinition')
-            ->with($this->equalTo('knp_menu.matcher'))
-            ->willReturn($definitionMock);
-
-        $menuPass = new AddVotersPass();
-        $menuPass->process($containerBuilderMock);
+        self::assertEquals(
+            [$voters],
+            $containerBuilder->getDefinition('knp_menu.matcher')->getArguments()
+        );
     }
 }
