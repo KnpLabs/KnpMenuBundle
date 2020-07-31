@@ -41,7 +41,7 @@ matrix:
 
 before_install:
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; composer remove symfony/phpunit-bridge; composer require phpunit/phpunit:^9.3; fi;
-    - if [ "$DEPENDENCIES" == "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
+    - if [ "$DEPENDENCIES" == "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
     - |
         if [ "$SYMFONY_VERSION" != "" ]; then
             sed -ri 's/"symfony\/(.+)": "(.+)"/"symfony\/\1": "'$SYMFONY_VERSION'"/' composer.json;
