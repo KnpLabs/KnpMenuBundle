@@ -41,7 +41,7 @@ matrix:
 
 before_install:
     - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
-    - if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then composer config platform.php 7.4.99; composer config minimum-stability dev; composer remove symfony/phpunit-bridge; composer require knplabs/knp-menu:^3.2@dev; composer require phpunit/php-code-coverage:^9.0; composer require phpunit/phpunit:^9.3; fi;
+    - if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then composer config platform.php 7.4.99; composer config minimum-stability dev; composer remove symfony/phpunit-bridge; composer require phpunit/php-code-coverage:^9.0; composer require phpunit/phpunit:^9.3; fi;
     - if [ "$DEPENDENCIES" == "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
     - |
         if [ "$SYMFONY_VERSION" != "" ]; then
