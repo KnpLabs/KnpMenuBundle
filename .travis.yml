@@ -48,7 +48,7 @@ before_install:
         fi;
 
 install:
-    - composer update $COMPOSER_FLAGS --prefer-dist
+    - composer update $COMPOSER_FLAGS
     - if [[ $TRAVIS_PHP_VERSION != 'nightly' ]]; then ./vendor/bin/simple-phpunit install; fi;
     - if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then ./vendor/bin/phpunit; fi;
 
