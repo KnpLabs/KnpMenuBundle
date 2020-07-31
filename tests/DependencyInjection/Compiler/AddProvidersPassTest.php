@@ -3,45 +3,32 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
+use Knp\Menu\Provider\ChainProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AddProvidersPassTest extends TestCase
 {
     public function testProcessWithoutProviderDefinition()
     {
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(false);
-        $containerBuilder->expects($this->never())
-            ->method('findTaggedServiceIds');
+        $containerBuilder = new ContainerBuilder();
+        (new AddProvidersPass())->process($containerBuilder);
 
-        $providersPass = new AddProvidersPass();
-
-        $providersPass->process($containerBuilder);
+        self::assertFalse($containerBuilder->hasAlias('knp_menu.menu_provider'));
     }
 
     public function testProcessForOneProvider()
     {
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.provider'))
-            ->willReturn(['id' => ['provider_tag1']]);
-        $containerBuilderMock->expects($this->once())
-            ->method('setAlias')
-            ->with(
-                $this->equalTo('knp_menu.menu_provider'),
-                $this->equalTo('id')
-            );
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->register('knp_menu.menu_provider.chain', ChainProvider::class);
+        $containerBuilder->register('id')->addTag('knp_menu.provider');
 
-        $providersPass = new AddProvidersPass();
-        $providersPass->process($containerBuilderMock);
+        (new AddProvidersPass())->process($containerBuilder);
+
+        self::assertTrue($containerBuilder->hasAlias('knp_menu.menu_provider'));
+        self::assertSame('id', (string) $containerBuilder->getAlias('knp_menu.menu_provider'));
     }
 
     public function testProcessForManyProviders()
@@ -52,36 +39,18 @@ class AddProvidersPassTest extends TestCase
             $expectedProviders = new IteratorArgument($expectedProviders);
         }
 
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $definitionMock->expects($this->once())
-            ->method('replaceArgument')
-            ->with($this->equalTo(0), $expectedProviders);
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->register('knp_menu.menu_provider.chain', ChainProvider::class)->setArgument(0, []);
+        $containerBuilder->register('id')->addTag('knp_menu.provider');
+        $containerBuilder->register('id2')->addTag('knp_menu.provider');
 
-        $containerBuilderMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->getMock();
-        $containerBuilderMock->expects($this->once())
-            ->method('hasDefinition')
-            ->willReturn(true);
-        $containerBuilderMock->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with($this->equalTo('knp_menu.provider'))
-            ->willReturn([
-                'id' => ['provider_tag1'],
-                'id2' => ['provider_tag2'],
-            ]);
-        $containerBuilderMock->expects($this->once())
-            ->method('setAlias')
-            ->with(
-                $this->equalTo('knp_menu.menu_provider'),
-                $this->equalTo('knp_menu.menu_provider.chain')
-            );
-        $containerBuilderMock->expects($this->once())
-            ->method('getDefinition')
-            ->with($this->equalTo('knp_menu.menu_provider.chain'))
-            ->willReturn($definitionMock);
+        (new AddProvidersPass())->process($containerBuilder);
 
-        $providersPass = new AddProvidersPass();
-        $providersPass->process($containerBuilderMock);
+        self::assertTrue($containerBuilder->hasAlias('knp_menu.menu_provider'));
+        self::assertSame('knp_menu.menu_provider.chain', (string) $containerBuilder->getAlias('knp_menu.menu_provider'));
+
+        self::assertEquals(
+            [$expectedProviders],
+            $containerBuilder->getDefinition('knp_menu.menu_provider.chain')->getArguments());
     }
 }

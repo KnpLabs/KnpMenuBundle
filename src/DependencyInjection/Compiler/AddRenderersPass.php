@@ -24,7 +24,6 @@ final class AddRenderersPass implements CompilerPassInterface
             return;
         }
 
-        $renderers = [];
         $rendererReferences = [];
 
         foreach ($container->findTaggedServiceIds('knp_menu.renderer', true) as $id => $tags) {
@@ -32,7 +31,6 @@ final class AddRenderersPass implements CompilerPassInterface
                 if (empty($attributes['alias'])) {
                     throw new \InvalidArgumentException(sprintf('The alias is not defined in the "knp_menu.renderer" tag for the service "%s"', $id));
                 }
-                $renderers[$attributes['alias']] = $id;
                 $rendererReferences[$attributes['alias']] = new Reference($id);
             }
         }
