@@ -40,7 +40,7 @@ matrix:
           env: DEPENDENCIES='dev'
 
 before_install:
-    - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
+    - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; composer remove symfony/phpunit-bridge; composer require phpunit/phpunit:^9.3; fi;
     - if [ "$DEPENDENCIES" == "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
     - |
         if [ "$SYMFONY_VERSION" != "" ]; then
@@ -53,4 +53,5 @@ install:
 
 script:
     - composer validate --strict --no-check-lock
-    - ./vendor/bin/simple-phpunit -v
+    - if [[ $TRAVIS_PHP_VERSION != 'nightly' ]]; then php ./vendor/bin/simple-phpunit; fi;
+    - if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then ./vendor/bin/phpunit; fi;
