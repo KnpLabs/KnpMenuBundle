@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^7.2 || ^8.0",
-        "knplabs/knp-menu": "^3.3",
+        "knplabs/knp-menu": "^3.2",
         "symfony/framework-bundle": "^3.4 | ^4.2 | ^5.0"
     },
     "require-dev": {
