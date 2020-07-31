@@ -40,7 +40,7 @@ matrix:
           env: DEPENDENCIES='dev'
 
 before_install:
-    - if [ "$DEPENDENCIES" == "dev" ]; then then composer config platform.php 7.4.99; composer config minimum-stability dev; composer remove symfony/phpunit-bridge; composer require phpunit/phpunit:^9.3; fi;
+    - if [ "$DEPENDENCIES" == "dev" ]; then composer config platform.php 7.4.99; composer config minimum-stability dev; composer remove symfony/phpunit-bridge; composer require phpunit/phpunit:^9.3; fi;
     - if [ "$DEPENDENCIES" == "beta" ]; then perl -pi -e 's/^}$/,"minimum-stability":"beta"}/' composer.json; fi;
     - |
         if [ "$SYMFONY_VERSION" != "" ]; then
