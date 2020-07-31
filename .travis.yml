@@ -25,10 +25,12 @@ matrix:
               - SYMFONY_VERSION='3.4.*'
               - COMPOSER_FLAGS='--prefer-lowest'
               - SYMFONY_DEPRECATIONS_HELPER=weak
+              - DEPENDENCIES='dev'
         - php: 7.3
           env:
               - SYMFONY_DEPRECATIONS_HELPER='max[self]=0'
               - SYMFONY_VERSION='4.3.*'
+              - DEPENDENCIES='dev'
         - php: 7.4
           env:
               - SYMFONY_VERSION=5.0.*
