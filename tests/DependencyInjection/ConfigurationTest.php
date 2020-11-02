@@ -9,21 +9,21 @@ class ConfigurationTest extends TestCase
     /**
      * @dataProvider getConfigs
      */
-    public function testConfigurationMatchesXsd($config)
+    public function testConfigurationMatchesXsd($config): void
     {
         $configDom = new \DOMDocument();
         $configDom->loadXML($config);
 
-        $previousErrorSetting = libxml_use_internal_errors(true);
+        $previousErrorSetting = \libxml_use_internal_errors(true);
 
         $configIsValid = $configDom->schemaValidate(__DIR__.'/../../src/Resources/config/schema/menu-1.0.xsd');
-        $errors = array_map(function ($error) {
-            return sprintf('Line %d: %s', $error->line, trim($error->message));
-        }, libxml_get_errors());
+        $errors = \array_map(function ($error) {
+            return \sprintf('Line %d: %s', $error->line, \trim($error->message));
+        }, \libxml_get_errors());
 
-        libxml_use_internal_errors($previousErrorSetting);
+        \libxml_use_internal_errors($previousErrorSetting);
 
-        $this->assertTrue($configIsValid, implode(PHP_EOL, $errors));
+        $this->assertTrue($configIsValid, \implode(PHP_EOL, $errors));
     }
 
     public function getConfigs()

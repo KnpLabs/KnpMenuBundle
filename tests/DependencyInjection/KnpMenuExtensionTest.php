@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class KnpMenuExtensionTest extends TestCase
 {
-    public function testDefault()
+    public function testDefault(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
@@ -20,7 +20,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
     }
 
-    public function testEnableTwig()
+    public function testEnableTwig(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
@@ -29,7 +29,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertEquals('@KnpMenu/menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
     }
 
-    public function testOverwriteTwigTemplate()
+    public function testOverwriteTwigTemplate(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
@@ -38,7 +38,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertEquals('foobar', $container->getParameter('knp_menu.renderer.twig.template'));
     }
 
-    public function testDisableTwig()
+    public function testDisableTwig(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
@@ -47,7 +47,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertFalse($container->hasDefinition('knp_menu.renderer.twig'));
     }
 
-    public function testEnsablePhpTemplates()
+    public function testEnsablePhpTemplates(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
@@ -55,7 +55,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertTrue($container->hasDefinition('knp_menu.templating.helper'));
     }
 
-    public function testDisableBuilderAliasProvider()
+    public function testDisableBuilderAliasProvider(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();

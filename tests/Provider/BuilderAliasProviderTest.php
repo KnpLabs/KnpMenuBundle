@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class BuilderAliasProviderTest extends TestCase
 {
-    public function testHas()
+    public function testHas(): void
     {
         $provider = new BuilderAliasProvider(
             $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock(),
@@ -21,7 +21,7 @@ class BuilderAliasProviderTest extends TestCase
         $this->assertTrue($provider->has('foo:bar:baz'));
     }
 
-    public function testGetExistentMenu()
+    public function testGetExistentMenu(): void
     {
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
@@ -42,7 +42,7 @@ class BuilderAliasProviderTest extends TestCase
         $this->assertSame($item, $menu);
     }
 
-    public function testGetContainerAwareMenu()
+    public function testGetContainerAwareMenu(): void
     {
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
@@ -68,7 +68,7 @@ class BuilderAliasProviderTest extends TestCase
         $this->assertSame($item, $menu);
     }
 
-    public function testGetInvalidReturnValue()
+    public function testGetInvalidReturnValue(): void
     {
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
@@ -80,7 +80,7 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('FooBundle:Builder:invalidMethod');
     }
 
-    public function testGetNonExistentMenu()
+    public function testGetNonExistentMenu(): void
     {
         $provider = new BuilderAliasProvider(
             $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock(),
@@ -91,7 +91,7 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('non-existent');
     }
 
-    public function testGetNonExistentMenuClass()
+    public function testGetNonExistentMenuClass(): void
     {
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
@@ -104,7 +104,7 @@ class BuilderAliasProviderTest extends TestCase
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
-    public function testGetNonExistentMenuMethod()
+    public function testGetNonExistentMenuMethod(): void
     {
         $provider = new BuilderAliasProvider(
             $this->createMockKernelForStub(),
@@ -120,9 +120,9 @@ class BuilderAliasProviderTest extends TestCase
     /**
      * @group legacy
      */
-    public function testBundleInheritanceParent()
+    public function testBundleInheritanceParent(): void
     {
-        if (!method_exists(BundleInterface::class, 'getParent')) {
+        if (!\method_exists(BundleInterface::class, 'getParent')) {
             $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
         }
 
@@ -148,9 +148,9 @@ class BuilderAliasProviderTest extends TestCase
     /**
      * @group legacy
      */
-    public function testBundleInheritanceChild()
+    public function testBundleInheritanceChild(): void
     {
-        if (!method_exists(BundleInterface::class, 'getParent')) {
+        if (!\method_exists(BundleInterface::class, 'getParent')) {
             $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
         }
 
@@ -176,9 +176,9 @@ class BuilderAliasProviderTest extends TestCase
     /**
      * @group legacy
      */
-    public function testBundleInheritanceWrongClass()
+    public function testBundleInheritanceWrongClass(): void
     {
-        if (!method_exists(BundleInterface::class, 'getParent')) {
+        if (!\method_exists(BundleInterface::class, 'getParent')) {
             $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
         }
 

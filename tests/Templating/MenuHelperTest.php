@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MenuHelperTest extends TestCase
 {
-    public function testGet()
+    public function testGet(): void
     {
         $helperMock = $this->getHelperMock();
         $helperMock->expects($this->any())
@@ -25,7 +25,7 @@ class MenuHelperTest extends TestCase
         $this->assertEquals('returned value', $helper->get('test', ['pathArray']));
     }
 
-    public function testGetMenuWithOptions()
+    public function testGetMenuWithOptions(): void
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
@@ -41,7 +41,7 @@ class MenuHelperTest extends TestCase
         $this->assertSame($menu, $helper->get('default', [], ['foo' => 'bar']));
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         $helperMock = $this->getHelperMock();
         $helperMock->expects($this->any())
@@ -54,14 +54,14 @@ class MenuHelperTest extends TestCase
         $this->assertEquals('returned value', $helper->render('test', ['options']));
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $helper = new MenuHelper($this->getHelperMock(), $this->getMatcherMock(), $this->getManipulatorMock());
 
         $this->assertEquals('knp_menu', $helper->getName());
     }
 
-    public function testGetBreadcrumbsArray()
+    public function testGetBreadcrumbsArray(): void
     {
         $helperMock = $this->getHelperMock(['getBreadcrumbsArray']);
         $helperMock->expects($this->any())
@@ -75,7 +75,7 @@ class MenuHelperTest extends TestCase
         $this->assertEquals(['A', 'B'], $helper->getBreadcrumbsArray('default'));
     }
 
-    public function testPathAsString()
+    public function testPathAsString(): void
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
@@ -91,7 +91,7 @@ class MenuHelperTest extends TestCase
         $this->assertEquals('A > B', $helper->getPathAsString($menu));
     }
 
-    public function testIsCurrent()
+    public function testIsCurrent(): void
     {
         $current = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         $notCurrent = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
@@ -109,7 +109,7 @@ class MenuHelperTest extends TestCase
         $this->assertFalse($helper->isCurrent($notCurrent));
     }
 
-    public function testIsAncestor()
+    public function testIsAncestor(): void
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
@@ -125,7 +125,7 @@ class MenuHelperTest extends TestCase
         $this->assertFalse($helper->isAncestor($menu));
     }
 
-    public function testGetCurrentItem()
+    public function testGetCurrentItem(): void
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 

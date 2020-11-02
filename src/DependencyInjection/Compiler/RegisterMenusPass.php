@@ -30,10 +30,10 @@ final class RegisterMenusPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('knp_menu.menu_builder', true) as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (empty($attributes['alias'])) {
-                    throw new \InvalidArgumentException(sprintf('The alias is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
+                    throw new \InvalidArgumentException(\sprintf('The alias is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
                 }
                 if (empty($attributes['method'])) {
-                    throw new \InvalidArgumentException(sprintf('The method is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
+                    throw new \InvalidArgumentException(\sprintf('The method is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
                 }
                 $menuBuilders[$attributes['alias']] = [new ServiceClosureArgument(new Reference($id)), $attributes['method']];
             }
@@ -42,7 +42,7 @@ final class RegisterMenusPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('knp_menu.menu', true) as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (empty($attributes['alias'])) {
-                    throw new \InvalidArgumentException(sprintf('The alias is not defined in the "knp_menu.menu" tag for the service "%s"', $id));
+                    throw new \InvalidArgumentException(\sprintf('The alias is not defined in the "knp_menu.menu" tag for the service "%s"', $id));
                 }
                 $menuBuilders[$attributes['alias']] = new ServiceClosureArgument(new Reference($id));
             }

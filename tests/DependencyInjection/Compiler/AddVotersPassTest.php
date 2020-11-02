@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AddVotersPassTest extends TestCase
 {
-    public function testProcessWithoutProviderDefinition()
+    public function testProcessWithoutProviderDefinition(): void
     {
         $containerBuilder = new ContainerBuilder();
         (new AddVotersPass())->process($containerBuilder);
@@ -19,7 +19,7 @@ class AddVotersPassTest extends TestCase
         self::assertFalse($containerBuilder->has('knp_menu.matcher'));
     }
 
-    public function testProcessWithAlias()
+    public function testProcessWithAlias(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->register('knp_menu.matcher', Matcher::class)->setArguments([[]]);
@@ -29,7 +29,7 @@ class AddVotersPassTest extends TestCase
 
         $voters = [new Reference('id'), new Reference('foo'), new Reference('bar')];
 
-        if (class_exists(IteratorArgument::class)) {
+        if (\class_exists(IteratorArgument::class)) {
             $voters = new IteratorArgument($voters);
         }
 
@@ -44,7 +44,7 @@ class AddVotersPassTest extends TestCase
     /**
      * @group legacy
      */
-    public function testProcessRequestAware()
+    public function testProcessRequestAware(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->register('knp_menu.matcher', Matcher::class)->setArguments([[]]);
@@ -54,7 +54,7 @@ class AddVotersPassTest extends TestCase
 
         $voters = [new Reference('id'), new Reference('foo'), new Reference('bar')];
 
-        if (class_exists(IteratorArgument::class)) {
+        if (\class_exists(IteratorArgument::class)) {
             $voters = new IteratorArgument($voters);
         }
 

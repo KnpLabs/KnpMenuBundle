@@ -21,11 +21,11 @@ class TestKernel extends Kernel
         return $this->mockBundles;
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
     }
 
-    protected function initializeContainer()
+    protected function initializeContainer(): void
     {
     }
 }
