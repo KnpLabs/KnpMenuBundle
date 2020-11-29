@@ -1,3 +1,7 @@
+## 3.1.0 (2020-11-29)
+
+* Add support for php 8
+
 ## 3.0.0 (2019-12-01)
 
 * [BC break] removed deprecated features
