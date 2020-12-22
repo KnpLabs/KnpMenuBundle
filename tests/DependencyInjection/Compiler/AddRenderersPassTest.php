@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AddRenderersPassTest extends TestCase
 {
-    public function testProcessWithoutProviderDefinition()
+    public function testProcessWithoutProviderDefinition(): void
     {
         $containerBuilder = new ContainerBuilder();
         (new AddRenderersPass())->process($containerBuilder);
@@ -20,7 +20,7 @@ class AddRenderersPassTest extends TestCase
         self::assertFalse($containerBuilder->has('knp_menu.renderer_provider'));
     }
 
-    public function testProcessWithEmptyAlias()
+    public function testProcessWithEmptyAlias(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->register('knp_menu.renderer_provider', PsrProvider::class);
@@ -33,7 +33,7 @@ class AddRenderersPassTest extends TestCase
         $renderersPass->process($containerBuilder);
     }
 
-    public function testProcessWithAlias()
+    public function testProcessWithAlias(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->register('knp_menu.renderer_provider', PsrProvider::class)

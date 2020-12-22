@@ -4,19 +4,18 @@ namespace Knp\Bundle\MenuBundle\DependencyInjection;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class KnpMenuExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * Handles the knp_menu configuration.
      *
-     * @param array            $configs   The configurations being loaded
-     * @param ContainerBuilder $container
+     * @param array $configs The configurations being loaded
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -28,7 +27,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
 
         foreach ($config['providers'] as $builder => $enabled) {
             if ($enabled) {
-                $container->getDefinition(sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
+                $container->getDefinition(\sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
             }
         }
 
@@ -43,7 +42,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
 
         // Register autoconfiguration rules for Symfony DI 3.3+
-        if (method_exists($container, 'registerForAutoconfiguration')) {
+        if (\method_exists($container, 'registerForAutoconfiguration')) {
             $container->registerForAutoconfiguration(VoterInterface::class)
                 ->addTag('knp_menu.voter');
         }

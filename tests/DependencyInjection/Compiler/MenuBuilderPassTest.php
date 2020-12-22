@@ -31,7 +31,7 @@ class MenuBuilderPassTest extends TestCase
         $this->builderDefinition->isAbstract()->willReturn(false);
     }
 
-    public function testNoopWithoutProvider()
+    public function testNoopWithoutProvider(): void
     {
         $this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service')->willReturn(false);
 
@@ -40,7 +40,7 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenServiceIsAbstract()
+    public function testFailsWhenServiceIsAbstract(): void
     {
         $this->builderDefinition->isAbstract()->willReturn(true);
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
@@ -50,7 +50,7 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenServiceIsPrivate()
+    public function testFailsWhenServiceIsPrivate(): void
     {
         $this->builderDefinition->isPublic()->willReturn(false);
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
@@ -60,7 +60,7 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenAliasIsMissing()
+    public function testFailsWhenAliasIsMissing(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => '']]]);
 
@@ -69,7 +69,7 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenMethodIsMissing()
+    public function testFailsWhenMethodIsMissing(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
 
@@ -78,7 +78,7 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testReplaceArgument()
+    public function testReplaceArgument(): void
     {
         $this->containerBuilder->getDefinition('id1')->willReturn($this->builderDefinition);
         $this->containerBuilder->getDefinition('id2')->willReturn($this->builderDefinition);
@@ -99,4 +99,3 @@ class MenuBuilderPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 }
-

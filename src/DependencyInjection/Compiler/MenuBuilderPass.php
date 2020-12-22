@@ -2,8 +2,8 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * This compiler pass registers the menu builders in the BuilderServiceProvider.
@@ -28,19 +28,19 @@ final class MenuBuilderPass implements CompilerPassInterface
             $builderDefinition = $container->getDefinition($id);
 
             if (!$builderDefinition->isPublic()) {
-                throw new \InvalidArgumentException(sprintf('Menu builder services must be public but "%s" is a private service.', $id));
+                throw new \InvalidArgumentException(\sprintf('Menu builder services must be public but "%s" is a private service.', $id));
             }
 
             if ($builderDefinition->isAbstract()) {
-                throw new \InvalidArgumentException(sprintf('Abstract services cannot be registered as menu builders but "%s" is.', $id));
+                throw new \InvalidArgumentException(\sprintf('Abstract services cannot be registered as menu builders but "%s" is.', $id));
             }
 
             foreach ($tags as $attributes) {
                 if (empty($attributes['alias'])) {
-                    throw new \InvalidArgumentException(sprintf('The alias is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
+                    throw new \InvalidArgumentException(\sprintf('The alias is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
                 }
                 if (empty($attributes['method'])) {
-                    throw new \InvalidArgumentException(sprintf('The method is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
+                    throw new \InvalidArgumentException(\sprintf('The method is not defined in the "knp_menu.menu_builder" tag for the service "%s"', $id));
                 }
                 $menuBuilders[$attributes['alias']] = [$id, $attributes['method']];
             }
@@ -48,4 +48,3 @@ final class MenuBuilderPass implements CompilerPassInterface
         $definition->replaceArgument(1, $menuBuilders);
     }
 }
-

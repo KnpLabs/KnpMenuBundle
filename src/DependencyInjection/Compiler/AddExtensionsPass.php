@@ -3,8 +3,8 @@
 namespace Knp\Bundle\MenuBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -30,11 +30,9 @@ final class AddExtensionsPass implements CompilerPassInterface
 
         $definition = $container->findDefinition('knp_menu.factory');
 
-        if (!method_exists($container->getParameterBag()->resolveValue($definition->getClass()), 'addExtension')) {
-            throw new InvalidConfigurationException(sprintf(
-                'To use factory extensions, the service of class "%s" registered as knp_menu.factory must implement the "addExtension" method',
-                $definition->getClass()
-            ));
+        if (!\method_exists($container->getParameterBag()->resolveValue($definition->getClass()), 'addExtension')) {
+            $msg = 'To use factory extensions, the service of class "%s" registered as knp_menu.factory must implement the "addExtension" method';
+            throw new InvalidConfigurationException(\sprintf($msg, $definition->getClass()));
         }
 
         foreach ($taggedServiceIds as $id => $tags) {

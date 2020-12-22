@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AddProvidersPassTest extends TestCase
 {
-    public function testProcessWithoutProviderDefinition()
+    public function testProcessWithoutProviderDefinition(): void
     {
         $containerBuilder = new ContainerBuilder();
         (new AddProvidersPass())->process($containerBuilder);
@@ -19,7 +19,7 @@ class AddProvidersPassTest extends TestCase
         self::assertFalse($containerBuilder->hasAlias('knp_menu.menu_provider'));
     }
 
-    public function testProcessForOneProvider()
+    public function testProcessForOneProvider(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->register('knp_menu.menu_provider.chain', ChainProvider::class);
@@ -31,11 +31,11 @@ class AddProvidersPassTest extends TestCase
         self::assertSame('id', (string) $containerBuilder->getAlias('knp_menu.menu_provider'));
     }
 
-    public function testProcessForManyProviders()
+    public function testProcessForManyProviders(): void
     {
         $expectedProviders = [new Reference('id'), new Reference('id2')];
 
-        if (class_exists(IteratorArgument::class)) {
+        if (\class_exists(IteratorArgument::class)) {
             $expectedProviders = new IteratorArgument($expectedProviders);
         }
 

@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AddExtensionsPassTest extends TestCase
 {
-    public function testProcessWithoutProviderDefinition()
+    public function testProcessWithoutProviderDefinition(): void
     {
         $containerBuilder = new ContainerBuilder();
         (new AddExtensionsPass())->process($containerBuilder);
@@ -19,7 +19,7 @@ class AddExtensionsPassTest extends TestCase
         self::assertFalse($containerBuilder->has('knp_menu.factory'));
     }
 
-    public function testProcessWithAlias()
+    public function testProcessWithAlias(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->register('knp_menu.factory', MenuFactory::class);
@@ -44,7 +44,7 @@ class AddExtensionsPassTest extends TestCase
         );
     }
 
-    public function testMissingAddExtension()
+    public function testMissingAddExtension(): void
     {
         $containerBuilder = new ContainerBuilder();
 

@@ -38,29 +38,26 @@ final class BuilderAliasProvider implements MenuProviderInterface
      * an Acme\DemoBundle\Menu\Builder class and call the mainMenu() method
      * on it. The method is passed the menu factory.
      *
-     * @param string $name    The alias name of the menu
-     * @param array  $options
-     *
-     * @return ItemInterface
+     * @param string $name The alias name of the menu
      *
      * @throws \InvalidArgumentException
      */
     public function get(string $name, array $options = []): ItemInterface
     {
         if (!$this->has($name)) {
-            throw new \InvalidArgumentException(sprintf('Invalid pattern passed to AliasProvider - expected "bundle:class:method", got "%s".', $name));
+            throw new \InvalidArgumentException(\sprintf('Invalid pattern passed to AliasProvider - expected "bundle:class:method", got "%s".', $name));
         }
 
-        list($bundleName, $className, $methodName) = explode(':', $name);
+        list($bundleName, $className, $methodName) = \explode(':', $name);
 
         $builder = $this->getBuilder($bundleName, $className);
-        if (!method_exists($builder, $methodName)) {
-            throw new \InvalidArgumentException(sprintf('Method "%s" was not found on class "%s" when rendering the "%s" menu.', $methodName, $className, $name));
+        if (!\method_exists($builder, $methodName)) {
+            throw new \InvalidArgumentException(\sprintf('Method "%s" was not found on class "%s" when rendering the "%s" menu.', $methodName, $className, $name));
         }
 
         $menu = $builder->$methodName($this->menuFactory, $options);
         if (!$menu instanceof ItemInterface) {
-            throw new \InvalidArgumentException(sprintf('Method "%s" did not return an ItemInterface menu object for menu "%s"', $methodName, $name));
+            throw new \InvalidArgumentException(\sprintf('Method "%s" did not return an ItemInterface menu object for menu "%s"', $methodName, $name));
         }
 
         return $menu;
@@ -69,14 +66,11 @@ final class BuilderAliasProvider implements MenuProviderInterface
     /**
      * Verifies if the given name follows the bundle:class:method alias syntax.
      *
-     * @param string $name    The alias name of the menu
-     * @param array  $options
-     *
-     * @return bool
+     * @param string $name The alias name of the menu
      */
     public function has(string $name, array $options = []): bool
     {
-        return 2 === substr_count($name, ':');
+        return 2 === \substr_count($name, ':');
     }
 
     /**
@@ -86,16 +80,13 @@ final class BuilderAliasProvider implements MenuProviderInterface
      * this class, to instantiate it with no arguments, and to inject the
      * container if the class is ContainerAware.
      *
-     * @param string $bundleName
-     * @param string $className  The class name of the builder
-     *
-     * @return object
+     * @param string $className The class name of the builder
      *
      * @throws \InvalidArgumentException If the class does not exist
      */
     private function getBuilder(string $bundleName, string $className): object
     {
-        $name = sprintf('%s:%s', $bundleName, $className);
+        $name = \sprintf('%s:%s', $bundleName, $className);
 
         if (!isset($this->builders[$name])) {
             $class = null;
@@ -111,12 +102,12 @@ final class BuilderAliasProvider implements MenuProviderInterface
 
             foreach ($allBundles as  $bundle) {
                 $try = $bundle->getNamespace().'\\Menu\\'.$className;
-                if (class_exists($try)) {
+                if (\class_exists($try)) {
                     $class = $try;
                     break;
                 }
 
-                $logs[] = sprintf('Class "%s" does not exist for menu builder "%s".', $try, $name);
+                $logs[] = \sprintf('Class "%s" does not exist for menu builder "%s".', $try, $name);
                 $bundles[] = $bundle->getName();
             }
 
@@ -125,7 +116,7 @@ final class BuilderAliasProvider implements MenuProviderInterface
                     throw new \InvalidArgumentException($logs[0]);
                 }
 
-                throw new \InvalidArgumentException(sprintf('Unable to find menu builder "%s" in bundles %s.', $name, implode(', ', $bundles)));
+                throw new \InvalidArgumentException(\sprintf('Unable to find menu builder "%s" in bundles %s.', $name, \implode(', ', $bundles)));
             }
 
             $builder = new $class();

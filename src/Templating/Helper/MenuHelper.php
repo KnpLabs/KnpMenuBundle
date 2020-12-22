@@ -2,11 +2,11 @@
 
 namespace Knp\Bundle\MenuBundle\Templating\Helper;
 
-use Symfony\Component\Templating\Helper\Helper as TemplatingHelper;
-use Knp\Menu\Matcher\MatcherInterface;
 use Knp\Menu\ItemInterface;
+use Knp\Menu\Matcher\MatcherInterface;
 use Knp\Menu\Twig\Helper;
 use Knp\Menu\Util\MenuManipulator;
+use Symfony\Component\Templating\Helper\Helper as TemplatingHelper;
 
 class MenuHelper extends TemplatingHelper
 {
@@ -14,9 +14,6 @@ class MenuHelper extends TemplatingHelper
     private $matcher;
     private $menuManipulator;
 
-    /**
-     * @param Helper $helper
-     */
     public function __construct(Helper $helper, MatcherInterface $matcher, MenuManipulator $menuManipulator)
     {
         $this->helper = $helper;
@@ -28,8 +25,6 @@ class MenuHelper extends TemplatingHelper
      * Retrieves an item following a path in the tree.
      *
      * @param \Knp\Menu\ItemInterface|string $menu
-     * @param array                          $path
-     * @param array                          $options
      *
      * @return \Knp\Menu\ItemInterface
      */
@@ -42,7 +37,6 @@ class MenuHelper extends TemplatingHelper
      * Renders a menu with the specified renderer.
      *
      * @param \Knp\Menu\ItemInterface|string|array $menu
-     * @param array                                $options
      * @param string                               $renderer
      *
      * @return string
@@ -70,8 +64,7 @@ class MenuHelper extends TemplatingHelper
      *
      * e.g. Top Level 1 > Second Level > This menu
      *
-     * @param ItemInterface $menu
-     * @param string        $separator
+     * @param string $separator
      *
      * @return string
      */
@@ -83,8 +76,6 @@ class MenuHelper extends TemplatingHelper
     /**
      * Checks whether an item is current.
      *
-     * @param ItemInterface $item
-     *
      * @return bool
      */
     public function isCurrent(ItemInterface $item)
@@ -95,8 +86,7 @@ class MenuHelper extends TemplatingHelper
     /**
      * Checks whether an item is the ancestor of a current item.
      *
-     * @param ItemInterface $item
-     * @param int           $depth The max depth to look for the item
+     * @param int $depth The max depth to look for the item
      *
      * @return bool
      */

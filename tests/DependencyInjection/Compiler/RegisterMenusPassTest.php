@@ -21,7 +21,7 @@ class RegisterMenusPassTest extends TestCase
 
     protected function setUp(): void
     {
-        if (!class_exists(ServiceClosureArgument::class)) {
+        if (!\class_exists(ServiceClosureArgument::class)) {
             $this->markTestSkipped('The RegisterMenuPass requires Symfony DI 3.3+.');
         }
 
@@ -38,7 +38,7 @@ class RegisterMenusPassTest extends TestCase
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn([]);
     }
 
-    public function testNoopWithoutProvider()
+    public function testNoopWithoutProvider(): void
     {
         $this->containerBuilder->hasDefinition('knp_menu.menu_provider.lazy')->willReturn(false);
 
@@ -49,7 +49,7 @@ class RegisterMenusPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenBuilderAliasIsMissing()
+    public function testFailsWhenBuilderAliasIsMissing(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => '']]]);
 
@@ -58,7 +58,7 @@ class RegisterMenusPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenBuilderMethodIsMissing()
+    public function testFailsWhenBuilderMethodIsMissing(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => 'foo']]]);
 
@@ -67,7 +67,7 @@ class RegisterMenusPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testFailsWhenMenuAliasIsMissing()
+    public function testFailsWhenMenuAliasIsMissing(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn(['id' => [['alias' => '']]]);
 
@@ -76,7 +76,7 @@ class RegisterMenusPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testRegisterMenuBuilderAndMenu()
+    public function testRegisterMenuBuilderAndMenu(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn([
             'id1' => [['alias' => 'foo', 'method' => 'fooMenu'], ['alias' => 'bar', 'method' => 'bar']],
@@ -95,7 +95,7 @@ class RegisterMenusPassTest extends TestCase
         $this->pass->process($this->containerBuilder->reveal());
     }
 
-    public function testMenuWinsOverBuilder()
+    public function testMenuWinsOverBuilder(): void
     {
         $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn([
             'id1' => [['alias' => 'foo', 'method' => 'fooMenu'], ['alias' => 'bar', 'method' => 'bar']],
