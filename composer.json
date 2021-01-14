@@ -25,8 +25,9 @@
     },
     "require-dev": {
         "phpspec/prophecy": "^1.8",
-        "symfony/phpunit-bridge": "^3.4 | ^4.4 | ^5.0",
+        "phpunit/phpunit": "^8.5 | ^9.5",
         "symfony/expression-language": "^3.4 | ^4.4 | ^5.0",
+        "symfony/phpunit-bridge": "^5.2",
         "symfony/templating": "^3.4 | ^4.4 | ^5.0"
     },
     "autoload": {
