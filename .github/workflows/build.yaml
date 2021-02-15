@@ -12,6 +12,7 @@ jobs:
               uses: actions/checkout@v2
             - name: Composer check
               uses: shivammathur/setup-php@v2
+            - name: Validate
               run: composer validate --strict --no-check-lock
     tests:
         runs-on: ubuntu-20.04
