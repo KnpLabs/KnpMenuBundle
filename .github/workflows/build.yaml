@@ -10,9 +10,9 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
-            - name: Composer check
+            - name: Setup PHP
               uses: shivammathur/setup-php@v2
-            - name: Validate
+            - name: Validate composer.json
               run: composer validate --strict --no-check-lock
     tests:
         runs-on: ubuntu-20.04
@@ -34,10 +34,10 @@ jobs:
                       env:
                           SYMFONY_DEPRECATIONS_HELPER: max[self]=0
                     - description: 'Symfony 3.4'
-                      php: '7.2'
+                      php: '7.4'
                       symfony: 3.4.*
                     - description: 'Symfony 4.4'
-                      php: '7.3'
+                      php: '7.4'
                       symfony: 4.4.*
                     - description: 'Dev deps'
                       php: '8.0'
