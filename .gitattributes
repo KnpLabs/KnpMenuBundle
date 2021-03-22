@@ -3,5 +3,6 @@
 .gitignore       export-ignore
 .php_cs          export-ignore
 phpunit.xml.dist export-ignore
+.symfony.bundle.yaml export-ignore
 docs             export-ignore
 tests            export-ignore
