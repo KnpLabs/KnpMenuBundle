@@ -33,8 +33,8 @@ to allow other parts of your application to add more stuff to it.
           $menu->addChild('Dashboard', ['route' => '_acp_dashboard']);
 
           $this->container->get('event_dispatcher')->dispatch(
-              ConfigureMenuEvent::CONFIGURE,
-              new ConfigureMenuEvent($factory, $menu)
+              new ConfigureMenuEvent($factory, $menu),
+              ConfigureMenuEvent::CONFIGURE
           );
 
           return $menu;
