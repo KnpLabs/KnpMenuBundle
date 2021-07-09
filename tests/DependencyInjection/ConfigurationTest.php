@@ -23,7 +23,7 @@ class ConfigurationTest extends TestCase
 
         \libxml_use_internal_errors($previousErrorSetting);
 
-        $this->assertTrue($configIsValid, \implode(PHP_EOL, $errors));
+        $this->assertTrue($configIsValid, \implode(\PHP_EOL, $errors));
     }
 
     public function getConfigs()

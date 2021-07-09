@@ -43,7 +43,7 @@ final class AddVotersPass implements CompilerPassInterface
         }
 
         \krsort($voters);
-        $sortedVoters = array_merge(...$voters);
+        $sortedVoters = \array_merge(...$voters);
 
         $definition->replaceArgument(0, new IteratorArgument($sortedVoters));
     }

@@ -100,7 +100,7 @@ final class BuilderAliasProvider implements MenuProviderInterface
                 $allBundles = [$allBundles];
             }
 
-            foreach ($allBundles as  $bundle) {
+            foreach ($allBundles as $bundle) {
                 $try = $bundle->getNamespace().'\\Menu\\'.$className;
                 if (\class_exists($try)) {
                     $class = $try;

@@ -3,6 +3,7 @@
 namespace Knp\Bundle\MenuBundle\Tests\Templating;
 
 use Knp\Bundle\MenuBundle\Templating\Helper\MenuHelper;
+use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,15 +15,16 @@ class MenuHelperTest extends TestCase
 {
     public function testGet(): void
     {
+        $itemMock = $this->createMock(ItemInterface::class);
         $helperMock = $this->getHelperMock();
-        $helperMock->expects($this->any())
+        $helperMock
             ->method('get')
             ->with($this->equalTo('test'), $this->equalTo(['pathArray']))
-            ->willReturn('returned value');
+            ->willReturn($itemMock);
 
         $helper = new MenuHelper($helperMock, $this->getMatcherMock(), $this->getManipulatorMock());
 
-        $this->assertEquals('returned value', $helper->get('test', ['pathArray']));
+        $this->assertSame($itemMock, $helper->get('test', ['pathArray']));
     }
 
     public function testGetMenuWithOptions(): void
