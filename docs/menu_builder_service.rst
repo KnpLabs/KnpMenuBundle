@@ -60,11 +60,6 @@ Next, register your menu builder as service and register its ``createMainMenu`` 
 
         # ...
 
-.. note::
-
-    The menu service must be public as it will be retrieved at runtime to keep
-    it lazy-loaded.
-
 You can now render the menu directly in a template via the name given in the
 ``alias`` key above:
 
