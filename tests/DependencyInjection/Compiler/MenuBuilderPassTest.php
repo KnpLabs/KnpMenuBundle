@@ -4,12 +4,14 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\MenuBuilderPass;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MenuBuilderPassTest extends TestCase
 {
+    /**
+     * @var ContainerBuilder
+     */
     private $containerBuilder;
-    private $definition;
-    private $builderDefinition;
 
     /**
      * @var MenuBuilderPass
@@ -18,84 +20,85 @@ class MenuBuilderPassTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->containerBuilder = $this->prophesize('Symfony\Component\DependencyInjection\ContainerBuilder');
-        $this->definition = $this->prophesize('Symfony\Component\DependencyInjection\Definition');
-        $this->builderDefinition = $this->prophesize('Symfony\Component\DependencyInjection\Definition');
+        $this->containerBuilder = new ContainerBuilder();
         $this->pass = new MenuBuilderPass();
 
-        $this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service')->willReturn(true);
-        $this->containerBuilder->getDefinition('knp_menu.menu_provider.builder_service')->willReturn($this->definition);
-        $this->containerBuilder->getDefinition('id')->willReturn($this->builderDefinition);
-
-        $this->builderDefinition->isPublic()->willReturn(true);
-        $this->builderDefinition->isAbstract()->willReturn(false);
+        $this->containerBuilder->register('knp_menu.menu_provider.builder_service', \stdClass::class)
+            ->setArgument(0, null)
+            ->setArgument(1, null);
+        $this->containerBuilder->register('id', \stdClass::class)
+            ->addTag('knp_menu.menu_builder', ['alias' => 'foo', 'method' => 'fooMenu'])
+            ->addTag('knp_menu.menu_builder', ['alias' => 'bar', 'method' => 'bar'])
+            ->setPublic(true);
     }
 
     public function testNoopWithoutProvider(): void
     {
-        $this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service')->willReturn(false);
+        $this->containerBuilder->removeDefinition('knp_menu.menu_provider.builder_service');
+        $previousDefinitions = $this->containerBuilder->getDefinitions();
 
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->shouldNotBeCalled();
+        $this->pass->process($this->containerBuilder);
 
-        $this->pass->process($this->containerBuilder->reveal());
+        $this->assertSame($previousDefinitions, $this->containerBuilder->getDefinitions());
     }
 
     public function testFailsWhenServiceIsAbstract(): void
     {
-        $this->builderDefinition->isAbstract()->willReturn(true);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
+        $this->containerBuilder->getDefinition('id')->setAbstract(true);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Abstract services cannot be registered as menu builders but "id" is.');
-        $this->pass->process($this->containerBuilder->reveal());
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testFailsWhenServiceIsPrivate(): void
     {
-        $this->builderDefinition->isPublic()->willReturn(false);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
+        $this->containerBuilder->getDefinition('id')->setPublic(false);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Menu builder services must be public but "id" is a private service.');
-        $this->pass->process($this->containerBuilder->reveal());
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testFailsWhenAliasIsMissing(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => '']]]);
+        $this->containerBuilder->getDefinition('id')
+            ->setTags(['knp_menu.menu_builder' => [['alias' => '']]]);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"');
-        $this->pass->process($this->containerBuilder->reveal());
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testFailsWhenMethodIsMissing(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn(['id' => [['alias' => 'foo']]]);
+        $this->containerBuilder->getDefinition('id')
+            ->setTags(['knp_menu.menu_builder' => [['alias' => 'foo']]]);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The method is not defined in the "knp_menu.menu_builder" tag for the service "id"');
-        $this->pass->process($this->containerBuilder->reveal());
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testReplaceArgument(): void
     {
-        $this->containerBuilder->getDefinition('id1')->willReturn($this->builderDefinition);
-        $this->containerBuilder->getDefinition('id2')->willReturn($this->builderDefinition);
-
-        $taggedServiceIds = [
-            'id1' => [['alias' => 'foo', 'method' => 'fooMenu'], ['alias' => 'bar', 'method' => 'bar']],
-            'id2' => [['alias' => 'foo', 'method' => 'fooBar'], ['alias' => 'baz', 'method' => 'bar']],
-        ];
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder')->willReturn($taggedServiceIds);
+        $this->containerBuilder->register('id2', \stdClass::class)
+            ->addTag('knp_menu.menu_builder', ['alias' => 'foo', 'method' => 'fooBar'])
+            ->addTag('knp_menu.menu_builder', ['alias' => 'baz', 'method' => 'bar'])
+            ->setPublic(true);
 
         $menuBuilders = [
             'foo' => ['id2', 'fooBar'],
-            'bar' => ['id1', 'bar'],
+            'bar' => ['id', 'bar'],
             'baz' => ['id2', 'bar'],
         ];
-        $this->definition->replaceArgument(1, $menuBuilders)->shouldBeCalled();
 
-        $this->pass->process($this->containerBuilder->reveal());
+        $this->pass->process($this->containerBuilder);
+
+        $this->assertSame($menuBuilders, $this->containerBuilder->getDefinition('knp_menu.menu_provider.builder_service')->getArgument(1));
     }
 }

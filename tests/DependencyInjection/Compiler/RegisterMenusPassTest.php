@@ -3,16 +3,19 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\RegisterMenusPass;
+use Knp\Menu\MenuItem;
+use Knp\Menu\Provider\LazyProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class RegisterMenusPassTest extends TestCase
 {
+    /**
+     * @var ContainerBuilder
+     */
     private $containerBuilder;
-    private $definition;
 
     /**
      * @var RegisterMenusPass
@@ -21,93 +24,94 @@ class RegisterMenusPassTest extends TestCase
 
     protected function setUp(): void
     {
-        if (!\class_exists(ServiceClosureArgument::class)) {
-            $this->markTestSkipped('The RegisterMenuPass requires Symfony DI 3.3+.');
-        }
+        $this->containerBuilder = new ContainerBuilder();
 
-        $this->containerBuilder = $this->prophesize(ContainerBuilder::class);
-        $this->definition = $this->prophesize(Definition::class);
+        $this->containerBuilder->register('knp_menu.menu_provider.lazy', LazyProvider::class)
+            ->setArgument(0, null);
+        $this->containerBuilder->register('knp_menu.menu_provider.builder_service', \stdClass::class);
+        $this->containerBuilder->register('id', \stdClass::class)
+            ->addTag('knp_menu.menu_builder', ['alias' => 'foo', 'method' => 'fooMenu'])
+            ->addTag('knp_menu.menu_builder', ['alias' => 'bar', 'method' => 'bar'])
+            ->setPublic(true);
+        $this->containerBuilder->register('menu_id', MenuItem::class)
+            ->addTag('knp_menu.menu', ['alias' => 'baz'])
+            ->setPublic(true);
+
         $this->pass = new RegisterMenusPass();
-
-        $this->containerBuilder->hasDefinition('knp_menu.menu_provider.lazy')->willReturn(true);
-        $this->containerBuilder->getDefinition('knp_menu.menu_provider.lazy')->willReturn($this->definition);
-
-        $this->containerBuilder->removeDefinition('knp_menu.menu_provider.builder_service')->shouldBeCalled();
-
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn([]);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn([]);
     }
 
     public function testNoopWithoutProvider(): void
     {
-        $this->containerBuilder->hasDefinition('knp_menu.menu_provider.lazy')->willReturn(false);
+        $this->containerBuilder->removeDefinition('knp_menu.menu_provider.lazy');
 
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->shouldNotBeCalled();
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->shouldNotBeCalled();
-        $this->containerBuilder->removeDefinition('knp_menu.menu_provider.builder_service')->shouldNotBeCalled();
+        $this->pass->process($this->containerBuilder);
 
-        $this->pass->process($this->containerBuilder->reveal());
+        $this->assertTrue($this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service'));
     }
 
     public function testFailsWhenBuilderAliasIsMissing(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => '']]]);
+        $this->containerBuilder->getDefinition('id')
+            ->setTags(['knp_menu.menu_builder' => [['alias' => '']]]);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu_builder" tag for the service "id"');
-        $this->pass->process($this->containerBuilder->reveal());
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testFailsWhenBuilderMethodIsMissing(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn(['id' => [['alias' => 'foo']]]);
+        $this->containerBuilder->getDefinition('id')
+            ->setTags(['knp_menu.menu_builder' => [['alias' => 'foo']]]);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The method is not defined in the "knp_menu.menu_builder" tag for the service "id"');
-        $this->pass->process($this->containerBuilder->reveal());
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testFailsWhenMenuAliasIsMissing(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn(['id' => [['alias' => '']]]);
+        $this->containerBuilder->getDefinition('menu_id')
+            ->setTags(['knp_menu.menu' => [['alias' => '']]]);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu" tag for the service "id"');
-        $this->pass->process($this->containerBuilder->reveal());
+        $this->expectExceptionMessage('The alias is not defined in the "knp_menu.menu" tag for the service "menu_id"');
+
+        $this->pass->process($this->containerBuilder);
     }
 
     public function testRegisterMenuBuilderAndMenu(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn([
-            'id1' => [['alias' => 'foo', 'method' => 'fooMenu'], ['alias' => 'bar', 'method' => 'bar']],
-            'id2' => [['alias' => 'foo', 'method' => 'fooBar'], ['alias' => 'baz', 'method' => 'bar']],
-        ]);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn(['id3' => [['alias' => 'test']]]);
-
-        $menus = [
-            'foo' => [new ServiceClosureArgument(new Reference('id2')), 'fooBar'],
-            'bar' => [new ServiceClosureArgument(new Reference('id1')), 'bar'],
-            'baz' => [new ServiceClosureArgument(new Reference('id2')), 'bar'],
-            'test' => new ServiceClosureArgument(new Reference('id3')),
+        $expectedMenuBuilders = [
+            'foo' => [new ServiceClosureArgument(new Reference('id')), 'fooMenu'],
+            'bar' => [new ServiceClosureArgument(new Reference('id')), 'bar'],
+            'baz' => new ServiceClosureArgument(new Reference('menu_id')),
         ];
-        $this->definition->replaceArgument(0, $menus)->shouldBeCalled();
 
-        $this->pass->process($this->containerBuilder->reveal());
+        $this->pass->process($this->containerBuilder);
+
+        $menuBuilders = $this->containerBuilder->getDefinition('knp_menu.menu_provider.lazy')->getArgument(0);
+
+        $this->assertEquals($expectedMenuBuilders, $menuBuilders);
+        $this->assertFalse($this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service'));
     }
 
     public function testMenuWinsOverBuilder(): void
     {
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu_builder', true)->willReturn([
-            'id1' => [['alias' => 'foo', 'method' => 'fooMenu'], ['alias' => 'bar', 'method' => 'bar']],
-        ]);
-        $this->containerBuilder->findTaggedServiceIds('knp_menu.menu', true)->willReturn(['id3' => [['alias' => 'foo']]]);
+        $this->containerBuilder->getDefinition('menu_id')
+            ->setTags(['knp_menu.menu' => [['alias' => 'foo']]]);
 
-        $menus = [
-            'foo' => new ServiceClosureArgument(new Reference('id3')),
-            'bar' => [new ServiceClosureArgument(new Reference('id1')), 'bar'],
+        $expectedMenuBuilders = [
+            'foo' => new ServiceClosureArgument(new Reference('menu_id')),
+            'bar' => [new ServiceClosureArgument(new Reference('id')), 'bar'],
         ];
-        $this->definition->replaceArgument(0, $menus)->shouldBeCalled();
 
-        $this->pass->process($this->containerBuilder->reveal());
+        $this->pass->process($this->containerBuilder);
+
+        $menuBuilders = $this->containerBuilder->getDefinition('knp_menu.menu_provider.lazy')->getArgument(0);
+
+        $this->assertEquals($expectedMenuBuilders, $menuBuilders);
     }
 }
