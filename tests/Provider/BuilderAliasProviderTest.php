@@ -213,7 +213,7 @@ class BuilderAliasProviderTest extends TestCase
         $kernel->expects($this->once())
             ->method('getBundle')
             ->with('FooBundle', false)
-            ->willReturn([$bundle])
+            ->willReturn($bundle)
         ;
 
         return $kernel;
