@@ -50,7 +50,7 @@ to allow other parts of your application to add more stuff to it.
 Create the Event object
 -----------------------
 
-The event object allows to pass some data to the listener. In this case,
+The event object allows passing some data to the listener. In this case,
 it will hold the menu being created and the factory.
 
 .. code-block:: php

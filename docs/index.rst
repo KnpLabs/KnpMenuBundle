@@ -186,7 +186,7 @@ With the standard ``knp_menu.html.twig`` template and your current page being
 
     You only need to implement ``ContainerAwareInterface`` if you need the
     service container. The more elegant way to handle your dependencies is to
-    inject them in the constructor. If you want to do that, see method below.
+    inject them in the constructor. If you want to do that, see the method below.
 
 .. note::
 
@@ -234,7 +234,7 @@ For information on how to register a service and tag it as a menu, read
 Rendering Menus
 ---------------
 
-Once you've setup your menu, rendering it easy. If you've used the "easy"
+Once you've set up your menu, rendering it is easy. If you've used the "easy"
 way, then do the following:
 
 .. configuration-block::
