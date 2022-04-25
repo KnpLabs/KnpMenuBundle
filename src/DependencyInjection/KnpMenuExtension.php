@@ -25,11 +25,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        foreach ($config['providers'] as $builder => $enabled) {
-            if ($enabled) {
-                $container->getDefinition(\sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
-            }
-        }
+        $this->GetDefinitionsForEnabledProviders($config['providers'], $container);
 
         if (isset($config['twig'])) {
             $loader->load('twig.xml');
@@ -74,5 +70,18 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         $path = \dirname($refl->getFileName()).'/Resources/views';
 
         $container->prependExtensionConfig('twig', ['paths' => [$path]]);
+    }
+
+    /**
+     * @param $providers
+     * @param ContainerBuilder $container
+     */
+    private function GetDefinitionsForEnabledProviders($providers, ContainerBuilder $container): void
+    {
+        foreach ($providers as $builder => $enabled) {
+            if ($enabled) {
+                $container->getDefinition(\sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
+            }
+        }
     }
 }
