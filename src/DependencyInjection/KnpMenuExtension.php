@@ -79,9 +79,19 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
     private function GetDefinitionsForEnabledProviders($providers, ContainerBuilder $container): void
     {
         foreach ($providers as $builder => $enabled) {
-            if ($enabled) {
-                $container->getDefinition(\sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
-            }
+            $this->GetDefinitionForEnabledProvider($enabled, $container, $builder);
+        }
+    }
+
+    /**
+     * @param $enabled
+     * @param ContainerBuilder $container
+     * @param $builder
+     */
+    private function GetDefinitionForEnabledProvider($enabled, ContainerBuilder $container, $builder): void
+    {
+        if ($enabled) {
+            $container->getDefinition(\sprintf('knp_menu.menu_provider.%s', $builder))->addTag('knp_menu.provider');
         }
     }
 }
