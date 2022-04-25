@@ -25,9 +25,9 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $this->GetDefinitionsForEnabledProviders($config['providers'], $container);
+        $this->getDefinitionsForEnabledProviders($config['providers'], $container);
 
-        $config = $this->LoadTwigConfiguration($config, $loader, $container);
+        $config = $this->loadTwigConfiguration($config, $loader, $container);
         if ($config['templating']) {
             $loader->load('templating.xml');
         }
@@ -85,7 +85,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
      * @param ContainerBuilder $container
      * @param $builder
      */
-    private function GetDefinitionForEnabledProvider($enabled, ContainerBuilder $container, $builder): void
+    private function getDefinitionForEnabledProvider($enabled, ContainerBuilder $container, $builder): void
     {
         if (!$enabled) return ;
 
@@ -99,7 +99,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
      * @return array
      * @throws \Exception
      */
-    private function LoadTwigConfiguration(array $config, XmlFileLoader $loader, ContainerBuilder $container): array
+    private function loadTwigConfiguration(array $config, XmlFileLoader $loader, ContainerBuilder $container): array
     {
         if (isset($config['twig'])) {
             $loader->load('twig.xml');
