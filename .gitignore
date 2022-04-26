@@ -1,4 +1,3 @@
 .*.cache
-.idea/
 composer.lock
 vendor/*
