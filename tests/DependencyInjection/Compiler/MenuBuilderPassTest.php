@@ -8,15 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MenuBuilderPassTest extends TestCase
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $containerBuilder;
+    private ContainerBuilder $containerBuilder;
 
-    /**
-     * @var MenuBuilderPass
-     */
-    private $pass;
+    private MenuBuilderPass $pass;
 
     protected function setUp(): void
     {

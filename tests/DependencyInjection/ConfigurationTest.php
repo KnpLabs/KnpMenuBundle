@@ -26,7 +26,7 @@ class ConfigurationTest extends TestCase
         $this->assertTrue($configIsValid, \implode(\PHP_EOL, $errors));
     }
 
-    public function getConfigs()
+    public function getConfigs(): array
     {
         return [
             ['<config xmlns="http://knplabs.com/schema/dic/menu"/>'],

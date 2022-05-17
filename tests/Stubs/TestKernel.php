@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class TestKernel extends Kernel
 {
-    private $mockBundles;
+    private array $mockBundles;
 
     public function __construct(array $bundles)
     {
@@ -16,7 +16,7 @@ class TestKernel extends Kernel
         parent::__construct('test', false);
     }
 
-    public function registerBundles()
+    public function registerBundles(): array
     {
         return $this->mockBundles;
     }

@@ -219,7 +219,7 @@ class BuilderAliasProviderTest extends TestCase
         return $kernel;
     }
 
-    private function createTestKernel($childNamespace = 'Bar', $parentNamespace = 'Knp\Bundle\MenuBundle\Tests\Stubs')
+    private function createTestKernel($childNamespace = 'Bar', $parentNamespace = 'Knp\Bundle\MenuBundle\Tests\Stubs'): TestKernel
     {
         $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
         $bundle->expects($this->any())

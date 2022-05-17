@@ -16,13 +16,13 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 final class BuilderAliasProvider implements MenuProviderInterface
 {
-    private $kernel;
+    private KernelInterface $kernel;
 
-    private $container;
+    private ContainerInterface $container;
 
-    private $menuFactory;
+    private FactoryInterface $menuFactory;
 
-    private $builders = [];
+    private array $builders = [];
 
     public function __construct(KernelInterface $kernel, ContainerInterface $container, FactoryInterface $menuFactory)
     {
