@@ -1,4 +1,4 @@
-branch: ["master"]
+branches: ["master"]
 maintained_branches: ["master"]
 current_branch: "master"
 dev_branch: "master"
