@@ -12,15 +12,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class RegisterMenusPassTest extends TestCase
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $containerBuilder;
+    private ContainerBuilder $containerBuilder;
 
-    /**
-     * @var RegisterMenusPass
-     */
-    private $pass;
+    private RegisterMenusPass $pass;
 
     protected function setUp(): void
     {
