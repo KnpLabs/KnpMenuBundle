@@ -1,3 +1,5 @@
 .*.cache
 composer.lock
+.phpunit.result.cache
+.phpunit.cache
 vendor/*
