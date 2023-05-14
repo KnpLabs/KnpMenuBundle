@@ -70,6 +70,4 @@ jobs:
             - run: composer config minimum-stability dev
               if: matrix.dev
             - run: composer update --no-interaction --no-progress --ansi ${{ matrix.composer_option }}
-            - run: |
-                  export SYMFONY_DEPRECATIONS_HELPER="${{ matrix.symfony_deprecations_helper }}"
-                  vendor/bin/phpunit
+            - run: vendor/bin/phpunit
