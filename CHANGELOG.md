@@ -1,5 +1,6 @@
 ## 3.2.0 (2022-xx-xx)
 
+* Increased minimum PHP version to 8.0 (to be consistent with KnpMenu 3.5)
 * Increased minimum PHP version to 7.4 (to be consistent with KnpMenu 3.4)
 
 ## 3.1.0 (2020-11-29)

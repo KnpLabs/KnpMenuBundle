@@ -16,20 +16,10 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 final class BuilderAliasProvider implements MenuProviderInterface
 {
-    private KernelInterface $kernel;
-
-    private ContainerInterface $container;
-
-    private FactoryInterface $menuFactory;
-
     private array $builders = [];
 
-    public function __construct(KernelInterface $kernel, ContainerInterface $container, FactoryInterface $menuFactory)
-    {
-        $this->kernel = $kernel;
-        $this->container = $container;
-        $this->menuFactory = $menuFactory;
-    }
+    public function __construct(private KernelInterface $kernel, private ContainerInterface $container, private FactoryInterface $menuFactory)
+    {}
 
     /**
      * Looks for a menu with the bundle:class:method format.

@@ -29,23 +29,21 @@ jobs:
             matrix:
                 include:
                     - description: 'No Symfony specified'
-                      php: '7.4'
-                    - description: 'No Symfony specified'
                       php: '8.0'
                     - description: 'No Symfony specified'
                       php: '8.1'
                     - description: 'No Symfony specified'
                       php: '8.2'
                     - description: 'Lowest deps'
-                      php: '7.4'
+                      php: '8.0'
                       composer_option: '--prefer-lowest'
                       env:
                           SYMFONY_DEPRECATIONS_HELPER: max[self]=0
                     - description: 'Symfony 3.4'
-                      php: '7.4'
+                      php: '8.0'
                       symfony: 3.4.*
                     - description: 'Symfony 4.4'
-                      php: '7.4'
+                      php: '8.0'
                       symfony: 4.4.*
                     - description: 'Symfony 5.4'
                       php: '8.0'

@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "knplabs/knp-menu": "^3.3",
         "symfony/framework-bundle": "^3.4 | ^4.4 | ^5.0 | ^6.0"
     },
