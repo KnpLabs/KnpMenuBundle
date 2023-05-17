@@ -6,7 +6,7 @@ on:
 
 jobs:
     check:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         steps:
             - name: Checkout
               uses: actions/checkout@v3
@@ -15,7 +15,7 @@ jobs:
             - name: Validate composer.json
               run: composer validate --strict --no-check-lock
     cs-fixer:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         name: PHP-CS-Fixer
         steps:
             - name: Checkout
@@ -23,7 +23,7 @@ jobs:
             - name: Fix CS
               uses: docker://oskarstark/php-cs-fixer-ga
     tests:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         strategy:
             fail-fast: false
             matrix:
@@ -39,17 +39,11 @@ jobs:
                       composer_option: '--prefer-lowest'
                       env:
                           SYMFONY_DEPRECATIONS_HELPER: max[self]=0
-                    - description: 'Symfony 3.4'
-                      php: '8.0'
-                      symfony: 3.4.*
-                    - description: 'Symfony 4.4'
-                      php: '8.0'
-                      symfony: 4.4.*
                     - description: 'Symfony 5.4'
                       php: '8.0'
                       symfony: 5.4.*
                     - description: 'Dev deps'
-                      php: '8.1'
+                      php: '8.2'
                       dev: true
         name: PHP ${{ matrix.php }} tests (${{ matrix.description }})
         steps:
