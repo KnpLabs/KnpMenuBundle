@@ -84,11 +84,7 @@ final class BuilderAliasProvider implements MenuProviderInterface
             $bundles = [];
 
             $allBundles = $this->kernel->getBundle($bundleName, false);
-
-            // In Symfony 4, bundle inheritance is gone, so there is no way to get an array anymore.
-            if (!\is_array($allBundles)) {
-                $allBundles = [$allBundles];
-            }
+            $allBundles = [$allBundles];
 
             foreach ($allBundles as $bundle) {
                 $try = $bundle->getNamespace().'\\Menu\\'.$className;
