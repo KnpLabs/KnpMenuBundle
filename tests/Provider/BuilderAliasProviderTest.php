@@ -100,7 +100,7 @@ class BuilderAliasProviderTest extends TestCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class "Knp\\Bundle\\MenuBundle\\Tests\\Stubs\\Menu\\Fake" does not exist for menu builder "FooBundle:Fake".');
+        $this->expectExceptionMessage('Unable to find menu builder "Knp\\Bundle\\MenuBundle\\Tests\\Stubs\\Menu\\Fake" in bundle FooBundle:Fake.');
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
@@ -136,7 +136,7 @@ class BuilderAliasProviderTest extends TestCase
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
         $kernel->expects($this->once())
             ->method('getBundle')
-            ->with('FooBundle', false)
+            ->with('FooBundle')
             ->willReturn($bundle)
         ;
 
