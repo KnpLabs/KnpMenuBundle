@@ -16,7 +16,7 @@ class MenuHelperTest extends TestCase
     public function testGet(): void
     {
         $itemMock = $this->createMock(ItemInterface::class);
-        $helperMock = $this->getHelperMock();
+        $helperMock = $this->getHelperMock(['get']);
         $helperMock
             ->method('get')
             ->with($this->equalTo('test'), $this->equalTo(['pathArray']))
@@ -31,7 +31,7 @@ class MenuHelperTest extends TestCase
     {
         $menu = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
-        $helperMock = $this->getHelperMock();
+        $helperMock = $this->getHelperMock(['get']);
         $helperMock->expects($this->any())
             ->method('get')
             ->with('default', [], ['foo' => 'bar'])
@@ -45,7 +45,7 @@ class MenuHelperTest extends TestCase
 
     public function testRender(): void
     {
-        $helperMock = $this->getHelperMock();
+        $helperMock = $this->getHelperMock(['render']);
         $helperMock->expects($this->any())
             ->method('render')
             ->with($this->equalTo('test'), $this->equalTo(['options']))
@@ -99,10 +99,10 @@ class MenuHelperTest extends TestCase
         $notCurrent = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
 
         $matcherMock = $this->getMatcherMock();
+
         $matcherMock->expects($this->any())
             ->method('isCurrent')
-            ->withConsecutive([$current], [$notCurrent])
-            ->will($this->onConsecutiveCalls(true, false))
+            ->willReturnOnConsecutiveCalls(true, false)
         ;
 
         $helper = new MenuHelper($this->getHelperMock(), $matcherMock, $this->getManipulatorMock());
@@ -146,7 +146,7 @@ class MenuHelperTest extends TestCase
     private function getHelperMock(array $methods = [])
     {
         return $this->getMockBuilder('Knp\Menu\Twig\Helper')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -159,7 +159,7 @@ class MenuHelperTest extends TestCase
     private function getManipulatorMock(array $methods = [])
     {
         return $this->getMockBuilder('Knp\Menu\Util\MenuManipulator')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
     }
 }
