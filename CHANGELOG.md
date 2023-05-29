@@ -5,11 +5,11 @@
 
 ## 3.2.0 (2021-10-30)
 
-* Add support for Symfony 6
+* Added support for Symfony 6
 
 ## 3.1.0 (2020-11-29)
 
-* Add support for php 8
+* Added support for PHP 8
 
 ## 3.0.0 (2019-12-01)
 
