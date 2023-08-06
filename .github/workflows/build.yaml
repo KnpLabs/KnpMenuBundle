@@ -39,8 +39,6 @@ jobs:
                     - description: 'Lowest deps'
                       php: '7.4'
                       composer_option: '--prefer-lowest'
-                      env:
-                          SYMFONY_DEPRECATIONS_HELPER: max[self]=0
                     - description: 'Symfony 3.4'
                       php: '7.4'
                       symfony: 3.4.*
@@ -67,10 +65,12 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
             - run: |
-                  sed -ri 's/"symfony\/(.+)": "(.+)"/"symfony\/\1": "'${{ matrix.symfony }}'"/' composer.json;
+                  sed -ri 's/"symfony\/(expression-language|framework-bundle|templating)": "(.+)"/"symfony\/\1": "'${{ matrix.symfony }}'"/' composer.json;
               if: matrix.symfony
             - run: composer config minimum-stability dev
               if: matrix.dev
             - run: composer update --no-interaction --no-progress --ansi ${{ matrix.composer_option }}
             - run: vendor/bin/phpunit
+              env:
+                  SYMFONY_DEPRECATIONS_HELPER: max[self]=1
 
