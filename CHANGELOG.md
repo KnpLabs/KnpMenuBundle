@@ -2,6 +2,7 @@
 
 * Increased minimum PHP version to 8.0 (to be consistent with KnpMenu 3.4)
 * Dropped support for Symfony 3 and 4
+* Deprecated use of Symfony templating component
 
 ## 3.2.0 (2021-10-30)
 
