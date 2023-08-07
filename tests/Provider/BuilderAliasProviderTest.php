@@ -100,7 +100,7 @@ class BuilderAliasProviderTest extends TestCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class "Knp\\Bundle\\MenuBundle\\Tests\\Stubs\\Menu\\Fake" does not exist for menu builder "FooBundle:Fake".');
+        $this->expectExceptionMessage('Unable to find menu builder "Knp\\Bundle\\MenuBundle\\Tests\\Stubs\\Menu\\Fake" in bundle FooBundle:Fake.');
         $provider->get('FooBundle:Fake:mainMenu');
     }
 
@@ -115,82 +115,6 @@ class BuilderAliasProviderTest extends TestCase
         // bundle will return a null namespace, class won't be found
         $this->expectException(\InvalidArgumentException::class);
         $provider->get('FooBundle:Builder:fakeMenu');
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testBundleInheritanceParent(): void
-    {
-        if (!\method_exists(BundleInterface::class, 'getParent')) {
-            $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
-        }
-
-        $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
-        // mock the factory to return a set value when the builder creates the menu
-        $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
-        $factory->expects($this->once())
-            ->method('createItem')
-            ->with('Main menu')
-            ->willReturn($item);
-
-        $provider = new BuilderAliasProvider(
-            $this->createTestKernel(),
-            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
-            $factory
-        );
-
-        $menu = $provider->get('FooBundle:Builder:mainMenu');
-        // returns the mocked value returned from mocked factory
-        $this->assertSame($item, $menu);
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testBundleInheritanceChild(): void
-    {
-        if (!\method_exists(BundleInterface::class, 'getParent')) {
-            $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
-        }
-
-        $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
-        // mock the factory to return a set value when the builder creates the menu
-        $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
-        $factory->expects($this->once())
-            ->method('createItem')
-            ->with('Main menu for the child')
-            ->willReturn($item);
-
-        $provider = new BuilderAliasProvider(
-            $this->createTestKernel('Knp\Bundle\MenuBundle\Tests\Stubs\Child'),
-            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
-            $factory
-        );
-
-        $menu = $provider->get('FooBundle:Builder:mainMenu');
-        // returns the mocked value returned from mocked factory
-        $this->assertSame($item, $menu);
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testBundleInheritanceWrongClass(): void
-    {
-        if (!\method_exists(BundleInterface::class, 'getParent')) {
-            $this->markTestSkipped('Bundle inheritance does not exist in this Symfony version.');
-        }
-
-        $provider = new BuilderAliasProvider(
-            $this->createTestKernel(),
-            $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')->getMock(),
-            $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock()
-        );
-
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unable to find menu builder "FooBundle:Fake" in bundles BarBundle, FooBundle.');
-        $provider->get('FooBundle:Fake:mainMenu');
     }
 
     /**
@@ -212,7 +136,7 @@ class BuilderAliasProviderTest extends TestCase
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
         $kernel->expects($this->once())
             ->method('getBundle')
-            ->with('FooBundle', false)
+            ->with('FooBundle')
             ->willReturn($bundle)
         ;
 
