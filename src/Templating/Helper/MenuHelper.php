@@ -10,16 +10,8 @@ use Symfony\Component\Templating\Helper\Helper as TemplatingHelper;
 
 class MenuHelper extends TemplatingHelper
 {
-    private $helper;
-    private $matcher;
-    private $menuManipulator;
-
-    public function __construct(Helper $helper, MatcherInterface $matcher, MenuManipulator $menuManipulator)
-    {
-        $this->helper = $helper;
-        $this->matcher = $matcher;
-        $this->menuManipulator = $menuManipulator;
-    }
+    public function __construct(private Helper $helper, private MatcherInterface $matcher, private MenuManipulator $menuManipulator)
+    {}
 
     /**
      * Retrieves an item following a path in the tree.

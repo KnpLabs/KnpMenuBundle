@@ -16,20 +16,10 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 final class BuilderAliasProvider implements MenuProviderInterface
 {
-    private KernelInterface $kernel;
-
-    private ContainerInterface $container;
-
-    private FactoryInterface $menuFactory;
-
     private array $builders = [];
 
-    public function __construct(KernelInterface $kernel, ContainerInterface $container, FactoryInterface $menuFactory)
-    {
-        $this->kernel = $kernel;
-        $this->container = $container;
-        $this->menuFactory = $menuFactory;
-    }
+    public function __construct(private KernelInterface $kernel, private ContainerInterface $container, private FactoryInterface $menuFactory)
+    {}
 
     /**
      * Looks for a menu with the bundle:class:method format.
@@ -89,37 +79,15 @@ final class BuilderAliasProvider implements MenuProviderInterface
         $name = \sprintf('%s:%s', $bundleName, $className);
 
         if (!isset($this->builders[$name])) {
-            $class = null;
-            $logs = [];
-            $bundles = [];
 
-            $allBundles = $this->kernel->getBundle($bundleName, false);
+            $bundle = $this->kernel->getBundle($bundleName);
+            $try = $bundle->getNamespace().'\\Menu\\'.$className;
 
-            // In Symfony 4, bundle inheritance is gone, so there is no way to get an array anymore.
-            if (!\is_array($allBundles)) {
-                $allBundles = [$allBundles];
+            if (!\class_exists($try)) {
+                throw new \InvalidArgumentException(\sprintf('Unable to find menu builder "%s" in bundle %s.', $try, $name));
             }
 
-            foreach ($allBundles as $bundle) {
-                $try = $bundle->getNamespace().'\\Menu\\'.$className;
-                if (\class_exists($try)) {
-                    $class = $try;
-                    break;
-                }
-
-                $logs[] = \sprintf('Class "%s" does not exist for menu builder "%s".', $try, $name);
-                $bundles[] = $bundle->getName();
-            }
-
-            if (null === $class) {
-                if (1 === \count($logs)) {
-                    throw new \InvalidArgumentException($logs[0]);
-                }
-
-                throw new \InvalidArgumentException(\sprintf('Unable to find menu builder "%s" in bundles %s.', $name, \implode(', ', $bundles)));
-            }
-
-            $builder = new $class();
+            $builder = new $try();
             if ($builder instanceof ContainerAwareInterface) {
                 $builder->setContainer($this->container);
             }
