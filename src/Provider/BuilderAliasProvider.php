@@ -88,7 +88,7 @@ final class BuilderAliasProvider implements MenuProviderInterface
             }
 
             $builder = new $try();
-            if ($builder instanceof ContainerAwareInterface) {
+            if (interface_exists(ContainerAwareInterface::class) && $builder instanceof ContainerAwareInterface) {
                 $builder->setContainer($this->container);
             }
 

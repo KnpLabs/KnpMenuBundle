@@ -5,10 +5,18 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 class BuilderAliasProviderTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        if (!interface_exists(ContainerAwareInterface::class)) {
+            self::markTestSkipped();
+        }
+    }
+
     public function testHas(): void
     {
         $provider = new BuilderAliasProvider(
