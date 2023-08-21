@@ -9,14 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 class BuilderAliasProviderTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        if (!interface_exists(ContainerAwareInterface::class)) {
-            self::markTestSkipped();
-        }
-    }
-
     public function testHas(): void
     {
         $provider = new BuilderAliasProvider(
@@ -52,6 +44,9 @@ class BuilderAliasProviderTest extends TestCase
 
     public function testGetContainerAwareMenu(): void
     {
+        if (!interface_exists(ContainerAwareInterface::class)) {
+            self::markTestSkipped('missing interface');
+        }
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
         $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();
