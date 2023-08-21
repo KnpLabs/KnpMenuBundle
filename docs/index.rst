@@ -97,7 +97,7 @@ You can define these options if you need to change them:
             'twig' => [
                 'template' => 'KnpMenuBundle::menu.html.twig'
             ],
-            // if true, enabled the helper for PHP templates (deprecated)
+            // if true, enable the helper for PHP templates (deprecated)
             'templating' => false,
             // the renderer to use, list is also available by default
             'default_renderer' => 'twig',
