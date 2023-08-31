@@ -36,6 +36,7 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
             $container->setParameter('knp_menu.renderer.twig.template', $config['twig']['template']);
         }
         if ($config['templating']) {
+            trigger_deprecation('knplabs/knp-menu-bundle', '3.3', 'Using the templating component is deprecated since version 3.3, this option will be removed in version 4.');
             $loader->load('templating.xml');
         }
 

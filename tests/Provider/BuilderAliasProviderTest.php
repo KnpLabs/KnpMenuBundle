@@ -5,7 +5,7 @@ namespace Knp\Bundle\MenuBundle\Tests\Provider;
 use Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider;
 use Knp\Bundle\MenuBundle\Tests\Stubs\TestKernel;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 class BuilderAliasProviderTest extends TestCase
 {
@@ -44,6 +44,9 @@ class BuilderAliasProviderTest extends TestCase
 
     public function testGetContainerAwareMenu(): void
     {
+        if (!interface_exists(ContainerAwareInterface::class)) {
+            self::markTestSkipped('missing interface');
+        }
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
         // mock the factory to return a set value when the builder creates the menu
         $factory = $this->getMockBuilder('Knp\Menu\FactoryInterface')->getMock();

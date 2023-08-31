@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Test for MenuHelper class.
  *
  * @author Leszek Prabucki <leszek.prabucki@gmail.com>
+ * @group legacy
  */
 class MenuHelperTest extends TestCase
 {

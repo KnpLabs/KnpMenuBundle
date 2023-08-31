@@ -21,6 +21,7 @@
     "require": {
         "php": "^8.0",
         "knplabs/knp-menu": "^3.3",
+        "symfony/deprecation-contracts": "^2.5 | ^3.3",
         "symfony/framework-bundle": "^5.4 | ^6.0"
     },
     "require-dev": {

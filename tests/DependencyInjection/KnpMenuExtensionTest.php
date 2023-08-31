@@ -47,7 +47,10 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertFalse($container->hasDefinition('knp_menu.renderer.twig'));
     }
 
-    public function testEnsablePhpTemplates(): void
+    /**
+     * @group legacy
+     */
+    public function testEnablePhpTemplates(): void
     {
         $container = new ContainerBuilder();
         $loader = new KnpMenuExtension();
