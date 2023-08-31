@@ -327,5 +327,5 @@ More Advanced Stuff
     disabling_providers
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
-.. _`Flex`: https://flex.symfony.com
+.. _`Flex`: https://symfony.com/doc/current/setup/flex.html
 .. _`KnpMenu documentation`: https://github.com/KnpLabs/KnpMenu/blob/master/doc/01-Basic-Menus.md
