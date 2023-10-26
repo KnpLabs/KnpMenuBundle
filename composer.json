@@ -38,9 +38,6 @@
         "psr-4": { "Knp\\Bundle\\MenuBundle\\Tests\\": "tests" }
     },
     "extra": {
-        "symfony": {
-            "require": "7.0"
-        },
         "branch-alias": {
             "dev-master": "3.x-dev"
         }
