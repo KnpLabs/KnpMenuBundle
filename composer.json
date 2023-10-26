@@ -1,6 +1,5 @@
 {
     "name": "knplabs/knp-menu-bundle",
-    "minimum-stability": "beta",
     "description": "This bundle provides an integration of the KnpMenu library",
     "keywords": ["menu"],
     "type": "symfony-bundle",
