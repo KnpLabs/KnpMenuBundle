@@ -42,7 +42,7 @@ jobs:
                       symfony: 5.4.*
                     - description: 'Symfony 7'
                       php: '8.1'
-                      symfony: 7.0.*
+                      symfony: ^7.0
                       dev: true
                     - description: 'Dev deps'
                       php: '8.2'
