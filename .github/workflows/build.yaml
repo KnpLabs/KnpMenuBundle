@@ -40,6 +40,10 @@ jobs:
                     - description: 'Symfony 5.4'
                       php: '8.0'
                       symfony: 5.4.*
+                    - description: 'Symfony 7'
+                      php: '8.2'
+                      symfony: ^7.0
+                      dev: true
                     - description: 'Dev deps'
                       php: '8.2'
                       dev: true
@@ -49,9 +53,9 @@ jobs:
               uses: actions/checkout@v3
             - name: Cache
               uses: actions/cache@v3
-              with: 
+              with:
                   path: ~/.composer/cache/files
-                  key: composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.composer_option }} 
+                  key: composer-${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.composer_option }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:

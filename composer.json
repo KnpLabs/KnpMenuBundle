@@ -22,13 +22,13 @@
         "php": "^8.0",
         "knplabs/knp-menu": "^3.3",
         "symfony/deprecation-contracts": "^2.5 | ^3.3",
-        "symfony/framework-bundle": "^5.4 | ^6.0"
+        "symfony/framework-bundle": "^5.4 | ^6.0 | ^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6 | ^10.1",
-        "symfony/expression-language": "^5.4 | ^6.0",
-        "symfony/phpunit-bridge": "^6.0",
-        "symfony/templating": "^5.4 | ^6.0"
+        "symfony/expression-language": "^5.4 | ^6.0 | ^7.0",
+        "symfony/phpunit-bridge": "^6.0 | ^7.0",
+        "symfony/templating": "^5.4 | ^6.0 | ^7.0"
     },
     "autoload": {
         "psr-4": { "Knp\\Bundle\\MenuBundle\\": "src" }
