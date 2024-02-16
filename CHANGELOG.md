@@ -1,4 +1,8 @@
-## 3.3.0 (2023-05-xx)
+## 3.4.0 (2024-xx-xx)
+
+* Increased minimum PHP version to 8.1 (to be consistent with KnpMenu 3.5)
+
+## 3.3.0 (2023-10-23)
 
 * Increased minimum PHP version to 8.0 (to be consistent with KnpMenu 3.4)
 * Dropped support for Symfony 3 and 4

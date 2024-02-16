@@ -2,18 +2,21 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          colors="true"
          bootstrap="vendor/autoload.php"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
-  <coverage>
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd">
+
+  <testsuites>
+    <testsuite name="KnpMenuBundle Test Suite">
+      <directory>./tests/</directory>
+    </testsuite>
+  </testsuites>
+
+  <source>
     <include>
       <directory>./src</directory>
     </include>
     <exclude>
       <directory>./src/Resources</directory>
     </exclude>
-  </coverage>
-  <testsuites>
-    <testsuite name="KnpMenuBundle Test Suite">
-      <directory suffix="Test.php">./tests/</directory>
-    </testsuite>
-  </testsuites>
+  </source>
+
 </phpunit>

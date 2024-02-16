@@ -4,6 +4,7 @@ namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection\Compiler;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
 use Knp\Menu\Matcher\Matcher;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,9 +42,7 @@ class AddVotersPassTest extends TestCase
         );
     }
 
-    /**
-     * @group legacy
-     */
+    #[Group('legacy')]
     public function testProcessRequestAware(): void
     {
         $containerBuilder = new ContainerBuilder();
