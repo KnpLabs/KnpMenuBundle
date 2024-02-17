@@ -34,6 +34,8 @@ jobs:
                       php: '8.1'
                     - description: 'No Symfony specified'
                       php: '8.2'
+                    - description: 'No Symfony specified'
+                      php: '8.3'
                     - description: 'Lowest deps'
                       php: '8.0'
                       composer_option: '--prefer-lowest'
@@ -45,7 +47,7 @@ jobs:
                       symfony: ^7.0
                       dev: true
                     - description: 'Dev deps'
-                      php: '8.2'
+                      php: '8.3'
                       dev: true
         name: PHP ${{ matrix.php }} tests (${{ matrix.description }})
         steps:
