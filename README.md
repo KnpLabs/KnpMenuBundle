@@ -8,14 +8,12 @@ in your Symfony application!
 [![Latest Stable Version](https://poser.pugx.org/knplabs/knp-menu-bundle/v/stable.png)](https://packagist.org/packages/knplabs/knp-menu-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/knplabs/knp-menu-bundle/v/unstable.png)](https://packagist.org/packages/knplabs/knp-menu-bundle)
 
-[![knpbundles.com](http://knpbundles.com/KnpLabs/KnpMenuBundle/badge-short)](http://knpbundles.com/KnpLabs/KnpMenuBundle)
-
 ### What now?
 
 Documentation! The documentation for this bundle is available in the `docs`
 directory of the bundle:
 
-* Read the [KnpMenuBundle documentation](http://symfony.com/doc/master/bundles/KnpMenuBundle/index.html)
+* Read the [KnpMenuBundle documentation](https://symfony.com/bundles/KnpMenuBundle/current/index.html)
 
 This bundle's job is to integrate a standalone PHP menu library called [KnpMenu](https://github.com/KnpLabs/KnpMenu).
 You can learn a lot more about how this library works by reading that library's
@@ -30,6 +28,6 @@ This library is maintained by the following people (alphabetically sorted) :
 
 ## Credits
 
-This bundle was originally ported from [ioMenuPlugin](http://github.com/weaverryan/ioMenuPlugin),
+This bundle was originally ported from [ioMenuPlugin](https://github.com/weaverryan/ioMenuPlugin),
 a menu plugin for symfony1. It has since been developed by [knpLabs](https://knplabs.com) and
 the Symfony community.
