@@ -3,6 +3,7 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\KnpMenuExtension;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -47,9 +48,7 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertFalse($container->hasDefinition('knp_menu.renderer.twig'));
     }
 
-    /**
-     * @group legacy
-     */
+    #[Group('legacy')]
     public function testEnablePhpTemplates(): void
     {
         $container = new ContainerBuilder();

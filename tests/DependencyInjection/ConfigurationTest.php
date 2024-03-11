@@ -2,13 +2,12 @@
 
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
 {
-    /**
-     * @dataProvider getConfigs
-     */
+    #[DataProvider('getConfigs')]
     public function testConfigurationMatchesXsd($config): void
     {
         $configDom = new \DOMDocument();

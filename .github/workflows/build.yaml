@@ -29,18 +29,16 @@ jobs:
             matrix:
                 include:
                     - description: 'No Symfony specified'
-                      php: '8.0'
-                    - description: 'No Symfony specified'
                       php: '8.1'
                     - description: 'No Symfony specified'
                       php: '8.2'
                     - description: 'No Symfony specified'
                       php: '8.3'
                     - description: 'Lowest deps'
-                      php: '8.0'
+                      php: '8.1'
                       composer_option: '--prefer-lowest'
                     - description: 'Symfony 5.4'
-                      php: '8.0'
+                      php: '8.1'
                       symfony: 5.4.*
                     - description: 'Symfony 7'
                       php: '8.2'

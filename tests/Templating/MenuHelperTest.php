@@ -4,14 +4,15 @@ namespace Knp\Bundle\MenuBundle\Tests\Templating;
 
 use Knp\Bundle\MenuBundle\Templating\Helper\MenuHelper;
 use Knp\Menu\ItemInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test for MenuHelper class.
  *
  * @author Leszek Prabucki <leszek.prabucki@gmail.com>
- * @group legacy
  */
+#[Group('legacy')]
 class MenuHelperTest extends TestCase
 {
     public function testGet(): void
