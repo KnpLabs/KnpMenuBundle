@@ -2,6 +2,7 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection;
 
+use Knp\Menu\Factory\ExtensionInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\Config\FileLocator;
@@ -42,11 +43,10 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
 
-        // Register autoconfiguration rules for Symfony DI 3.3+
-        if (\method_exists($container, 'registerForAutoconfiguration')) {
-            $container->registerForAutoconfiguration(VoterInterface::class)
-                ->addTag('knp_menu.voter');
-        }
+        $container->registerForAutoconfiguration(VoterInterface::class)
+            ->addTag('knp_menu.voter');
+        $container->registerForAutoconfiguration(ExtensionInterface::class)
+            ->addTag('knp_menu.factory_extension');
     }
 
     /**
