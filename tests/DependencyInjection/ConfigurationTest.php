@@ -15,7 +15,7 @@ class ConfigurationTest extends TestCase
 
         $previousErrorSetting = \libxml_use_internal_errors(true);
 
-        $configIsValid = $configDom->schemaValidate(__DIR__.'/../../src/Resources/config/schema/menu-1.0.xsd');
+        $configIsValid = $configDom->schemaValidate(__DIR__.'/../../config/schema/menu-1.0.xsd');
         $errors = \array_map(function ($error) {
             return \sprintf('Line %d: %s', $error->line, \trim($error->message));
         }, \libxml_get_errors());
