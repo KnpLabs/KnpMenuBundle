@@ -24,4 +24,9 @@ final class KnpMenuBundle extends Bundle
         $container->addCompilerPass(new AddRenderersPass());
         $container->addCompilerPass(new AddVotersPass());
     }
+
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
 }
