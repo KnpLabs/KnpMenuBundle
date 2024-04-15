@@ -1,4 +1,4 @@
-## 3.4.0 (2024-xx-xx)
+## 3.4.0 (2024-04-15)
 
 * Increased minimum PHP version to 8.1 (to be consistent with KnpMenu 3.5)
 
