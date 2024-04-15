@@ -1,3 +1,7 @@
+## 3.4.1 (2024-04-15)
+
+* Fixed the discovery of templates provided by the bundle
+
 ## 3.4.0 (2024-04-15)
 
 * Increased minimum PHP version to 8.1 (to be consistent with KnpMenu 3.5)
