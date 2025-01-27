@@ -44,7 +44,7 @@ class BuilderAliasProviderTest extends TestCase
 
     public function testGetContainerAwareMenu(): void
     {
-        if (!interface_exists(ContainerAwareInterface::class)) {
+        if (!\interface_exists(ContainerAwareInterface::class)) {
             self::markTestSkipped('missing interface');
         }
         $item = $this->getMockBuilder('Knp\Menu\ItemInterface')->getMock();
