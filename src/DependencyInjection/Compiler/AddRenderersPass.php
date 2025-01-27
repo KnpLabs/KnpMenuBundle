@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\Reference;
  * @author Christophe Coevoet <stof@notk.org>
  *
  * @internal
- * @final
  */
 final class AddRenderersPass implements CompilerPassInterface
 {

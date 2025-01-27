@@ -19,7 +19,8 @@ final class BuilderAliasProvider implements MenuProviderInterface
     private array $builders = [];
 
     public function __construct(private KernelInterface $kernel, private ContainerInterface $container, private FactoryInterface $menuFactory)
-    {}
+    {
+    }
 
     /**
      * Looks for a menu with the bundle:class:method format.
@@ -79,7 +80,6 @@ final class BuilderAliasProvider implements MenuProviderInterface
         $name = \sprintf('%s:%s', $bundleName, $className);
 
         if (!isset($this->builders[$name])) {
-
             $bundle = $this->kernel->getBundle($bundleName);
             $try = $bundle->getNamespace().'\\Menu\\'.$className;
 
