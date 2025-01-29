@@ -13,12 +13,12 @@ Creating Menus as Services
     instead.
 
 This bundle gives you a really convenient way to create menus by following
-a convention and - if needed - injecting the entire container.
+a convention.
 
 However, if you want to, you can instead choose to create a service for your
 menu object. The advantage of this method is that you can inject the exact
-dependencies that your menu needs, instead of injecting the entire service
-container. This can lead to code that is more testable and also potentially
+dependencies that your menu needs.
+This can lead to code that is more testable and also potentially
 more reusable. The disadvantage is that it needs just a little more setup.
 
 Start by creating a builder for your menu. You can stick as many menus into

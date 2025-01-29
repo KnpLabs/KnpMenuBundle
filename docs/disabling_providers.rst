@@ -2,7 +2,7 @@ Disabling the Core Menu Providers
 =================================
 
 To be able to use different menu providers together (the builder-service-based
-one, the container-based one and the convention-based one for instance),
+one, and the convention-based one for instance),
 a chain provider is used. However, it is not used when only one provider
 is enabled to increase performance by getting rid of the wrapping. If you
 don't want to use the built-in providers, you can disable them through the

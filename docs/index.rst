@@ -130,12 +130,13 @@ An example builder class would look like this:
     use App\Entity\Blog;
     use Knp\Menu\FactoryInterface;
     use Knp\Menu\ItemInterface;
-    use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-    use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-    final class Builder implements ContainerAwareInterface
+    final class Builder
     {
-        use ContainerAwareTrait;
+        public function __construct(
+            private EntityManagerInterface $em,
+        ) {
+        }
 
         public function mainMenu(FactoryInterface $factory, array $options): ItemInterface
         {
@@ -143,10 +144,8 @@ An example builder class would look like this:
 
             $menu->addChild('Home', ['route' => 'homepage']);
 
-            // access services from the container!
-            $em = $this->container->get('doctrine')->getManager();
             // findMostRecent and Blog are just imaginary examples
-            $blog = $em->getRepository(Blog::class)->findMostRecent();
+            $blog = $this->em->getRepository(Blog::class)->findMostRecent();
 
             $menu->addChild('Latest Blog Post', [
                 'route' => 'blog_show',
@@ -182,12 +181,6 @@ With the standard ``knp_menu.html.twig`` template and your current page being
             </ul>
         </li>
     </ul>
-
-.. note::
-
-    You only need to implement ``ContainerAwareInterface`` if you need the
-    service container. The more elegant way to handle your dependencies is to
-    inject them in the constructor. If you want to do that, see the method below.
 
 .. note::
 
