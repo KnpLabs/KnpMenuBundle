@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * @author Christophe Coevoet <stof@notk.org>
  *
  * @internal
- * @final
  */
 final class MenuBuilderPass implements CompilerPassInterface
 {

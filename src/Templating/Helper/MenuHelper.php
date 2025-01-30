@@ -11,14 +11,15 @@ use Symfony\Component\Templating\Helper\Helper as TemplatingHelper;
 class MenuHelper extends TemplatingHelper
 {
     public function __construct(private Helper $helper, private MatcherInterface $matcher, private MenuManipulator $menuManipulator)
-    {}
+    {
+    }
 
     /**
      * Retrieves an item following a path in the tree.
      *
-     * @param \Knp\Menu\ItemInterface|string $menu
+     * @param ItemInterface|string $menu
      *
-     * @return \Knp\Menu\ItemInterface
+     * @return ItemInterface
      */
     public function get($menu, array $path = [], array $options = [])
     {
@@ -28,8 +29,8 @@ class MenuHelper extends TemplatingHelper
     /**
      * Renders a menu with the specified renderer.
      *
-     * @param \Knp\Menu\ItemInterface|string|array $menu
-     * @param string                               $renderer
+     * @param ItemInterface|string|array $menu
+     * @param string                     $renderer
      *
      * @return string
      */
