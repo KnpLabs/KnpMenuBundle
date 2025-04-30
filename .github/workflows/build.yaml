@@ -46,10 +46,10 @@ jobs:
                       symfony: 5.4.*
                     - description: 'Symfony 7'
                       php: '8.2'
-                      symfony: ^7.0
+                      symfony: ^7.2
                       dev: true
                     - description: 'Dev deps'
-                      php: '8.3'
+                      php: '8.4'
                       dev: true
         name: PHP ${{ matrix.php }} tests (${{ matrix.description }})
         steps:
@@ -64,10 +64,10 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-            - run: |
-                  sed -ri 's/"symfony\/(expression-language|framework-bundle|templating)": "(.+)"/"symfony\/\1": "'${{ matrix.symfony }}'"/' composer.json;
-              if: matrix.symfony
+                  tools: flex
             - run: composer config minimum-stability dev
               if: matrix.dev
             - run: composer update --no-interaction --no-progress --ansi ${{ matrix.composer_option }}
+              env:
+                  SYMFONY_REQUIRE: ${{ matrix.symfony }}     
             - run: vendor/bin/phpunit
