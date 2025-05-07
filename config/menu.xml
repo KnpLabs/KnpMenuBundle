@@ -25,6 +25,7 @@
 
         <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher" public="true">
             <argument type="collection" />
+            <tag name="kernel.reset" method="clear" />
         </service>
 
         <service id="Knp\Menu\Provider\MenuProviderInterface" alias="knp_menu.menu_provider" public="false"/>
