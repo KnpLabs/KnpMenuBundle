@@ -2,10 +2,12 @@
 
 namespace Knp\Bundle\MenuBundle\DependencyInjection;
 
+use Knp\Menu\Attribute\AsMenuBuilder;
 use Knp\Menu\Factory\ExtensionInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -42,6 +44,12 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
             ->addTag('knp_menu.voter');
         $container->registerForAutoconfiguration(ExtensionInterface::class)
             ->addTag('knp_menu.factory_extension');
+        $container->registerAttributeForAutoconfiguration(AsMenuBuilder::class, static function (ChildDefinition $definition, AsMenuBuilder $attribute, \ReflectionMethod $reflectionMethod): void {
+            $definition->addTag('knp_menu.menu_builder', [
+                'alias' => $attribute->name,
+                'method' => $reflectionMethod->getName(),
+            ]);
+        });
     }
 
     public function getNamespace(): string

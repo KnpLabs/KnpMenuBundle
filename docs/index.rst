@@ -113,113 +113,23 @@ Create your first menu!
 There are two ways to create a menu: the "easy" way, and the more flexible
 method of creating a menu as a service.
 
-Method a) The Easy Way (yay)!
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To create a menu, first create a new class in the ``Menu`` directory of one
-of your bundles. This class - called ``Builder`` in our example - will have
-one method for each menu that you need to build.
-
-An example builder class would look like this:
-
-.. code-block:: php
-
-    // src/Menu/Builder.php
-    namespace App\Menu;
-
-    use App\Entity\Blog;
-    use Knp\Menu\FactoryInterface;
-    use Knp\Menu\ItemInterface;
-
-    final class Builder
-    {
-        public function __construct(
-            private EntityManagerInterface $em,
-        ) {
-        }
-
-        public function mainMenu(FactoryInterface $factory, array $options): ItemInterface
-        {
-            $menu = $factory->createItem('root');
-
-            $menu->addChild('Home', ['route' => 'homepage']);
-
-            // findMostRecent and Blog are just imaginary examples
-            $blog = $this->em->getRepository(Blog::class)->findMostRecent();
-
-            $menu->addChild('Latest Blog Post', [
-                'route' => 'blog_show',
-                'routeParameters' => ['id' => $blog->getId()]
-            ]);
-
-            // create another menu item
-            $menu->addChild('About Me', ['route' => 'about']);
-            // you can also add sub levels to your menus as follows
-            $menu['About Me']->addChild('Edit profile', ['route' => 'edit_profile']);
-
-            // ... add more children
-
-            return $menu;
-        }
-    }
-
-With the standard ``knp_menu.html.twig`` template and your current page being
-'Home', your menu would render with the following markup:
-
-.. code-block:: html
-
-    <ul>
-        <li class="current first">
-            <a href="#route_to/homepage">Home</a>
-        </li>
-        <li class="current_ancestor">
-            <a href="#route_to/page_show/?id=42">About Me</a>
-            <ul class="menu_level_1">
-                <li class="current first last">
-                    <a href="#route_to/edit_profile">Edit profile</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-
-.. note::
-
-    The menu builder can be overwritten using the bundle inheritance.
-
-To actually render the menu, just do the following from anywhere in any template:
-
-.. configuration-block::
-
-    .. code-block:: html+jinja
-
-        {{ knp_menu_render('App:Builder:mainMenu') }}
-
-    .. code-block:: html+php
-
-        <?php echo $view['knp_menu']->render('App:Builder:mainMenu') ?>
-
-With this method, you refer to the menu using a three-part string:
-**bundle**:**class**:**method**.
-
-If you needed to create a second menu, you'd simply add another method to
-the ``Builder`` class (e.g. ``sidebarMenu``), build and return the new menu,
-then render it via ``App:Builder:sidebarMenu``.
-
-That's it! The menu is *very* configurable. For more details, see the
-`KnpMenu documentation`_.
-
-Method b) A menu builder as a service
+Method a) A menu builder as a service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For information on how to register a menu builder as a service, read
 :doc:`Creating Menu Builders as Services <menu_builder_service>`.
 
-
-Method c) A menu as a service
+Method b) A menu as a service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For information on how to register a service and tag it as a menu, read
 :doc:`Creating Menus as Services <menu_service>`.
+
+Method c) A menu discovered by convention
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For information on how to use menu based on the bundle alias convention,
+read :doc:`Creating Menu via Naming Convention <menu_convention>`.
 
 .. note::
 
@@ -228,18 +138,17 @@ For information on how to register a service and tag it as a menu, read
 Rendering Menus
 ---------------
 
-Once you've set up your menu, rendering it is easy. If you've used the "easy"
-way, then do the following:
+Once you've set up your menu, rendering it is easy.
 
 .. configuration-block::
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('App:Builder:mainMenu') }}
+        {{ knp_menu_render('my_main_menu') }}
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('App:Builder:mainMenu') ?>
+        <?php echo $view['knp_menu']->render('my_main_menu') ?>
 
 Additionally, you can pass some options to the renderer:
 
@@ -247,11 +156,11 @@ Additionally, you can pass some options to the renderer:
 
     .. code-block:: html+jinja
 
-        {{ knp_menu_render('App:Builder:mainMenu', {'depth': 2, 'currentAsLink': false}) }}
+        {{ knp_menu_render('my_main_menu', {'depth': 2, 'currentAsLink': false}) }}
 
     .. code-block:: html+php
 
-        <?php echo $view['knp_menu']->render('App:Builder:mainMenu', [
+        <?php echo $view['knp_menu']->render('my_main_menu', [
             'depth'         => 2,
             'currentAsLink' => false,
         ]) ?>
@@ -265,12 +174,12 @@ You can also "get" a menu, which you can use to render later:
 
     .. code-block:: html+jinja
 
-        {% set menuItem = knp_menu_get('App:Builder:mainMenu') %}
+        {% set menuItem = knp_menu_get('my_main_menu') %}
         {{ knp_menu_render(menuItem) }}
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('App:Builder:mainMenu') ?>
+        <?php $menuItem = $view['knp_menu']->get('my_main_menu') ?>
         <?php echo $view['knp_menu']->render($menuItem) ?>
 
 If you want to only retrieve a certain branch of the menu, you can do the
@@ -281,13 +190,13 @@ beneath it.
 
     .. code-block:: html+jinja
 
-        {% set menuItem = knp_menu_get('App:Builder:mainMenu', ['Contact']) %}
-        {{ knp_menu_render(['App:Builder:mainMenu', 'Contact']) }}
+        {% set menuItem = knp_menu_get('my_main_menu', ['Contact']) %}
+        {{ knp_menu_render(['my_main_menu', 'Contact']) }}
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('App:Builder:mainMenu', ['Contact']) ?>
-        <?php echo $view['knp_menu']->render(['App:Builder:mainMenu', 'Contact']) ?>
+        <?php $menuItem = $view['knp_menu']->get('my_main_menu', ['Contact']) ?>
+        <?php echo $view['knp_menu']->render(['my_main_menu', 'Contact']) ?>
 
 If you want to pass some options to the builder, you can use the third parameter
 of the ``knp_menu_get`` function:
@@ -296,12 +205,12 @@ of the ``knp_menu_get`` function:
 
     .. code-block:: html+jinja
 
-        {% set menuItem = knp_menu_get('App:Builder:mainMenu', [], {'some_option': 'my_value'}) %}
+        {% set menuItem = knp_menu_get('my_main_menu', [], {'some_option': 'my_value'}) %}
         {{ knp_menu_render(menuItem) }}
 
     .. code-block:: html+php
 
-        <?php $menuItem = $view['knp_menu']->get('App:Builder:mainMenu', [], [
+        <?php $menuItem = $view['knp_menu']->get('my_main_menu', [], [
             'some_option' => 'my_value'
         ]) ?>
         <?php echo $view['knp_menu']->render($menuItem) ?>
@@ -314,6 +223,7 @@ More Advanced Stuff
 
     menu_service
     menu_builder_service
+    menu_convention
     i18n
     events
     custom_renderer

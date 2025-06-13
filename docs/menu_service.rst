@@ -12,15 +12,6 @@ Creating Menus as Services
     It is recommended to register only :doc:`menu builders as services <menu_builder_service>`
     instead.
 
-This bundle gives you a really convenient way to create menus by following
-a convention.
-
-However, if you want to, you can instead choose to create a service for your
-menu object. The advantage of this method is that you can inject the exact
-dependencies that your menu needs.
-This can lead to code that is more testable and also potentially
-more reusable. The disadvantage is that it needs just a little more setup.
-
 Start by creating a builder for your menu. You can stick as many menus into
 a builder as you want, so you may only have one (or just a few) of these
 builder classes in your application:
