@@ -46,10 +46,8 @@
         </service>
 
         <service id="knp_menu.renderer_provider" class="Knp\Menu\Renderer\PsrProvider">
-            <argument type="service" id="service_container" />
+            <argument type="tagged_locator" tag="knp_menu.renderer" index-by="alias" />
             <argument>%knp_menu.default_renderer%</argument>
-            <argument type="collection" />
-            <argument>false</argument>
         </service>
 
         <service id="knp_menu.renderer.list" class="Knp\Menu\Renderer\ListRenderer">
