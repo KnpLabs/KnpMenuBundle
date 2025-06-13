@@ -22,9 +22,6 @@ final class RegisterMenusPass implements CompilerPassInterface
             return;
         }
 
-        // Remove the old way of handling this feature.
-        $container->removeDefinition('knp_menu.menu_provider.builder_service');
-
         $menuBuilders = [];
         foreach ($container->findTaggedServiceIds('knp_menu.menu_builder', true) as $id => $tags) {
             foreach ($tags as $attributes) {
