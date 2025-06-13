@@ -59,6 +59,10 @@
             <argument>%kernel.charset%</argument>
         </service>
 
+        <service id="knp_menu.voter.callback" class="Knp\Menu\Matcher\Voter\CallbackVoter">
+            <tag name="knp_menu.voter" />
+        </service>
+
         <service id="knp_menu.voter.router" class="Knp\Menu\Matcher\Voter\RouteVoter">
             <argument type="service" id="request_stack" />
             <tag name="knp_menu.voter" />
