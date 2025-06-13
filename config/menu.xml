@@ -24,7 +24,7 @@
         </service>
 
         <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher" public="true">
-            <argument type="collection" />
+            <argument type="tagged_iterator" tag="knp_menu.voter" />
             <tag name="kernel.reset" method="clear" />
         </service>
 

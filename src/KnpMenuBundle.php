@@ -5,7 +5,6 @@ namespace Knp\Bundle\MenuBundle;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddProvidersPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddRenderersPass;
-use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\AddVotersPass;
 use Knp\Bundle\MenuBundle\DependencyInjection\Compiler\RegisterMenusPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -20,7 +19,6 @@ final class KnpMenuBundle extends Bundle
         $container->addCompilerPass(new AddExtensionsPass());
         $container->addCompilerPass(new AddProvidersPass());
         $container->addCompilerPass(new AddRenderersPass());
-        $container->addCompilerPass(new AddVotersPass());
     }
 
     public function getPath(): string
