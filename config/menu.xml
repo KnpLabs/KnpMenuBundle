@@ -31,7 +31,7 @@
         <service id="Knp\Menu\Provider\MenuProviderInterface" alias="knp_menu.menu_provider" public="false"/>
 
         <service id="knp_menu.menu_provider.chain" class="Knp\Menu\Provider\ChainProvider" public="false">
-            <argument type="collection" />
+            <argument type="tagged_iterator" tag="knp_menu.provider" />
         </service>
 
         <service id="knp_menu.menu_provider.lazy" class="Knp\Menu\Provider\LazyProvider" public="false">
