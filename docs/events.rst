@@ -13,39 +13,39 @@ to allow other parts of your application to add more stuff to it.
 
 .. code-block:: php
 
-  // src/Menu/MainBuilder.php
+    // src/Menu/MainBuilder.php
 
-  namespace App\Menu;
+    namespace App\Menu;
 
-  use App\Event\ConfigureMenuEvent;
-  use Knp\Menu\FactoryInterface;
-  use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-  use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+    use App\Event\ConfigureMenuEvent;
+    use Knp\Menu\FactoryInterface;
+    use Symfony\Contracts\EventDispatcher\EventDispatcherInterface:
 
-  class MainBuilder implements ContainerAwareInterface
-  {
-      use ContainerAwareTrait;
+    class MainBuilder
+    {
+        private $factory;
+        private $eventDispatcher
 
-      public function build(FactoryInterface $factory)
-      {
-          $menu = $factory->createItem('root');
+        public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher)
+        {
+            $this->factory = $factory;
+            $this->eventDispatcher = $eventDispatcher;
+        }
 
-          $menu->addChild('Dashboard', ['route' => '_acp_dashboard']);
+        public function build(array $options)
+        {
+            $menu = $this->factory->createItem('root');
 
-          $this->container->get('event_dispatcher')->dispatch(
-              new ConfigureMenuEvent($factory, $menu),
-              ConfigureMenuEvent::CONFIGURE
-          );
+            $menu->addChild('Dashboard', ['route' => '_acp_dashboard']);
 
-          return $menu;
-      }
-  }
+            $this->eventDispatcher->dispatch(
+                new ConfigureMenuEvent($this->factory, $menu),
+                ConfigureMenuEvent::CONFIGURE
+            );
 
-.. note::
-
-  This implementation assumes you use the ``BuilderAliasProvider`` (getting
-  your menu as ``App:MainBuilder:build``) but you could also define
-  it as a service and inject the ``event_dispatcher`` service as a dependency.
+            return $menu;
+        }
+    }
 
 Create the Event object
 -----------------------
