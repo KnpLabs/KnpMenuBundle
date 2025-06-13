@@ -22,7 +22,6 @@ class RegisterMenusPassTest extends TestCase
 
         $this->containerBuilder->register('knp_menu.menu_provider.lazy', LazyProvider::class)
             ->setArgument(0, null);
-        $this->containerBuilder->register('knp_menu.menu_provider.builder_service', \stdClass::class);
         $this->containerBuilder->register('id', \stdClass::class)
             ->addTag('knp_menu.menu_builder', ['alias' => 'foo', 'method' => 'fooMenu'])
             ->addTag('knp_menu.menu_builder', ['alias' => 'bar', 'method' => 'bar'])
@@ -40,7 +39,7 @@ class RegisterMenusPassTest extends TestCase
 
         $this->pass->process($this->containerBuilder);
 
-        $this->assertTrue($this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service'));
+        $this->expectNotToPerformAssertions(); // We just want to test that it does not break in such case.
     }
 
     public function testFailsWhenBuilderAliasIsMissing(): void
@@ -89,7 +88,6 @@ class RegisterMenusPassTest extends TestCase
         $menuBuilders = $this->containerBuilder->getDefinition('knp_menu.menu_provider.lazy')->getArgument(0);
 
         $this->assertEquals($expectedMenuBuilders, $menuBuilders);
-        $this->assertFalse($this->containerBuilder->hasDefinition('knp_menu.menu_provider.builder_service'));
     }
 
     public function testMenuWinsOverBuilder(): void
