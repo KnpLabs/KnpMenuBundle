@@ -24,14 +24,14 @@
         </service>
 
         <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher" public="true">
-            <argument type="collection" />
+            <argument type="tagged_iterator" tag="knp_menu.voter" />
             <tag name="kernel.reset" method="clear" />
         </service>
 
         <service id="Knp\Menu\Provider\MenuProviderInterface" alias="knp_menu.menu_provider" public="false"/>
 
         <service id="knp_menu.menu_provider.chain" class="Knp\Menu\Provider\ChainProvider" public="false">
-            <argument type="collection" />
+            <argument type="tagged_iterator" tag="knp_menu.provider" />
         </service>
 
         <service id="knp_menu.menu_provider.lazy" class="Knp\Menu\Provider\LazyProvider" public="false">
@@ -46,10 +46,8 @@
         </service>
 
         <service id="knp_menu.renderer_provider" class="Knp\Menu\Renderer\PsrProvider">
-            <argument type="service" id="service_container" />
+            <argument type="tagged_locator" tag="knp_menu.renderer" index-by="alias" />
             <argument>%knp_menu.default_renderer%</argument>
-            <argument type="collection" />
-            <argument>false</argument>
         </service>
 
         <service id="knp_menu.renderer.list" class="Knp\Menu\Renderer\ListRenderer">
