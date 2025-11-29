@@ -54,7 +54,7 @@ return static function (ContainerConfigurator $configurator): void {
     ;
 
     $services
-        ->set(MenuProviderInterface::class, service('knp_menu.menu_provider'))
+        ->alias(MenuProviderInterface::class, 'knp_menu.menu_provider')
     ;
 
     $services
@@ -80,7 +80,7 @@ return static function (ContainerConfigurator $configurator): void {
     $services
         ->set('knp_menu.renderer_provider', PsrProvider::class)
         ->args([
-            new ServiceLocatorArgument(new TaggedIteratorArgument('knp_menu.renderer', null, 'alias')),
+            new ServiceLocatorArgument(new TaggedIteratorArgument('knp_menu.renderer', 'alias')),
             '%knp_menu.default_renderer%',
         ]);
 
@@ -107,7 +107,7 @@ return static function (ContainerConfigurator $configurator): void {
     ;
 
     // Autowiring aliases
-    $services->set(FactoryInterface::class, service('knp_menu.factory'));
-    $services->set(MatcherInterface::class, service('knp_menu.matcher'));
-    $services->set(MenuManipulator::class, service('knp_menu.manipulator'));
+    $services->alias(FactoryInterface::class, 'knp_menu.factory');
+    $services->alias(MatcherInterface::class, 'knp_menu.matcher');
+    $services->alias(MenuManipulator::class, 'knp_menu.manipulator');
 };
