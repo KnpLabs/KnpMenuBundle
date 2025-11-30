@@ -15,7 +15,7 @@ return (new PhpCsFixer\Config())
         '@PHPUnit75Migration:risky' => true,
         'ordered_imports' => true,
         'declare_strict_types' => false,
-        'native_function_invocation' => ['include' => ['@all']],
+        'native_function_invocation' => ['include' => ['@internal']],
     ])
     ->setFinder($finder)
 ;

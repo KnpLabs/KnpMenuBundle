@@ -11,14 +11,14 @@ use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class KnpMenuExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $loader->load('menu.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader->load('menu.php');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -30,12 +30,12 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
         }
 
         if (isset($config['twig'])) {
-            $loader->load('twig.xml');
+            $loader->load('twig.php');
             $container->setParameter('knp_menu.renderer.twig.template', $config['twig']['template']);
         }
         if ($config['templating']) {
-            \trigger_deprecation('knplabs/knp-menu-bundle', '3.3', 'Using the templating component is deprecated since version 3.3, this option will be removed in version 4.');
-            $loader->load('templating.xml');
+            trigger_deprecation('knplabs/knp-menu-bundle', '3.3', 'Using the templating component is deprecated since version 3.3, this option will be removed in version 4.');
+            $loader->load('templating.php');
         }
 
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
