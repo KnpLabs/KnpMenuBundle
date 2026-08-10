@@ -38,6 +38,10 @@ class KnpMenuExtension extends Extension implements PrependExtensionInterface
             $loader->load('templating.php');
         }
 
+        if (!$config['route_voter']) {
+            $container->removeDefinition('knp_menu.voter.router');
+        }
+
         $container->setParameter('knp_menu.default_renderer', $config['default_renderer']);
 
         $container->registerForAutoconfiguration(VoterInterface::class)

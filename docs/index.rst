@@ -66,6 +66,8 @@ You can define these options if you need to change them:
             # if true, enables the helper for PHP templates
             # support for templating is deprecated, it will be removed in next major version
             templating: false
+            # set to false to not register the default RouteVoter
+            route_voter: true
             # the renderer to use, list is also available by default
             default_renderer: twig
 
@@ -78,10 +80,12 @@ You can define these options if you need to change them:
 
             <!--
                 templating:       if true, enable the helper for PHP templates (deprecated)
+                route-voter:      set to false to not register the default RouteVoter
                 default-renderer: the renderer to use, list is also available by default
             -->
             <knp-menu:config
                 templating="false"
+                route-voter="true"
                 default-renderer="twig"
             >
                 <!-- add enabled="false" to disable the Twig extension and the TwigRenderer -->
@@ -99,6 +103,8 @@ You can define these options if you need to change them:
             ],
             // if true, enable the helper for PHP templates (deprecated)
             'templating' => false,
+            // set to false to not register the default RouteVoter
+            'route_voter' => true,
             // the renderer to use, list is also available by default
             'default_renderer' => 'twig',
         ]);
