@@ -14,6 +14,7 @@
         </xsd:all>
 
         <xsd:attribute name="templating" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="route-voter" type="xsd:boolean" default="true"/>
         <xsd:attribute name="default-renderer" type="xsd:string" default="twig"/>
     </xsd:complexType>
 

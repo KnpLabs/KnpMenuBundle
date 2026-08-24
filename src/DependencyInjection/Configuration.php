@@ -37,6 +37,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->booleanNode('templating')->defaultFalse()->end()
+                ->booleanNode('route_voter')->defaultTrue()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
             ->end();
 
