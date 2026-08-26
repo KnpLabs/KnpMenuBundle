@@ -30,11 +30,11 @@ class ConfigurationTest extends TestCase
         return [
             ['<config xmlns="http://knplabs.com/schema/dic/menu"/>'],
             [<<<EOC
-<config xmlns="http://knplabs.com/schema/dic/menu" templating="true" route-voter="false" default-renderer="templating">
-    <providers builder-alias="false" container-aware="false" builder-service="false"/>
-    <twig template="custom.html.twig"/>
-</config>
-EOC
+                <config xmlns="http://knplabs.com/schema/dic/menu" templating="true" route-voter="false" default-renderer="templating">
+                    <providers builder-alias="false" container-aware="false" builder-service="false"/>
+                    <twig template="custom.html.twig"/>
+                </config>
+                EOC
             ],
         ];
     }
