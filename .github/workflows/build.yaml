@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-24.04
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
             - name: Validate composer.json
@@ -21,7 +21,7 @@ jobs:
         name: PHP-CS-Fixer
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
             - name: Fix CS
               uses: docker://oskarstark/php-cs-fixer-ga
               with:
@@ -33,8 +33,6 @@ jobs:
             matrix:
                 include:
                     - description: 'No Symfony specified'
-                      php: '8.1'
-                    - description: 'No Symfony specified'
                       php: '8.2'
                     - description: 'No Symfony specified'
                       php: '8.3'
@@ -43,21 +41,21 @@ jobs:
                     - description: 'No Symfony specified'
                       php: '8.5'
                     - description: 'Lowest deps'
-                      php: '8.1'
+                      php: '8.2'
                       dependencies: lowest
                     - description: 'Symfony 6.4'
-                      php: '8.1'
+                      php: '8.2'
                       symfony: 6.4.*
                     - description: 'Symfony 7.4'
-                      php: '8.2'
+                      php: '8.3'
                       symfony: 7.4.*
                     - description: 'Dev deps'
-                      php: '8.5'
+                      php: '8.6'
                       dev: true
         name: PHP ${{ matrix.php }} tests (${{ matrix.description }})
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -67,7 +65,7 @@ jobs:
               run: composer config minimum-stability dev
               if: matrix.dev
             - name: Install dependencies
-              uses: ramsey/composer-install@v3
+              uses: ramsey/composer-install@v4
               with:
                   dependency-versions: ${{ matrix.dependencies }}
               env:
