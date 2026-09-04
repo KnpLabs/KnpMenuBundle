@@ -36,7 +36,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('template')->defaultValue('@KnpMenu/menu.html.twig')->end()
                     ->end()
                 ->end()
-                ->booleanNode('templating')->defaultFalse()->end()
                 ->booleanNode('route_voter')->defaultTrue()->end()
                 ->scalarNode('default_renderer')->cannotBeEmpty()->defaultValue('twig')->end()
             ->end();
