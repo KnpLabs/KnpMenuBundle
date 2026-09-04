@@ -63,9 +63,6 @@ You can define these options if you need to change them:
             # use "twig: false" to disable the Twig extension and the TwigRenderer
             twig:
                 template: KnpMenuBundle::menu.html.twig
-            # if true, enables the helper for PHP templates
-            # support for templating is deprecated, it will be removed in next major version
-            templating: false
             # set to false to not register the default RouteVoter
             route_voter: true
             # the renderer to use, list is also available by default
@@ -79,12 +76,10 @@ You can define these options if you need to change them:
             xmlns:knp-menu="http://knplabs.com/schema/dic/menu">
 
             <!--
-                templating:       if true, enable the helper for PHP templates (deprecated)
                 route-voter:      set to false to not register the default RouteVoter
                 default-renderer: the renderer to use, list is also available by default
             -->
             <knp-menu:config
-                templating="false"
                 route-voter="true"
                 default-renderer="twig"
             >
@@ -101,8 +96,6 @@ You can define these options if you need to change them:
             'twig' => [
                 'template' => 'KnpMenuBundle::menu.html.twig'
             ],
-            // if true, enable the helper for PHP templates (deprecated)
-            'templating' => false,
             // set to false to not register the default RouteVoter
             'route_voter' => true,
             // the renderer to use, list is also available by default
