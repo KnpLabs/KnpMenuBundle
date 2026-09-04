@@ -62,7 +62,7 @@ You can define these options if you need to change them:
         knp_menu:
             # use "twig: false" to disable the Twig extension and the TwigRenderer
             twig:
-                template: KnpMenuBundle::menu.html.twig
+                template: '@KnpMenu/menu.html.twig'
             # if true, enables the helper for PHP templates
             # support for templating is deprecated, it will be removed in next major version
             templating: false
@@ -89,7 +89,7 @@ You can define these options if you need to change them:
                 default-renderer="twig"
             >
                 <!-- add enabled="false" to disable the Twig extension and the TwigRenderer -->
-                <knp-menu:twig template="KnpMenuBundle::menu.html.twig"/>
+                <knp-menu:twig template="@KnpMenu/menu.html.twig"/>
             </knp-menu:config>
         </container>
 
@@ -99,7 +99,7 @@ You can define these options if you need to change them:
         $container->loadFromExtension('knp_menu', [
             // use 'twig' => false to disable the Twig extension and the TwigRenderer
             'twig' => [
-                'template' => 'KnpMenuBundle::menu.html.twig'
+                'template' => '@KnpMenu/menu.html.twig'
             ],
             // if true, enable the helper for PHP templates (deprecated)
             'templating' => false,
