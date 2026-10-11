@@ -3,7 +3,6 @@
 namespace Knp\Bundle\MenuBundle\Tests\DependencyInjection;
 
 use Knp\Bundle\MenuBundle\DependencyInjection\KnpMenuExtension;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -17,7 +16,6 @@ class KnpMenuExtensionTest extends TestCase
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.list'), 'The list renderer is loaded');
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.twig'), 'The twig renderer is loaded');
         $this->assertEquals('@KnpMenu/menu.html.twig', $container->getParameter('knp_menu.renderer.twig.template'));
-        $this->assertFalse($container->hasDefinition('knp_menu.templating.helper'), 'The PHP helper is not loaded');
         $this->assertTrue($container->getDefinition('knp_menu.menu_provider.builder_alias')->hasTag('knp_menu.provider'), 'The BuilderAliasProvider is enabled');
         $this->assertTrue($container->hasDefinition('knp_menu.voter.router'), 'The default RouteVoter is registered');
     }
@@ -55,15 +53,6 @@ class KnpMenuExtensionTest extends TestCase
         $loader->load([['twig' => false]], $container);
         $this->assertTrue($container->hasDefinition('knp_menu.renderer.list'));
         $this->assertFalse($container->hasDefinition('knp_menu.renderer.twig'));
-    }
-
-    #[Group('legacy')]
-    public function testEnablePhpTemplates(): void
-    {
-        $container = new ContainerBuilder();
-        $loader = new KnpMenuExtension();
-        $loader->load([['templating' => true]], $container);
-        $this->assertTrue($container->hasDefinition('knp_menu.templating.helper'));
     }
 
     public function testDisableBuilderAliasProvider(): void
