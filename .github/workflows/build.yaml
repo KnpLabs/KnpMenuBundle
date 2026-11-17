@@ -40,6 +40,8 @@ jobs:
                       php: '8.4'
                     - description: 'No Symfony specified'
                       php: '8.5'
+                    - description: 'No Symfony specified'
+                      php: '8.6'
                     - description: 'Lowest deps'
                       php: '8.2'
                       dependencies: lowest
